@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>రెజ్యూమ్ బిల్డర్ — Resume Builder | Gramin Career Setu</title>
+  <meta name="description" content="సులభంగా మీ రెజ్యూమ్ తయారు చేసుకోండి — Build a professional PDF resume for free. No login required." />
+  <meta name="theme-color" content="#1b5e20" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/style.css" />
+
+  <!-- jsPDF (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js" defer></script>
+</head>
+
+<body>
+  <!-- Skip to content (a11y) -->
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <button type="button" class="lang-toggle" id="langToggleBtn" aria-label="Switch language">
+        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
+        <span data-lang-key="lang-toggle">EN</span>
+      </button>
+
+      <h1 class="site-title" data-lang-key="resume-page-title">రెజ్యూమ్ బిల్డర్</h1>
+      <p class="site-subtitle" data-lang-key="resume-page-subtitle">ఉచితంగా మీ ప్రొఫెషనల్ రెజ్యూమ్ తయారు చేయండి</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main-content main-content--wide" id="main">
+
+    <!-- ── Form Card ── -->
+    <div class="resume-card" id="formCard">
+      <form id="resumeForm" class="resume-form" novalidate>
+
+        <!-- ─── Personal Details ─── -->
+        <fieldset class="form-fieldset">
+          <legend class="form-fieldset__legend" data-lang-key="resume-section-personal">వ్యక్తిగత వివరాలు</legend>
+
+          <!-- Full Name (required) -->
+          <div class="form-group">
+            <label class="form-label" for="fieldName">
+              <span data-lang-key="resume-label-name">పూర్తి పేరు</span>
+              <span class="form-required" aria-label="required">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-input"
+              id="fieldName"
+              name="fullName"
+              required
+              autocomplete="name"
+              placeholder="e.g. Rajesh Kumar"
+              data-lang-placeholder="resume-ph-name"
+            />
+            <span class="form-error" id="fieldNameError" style="display: none;"></span>
+          </div>
+
+          <!-- Phone (required) -->
+          <div class="form-group">
+            <label class="form-label" for="fieldPhone">
+              <span data-lang-key="resume-label-phone">ఫోన్ నంబర్</span>
+              <span class="form-required" aria-label="required">*</span>
+            </label>
+            <input
+              type="tel"
+              class="form-input"
+              id="fieldPhone"
+              name="phone"
+              required
+              autocomplete="tel"
+              placeholder="e.g. 9876543210"
+              data-lang-placeholder="resume-ph-phone"
+              inputmode="numeric"
+              maxlength="10"
+            />
+            <span class="form-error" id="fieldPhoneError" style="display: none;"></span>
+          </div>
+
+          <!-- Email (optional) -->
+          <div class="form-group">
+            <label class="form-label" for="fieldEmail">
+              <span data-lang-key="resume-label-email">ఇమెయిల్</span>
+              <span class="form-optional" data-lang-key="resume-optional">(ఐచ్ఛికం)</span>
+            </label>
+            <input
+              type="email"
+              class="form-input"
+              id="fieldEmail"
+              name="email"
+              autocomplete="email"
+              placeholder="e.g. rajesh@email.com"
+              data-lang-placeholder="resume-ph-email"
+            />
+          </div>
+
+          <!-- Village -->
+          <div class="form-group">
+            <label class="form-label" for="fieldVillage">
+              <span data-lang-key="resume-label-village">గ్రామం / నగరం</span>
+            </label>
+            <input
+              type="text"
+              class="form-input"
+              id="fieldVillage"
+              name="village"
+              autocomplete="address-level2"
+              placeholder="e.g. Peddapalli, Telangana"
+              data-lang-placeholder="resume-ph-village"
+            />
+          </div>
+        </fieldset>
+
+        <!-- ─── Education & Skills ─── -->
+        <fieldset class="form-fieldset">
+          <legend class="form-fieldset__legend" data-lang-key="resume-section-education">విద్య & నైపుణ్యాలు</legend>
+
+          <!-- Highest Qualification -->
+          <div class="form-group">
+            <label class="form-label" for="fieldQualification">
+              <span data-lang-key="resume-label-qualification">అత్యధిక విద్యార్హత</span>
+            </label>
+            <input
+              type="text"
+              class="form-input"
+              id="fieldQualification"
+              name="qualification"
+              placeholder="e.g. B.Com, Intermediate, ITI Electrician"
+              data-lang-placeholder="resume-ph-qualification"
+            />
+          </div>
+
+          <!-- Key Skills -->
+          <div class="form-group">
+            <label class="form-label" for="fieldSkills">
+              <span data-lang-key="resume-label-skills">ప్రధాన నైపుణ్యాలు</span>
+            </label>
+            <textarea
+              class="form-input form-textarea"
+              id="fieldSkills"
+              name="skills"
+              rows="3"
+              placeholder="e.g. MS Office, Typing, Electrical Wiring, Farming"
+              data-lang-placeholder="resume-ph-skills"
+            ></textarea>
+            <span class="form-hint" data-lang-key="resume-hint-skills">కామాలతో వేరు చేయండి (e.g. Typing, MS Office, Farming)</span>
+          </div>
+        </fieldset>
+
+        <!-- ─── Experience & Languages ─── -->
+        <fieldset class="form-fieldset">
+          <legend class="form-fieldset__legend" data-lang-key="resume-section-experience">అనుభవం & భాషలు</legend>
+
+          <!-- Work Experience (optional) -->
+          <div class="form-group">
+            <label class="form-label" for="fieldExperience">
+              <span data-lang-key="resume-label-experience">పని అనుభవం</span>
+              <span class="form-optional" data-lang-key="resume-optional">(ఐచ్ఛికం)</span>
+            </label>
+            <textarea
+              class="form-input form-textarea"
+              id="fieldExperience"
+              name="experience"
+              rows="3"
+              placeholder="e.g. Worked as Helper at XYZ Workshop for 1 year"
+              data-lang-placeholder="resume-ph-experience"
+            ></textarea>
+          </div>
+
+          <!-- Languages Known -->
+          <div class="form-group">
+            <label class="form-label" for="fieldLanguages">
+              <span data-lang-key="resume-label-languages">తెలిసిన భాషలు</span>
+            </label>
+            <input
+              type="text"
+              class="form-input"
+              id="fieldLanguages"
+              name="languages"
+              placeholder="e.g. Telugu, English, Hindi"
+              data-lang-placeholder="resume-ph-languages"
+            />
+          </div>
+
+          <!-- Career Objective (optional) -->
+          <div class="form-group">
+            <label class="form-label" for="fieldObjective">
+              <span data-lang-key="resume-label-objective">కెరీర్ ఆబ్జెక్టివ్</span>
+              <span class="form-optional" data-lang-key="resume-optional">(ఐచ్ఛికం)</span>
+            </label>
+            <textarea
+              class="form-input form-textarea"
+              id="fieldObjective"
+              name="objective"
+              rows="3"
+              placeholder="e.g. Seeking a stable job where I can use my skills to contribute and grow."
+              data-lang-placeholder="resume-ph-objective"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <!-- ─── Submit ─── -->
+        <button type="submit" class="btn-generate" id="btnGenerate">
+          <span class="btn-generate__icon" aria-hidden="true">📄</span>
+          <span data-lang-key="resume-generate">రెజ్యూమ్ PDF తయారు చేయండి</span>
+        </button>
+
+        <p class="form-note" data-lang-key="resume-note">
+          PDF ఆటోమేటిగ్గా డౌన్‌లోడ్ అవుతుంది. ఎటువంటి లాగిన్ అవసరం లేదు.
+        </p>
+
+      </form>
+    </div>
+
+    <!-- ── Success Card (shown after PDF generation) ── -->
+    <div class="resume-card success-card" id="successCard" style="display: none;">
+      <div class="success-card__icon" aria-hidden="true">✅</div>
+      <h2 class="success-card__title" data-lang-key="resume-success-title">రెజ్యూమ్ విజయవంతంగా తయారైంది!</h2>
+      <p class="success-card__desc" data-lang-key="resume-success-desc">PDF మీ ఫోన్‌లో డౌన్‌లోడ్ అయింది. Downloads ఫోల్డర్‌లో చూడండి.</p>
+
+      <div class="success-card__actions">
+        <button class="btn-generate" id="btnAnother" type="button">
+          <span class="btn-generate__icon" aria-hidden="true">🔄</span>
+          <span data-lang-key="resume-another">మరొక రెజ్యూమ్ తయారు చేయండి</span>
+        </button>
+        <a href="index.html" class="btn-back-home">
+          <span aria-hidden="true">🏠</span>
+          <span data-lang-key="resume-back-home">హోమ్‌కు వెళ్ళండి</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       BOTTOM NAVIGATION
+       ============================================================ -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html" class="bottom-nav__link" id="navHome">
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span data-lang-key="nav-home">హోమ్</span>
+    </a>
+    <a href="jobs.html" class="bottom-nav__link" id="navJobs">
+      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
+      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
+    </a>
+    <a href="quiz.html" class="bottom-nav__link" id="navQuiz">
+      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
+      <span data-lang-key="nav-quiz">క్విజ్</span>
+    </a>
+    <a href="resume.html" class="bottom-nav__link bottom-nav__link--active" id="navResume" aria-current="page">
+      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
+      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <p data-lang-key="footer-text">❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది</p>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script src="assets/script.js"></script>
+  <script src="assets/resume.js"></script>
+</body>
+</html>

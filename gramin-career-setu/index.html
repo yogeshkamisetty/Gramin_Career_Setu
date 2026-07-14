@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>గ్రామీణ కెరీర్ సేతు — Gramin Career Setu</title>
+  <meta name="description" content="గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం — Career guidance portal for rural youth. Find jobs, test your skills, and build a resume." />
+  <meta name="theme-color" content="#1b5e20" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <!-- Skip to content (a11y) -->
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <!-- Language Toggle -->
+      <button
+        type="button"
+        class="lang-toggle"
+        id="langToggleBtn"
+        aria-label="Switch language"
+      >
+        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
+        <span data-lang-key="lang-toggle">EN</span>
+      </button>
+
+      <!-- Title -->
+      <h1 class="site-title" data-lang-key="site-title">గ్రామీణ కెరీర్ సేతు</h1>
+      <p class="site-subtitle" data-lang-key="site-subtitle">మీ కెరీర్ కు వంతెన</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main-content" id="main">
+    <h2 class="section-heading" data-lang-key="choose-service">సేవను ఎంచుకోండి</h2>
+
+    <ul class="feature-cards" role="list">
+
+      <!-- 1 ─ Job Information -->
+      <li class="feature-card feature-card--jobs">
+        <a href="jobs.html" class="feature-card__link" id="cardJobs" aria-label="Job Information">
+          <span class="feature-card__icon" aria-hidden="true">💼</span>
+          <span class="feature-card__text">
+            <span class="feature-card__title" data-lang-key="card-jobs-title">ఉద్యోగ సమాచారం</span>
+            <span class="feature-card__desc" data-lang-key="card-jobs-desc">మీ ప్రాంతంలో అందుబాటులో ఉన్న ఉద్యోగాలు చూడండి</span>
+          </span>
+          <span class="feature-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <!-- 2 ─ Skill Checker -->
+      <li class="feature-card feature-card--quiz">
+        <a href="quiz.html" class="feature-card__link" id="cardQuiz" aria-label="Skill Checker">
+          <span class="feature-card__icon" aria-hidden="true">📝</span>
+          <span class="feature-card__text">
+            <span class="feature-card__title" data-lang-key="card-quiz-title">నైపుణ్య పరీక్ష</span>
+            <span class="feature-card__desc" data-lang-key="card-quiz-desc">మీ ఆసక్తులు & నైపుణ్యాలను తెలుసుకోండి</span>
+          </span>
+          <span class="feature-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <!-- 3 ─ Resume Builder -->
+      <li class="feature-card feature-card--resume">
+        <a href="resume.html" class="feature-card__link" id="cardResume" aria-label="Resume Builder">
+          <span class="feature-card__icon" aria-hidden="true">📄</span>
+          <span class="feature-card__text">
+            <span class="feature-card__title" data-lang-key="card-resume-title">రెజ్యూమ్ బిల్డర్</span>
+            <span class="feature-card__desc" data-lang-key="card-resume-desc">సులభంగా మీ రెజ్యూమ్ తయారు చేసుకోండి</span>
+          </span>
+          <span class="feature-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+    </ul>
+  </main>
+
+  <!-- ============================================================
+       BOTTOM NAVIGATION
+       ============================================================ -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html" class="bottom-nav__link bottom-nav__link--active" id="navHome" aria-current="page">
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span data-lang-key="nav-home">హోమ్</span>
+    </a>
+    <a href="jobs.html" class="bottom-nav__link" id="navJobs">
+      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
+      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
+    </a>
+    <a href="quiz.html" class="bottom-nav__link" id="navQuiz">
+      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
+      <span data-lang-key="nav-quiz">క్విజ్</span>
+    </a>
+    <a href="resume.html" class="bottom-nav__link" id="navResume">
+      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
+      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <p data-lang-key="footer-text">
+      ❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/script.js"></script>
+</body>
+</html>

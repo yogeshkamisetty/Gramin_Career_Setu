@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>నైపుణ్య పరీక్ష — Skill Checker | Gramin Career Setu</title>
+  <meta name="description" content="మీ ఆసక్తులు & నైపుణ్యాలను తెలుసుకోండి — Take a quick career aptitude quiz to discover the right career path for you." />
+  <meta name="theme-color" content="#1b5e20" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <!-- Skip to content (a11y) -->
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <button type="button" class="lang-toggle" id="langToggleBtn" aria-label="Switch language">
+        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
+        <span data-lang-key="lang-toggle">EN</span>
+      </button>
+
+      <h1 class="site-title" data-lang-key="quiz-page-title">నైపుణ్య పరీక్ష</h1>
+      <p class="site-subtitle" data-lang-key="quiz-page-subtitle">మీకు సరైన కెరీర్ మార్గం కనుగొనండి</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main-content" id="main">
+
+    <!-- ── Quiz Container (questions) ── -->
+    <div class="quiz-container" id="quizContainer">
+
+      <!-- Progress Bar -->
+      <div class="quiz-progress">
+        <div class="quiz-progress__text" id="progressText">1 / 5</div>
+        <div class="quiz-progress__bar">
+          <div class="quiz-progress__fill" id="progressFill" style="width: 20%;"></div>
+        </div>
+      </div>
+
+      <!-- Question Area (dynamically rendered by quiz.js) -->
+      <div class="quiz-question-area" id="questionArea"></div>
+
+    </div>
+
+    <!-- ── Result Screen (hidden until quiz completes) ── -->
+    <div class="quiz-result" id="quizResult" style="display: none;"></div>
+
+  </main>
+
+  <!-- ============================================================
+       BOTTOM NAVIGATION
+       ============================================================ -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html" class="bottom-nav__link" id="navHome">
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span data-lang-key="nav-home">హోమ్</span>
+    </a>
+    <a href="jobs.html" class="bottom-nav__link" id="navJobs">
+      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
+      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
+    </a>
+    <a href="quiz.html" class="bottom-nav__link bottom-nav__link--active" id="navQuiz" aria-current="page">
+      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
+      <span data-lang-key="nav-quiz">క్విజ్</span>
+    </a>
+    <a href="resume.html" class="bottom-nav__link" id="navResume">
+      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
+      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <p data-lang-key="footer-text">❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది</p>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script src="assets/script.js"></script>
+  <script src="assets/quiz.js"></script>
+</body>
+</html>

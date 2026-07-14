@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>ఉద్యోగ సమాచారం — Job Information | Gramin Career Setu</title>
+  <meta name="description" content="గ్రామీణ యువతకు ఉద్యోగ అవకాశాలు — Browse government, ITI, BPO and business jobs for rural youth." />
+  <meta name="theme-color" content="#1b5e20" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <!-- Skip to content (a11y) -->
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <button type="button" class="lang-toggle" id="langToggleBtn" aria-label="Switch language">
+        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
+        <span data-lang-key="lang-toggle">EN</span>
+      </button>
+
+      <h1 class="site-title" data-lang-key="jobs-page-title">ఉద్యోగ సమాచారం</h1>
+      <p class="site-subtitle" data-lang-key="jobs-page-subtitle">అందుబాటులో ఉన్న అవకాశాలు</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main-content" id="main">
+
+    <!-- ── Toolbar: Search + Filters ── -->
+    <div class="jobs-toolbar">
+      <!-- Search -->
+      <div class="search-box">
+        <span class="search-box__icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          class="search-box__input"
+          id="jobSearchInput"
+          placeholder="ఉద్యోగం కోసం వెతకండి…"
+          data-lang-placeholder="jobs-search-placeholder"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Filter Pills -->
+      <ul class="filter-pills" id="filterPills" role="tablist" aria-label="Filter by category">
+        <li role="presentation">
+          <button class="filter-pill filter-pill--active" role="tab" aria-selected="true" data-filter="all" id="filterAll">
+            <span class="filter-pill__icon" aria-hidden="true">📋</span>
+            <span data-lang-key="filter-all">అన్నీ</span>
+            <span class="filter-pill__count" id="countAll">0</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="filter-pill" role="tab" aria-selected="false" data-filter="government" id="filterGovt">
+            <span class="filter-pill__icon" aria-hidden="true">🏛️</span>
+            <span data-lang-key="filter-government">ప్రభుత్వం</span>
+            <span class="filter-pill__count" id="countGovt">0</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="filter-pill" role="tab" aria-selected="false" data-filter="iti" id="filterIti">
+            <span class="filter-pill__icon" aria-hidden="true">🔧</span>
+            <span data-lang-key="filter-iti">ITI</span>
+            <span class="filter-pill__count" id="countIti">0</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="filter-pill" role="tab" aria-selected="false" data-filter="bpo" id="filterBpo">
+            <span class="filter-pill__icon" aria-hidden="true">📞</span>
+            <span data-lang-key="filter-bpo">BPO</span>
+            <span class="filter-pill__count" id="countBpo">0</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="filter-pill" role="tab" aria-selected="false" data-filter="business" id="filterBiz">
+            <span class="filter-pill__icon" aria-hidden="true">💰</span>
+            <span data-lang-key="filter-business">వ్యాపారం</span>
+            <span class="filter-pill__count" id="countBiz">0</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── State: Loading ── -->
+    <div class="state-loading" id="stateLoading">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="state-loading__text" data-lang-key="jobs-loading">ఉద్యోగాలు లోడ్ అవుతున్నాయి…</p>
+    </div>
+
+    <!-- ── State: Error ── -->
+    <div class="state-error" id="stateError" style="display: none;">
+      <div class="state-error__icon" aria-hidden="true">⚠️</div>
+      <h3 class="state-error__title" data-lang-key="jobs-error-title">లోడ్ చేయడంలో సమస్య</h3>
+      <p class="state-error__desc" data-lang-key="jobs-error-desc">డేటా లోడ్ చేయడంలో సమస్య ఏర్పడింది. దయచేసి మీ ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేసి మళ్ళీ ప్రయత్నించండి.</p>
+      <button class="btn-retry" id="btnRetry">
+        <span aria-hidden="true">🔄</span>
+        <span data-lang-key="jobs-retry">మళ్ళీ ప్రయత్నించండి</span>
+      </button>
+    </div>
+
+    <!-- ── State: Empty (no matching results) ── -->
+    <div class="state-empty" id="stateEmpty" style="display: none;">
+      <div class="state-empty__icon" aria-hidden="true">🔍</div>
+      <h3 class="state-empty__title" data-lang-key="jobs-empty-title">ఫలితాలు లేవు</h3>
+      <p class="state-empty__desc" data-lang-key="jobs-empty-desc">ఈ ఫిల్టర్‌కు సరిపోయే ఉద్యోగాలు లేవు. వేరే ఫిల్టర్ ప్రయత్నించండి.</p>
+    </div>
+
+    <!-- ── Job Cards Container ── -->
+    <div class="job-list" id="jobList" role="list" style="display: none;"></div>
+
+    <!-- ── Results Count ── -->
+    <p class="results-count" id="resultsCount" style="display: none;"></p>
+
+  </main>
+
+  <!-- ============================================================
+       BOTTOM NAVIGATION
+       ============================================================ -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html" class="bottom-nav__link" id="navHome">
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span data-lang-key="nav-home">హోమ్</span>
+    </a>
+    <a href="jobs.html" class="bottom-nav__link bottom-nav__link--active" id="navJobs" aria-current="page">
+      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
+      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
+    </a>
+    <a href="quiz.html" class="bottom-nav__link" id="navQuiz">
+      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
+      <span data-lang-key="nav-quiz">క్విజ్</span>
+    </a>
+    <a href="resume.html" class="bottom-nav__link" id="navResume">
+      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
+      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <p data-lang-key="footer-text">❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది</p>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <!-- Shared utilities (I18n, fetchSheetWithCache, CSV parser) -->
+  <script src="assets/script.js"></script>
+
+  <!-- Jobs page logic -->
+  <script>
+  (() => {
+    'use strict';
+
+    // ── Constants ──
+    const CACHE_KEY = 'gcs-jobs-csv';
+
+    // ── Demo Data (used when both network + cache fail) ──
+    const DEMO_JOBS = [
+      {
+        job_id: 'D1',
+        title_te: 'విలేజ్ రెవెన్యూ ఆఫీసర్ (VRO)',
+        title_en: 'Village Revenue Officer (VRO)',
+        category: 'government',
+        qualification: '10th / Intermediate',
+        exam_name: 'APPSC Group-IV',
+        where_to_apply: 'https://psc.ap.gov.in',
+        salary_range: '₹21,000 – ₹38,000',
+        prep_time: '3 – 6 months',
+        free_resource: 'https://www.youtube.com/@sakshieducation'
+      },
+      {
+        job_id: 'D2',
+        title_te: 'పోస్టల్ అసిస్టెంట్',
+        title_en: 'Postal Assistant',
+        category: 'government',
+        qualification: '12th Pass',
+        exam_name: 'India Post GDS Exam',
+        where_to_apply: 'https://indiapostgdsonline.gov.in',
+        salary_range: '₹12,000 – ₹25,000',
+        prep_time: '2 – 4 months',
+        free_resource: 'https://www.youtube.com/@adaborakesarreddy'
+      },
+      {
+        job_id: 'D3',
+        title_te: 'ఎలక్ట్రీషియన్ (ITI)',
+        title_en: 'Electrician (ITI)',
+        category: 'iti',
+        qualification: 'ITI Electrician Trade',
+        exam_name: 'NCVT / SCVT',
+        where_to_apply: 'https://ncvtmis.gov.in',
+        salary_range: '₹10,000 – ₹20,000',
+        prep_time: '2 years (ITI course)',
+        free_resource: 'https://www.youtube.com/@TechnicalRahulAdda'
+      },
+      {
+        job_id: 'D4',
+        title_te: 'ఫిట్టర్ (ITI)',
+        title_en: 'Fitter (ITI)',
+        category: 'iti',
+        qualification: 'ITI Fitter Trade',
+        exam_name: 'NCVT / SCVT',
+        where_to_apply: 'https://ncvtmis.gov.in',
+        salary_range: '₹10,000 – ₹18,000',
+        prep_time: '2 years (ITI course)',
+        free_resource: 'https://www.youtube.com/@LearnVocational'
+      },
+      {
+        job_id: 'D5',
+        title_te: 'కస్టమర్ సపోర్ట్ ఎగ్జిక్యూటివ్',
+        title_en: 'Customer Support Executive',
+        category: 'bpo',
+        qualification: 'Intermediate / Degree',
+        exam_name: 'Company Interview',
+        where_to_apply: 'https://www.naukri.com',
+        salary_range: '₹12,000 – ₹22,000',
+        prep_time: '1 month (English & soft skills)',
+        free_resource: 'https://www.youtube.com/@EngVarta'
+      },
+      {
+        job_id: 'D6',
+        title_te: 'డేటా ఎంట్రీ ఆపరేటర్',
+        title_en: 'Data Entry Operator',
+        category: 'bpo',
+        qualification: '10th + Typing Skills',
+        exam_name: 'Typing Test',
+        where_to_apply: 'https://www.indeed.co.in',
+        salary_range: '₹8,000 – ₹15,000',
+        prep_time: '1 – 2 months',
+        free_resource: 'https://www.typingclub.com'
+      },
+      {
+        job_id: 'D7',
+        title_te: 'కిరాణా షాప్ / రిటైల్ స్టోర్',
+        title_en: 'Kirana Shop / Retail Store',
+        category: 'business',
+        qualification: 'No formal qualification',
+        exam_name: 'N/A',
+        where_to_apply: 'https://mudra.org.in',
+        salary_range: '₹15,000 – ₹50,000+ (profit)',
+        prep_time: 'Start with ₹50,000 investment',
+        free_resource: 'https://www.youtube.com/@BusinessIdeasTelugu'
+      },
+      {
+        job_id: 'D8',
+        title_te: 'డెయిరీ ఫార్మింగ్',
+        title_en: 'Dairy Farming',
+        category: 'business',
+        qualification: 'No formal qualification',
+        exam_name: 'N/A',
+        where_to_apply: 'https://www.nabard.org',
+        salary_range: '₹20,000 – ₹60,000+ (profit)',
+        prep_time: 'Training: 1 month',
+        free_resource: 'https://www.youtube.com/@VyavasayaVidyalu'
+      }
+    ];
+
+    // ── Category config ──
+    const CATEGORIES = {
+      government: { icon: '🏛️' },
+      iti:        { icon: '🔧' },
+      bpo:        { icon: '📞' },
+      business:   { icon: '💰' }
+    };
+
+    // ── State ──
+    let allJobs       = [];
+    let activeFilter  = 'all';
+    let searchQuery   = '';
+    let isUsingDemo   = false;
+
+    // ── DOM References ──
+    const dom = {};
+
+    function cacheDom() {
+      dom.loading      = document.getElementById('stateLoading');
+      dom.error         = document.getElementById('stateError');
+      dom.empty         = document.getElementById('stateEmpty');
+      dom.jobList       = document.getElementById('jobList');
+      dom.resultsCount  = document.getElementById('resultsCount');
+      dom.searchInput   = document.getElementById('jobSearchInput');
+      dom.filterPills   = document.getElementById('filterPills');
+      dom.btnRetry      = document.getElementById('btnRetry');
+      dom.countAll      = document.getElementById('countAll');
+      dom.countGovt     = document.getElementById('countGovt');
+      dom.countIti      = document.getElementById('countIti');
+      dom.countBpo      = document.getElementById('countBpo');
+      dom.countBiz      = document.getElementById('countBiz');
+    }
+
+    // ── Show/Hide States ──
+    function showState(state) {
+      dom.loading.style.display      = state === 'loading' ? '' : 'none';
+      dom.error.style.display        = state === 'error'   ? '' : 'none';
+      dom.empty.style.display        = state === 'empty'   ? '' : 'none';
+      dom.jobList.style.display      = state === 'list'    ? '' : 'none';
+      dom.resultsCount.style.display = state === 'list'    ? '' : 'none';
+    }
+
+    // ── Get title in current language ──
+    function getJobTitle(job) {
+      const lang = I18n.getCurrentLang();
+      return lang === 'en' ? (job.title_en || job.title_te) : (job.title_te || job.title_en);
+    }
+
+    // ── Get translated label ──
+    function t(key) {
+      return I18n.getString(key);
+    }
+
+    // ── Get category label ──
+    function getCategoryLabel(cat) {
+      const key = 'filter-' + cat;
+      return t(key);
+    }
+
+    // ── Update pill counts ──
+    function updateCounts() {
+      const counts = { all: allJobs.length, government: 0, iti: 0, bpo: 0, business: 0 };
+      allJobs.forEach(j => {
+        const cat = (j.category || '').toLowerCase();
+        if (counts[cat] !== undefined) counts[cat]++;
+      });
+
+      dom.countAll.textContent  = counts.all;
+      dom.countGovt.textContent = counts.government;
+      dom.countIti.textContent  = counts.iti;
+      dom.countBpo.textContent  = counts.bpo;
+      dom.countBiz.textContent  = counts.business;
+    }
+
+    // ── Filter + Search ──
+    function getFilteredJobs() {
+      return allJobs.filter(job => {
+        // Category filter
+        const cat = (job.category || '').toLowerCase();
+        if (activeFilter !== 'all' && cat !== activeFilter) return false;
+
+        // Search filter — match title in either language
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const titleTe = (job.title_te || '').toLowerCase();
+          const titleEn = (job.title_en || '').toLowerCase();
+          if (!titleTe.includes(q) && !titleEn.includes(q)) return false;
+        }
+
+        return true;
+      });
+    }
+
+    // ── Render a single job card ──
+    function renderJobCard(job) {
+      const cat   = (job.category || '').toLowerCase();
+      const title = getJobTitle(job);
+      const badge = CATEGORIES[cat] || { icon: '📋' };
+
+      const card = document.createElement('article');
+      card.className = 'job-card';
+      card.setAttribute('role', 'listitem');
+
+      card.innerHTML = `
+        <div class="job-card__header">
+          <h3 class="job-card__title">${escapeHtml(title)}</h3>
+          <span class="job-card__badge job-card__badge--${cat}">
+            ${badge.icon} ${escapeHtml(getCategoryLabel(cat))}
+          </span>
+        </div>
+
+        <div class="job-card__details">
+          <div class="job-card__field">
+            <span class="job-card__label">
+              <span class="job-card__label-icon" aria-hidden="true">📚</span>
+              ${escapeHtml(t('job-qualification'))}
+            </span>
+            <span class="job-card__value">${escapeHtml(job.qualification || '—')}</span>
+          </div>
+
+          <div class="job-card__field">
+            <span class="job-card__label">
+              <span class="job-card__label-icon" aria-hidden="true">📝</span>
+              ${escapeHtml(t('job-exam'))}
+            </span>
+            <span class="job-card__value">${escapeHtml(job.exam_name || '—')}</span>
+          </div>
+
+          <div class="job-card__field">
+            <span class="job-card__label">
+              <span class="job-card__label-icon" aria-hidden="true">💰</span>
+              ${escapeHtml(t('job-salary'))}
+            </span>
+            <span class="job-card__value">${escapeHtml(job.salary_range || '—')}</span>
+          </div>
+
+          <div class="job-card__field">
+            <span class="job-card__label">
+              <span class="job-card__label-icon" aria-hidden="true">⏱️</span>
+              ${escapeHtml(t('job-prep-time'))}
+            </span>
+            <span class="job-card__value">${escapeHtml(job.prep_time || '—')}</span>
+          </div>
+
+          ${job.free_resource ? `
+          <div class="job-card__field job-card__field--full">
+            <span class="job-card__label">
+              <span class="job-card__label-icon" aria-hidden="true">📖</span>
+              ${escapeHtml(t('job-resource'))}
+            </span>
+            <span class="job-card__value">
+              <a href="${escapeAttr(job.free_resource)}" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(shortenUrl(job.free_resource))}
+              </a>
+            </span>
+          </div>
+          ` : ''}
+        </div>
+
+        <div class="job-card__actions">
+          ${job.where_to_apply ? `
+          <a href="${escapeAttr(job.where_to_apply)}" target="_blank" rel="noopener noreferrer" class="btn-apply">
+            <span class="btn-apply__icon" aria-hidden="true">🚀</span>
+            ${escapeHtml(t('job-apply'))}
+          </a>
+          ` : ''}
+        </div>
+      `;
+
+      return card;
+    }
+
+    // ── Render all visible jobs ──
+    function renderJobs() {
+      const filtered = getFilteredJobs();
+
+      if (filtered.length === 0) {
+        showState('empty');
+        return;
+      }
+
+      // Clear & rebuild
+      dom.jobList.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+
+      filtered.forEach((job, i) => {
+        const card = renderJobCard(job);
+        // Stagger animation
+        card.style.animationDelay = Math.min(i * 60, 300) + 'ms';
+        fragment.appendChild(card);
+      });
+
+      dom.jobList.appendChild(fragment);
+
+      // Results count
+      const countLabel = t('jobs-results-count');
+      const demoLabel  = isUsingDemo ? (' · ' + t('jobs-using-demo')) : '';
+      dom.resultsCount.textContent = filtered.length + ' ' + countLabel + demoLabel;
+
+      showState('list');
+    }
+
+    // ── HTML Escaping ──
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function shortenUrl(url) {
+      try {
+        const u = new URL(url);
+        return u.hostname.replace(/^www\./, '');
+      } catch {
+        return url;
+      }
+    }
+
+    // ── Event: Filter pill click ──
+    function handleFilterClick(e) {
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+
+      // Update active state
+      dom.filterPills.querySelectorAll('.filter-pill').forEach(p => {
+        p.classList.remove('filter-pill--active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('filter-pill--active');
+      btn.setAttribute('aria-selected', 'true');
+
+      activeFilter = btn.dataset.filter;
+      renderJobs();
+    }
+
+    // ── Event: Search input ──
+    let searchTimer = null;
+    function handleSearch() {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        searchQuery = dom.searchInput.value.trim();
+        renderJobs();
+      }, 200); // 200ms debounce for responsive feel on low-end phones
+    }
+
+    // ── Event: Retry ──
+    function handleRetry() {
+      loadJobs();
+    }
+
+    // ── Load Jobs ──
+    async function loadJobs() {
+      showState('loading');
+
+      try {
+        allJobs = await fetchSheetWithCache(SHEETS.JOBS, CACHE_KEY);
+        isUsingDemo = false;
+      } catch (err) {
+        console.warn('[jobs] Sheet fetch + cache both failed:', err.message);
+        // Use built-in demo data so the UI is still functional
+        allJobs = DEMO_JOBS;
+        isUsingDemo = true;
+      }
+
+      if (allJobs.length === 0) {
+        showState('error');
+        return;
+      }
+
+      updateCounts();
+      renderJobs();
+    }
+
+    // ── Handle language change: re-render cards + update placeholder ──
+    function onLanguageChange() {
+      // Update search placeholder
+      const placeholder = t('jobs-search-placeholder');
+      if (dom.searchInput) dom.searchInput.placeholder = placeholder;
+
+      // Re-render cards with correct language titles
+      if (allJobs.length > 0) {
+        updateCounts();
+        renderJobs();
+      }
+    }
+
+    // ── Init ──
+    function init() {
+      cacheDom();
+
+      // Wire events
+      dom.filterPills.addEventListener('click', handleFilterClick);
+      dom.searchInput.addEventListener('input', handleSearch);
+      dom.btnRetry.addEventListener('click', handleRetry);
+
+      // Watch for language changes by observing the <html lang> attribute
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach(m => {
+          if (m.attributeName === 'lang') onLanguageChange();
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+
+      // Start loading
+      loadJobs();
+    }
+
+    // Wait for shared script + I18n to init first
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(init, 50));
+    } else {
+      setTimeout(init, 50);
+    }
+  })();
+  </script>
+</body>
+</html>
