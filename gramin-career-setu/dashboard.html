@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1B4D3E" />
+  <title>నా డ్యాష్‌బోర్డ్ — Student Dashboard | Gramin Career Setu</title>
+  <meta name="description" content="Personalized career dashboard for rural youth on Gramin Career Setu." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+
+  <style>
+    .dash-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+      background: #F8FAFC;
+    }
+    .dash-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #E2E8F0;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .dash-nav-item:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .dash-nav-item.active {
+      background: #ECFDF5;
+      color: #064E3B;
+      font-weight: 700;
+    }
+    .dash-main {
+      padding: 28px 36px;
+      overflow-y: auto;
+    }
+    .dash-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .dash-search-box {
+      position: relative;
+      flex: 1;
+      max-width: 480px;
+    }
+    .dash-hero-banner {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .dash-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .dash-stat-card {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dash-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+    .dash-3col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .dash-card {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    @media (max-width: 1024px) {
+      .dash-layout { grid-template-columns: 1fr; }
+      .dash-sidebar { display: none; }
+      .dash-3col-grid { grid-template-columns: 1fr; }
+      .dash-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-hero-banner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dash-layout">
+
+    <!-- ============================================================
+         LEFT SIDEBAR (MATCHING IMAGE 2)
+         ============================================================ -->
+    <aside class="dash-sidebar" aria-label="Dashboard Sidebar">
+      <a href="index.html" class="gcs-brand" style="margin-bottom: 20px; padding: 0 8px;">
+        <div class="gcs-brand-icon" style="width: 34px; height: 34px;">
+          <span class="material-symbols-outlined fill-1" style="font-size: 20px;">spa</span>
+        </div>
+        <div class="gcs-brand-meta">
+          <span class="gcs-brand-title" style="font-size: 0.95rem;">Gramin Career Setu</span>
+          <span class="gcs-brand-sub" style="font-size: 0.68rem;">A Bridge To Your Career</span>
+        </div>
+      </a>
+
+      <nav style="display: flex; flex-direction: column; gap: 4px;">
+        <a href="dashboard.html" class="dash-nav-item active">
+          <span class="material-symbols-outlined">home</span>
+          <span>Home</span>
+        </a>
+        <a href="careers.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">explore</span>
+          <span>Careers</span>
+        </a>
+        <a href="jobs.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">work</span>
+          <span>Jobs</span>
+        </a>
+        <a href="quiz.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">quiz</span>
+          <span>Skill Checker</span>
+        </a>
+        <a href="resume.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">description</span>
+          <span>Resume Builder</span>
+        </a>
+        <a href="workshops.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">groups</span>
+          <span>Workshops</span>
+        </a>
+        <a href="resources.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">folder_open</span>
+          <span>Resources</span>
+        </a>
+        <a href="scholarships.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">school</span>
+          <span>Scholarships</span>
+        </a>
+        <a href="schemes.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">policy</span>
+          <span>Schemes</span>
+        </a>
+        <a href="stories.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">military_tech</span>
+          <span>Success Stories</span>
+        </a>
+        <a href="profile.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">download</span>
+          <span>Downloads</span>
+        </a>
+        <a href="about.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help Center</span>
+        </a>
+      </nav>
+
+      <!-- Offline Mode Widget in Sidebar -->
+      <div style="margin-top: auto; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: 20px;">wifi_off</span>
+          <span style="font-size: 0.8rem; font-weight: 800; color: #064E3B;">Offline Mode</span>
+          <span class="gcs-pulse-dot" style="margin-left: auto;"></span>
+        </div>
+        <div style="font-size: 0.72rem; color: #047857; line-height: 1.4; margin-bottom: 10px;">
+          You're in offline mode. All saved data is available.
+        </div>
+        <a href="profile.html" class="gcs-btn-cta-2" style="display: block; text-align: center; font-size: 0.75rem; padding: 6px; text-decoration: none;">Manage Downloads</a>
+      </div>
+    </aside>
+
+    <!-- ============================================================
+         MAIN DASHBOARD BODY
+         ============================================================ -->
+    <main class="dash-main">
+
+      <!-- Top Search & User Nav Bar -->
+      <header class="dash-header-top">
+        <!-- Global Search Bar -->
+        <div class="dash-search-box">
+          <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 12px; font-size: 20px; color: #94A3B8;">search</span>
+          <input type="text" class="gcs-form-input" style="width: 100%; padding-left: 44px; border-radius: 24px; background: #ffffff;" placeholder="Search careers, jobs, resources..." onkeydown="if(event.key==='Enter') window.location.href='jobs.html?q=' + encodeURIComponent(this.value)" />
+        </div>
+
+        <!-- Right Action Items -->
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <!-- Language Toggle -->
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
+            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          </div>
+
+          <!-- Notification Bell with Badge 3 -->
+          <button type="button" onclick="alert('🔔 3 New Notifications:\n1. Free APPSC Workshop on Sunday\n2. 5 new TCS & Wipro jobs added\n3. Resume template 2 updated')" style="position: relative; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
+            <span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+            <span style="position: absolute; top: -2px; right: -2px; background: #EF4444; color: #ffffff; font-size: 0.65rem; font-weight: 800; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff;">3</span>
+          </button>
+
+          <!-- User Profile Dropdown Pill -->
+          <div style="position: relative; display: inline-block;">
+            <button type="button" onclick="toggleHeaderUserMenu(event)" style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 28px; padding: 4px 14px 4px 6px; cursor: pointer; font-family: inherit;">
+              <img src="assets/resume-avatar-ravi.jpg" id="dashUserAvatar" alt="User Avatar" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;" />
+              <div style="text-align: left;">
+                <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A;" id="dashUserName">Ravi Kumar</div>
+                <div style="font-size: 0.7rem; color: #64748B;">View Profile ▾</div>
+              </div>
+            </button>
+            <div id="headerUserMenu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 190px; z-index: 9999; padding: 6px 0;">
+              <a href="profile.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.82rem; color: #334155; text-decoration: none; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">account_circle</span>
+                <span>My Profile</span>
+              </a>
+              <a href="resume-preview.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.82rem; color: #334155; text-decoration: none; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">description</span>
+                <span>My Resumes</span>
+              </a>
+              <hr style="border: none; border-top: 1px solid #F1F5F9; margin: 4px 0;" />
+              <button type="button" onclick="window.GCS_AUTH.logout()" style="display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 16px; font-size: 0.82rem; color: #DC2626; background: none; border: none; text-align: left; cursor: pointer; font-weight: 700;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- ============================================================
+           HERO WELCOME BANNER (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-hero-banner">
+        <div>
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">
+            Welcome back, <span id="dashHeroGreetingName">Ravi</span>! 👋
+          </h1>
+          <p style="font-size: 1.1rem; font-weight: 700; color: #059669; margin: 0 0 8px 0;" data-lang-key="dash-greeting-te">
+            మీ లక్ష్యానికి మరో అడుగు ముందుకు!
+          </p>
+          <p style="font-size: 0.92rem; color: #475569; margin: 0;">
+            Let's continue your learning and career journey.
+          </p>
+        </div>
+
+        <!-- Student with Laptop Hero Vector Illustration -->
+        <div style="height: 140px;">
+          <img src="assets/dashboard-student-laptop.svg" alt="Student with Laptop" style="width: 100%; height: 100%; object-fit: contain;" />
+        </div>
+      </section>
+
+      <!-- ============================================================
+           4 ACTIVITY METRIC CARDS (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-stats-grid">
+        <!-- 1. Skills Tested -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 24px;">bar_chart</span>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Skills Tested</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">2</div>
+            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Quizzes Completed</div>
+            <a href="quiz-results.html" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">View Results &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 2. Resumes Created -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 24px;">description</span>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Resumes Created</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">1</div>
+            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Resume Created</div>
+            <a href="resume-preview.html" style="font-size: 0.78rem; font-weight: 700; color: #2563EB; text-decoration: none;">View Resume &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 3. Jobs Saved -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 24px;">bookmark</span>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Jobs Saved</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSavedJobsCount">5</div>
+            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Jobs Saved</div>
+            <a href="jobs.html" style="font-size: 0.78rem; font-weight: 700; color: #D97706; text-decoration: none;">View Jobs &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 4. Workshops Joined -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #F3E8FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 24px;">groups</span>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Workshops Joined</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">1</div>
+            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Workshop Joined</div>
+            <a href="workshops.html" style="font-size: 0.78rem; font-weight: 700; color: #7C3AED; text-decoration: none;">View Workshops &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           3-COLUMN ACTIVITY & RECOMMENDATION SECTION (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-3col-grid">
+        
+        <!-- Column 1: Continue Your Journey -->
+        <div class="dash-card">
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Continue Your Journey</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #059669; font-size: 22px;">school</span>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Explore Career Paths</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">Discover the best career options for you</div>
+                </div>
+              </div>
+              <a href="careers.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Explore</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #2563EB; font-size: 22px;">work</span>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Find Jobs</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">Search latest government &amp; private jobs</div>
+                </div>
+              </div>
+              <a href="jobs.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Search</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 22px;">assignment</span>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Test Your Skills</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">Take a quiz and know your strengths</div>
+                </div>
+              </div>
+              <a href="quiz.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Start Quiz</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #EA580C; font-size: 22px;">description</span>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Build Your Resume</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">Create a professional resume in minutes</div>
+                </div>
+              </div>
+              <a href="resume.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Create</a>
+            </div>
+
+          </div>
+          <div style="margin-top: 18px; border-top: 1px solid #F1F5F9; padding-top: 12px;">
+            <a href="roadmap.html" style="font-size: 0.8rem; font-weight: 700; color: #059669; text-decoration: none;">View All Features &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Column 2: Recommended for You & Daily Inspiration -->
+        <div class="dash-card" style="display: flex; flex-direction: column;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Recommended for You</h2>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #7C3AED;">laptop_mac</span>
+                <div>
+                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">Software Developer</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">High Demand • Good Salary</div>
+                </div>
+              </div>
+              <a href="career-detail.html?career=software-engineer" style="font-size: 0.75rem; font-weight: 700; color: #059669; text-decoration: none;">View Career &rarr;</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #2563EB;">badge</span>
+                <div>
+                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">APPSC Group 2</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">Government Job • Graduates</div>
+                </div>
+              </div>
+              <a href="jobs.html?cat=government" style="font-size: 0.75rem; font-weight: 700; color: #2563EB; text-decoration: none;">View Jobs &rarr;</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-outlined" style="color: #D97706;">school</span>
+                <div>
+                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">Free Workshop</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">Resume Building Workshop</div>
+                </div>
+              </div>
+              <a href="workshops.html" style="font-size: 0.75rem; font-weight: 700; color: #D97706; text-decoration: none;">Join Now &rarr;</a>
+            </div>
+
+          </div>
+
+          <!-- Daily Inspiration Quote Box -->
+          <div style="margin-top: auto; background: #FFFBEB; border: 1px dashed #FDE68A; border-radius: 12px; padding: 14px;">
+            <div style="font-size: 0.72rem; font-weight: 800; color: #B45309; text-transform: uppercase; margin-bottom: 4px;">Daily Inspiration</div>
+            <p style="font-size: 0.8rem; color: #78350F; font-style: italic; margin: 0 0 4px 0; line-height: 1.4;">
+              &ldquo;The future depends on what you do today.&rdquo;
+            </p>
+            <div style="font-size: 0.72rem; font-weight: 700; color: #92400E; text-align: right;">— Mahatma Gandhi</div>
+          </div>
+        </div>
+
+        <!-- Column 3: Upcoming Workshops -->
+        <div class="dash-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">Upcoming Workshops</h2>
+            <a href="workshops.html" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">View All</a>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            
+            <!-- Workshop 1 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="background: #ECFDF5; border-radius: 8px; padding: 6px 8px; text-align: center; min-width: 44px;">
+                  <div style="font-size: 0.65rem; font-weight: 800; color: #059669;">MAY</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: #064E3B;">18</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #0F172A;">Resume Building</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Anantapur</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Resume Building Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+            </div>
+
+            <!-- Workshop 2 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="background: #EFF6FF; border-radius: 8px; padding: 6px 8px; text-align: center; min-width: 44px;">
+                  <div style="font-size: 0.65rem; font-weight: 800; color: #2563EB;">MAY</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: #1E40AF;">25</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #0F172A;">Interview Skills</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Kurnool</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Interview Skills Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+            </div>
+
+            <!-- Workshop 3 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 4px;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="background: #FEF3C7; border-radius: 8px; padding: 6px 8px; text-align: center; min-width: 44px;">
+                  <div style="font-size: 0.65rem; font-weight: 800; color: #D97706;">JUN</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: #92400E;">02</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #0F172A;">Career Guidance</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Kadapa</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Career Guidance Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 16px; border-top: 1px solid #F1F5F9; padding-top: 12px; text-align: center;">
+            <a href="workshops.html" style="font-size: 0.8rem; font-weight: 700; color: #059669; text-decoration: none;">View All Workshops &rarr;</a>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================
+           BOTTOM BANNER: KEEP LEARNING, KEEP GROWING! (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section style="background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 16px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #059669; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 26px;">military_tech</span>
+          </div>
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #064E3B; margin: 0 0 2px 0;">Keep Learning, Keep Growing!</h3>
+            <p style="font-size: 0.82rem; color: #047857; margin: 0;">You are doing great! Complete more quizzes and build your skills.</p>
+          </div>
+        </div>
+        <a href="quiz.html" class="gcs-btn-cta-1" style="flex-shrink: 0; padding: 10px 20px; font-size: 0.88rem; text-decoration: none; border-radius: 8px;">
+          <span>Explore Now &rarr;</span>
+        </a>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/i18n.js"></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/auth.js"></script>
+  <script>
+    // Initialize Dashboard with Current User Profile
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = window.GCS_AUTH ? window.GCS_AUTH.getUser() : null;
+      if (user) {
+        document.getElementById('dashUserName').textContent = user.name;
+        document.getElementById('dashHeroGreetingName').textContent = user.name.split(' ')[0];
+        if (user.avatar) {
+          document.getElementById('dashUserAvatar').src = user.avatar;
+        }
+      }
+
+      // Update saved jobs counter from localStorage
+      try {
+        const saved = JSON.parse(localStorage.getItem('gcs_saved_jobs') || '[]');
+        if (saved.length > 0) {
+          document.getElementById('dashSavedJobsCount').textContent = saved.length;
+        }
+      } catch (e) {}
+    });
+  </script>
+</body>
+</html>

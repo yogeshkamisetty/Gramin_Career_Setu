@@ -202,17 +202,25 @@
     if (enBtn) enBtn.classList.toggle('active', lang === 'en');
   };
 
-  // Auto-inject i18n.js and app.js if not present
+  // Auto-inject i18n.js, app.js, and auth.js if not present
   function ensureCoreModules() {
+    const isSubdir = window.location.pathname.includes('/admin/');
+    const pfx = isSubdir ? '../' : '';
+
     if (!window.GCS_I18N && !document.querySelector('script[src*="i18n.js"]')) {
       const s1 = document.createElement('script');
-      s1.src = 'assets/i18n.js';
+      s1.src = pfx + 'assets/i18n.js';
       document.head.appendChild(s1);
     }
     if (!window.GCS_APP && !document.querySelector('script[src*="app.js"]')) {
       const s2 = document.createElement('script');
-      s2.src = 'assets/app.js';
+      s2.src = pfx + 'assets/app.js';
       document.head.appendChild(s2);
+    }
+    if (!window.GCS_AUTH && !document.querySelector('script[src*="auth.js"]')) {
+      const s3 = document.createElement('script');
+      s3.src = pfx + 'assets/auth.js';
+      document.head.appendChild(s3);
     }
   }
 

@@ -3,10 +3,12 @@
  * Offline caching for PWA support
  */
 
-const CACHE_NAME = 'gcs-cache-v10';
+const CACHE_NAME = 'gcs-cache-v12';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './login.html',
+  './dashboard.html',
   './careers.html',
   './career-detail.html',
   './jobs.html',
@@ -31,7 +33,12 @@ const ASSETS_TO_CACHE = [
   './assets/landing.js',
   './assets/i18n.js',
   './assets/app.js',
+  './assets/auth.js',
   './assets/resume-builder-engine.js',
+  './assets/auth-village-hero.svg',
+  './assets/auth-students-success.svg',
+  './assets/auth-otp-phone.svg',
+  './assets/dashboard-student-laptop.svg',
   './assets/hero-crossroads.jpg',
   './assets/career-explorer-hero.jpg',
   './assets/quiz-hero-student.jpg',
