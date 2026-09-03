@@ -78,7 +78,9 @@ gramin-career-setu/
 
 ## 📝 Data Source
 
-Job listings and quiz questions are stored in **Google Sheets** and published as CSV. The sheet URLs are configured as constants in `assets/script.js`. Replace the placeholder URLs with your own published Google Sheets links.
+Job listings and quiz questions can be stored in **Google Sheets** and published as CSV. Replace the placeholder URLs in `assets/script.js` with your own published links when the volunteer-maintained sheet is ready. Until then, the public jobs page uses `data/jobs.csv` (22 seed listings) and caches it for offline use.
+
+The public `results.html` page is the workshop impact dashboard. Update its editable `WORKSHOP_DATA` object with real pre/post survey values before submitting CSP evidence. The `admin/` page provides a local handover-oriented view for job, survey, and impact tracking.
 
 ---
 

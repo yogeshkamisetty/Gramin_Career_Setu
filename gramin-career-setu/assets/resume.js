@@ -1,475 +1,497 @@
 /**
- * Gramin Career Setu — Resume Builder (assets/resume.js)
- * ──────────────────────────────────────────────────────
- * Form validation + jsPDF-powered professional A4 PDF resume generation.
- *
- * NOTE: jsPDF's built-in fonts only support Latin characters.
- * The PDF is generated in English (standard for Indian resumes).
- * The form UI remains bilingual via the i18n system.
+ * Gramin Career Setu — Resume Builder Logic (assets/resume.js)
+ * ─────────────────────────────────────────────────────────────
+ * Features:
+ *  • 3-Step Interactive Wizard with Stepper Progress Bar
+ *  • Live A4 Document Preview Modal
+ *  • Local Offline jsPDF generation with A4 styling & fallback
+ *  • Bilingual i18n integration (Telugu / English)
+ *  • Zero login required
  */
 
 const ResumeBuilder = (() => {
   'use strict';
 
-  // ── PDF Style Constants ──
+  let currentStep = 1;
+
+  // ── Styling constants for jsPDF ──
   const PDF = {
-    // A4 dimensions in mm
-    WIDTH:  210,
-    HEIGHT: 297,
+    MARGIN_LEFT:  18,
+    MARGIN_RIGHT: 18,
+    MARGIN_TOP:   20,
+    PAGE_HEIGHT:  297, // A4 mm
+    WIDTH:        210, // A4 mm
+    LINE_HEIGHT:  6.5,
 
-    // Margins
-    MARGIN_LEFT:   20,
-    MARGIN_RIGHT:  20,
-    MARGIN_TOP:    15,
-    MARGIN_BOTTOM: 20,
+    // Colors [R, G, B]
+    COLOR_PRIMARY:   [27, 94, 32],     // #1b5e20 Forest Green
+    COLOR_HEADER_BG: [10, 61, 27],     // Deep brand green
+    COLOR_ACCENT:    [251, 192, 45],   // #fbc02d Gold
+    COLOR_TEXT:      [30, 41, 59],     // #1e293b Slate 800
+    COLOR_MUTED:     [100, 116, 139],  // #64748b Slate 500
+    COLOR_LINE:      [200, 230, 201],  // #c8e6c9 Light green
+    COLOR_WHITE:     [255, 255, 255],
 
-    // Colors  [R, G, B]
-    COLOR_PRIMARY:    [27, 94, 32],     // #1b5e20
-    COLOR_SECONDARY:  [46, 125, 50],    // #2e7d32
-    COLOR_TEXT:       [51, 51, 51],      // #333333
-    COLOR_LIGHT_TEXT: [119, 119, 119],   // #777777
-    COLOR_LINE:       [200, 200, 200],   // #c8c8c8
-    COLOR_WHITE:      [255, 255, 255],
-    COLOR_HEADER_BG:  [27, 94, 32],
-
-    // Font sizes
-    FONT_NAME:    22,
-    FONT_CONTACT: 10,
-    FONT_SECTION: 12,
-    FONT_BODY:    10.5,
-    FONT_SMALL:   9,
-    FONT_FOOTER:  7.5,
-
-    // Line spacing
-    LINE_HEIGHT: 5.5,
+    // Font Sizes (pt)
+    FONT_NAME:       18,
+    FONT_CONTACT:    9.5,
+    FONT_HEADING:    11,
+    FONT_BODY:       10,
+    FONT_SMALL:      8.5,
   };
 
-  // ── DOM cache ──
+  // ── DOM Cache ──
   const dom = {};
 
   function cacheDom() {
-    dom.form         = document.getElementById('resumeForm');
-    dom.fullName     = document.getElementById('fieldName');
-    dom.phone        = document.getElementById('fieldPhone');
-    dom.email        = document.getElementById('fieldEmail');
-    dom.village      = document.getElementById('fieldVillage');
-    dom.qualification = document.getElementById('fieldQualification');
-    dom.skills       = document.getElementById('fieldSkills');
-    dom.experience   = document.getElementById('fieldExperience');
-    dom.languages    = document.getElementById('fieldLanguages');
-    dom.objective    = document.getElementById('fieldObjective');
-    dom.submitBtn    = document.getElementById('btnGenerate');
-    dom.successCard  = document.getElementById('successCard');
-    dom.formCard     = document.getElementById('formCard');
+    dom.formSection      = document.getElementById('resumeFormSection');
+    dom.form             = document.getElementById('resumeForm');
+    dom.successCard      = document.getElementById('successCard');
+    dom.stepperFill      = document.getElementById('stepperFill');
+    dom.previewModal     = document.getElementById('previewModal');
+    dom.previewContent   = document.getElementById('previewContent');
+
+    // Inputs
+    dom.fullName         = document.getElementById('fieldName');
+    dom.phone            = document.getElementById('fieldPhone');
+    dom.email            = document.getElementById('fieldEmail');
+    dom.village          = document.getElementById('fieldVillage');
+    dom.qualification    = document.getElementById('fieldQualification');
+    dom.skills           = document.getElementById('fieldSkills');
+    dom.experience       = document.getElementById('fieldExperience');
+    dom.languages        = document.getElementById('fieldLanguages');
+    dom.objective        = document.getElementById('fieldObjective');
+
+    // Errors
+    dom.errName          = document.getElementById('errName');
+    dom.errPhone         = document.getElementById('errPhone');
+
+    // Global Buttons
+    dom.btnDownloadPDF   = document.getElementById('btnDownloadPDF');
   }
 
-  // ── Helpers ──
-  function t(key) { return I18n.getString(key); }
+  // ── Helper: Translation lookup ──
+  function t(key) {
+    return (window.I18n && typeof window.I18n.t === 'function') ? window.I18n.t(key) : key;
+  }
 
-  function showError(fieldId, msg) {
-    const errorEl = document.getElementById(fieldId + 'Error');
-    if (errorEl) {
-      errorEl.textContent = msg;
-      errorEl.style.display = '';
+  // ══════════════════════════════════════════════════════════════
+  //  Step Wizard Navigation
+  // ══════════════════════════════════════════════════════════════
+
+  function goToStep(step) {
+    if (step < 1 || step > 3) return;
+
+    // Validate step 1 if trying to jump forward
+    if (step > 1 && !validateStep1()) {
+      return;
     }
-    const input = document.getElementById(fieldId);
-    if (input) input.classList.add('form-input--error');
-  }
 
-  function clearError(fieldId) {
-    const errorEl = document.getElementById(fieldId + 'Error');
-    if (errorEl) {
-      errorEl.textContent = '';
-      errorEl.style.display = 'none';
+    currentStep = step;
+
+    // Update Panes
+    for (let i = 1; i <= 3; i++) {
+      const pane = document.getElementById(`stepPane${i}`);
+      const indicator = document.getElementById(`stepIndicator${i}`);
+
+      if (pane) {
+        pane.classList.toggle('wizard-step-pane--active', i === currentStep);
+      }
+
+      if (indicator) {
+        indicator.classList.toggle('stepper-step--active', i === currentStep);
+        indicator.classList.toggle('stepper-step--completed', i < currentStep);
+      }
     }
-    const input = document.getElementById(fieldId);
-    if (input) input.classList.remove('form-input--error');
+
+    // Update Track Fill
+    if (dom.stepperFill) {
+      if (currentStep === 1) dom.stepperFill.style.width = '0%';
+      else if (currentStep === 2) dom.stepperFill.style.width = '40%';
+      else if (currentStep === 3) dom.stepperFill.style.width = '80%';
+    }
+
+    // Scroll to top of card on step change
+    if (dom.formSection) {
+      dom.formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
-  function clearAllErrors() {
-    document.querySelectorAll('.form-error').forEach(el => {
-      el.textContent = '';
-      el.style.display = 'none';
-    });
-    document.querySelectorAll('.form-input--error').forEach(el => {
-      el.classList.remove('form-input--error');
-    });
+  function nextStep(fromStep) {
+    if (fromStep === 1) {
+      if (validateStep1()) {
+        goToStep(2);
+      }
+    } else if (fromStep === 2) {
+      goToStep(3);
+    }
   }
 
-  // ── Validation ──
-  function validate() {
-    clearAllErrors();
+  // ══════════════════════════════════════════════════════════════
+  //  Validation
+  // ══════════════════════════════════════════════════════════════
+
+  function validateStep1() {
     let isValid = true;
 
-    const name  = dom.fullName.value.trim();
-    const phone = dom.phone.value.trim();
-
+    // Full Name
+    const name = dom.fullName.value.trim();
     if (!name) {
-      showError('fieldName', t('resume-err-name'));
+      showError('fieldName', 'errName', t('resume-err-name'));
       isValid = false;
+    } else {
+      clearError('fieldName', 'errName');
     }
 
+    // Phone Number
+    const phone = dom.phone.value.trim().replace(/[\s\-+]/g, '');
     if (!phone) {
-      showError('fieldPhone', t('resume-err-phone'));
+      showError('fieldPhone', 'errPhone', t('resume-err-phone'));
       isValid = false;
-    } else if (!/^[6-9]\d{9}$/.test(phone.replace(/[\s\-]/g, ''))) {
-      showError('fieldPhone', t('resume-err-phone-invalid'));
+    } else if (phone.length < 10) {
+      showError('fieldPhone', 'errPhone', t('resume-err-phone-invalid'));
       isValid = false;
+    } else {
+      clearError('fieldPhone', 'errPhone');
     }
 
     return isValid;
   }
 
+  function showError(inputId, errorId, message) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.classList.add('form-input-stitch--error');
+    if (error) {
+      error.textContent = message;
+      error.style.display = 'block';
+    }
+  }
+
+  function clearError(inputId, errorId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.classList.remove('form-input-stitch--error');
+    if (error) {
+      error.textContent = '';
+      error.style.display = 'none';
+    }
+  }
+
+  function getFormData() {
+    return {
+      name:          dom.fullName ? dom.fullName.value.trim() : '',
+      phone:         dom.phone ? dom.phone.value.trim() : '',
+      email:         dom.email ? dom.email.value.trim() : '',
+      village:       dom.village ? dom.village.value.trim() : '',
+      qualification: dom.qualification ? dom.qualification.value.trim() : '',
+      skills:        dom.skills ? dom.skills.value.trim() : '',
+      experience:    dom.experience ? dom.experience.value.trim() : '',
+      languages:     dom.languages ? dom.languages.value.trim() : '',
+      objective:     dom.objective ? dom.objective.value.trim() : '',
+    };
+  }
+
   // ══════════════════════════════════════════════════════════════
-  //  PDF Generation
+  //  Live A4 Document Preview Modal
   // ══════════════════════════════════════════════════════════════
+
+  function openPreview() {
+    const data = getFormData();
+    const displayName = data.name || 'YOUR NAME / మీ పేరు';
+    const contactItems = [];
+    if (data.phone) contactItems.push(data.phone);
+    if (data.email) contactItems.push(data.email);
+    if (data.village) contactItems.push(data.village);
+    const displayContact = contactItems.length > 0 ? contactItems.join('  •  ') : 'Phone  •  Email  •  Location';
+
+    dom.previewContent.innerHTML = `
+      <div class="a4-preview__header">
+        <h2 class="a4-preview__name">${escapeHtml(displayName)}</h2>
+        <p class="a4-preview__contact">${escapeHtml(displayContact)}</p>
+      </div>
+      <div class="a4-preview__body">
+        ${data.objective ? `
+          <div>
+            <h4 class="a4-preview__section-title">Career Objective / లక్ష్యం</h4>
+            <p class="a4-preview__section-content">${escapeHtml(data.objective)}</p>
+          </div>
+        ` : ''}
+
+        ${data.qualification ? `
+          <div>
+            <h4 class="a4-preview__section-title">Education / విద్యార్హత</h4>
+            <p class="a4-preview__section-content">${escapeHtml(data.qualification)}</p>
+          </div>
+        ` : ''}
+
+        ${data.skills ? `
+          <div>
+            <h4 class="a4-preview__section-title">Key Skills / నైపుణ్యాలు</h4>
+            <p class="a4-preview__section-content">${escapeHtml(data.skills)}</p>
+          </div>
+        ` : ''}
+
+        ${data.experience ? `
+          <div>
+            <h4 class="a4-preview__section-title">Work Experience / అనుభవం</h4>
+            <p class="a4-preview__section-content">${escapeHtml(data.experience)}</p>
+          </div>
+        ` : ''}
+
+        ${data.languages ? `
+          <div>
+            <h4 class="a4-preview__section-title">Languages Known / భాషలు</h4>
+            <p class="a4-preview__section-content">${escapeHtml(data.languages)}</p>
+          </div>
+        ` : ''}
+
+        <div>
+          <h4 class="a4-preview__section-title">Declaration</h4>
+          <p class="a4-preview__section-content" style="font-size: 0.8rem; color: #64748b;">
+            I hereby declare that all the information provided above is true and correct to the best of my knowledge.
+          </p>
+        </div>
+      </div>
+    `;
+
+    dom.previewModal.classList.add('open');
+  }
+
+  function closePreview() {
+    dom.previewModal.classList.remove('open');
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  PDF Generation Engine
+  // ══════════════════════════════════════════════════════════════
+
+  async function ensureJsPDF() {
+    if ((window.jspdf && window.jspdf.jsPDF) || window.jsPDF) return true;
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'assets/jspdf.umd.min.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => {
+        const cdnScript = document.createElement('script');
+        cdnScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        cdnScript.onload = () => resolve(true);
+        cdnScript.onerror = () => resolve(false);
+        document.head.appendChild(cdnScript);
+      };
+      document.head.appendChild(script);
+    });
+  }
 
   function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : (window.jsPDF || null);
+    if (!jsPDFClass) throw new Error('jsPDF library not available');
 
+    const doc = new jsPDFClass({ unit: 'mm', format: 'a4' });
     const contentWidth = PDF.WIDTH - PDF.MARGIN_LEFT - PDF.MARGIN_RIGHT;
     let y = PDF.MARGIN_TOP;
+    const data = getFormData();
 
-    // Gather form values
-    const data = {
-      name:          dom.fullName.value.trim(),
-      phone:         dom.phone.value.trim(),
-      email:         dom.email.value.trim(),
-      village:       dom.village.value.trim(),
-      qualification: dom.qualification.value.trim(),
-      skills:        dom.skills.value.trim(),
-      experience:    dom.experience.value.trim(),
-      languages:     dom.languages.value.trim(),
-      objective:     dom.objective.value.trim(),
-    };
-
-    // ────────────────────────────────────────────
-    //  HEADER BAND
-    // ────────────────────────────────────────────
-    const headerHeight = 38;
+    // ── Header Band ──
+    const headerHeight = 36;
     doc.setFillColor(...PDF.COLOR_HEADER_BG);
     doc.rect(0, 0, PDF.WIDTH, headerHeight, 'F');
 
     // Accent line at bottom of header
-    doc.setFillColor(251, 192, 45);  // gold accent
+    doc.setFillColor(...PDF.COLOR_ACCENT);
     doc.rect(0, headerHeight, PDF.WIDTH, 1.5, 'F');
 
     // Name
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(PDF.FONT_NAME);
     doc.setTextColor(...PDF.COLOR_WHITE);
-    doc.text(data.name.toUpperCase(), PDF.MARGIN_LEFT, 18);
+    doc.text(data.name.toUpperCase(), PDF.MARGIN_LEFT, 16);
 
     // Contact line
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(PDF.FONT_CONTACT);
-    doc.setTextColor(220, 237, 222);  // light green-white
+    doc.setTextColor(220, 237, 222);
 
     const contactParts = [];
-    if (data.phone)   contactParts.push(data.phone);
-    if (data.email)   contactParts.push(data.email);
-    if (data.village)  contactParts.push(data.village);
-    doc.text(contactParts.join('  |  '), PDF.MARGIN_LEFT, 27);
+    if (data.phone)   contactParts.push('Phone: ' + data.phone);
+    if (data.email)   contactParts.push('Email: ' + data.email);
+    if (data.village) contactParts.push('Location: ' + data.village);
+    doc.text(contactParts.join('   |   '), PDF.MARGIN_LEFT, 26);
 
-    y = headerHeight + 6;
+    y = headerHeight + 8;
 
-    // ────────────────────────────────────────────
-    //  HELPER: Draw section heading
-    // ────────────────────────────────────────────
+    // Helper: Draw Section
     function drawSection(title) {
-      y += 4;
-
-      // Check if we need a new page
-      if (y > PDF.HEIGHT - PDF.MARGIN_BOTTOM - 20) {
+      if (y > PDF.PAGE_HEIGHT - 35) {
         doc.addPage();
         y = PDF.MARGIN_TOP;
       }
-
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(PDF.FONT_SECTION);
-      doc.setTextColor(...PDF.COLOR_SECONDARY);
+      doc.setFontSize(PDF.FONT_HEADING);
+      doc.setTextColor(...PDF.COLOR_PRIMARY);
       doc.text(title.toUpperCase(), PDF.MARGIN_LEFT, y);
-      y += 1.5;
 
-      // Underline
-      doc.setDrawColor(...PDF.COLOR_SECONDARY);
+      doc.setDrawColor(...PDF.COLOR_LINE);
       doc.setLineWidth(0.6);
-      doc.line(PDF.MARGIN_LEFT, y, PDF.MARGIN_LEFT + contentWidth, y);
-      y += 5;
+      doc.line(PDF.MARGIN_LEFT, y + 2, PDF.WIDTH - PDF.MARGIN_RIGHT, y + 2);
+      y += 8;
     }
 
-    // ────────────────────────────────────────────
-    //  HELPER: Draw body text (with word wrap)
-    // ────────────────────────────────────────────
-    function drawText(text) {
+    function drawBodyText(text) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(PDF.FONT_BODY);
       doc.setTextColor(...PDF.COLOR_TEXT);
 
       const lines = doc.splitTextToSize(text, contentWidth);
       lines.forEach(line => {
-        if (y > PDF.HEIGHT - PDF.MARGIN_BOTTOM - 10) {
+        if (y > PDF.PAGE_HEIGHT - 20) {
           doc.addPage();
           y = PDF.MARGIN_TOP;
         }
         doc.text(line, PDF.MARGIN_LEFT, y);
         y += PDF.LINE_HEIGHT;
       });
+      y += 3;
     }
 
-    // ────────────────────────────────────────────
-    //  HELPER: Draw bullet list
-    // ────────────────────────────────────────────
-    function drawBulletList(items) {
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(PDF.FONT_BODY);
-      doc.setTextColor(...PDF.COLOR_TEXT);
-
-      items.forEach(item => {
-        if (!item.trim()) return;
-        if (y > PDF.HEIGHT - PDF.MARGIN_BOTTOM - 10) {
-          doc.addPage();
-          y = PDF.MARGIN_TOP;
-        }
-        doc.text('\u2022', PDF.MARGIN_LEFT + 2, y);
-        const lines = doc.splitTextToSize(item.trim(), contentWidth - 10);
-        lines.forEach((line, i) => {
-          doc.text(line, PDF.MARGIN_LEFT + 8, y);
-          if (i < lines.length - 1) y += PDF.LINE_HEIGHT;
-        });
-        y += PDF.LINE_HEIGHT;
-      });
-    }
-
-    // ────────────────────────────────────────────
-    //  SECTIONS
-    // ────────────────────────────────────────────
-
-    // 1. Career Objective
+    // Objective
     if (data.objective) {
       drawSection('Career Objective');
-      drawText(data.objective);
+      drawBodyText(data.objective);
     }
 
-    // 2. Education
+    // Education
     if (data.qualification) {
       drawSection('Education');
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(PDF.FONT_BODY);
-      doc.setTextColor(...PDF.COLOR_TEXT);
-      doc.text(data.qualification, PDF.MARGIN_LEFT, y);
-      y += PDF.LINE_HEIGHT;
+      drawBodyText(data.qualification);
     }
 
-    // 3. Key Skills
+    // Skills
     if (data.skills) {
       drawSection('Key Skills');
-      const skillItems = data.skills.split(',').map(s => s.trim()).filter(Boolean);
-
-      if (skillItems.length > 0) {
-        // Draw skills as a 2-column bullet grid
+      const skillList = data.skills.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+      if (skillList.length > 1) {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(PDF.FONT_BODY);
         doc.setTextColor(...PDF.COLOR_TEXT);
-
-        const colWidth = contentWidth / 2;
-        for (let i = 0; i < skillItems.length; i += 2) {
-          if (y > PDF.HEIGHT - PDF.MARGIN_BOTTOM - 10) {
-            doc.addPage();
-            y = PDF.MARGIN_TOP;
-          }
-
-          // Left column
-          doc.text('\u2022  ' + skillItems[i], PDF.MARGIN_LEFT + 2, y);
-
-          // Right column
-          if (skillItems[i + 1]) {
-            doc.text('\u2022  ' + skillItems[i + 1], PDF.MARGIN_LEFT + colWidth + 2, y);
-          }
-          y += PDF.LINE_HEIGHT;
-        }
+        skillList.forEach(skill => {
+          doc.text('•  ' + skill, PDF.MARGIN_LEFT + 3, y);
+          y += PDF.LINE_HEIGHT - 0.5;
+        });
+        y += 3;
+      } else {
+        drawBodyText(data.skills);
       }
     }
 
-    // 4. Work Experience
+    // Experience
     if (data.experience) {
       drawSection('Work Experience');
-      drawText(data.experience);
+      drawBodyText(data.experience);
     }
 
-    // 5. Languages
+    // Languages
     if (data.languages) {
       drawSection('Languages Known');
-      const langItems = data.languages.split(',').map(s => s.trim()).filter(Boolean);
-      drawText(langItems.join('  •  '));
+      drawBodyText(data.languages);
     }
 
-    // ────────────────────────────────────────────
-    //  DECLARATION
-    // ────────────────────────────────────────────
-    y += 8;
-    if (y > PDF.HEIGHT - PDF.MARGIN_BOTTOM - 30) {
-      doc.addPage();
-      y = PDF.MARGIN_TOP;
-    }
-
-    // Light separator
-    doc.setDrawColor(...PDF.COLOR_LINE);
-    doc.setLineWidth(0.3);
-    doc.line(PDF.MARGIN_LEFT, y, PDF.MARGIN_LEFT + contentWidth, y);
-    y += 6;
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(PDF.FONT_SMALL);
-    doc.setTextColor(...PDF.COLOR_TEXT);
-    doc.text('DECLARATION', PDF.MARGIN_LEFT, y);
-    y += 5;
-
+    // Declaration
+    drawSection('Declaration');
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(PDF.FONT_SMALL);
-    doc.setTextColor(...PDF.COLOR_LIGHT_TEXT);
-    const declText = 'I hereby declare that the information provided above is true and correct to the best of my knowledge and belief.';
+    doc.setTextColor(...PDF.COLOR_MUTED);
+    const declText = 'I hereby declare that all the information provided above is true and correct to the best of my knowledge.';
     const declLines = doc.splitTextToSize(declText, contentWidth);
-    declLines.forEach(line => {
-      doc.text(line, PDF.MARGIN_LEFT, y);
-      y += 4.5;
+    declLines.forEach(l => {
+      doc.text(l, PDF.MARGIN_LEFT, y);
+      y += 5;
     });
 
-    y += 6;
-
-    // Date and signature
-    const today = new Date();
-    const dateStr = today.toLocaleDateString('en-IN', {
-      day: '2-digit', month: 'short', year: 'numeric'
-    });
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(PDF.FONT_SMALL);
-    doc.setTextColor(...PDF.COLOR_TEXT);
-    doc.text('Date: ' + dateStr, PDF.MARGIN_LEFT, y);
-    doc.text('Signature: ___________________', PDF.MARGIN_LEFT + contentWidth - 70, y);
-
-    // ────────────────────────────────────────────
-    //  FOOTER
-    // ────────────────────────────────────────────
-    const footerY = PDF.HEIGHT - 10;
-    doc.setDrawColor(...PDF.COLOR_LINE);
-    doc.setLineWidth(0.2);
-    doc.line(PDF.MARGIN_LEFT, footerY - 3, PDF.MARGIN_LEFT + contentWidth, footerY - 3);
-
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(PDF.FONT_FOOTER);
-    doc.setTextColor(...PDF.COLOR_LIGHT_TEXT);
-    doc.text(
-      'Generated by Gramin Career Setu \u2014 Career guidance for rural youth',
-      PDF.WIDTH / 2,
-      footerY,
-      { align: 'center' }
-    );
-
-    // ────────────────────────────────────────────
-    //  SAVE
-    // ────────────────────────────────────────────
-    const safeName = data.name.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+    // Save File
+    const safeName = data.name.replace(/[^a-zA-Z0-9]/g, '_');
     doc.save(safeName + '_Resume.pdf');
   }
 
-  // ══════════════════════════════════════════════════════════════
-  //  Form Handling
-  // ══════════════════════════════════════════════════════════════
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (!validate()) {
-      // Scroll to first error
-      const firstError = document.querySelector('.form-input--error');
-      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  async function downloadPDF() {
+    if (!validateStep1()) {
+      goToStep(1);
       return;
     }
 
-    // Check if jsPDF is loaded
-    if (!window.jspdf || !window.jspdf.jsPDF) {
+    if (dom.btnDownloadPDF) {
+      dom.btnDownloadPDF.disabled = true;
+    }
+
+    const isLoaded = await ensureJsPDF();
+    if (!isLoaded && (!window.jspdf || !window.jspdf.jsPDF) && !window.jsPDF) {
       alert(t('resume-jspdf-error'));
+      if (dom.btnDownloadPDF) dom.btnDownloadPDF.disabled = false;
       return;
     }
 
-    // Disable button briefly to prevent double-click
-    dom.submitBtn.disabled = true;
-    dom.submitBtn.classList.add('btn-generate--loading');
-
-    setTimeout(() => {
-      try {
-        generatePDF();
-        showSuccess();
-      } catch (err) {
-        console.error('[ResumeBuilder] PDF generation failed:', err);
-        alert(t('resume-pdf-error'));
-      } finally {
-        dom.submitBtn.disabled = false;
-        dom.submitBtn.classList.remove('btn-generate--loading');
-      }
-    }, 150);
+    try {
+      generatePDF();
+      showSuccess();
+    } catch (err) {
+      console.error('[ResumeBuilder] PDF generation failed:', err);
+      alert(t('resume-pdf-error'));
+    } finally {
+      if (dom.btnDownloadPDF) dom.btnDownloadPDF.disabled = false;
+    }
   }
 
   function showSuccess() {
-    dom.formCard.style.display = 'none';
-    dom.successCard.style.display = '';
-    dom.successCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (dom.formSection) dom.formSection.style.display = 'none';
+    if (dom.successCard) {
+      dom.successCard.style.display = 'block';
+      dom.successCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function showForm() {
-    dom.successCard.style.display = 'none';
-    dom.formCard.style.display = '';
-    dom.formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (dom.successCard) dom.successCard.style.display = 'none';
+    if (dom.formSection) {
+      dom.formSection.style.display = 'block';
+      dom.formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
-  // ── Clear error on input ──
-  function bindClearOnInput() {
-    ['fieldName', 'fieldPhone'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('input', () => clearError(id));
-      }
-    });
-  }
-
-  // ── Watch for language changes ──
-  function onLanguageChange() {
-    // Update placeholder texts
-    const placeholders = document.querySelectorAll('[data-lang-placeholder]');
-    placeholders.forEach(el => {
-      const key = el.getAttribute('data-lang-placeholder');
-      const str = t(key);
-      if (str !== key) el.placeholder = str;
-    });
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
   }
 
   // ── Init ──
   function init() {
     cacheDom();
-    bindClearOnInput();
 
-    dom.form.addEventListener('submit', handleSubmit);
+    // Clear error on input
+    if (dom.fullName) dom.fullName.addEventListener('input', () => clearError('fieldName', 'errName'));
+    if (dom.phone) dom.phone.addEventListener('input', () => clearError('fieldPhone', 'errPhone'));
 
-    // "Generate Another" button
-    const btnAnother = document.getElementById('btnAnother');
-    if (btnAnother) btnAnother.addEventListener('click', showForm);
-
-    // Language change observer
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(m => {
-        if (m.attributeName === 'lang') onLanguageChange();
+    // Modal overlay click outside to close
+    if (dom.previewModal) {
+      dom.previewModal.addEventListener('click', (e) => {
+        if (e.target === dom.previewModal) closePreview();
       });
-    });
-    observer.observe(document.documentElement, { attributes: true });
+    }
   }
 
-  return { init };
+  return {
+    init,
+    goToStep,
+    nextStep,
+    openPreview,
+    closePreview,
+    downloadPDF,
+    showForm,
+    showSuccess
+  };
 })();
 
 // ── Bootstrap ──
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => ResumeBuilder.init(), 100);
+  ResumeBuilder.init();
 });

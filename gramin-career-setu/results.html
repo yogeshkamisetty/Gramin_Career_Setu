@@ -3,523 +3,458 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- SEO -->
-  <title>వర్క్‌షాప్ ఫలితాలు — Workshop Impact | Gramin Career Setu</title>
-  <meta name="description" content="గ్రామీణ యువత వర్క్‌షాప్ ఫలితాల డాష్‌బోర్డ్ — View before and after survey results from village career guidance sessions." />
-  <meta name="theme-color" content="#1b5e20" />
-
-  <!-- PWA -->
+  <meta name="theme-color" content="#1B4D3E" />
+  <title>ప్రభావ విశ్లేషణ — Impact Dashboard | Gramin Career Setu</title>
+  <meta name="description" content="Tracking our community impact across rural villages. మన ప్రభావాన్ని కొలుస్తూ.. మెరుగైన భవిష్యత్తును నిర్మిద్దాం." />
   <link rel="manifest" href="manifest.json" />
 
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
   <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
   <link rel="stylesheet" href="assets/style.css" />
-
-  <!-- Chart.js (cdnjs) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-
-  <style>
-    /* Dedicated layout for CSP Report Presentation Screenshots */
-    .dashboard-container {
-      max-width: 950px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-    
-    .report-card {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      border-top: 6px solid #1b5e20;
-      padding: 30px;
-      margin-bottom: 35px;
-    }
-    
-    .report-header {
-      border-bottom: 2px solid #e8f5e9;
-      padding-bottom: 20px;
-      margin-bottom: 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    
-    .report-title-area h2 {
-      color: #1b5e20;
-      font-size: 1.8rem;
-      margin: 0 0 5px 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    
-    .report-subtitle {
-      color: #555;
-      font-size: 1rem;
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    
-    .badge-report {
-      background: #e8f5e9;
-      color: #1b5e20;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 5px solid #fbc02d; /* Gold accent */
-    }
-
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .meta-label {
-      font-size: 0.8rem;
-      color: #666;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      font-weight: 700;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    .meta-value {
-      font-size: 1.1rem;
-      color: #222;
-      font-weight: 700;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    .chart-box {
-      border: 1px solid #e8f5e9;
-      border-radius: 10px;
-      padding: 20px;
-      background: #fafafa;
-      margin-bottom: 30px;
-    }
-
-    .chart-container {
-      position: relative;
-      height: 380px;
-      width: 100%;
-    }
-
-    .stats-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .stat-box {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 20px;
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .stat-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-
-    .stat-comparison {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .stat-number {
-      font-size: 1.8rem;
-      font-weight: 800;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    .stat-number.before {
-      color: #d32f2f;
-      text-decoration: line-through;
-      opacity: 0.55;
-      font-size: 1.3rem;
-    }
-
-    .stat-number.after {
-      color: #1b5e20;
-    }
-
-    .stat-arrow {
-      color: #666;
-      font-size: 1.2rem;
-    }
-
-    .stat-growth {
-      margin-left: auto;
-      background: #e8f5e9;
-      color: #1b5e20;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      font-weight: bold;
-    }
-
-    .stat-growth.infinite {
-      background: #e3f2fd;
-      color: #1565c0;
-    }
-
-    @media (max-width: 600px) {
-      .report-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .badge-report {
-        align-self: flex-start;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
 </head>
 
-<body>
-  <!-- Skip to content (a11y) -->
+<body class="gcs-landing-page">
   <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
 
   <!-- ============================================================
-       HEADER
+       HEADER / NAVIGATION BAR
        ============================================================ -->
-  <header class="site-header" role="banner">
-    <div class="header-inner">
-      <button type="button" class="lang-toggle" id="langToggleBtn" aria-label="Switch language">
-        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
-        <span data-lang-key="lang-toggle">EN</span>
-      </button>
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
 
-      <h1 class="site-title">గ్రామీణ కెరీర్ సేతు</h1>
-      <p class="site-subtitle" data-lang-key="results-page-banner">వర్క్‌షాప్ ఇంపాక్ట్ డాష్‌బోర్డ్</p>
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="#" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
+            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
   <!-- ============================================================
-       MAIN CONTENT
+       MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="main-content dashboard-container" id="main">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
     
-    <div class="report-card">
-      <!-- Report Header -->
-      <div class="report-header">
-        <div class="report-title-area">
-          <h2>గ్రామీణ కెరీర్ సేతు — ఇంపాక్ట్ డాష్‌బోర్డ్</h2>
-          <p class="report-subtitle">Gramin Career Setu — Village Workshop Awareness Analysis</p>
-        </div>
-        <span class="badge-report">CSP Evidence / నివేదిక సాక్ష్యం</span>
+    <!-- Breadcrumb & Timeframe Selector -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+      <nav class="gcs-breadcrumb" style="margin-bottom: 0;" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="gcs-breadcrumb-sep">&gt;</span>
+        <span class="gcs-breadcrumb-current">Impact Dashboard</span>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <select style="padding: 6px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-weight: 600; font-size: 0.85rem; outline: none; background: #fff;">
+          <option>📅 All Time</option>
+          <option>Last 6 Months</option>
+          <option>This Year (2024)</option>
+        </select>
+        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 6px 12px; font-size: 0.85rem;">
+          <span class="material-symbols-outlined" style="font-size: 16px;">print</span>
+          <span>Print Report</span>
+        </button>
       </div>
-
-      <!-- Workshop Metadata Block (Editable via JS Object) -->
-      <div class="meta-grid">
-        <div class="meta-item">
-          <span class="meta-label">Total Participants / మొత్తం పాల్గొనేవారు</span>
-          <span class="meta-value" id="metaParticipants">—</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Workshop Dates / వర్క్‌షాప్ తేదీలు</span>
-          <span class="meta-value" id="metaDates">—</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Village Location / గ్రామము</span>
-          <span class="meta-value" id="metaLocation">—</span>
-        </div>
-      </div>
-
-      <!-- Chart.js Visualization -->
-      <div class="chart-box">
-        <div class="chart-container">
-          <canvas id="impactChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Comparison Metrics Cards -->
-      <div class="stats-summary-grid" id="statsGrid">
-        <!-- 1. Jobs Name -->
-        <div class="stat-box">
-          <span class="stat-title" id="titleMetric1">Name 3+ Jobs / 3+ ఉద్యోగాల పేర్లు చెప్పగలగడం</span>
-          <div class="stat-comparison">
-            <span class="stat-number before" id="beforeMetric1">—</span>
-            <span class="stat-arrow">→</span>
-            <span class="stat-number after" id="afterMetric1">—</span>
-            <span class="stat-growth" id="growthMetric1">—</span>
-          </div>
-        </div>
-
-        <!-- 2. Apply Online -->
-        <div class="stat-box">
-          <span class="stat-title" id="titleMetric2">Know Online Application / ఆన్‌లైన్ అప్లికేషన్ అవగాహన</span>
-          <div class="stat-comparison">
-            <span class="stat-number before" id="beforeMetric2">—</span>
-            <span class="stat-arrow">→</span>
-            <span class="stat-number after" id="afterMetric2">—</span>
-            <span class="stat-growth" id="growthMetric2">—</span>
-          </div>
-        </div>
-
-        <!-- 3. Digital Profile -->
-        <div class="stat-box">
-          <span class="stat-title" id="titleMetric3">Created Resume / డిజిటల్ ప్రొఫైల్ సృష్టి</span>
-          <div class="stat-comparison">
-            <span class="stat-number before" id="beforeMetric3">—</span>
-            <span class="stat-arrow">→</span>
-            <span class="stat-number after" id="afterMetric3">—</span>
-            <span class="stat-growth" id="growthMetric3">—</span>
-          </div>
-        </div>
-      </div>
-
     </div>
 
+    <!-- Hero Header Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px;">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">insights</span>
+          <span>Impact Dashboard</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Tracking our impact. Building better futures.</p>
+        <p class="gcs-page-hero-telugu">మన ప్రభావాన్ని కొలుస్తూ.. మెరుగైన భవిష్యత్తును నిర్మిద్దాం.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px;">
+        <img src="assets/impact-hero-growth.svg" alt="Impact Dashboard Growth" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Top 5 Stat Cards (5 Grid) -->
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px;">
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: 24px;">home</span>
+          <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">+12% mo</span>
+        </div>
+        <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;">2,458</div>
+        <div style="font-size: 0.78rem; color: #64748B;">Households Surveyed</div>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: #D97706; font-size: 24px;">groups</span>
+          <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">+18% mo</span>
+        </div>
+        <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;">1,356</div>
+        <div style="font-size: 0.78rem; color: #64748B;">Workshop Attendance</div>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 24px;">description</span>
+          <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">+15% mo</span>
+        </div>
+        <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;">842</div>
+        <div style="font-size: 0.78rem; color: #64748B;">Resumes Generated</div>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: #2563EB; font-size: 24px;">work</span>
+          <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">+20% mo</span>
+        </div>
+        <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;">1,102</div>
+        <div style="font-size: 0.78rem; color: #64748B;">Applications Sent</div>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: 24px;">star</span>
+          <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Total</span>
+        </div>
+        <div style="font-size: 1.45rem; font-weight: 800; color: var(--gcs-green-primary);">5,758</div>
+        <div style="font-size: 0.78rem; color: #64748B;">Lives Impacted</div>
+      </div>
+    </div>
+
+    <!-- Charts Row: Impact Overview Line Chart & Distribution Donut -->
+    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 28px;">
+      <!-- Line Chart Container -->
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0;">Impact Overview</h2>
+          <span style="font-size: 0.8rem; color: #64748B; font-weight: 600;">Last 6 Months</span>
+        </div>
+        
+        <!-- SVG Line Chart Mockup -->
+        <div style="height: 200px; width: 100%;">
+          <svg viewBox="0 0 500 200" style="width: 100%; height: 100%;">
+            <!-- Grid lines -->
+            <line x1="40" y1="30" x2="480" y2="30" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="80" x2="480" y2="80" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="130" x2="480" y2="130" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="170" x2="480" y2="170" stroke="#E2E8F0" stroke-width="1.5" />
+
+            <!-- Green Line: Households -->
+            <polyline fill="none" stroke="#059669" stroke-width="3" points="50,150 130,135 210,110 290,90 370,65 450,45" />
+            <!-- Yellow Line: Workshops -->
+            <polyline fill="none" stroke="#F59E0B" stroke-width="2.5" points="50,165 130,150 210,135 290,115 370,95 450,75" />
+            <!-- Blue Line: Resumes -->
+            <polyline fill="none" stroke="#2563EB" stroke-width="2.5" points="50,170 130,160 210,145 290,135 370,120 450,105" />
+
+            <!-- Labels -->
+            <text x="50" y="190" font-size="11" fill="#94A3B8">Dec</text>
+            <text x="130" y="190" font-size="11" fill="#94A3B8">Jan</text>
+            <text x="210" y="190" font-size="11" fill="#94A3B8">Feb</text>
+            <text x="290" y="190" font-size="11" fill="#94A3B8">Mar</text>
+            <text x="370" y="190" font-size="11" fill="#94A3B8">Apr</text>
+            <text x="450" y="190" font-size="11" fill="#94A3B8">May</text>
+          </svg>
+        </div>
+
+        <div style="display: flex; gap: 16px; font-size: 0.78rem; color: #64748B; justify-content: center; margin-top: 10px;">
+          <span><strong style="color: #059669;">●</strong> Households</span>
+          <span><strong style="color: #F59E0B;">●</strong> Workshops</span>
+          <span><strong style="color: #2563EB;">●</strong> Resumes</span>
+        </div>
+      </div>
+
+      <!-- Donut Chart Container -->
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+        <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Impact Distribution</h2>
+
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 140px; height: 140px; position: relative; flex-shrink: 0;">
+            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#059669" stroke-width="4.5" stroke-dasharray="40 60" stroke-dashoffset="0" />
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#F59E0B" stroke-width="4.5" stroke-dasharray="25 75" stroke-dashoffset="-40" />
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#7C3AED" stroke-width="4.5" stroke-dasharray="20 80" stroke-dashoffset="-65" />
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#2563EB" stroke-width="4.5" stroke-dasharray="15 85" stroke-dashoffset="-85" />
+            </svg>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+              <div style="font-size: 1.1rem; font-weight: 800; color: #0F172A;">5,758</div>
+              <div style="font-size: 0.65rem; color: #64748B;">Total Lives</div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 8px; flex: 1;">
+            <div style="display: flex; justify-content: space-between;"><span>🟢 Education &amp; Guidance</span> <strong>40%</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>🟡 Skill Development</span> <strong>25%</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>🟣 Employment Support</span> <strong>20%</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span>🔵 Other Support</span> <strong>15%</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Village Analytics & Recent Activities Grid -->
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 32px;">
+      <!-- Top Villages Table -->
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+        <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 14px 0;">Top Reached Villages</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1.5px solid #E2E8F0; color: #64748B;">
+              <th style="padding: 8px 6px;">Village</th>
+              <th style="padding: 8px 6px;">District</th>
+              <th style="padding: 8px 6px;">Score</th>
+              <th style="padding: 8px 6px; text-align: right;">Lives Impacted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #F1F5F9;">
+              <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">Gudur</td>
+              <td style="padding: 10px 6px; color: #64748B;">SPSR Nellore</td>
+              <td style="padding: 10px 6px;"><span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669;">20/20</span></td>
+              <td style="padding: 10px 6px; text-align: right; font-weight: 700; color: #059669;">650</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9;">
+              <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">Penumaka</td>
+              <td style="padding: 10px 6px; color: #64748B;">Vijayawada Rural</td>
+              <td style="padding: 10px 6px;"><span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669;">18/20</span></td>
+              <td style="padding: 10px 6px; text-align: right; font-weight: 700; color: #059669;">520</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9;">
+              <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">Tenali</td>
+              <td style="padding: 10px 6px; color: #64748B;">Guntur</td>
+              <td style="padding: 10px 6px;"><span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB;">16/20</span></td>
+              <td style="padding: 10px 6px; text-align: right; font-weight: 700; color: #059669;">480</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9;">
+              <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">Nuzvid</td>
+              <td style="padding: 10px 6px; color: #64748B;">Eluru</td>
+              <td style="padding: 10px 6px;"><span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706;">15/20</span></td>
+              <td style="padding: 10px 6px; text-align: right; font-weight: 700; color: #059669;">410</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">Bapulapadu</td>
+              <td style="padding: 10px 6px; color: #64748B;">Krishna</td>
+              <td style="padding: 10px 6px;"><span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706;">14/20</span></td>
+              <td style="padding: 10px 6px; text-align: right; font-weight: 700; color: #059669;">390</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recent Activities & Beneficiary Review -->
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0;">Recent Activities</h3>
+          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 8px;">
+            <div>📌 Resume workshop conducted in Tenali village <span style="color: #94A3B8;">(2h ago)</span></div>
+            <div>💼 15 new job opportunities added <span style="color: #94A3B8;">(5h ago)</span></div>
+            <div>🎓 Career guidance drive in Gudur <span style="color: #94A3B8;">(1d ago)</span></div>
+          </div>
+        </div>
+
+        <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 16px; padding: 20px;">
+          <div style="color: #059669; font-size: 0.85rem; font-weight: 800; margin-bottom: 4px;">Beneficiary Feedback</div>
+          <div style="color: #F59E0B; font-size: 0.8rem; margin-bottom: 6px;">★★★★★</div>
+          <p style="font-size: 0.8rem; color: #064E3B; font-style: italic; margin: 0 0 10px 0;">
+            "ఈ ప్లాట్‌ఫారమ్ వల్ల నాకు సరైన మార్గదర్శనం లభించింది. ఇప్పుడు నేను APPSC గ్రూప్ 2 సాధించాను."
+          </p>
+          <div style="font-size: 0.75rem; font-weight: 700; color: #047857;">— Lalitha Kumari, Vijayawada Rural</div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- ============================================================
-       BOTTOM NAVIGATION
+       FOOTER (5 Columns)
        ============================================================ -->
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="index.html" class="bottom-nav__link" id="navHome">
-      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
-      <span data-lang-key="nav-home">హోమ్</span>
-    </a>
-    <a href="jobs.html" class="bottom-nav__link" id="navJobs">
-      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
-      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
-    </a>
-    <a href="quiz.html" class="bottom-nav__link" id="navQuiz">
-      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
-      <span data-lang-key="nav-quiz">క్విజ్</span>
-    </a>
-    <a href="resume.html" class="bottom-nav__link" id="navResume">
-      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
-      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
-    </a>
-  </nav>
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="Facebook">
+              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="YouTube">
+              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="Instagram">
+              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
+            </a>
+          </div>
+        </div>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <p data-lang-key="footer-text">❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది</p>
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="resources.html" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <!-- ============================================================
-       SCRIPTS
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
        ============================================================ -->
-  <script src="assets/script.js"></script>
-  
-  <script>
-    // ════════════════════════════════════════════════════════════════
-    //  EDITABLE WORKSHOP DATA (Plug in your real survey numbers below)
-    // ════════════════════════════════════════════════════════════════
-    const WORKSHOP_DATA = {
-      // Summary information
-      totalParticipants: 45,
-      workshopDates: "July 10 - July 12, 2026",
-      location: "Peddapalli Village, Andhra Pradesh",
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="results.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">insights</span>
+      <span>Impact</span>
+    </a>
+  </nav>
 
-      // Survey metrics (Before vs After workshop counts)
-      metrics: {
-        // Metric 1: Can name 3+ jobs
-        nameJobs: {
-          labelEn: "Can Name 3+ Job Roles / Opportunities",
-          labelTe: "3 కంటే ఎక్కువ ఉద్యోగ అవకాశాల పేర్లు చెప్పగలగడం",
-          before: 12,
-          after: 42
-        },
-        // Metric 2: Know how to apply online
-        applyOnline: {
-          labelEn: "Know How to Search & Apply Online",
-          labelTe: "ఉద్యోగాలకు ఆన్‌లైన్‌లో అప్లై చేయడం తెలవడం",
-          before: 5,
-          after: 38
-        },
-        // Metric 3: Created a digital profile/resume
-        createResume: {
-          labelEn: "Created a Digital Profile or PDF Resume",
-          labelTe: "ఆన్‌లైన్ డిజిటల్ ప్రొఫైల్ లేదా రెజ్యూమ్ సృష్టించడం",
-          before: 0,
-          after: 35
-        }
-      }
-    };
-
-    // ════════════════════════════════════════════════════════════════
-    //  DASHBOARD RENDER ENGINE
-    // ════════════════════════════════════════════════════════════════
-    (() => {
-      'use strict';
-
-      function initDashboard() {
-        // ── 1. Populate Text Blocks ──
-        document.getElementById('metaParticipants').textContent = WORKSHOP_DATA.totalParticipants + " Youth / యువత";
-        document.getElementById('metaDates').textContent = WORKSHOP_DATA.workshopDates;
-        document.getElementById('metaLocation').textContent = WORKSHOP_DATA.location;
-
-        // Populate Cards & Calculate Growth
-        setupStatCard('Metric1', WORKSHOP_DATA.metrics.nameJobs);
-        setupStatCard('Metric2', WORKSHOP_DATA.metrics.applyOnline);
-        setupStatCard('Metric3', WORKSHOP_DATA.metrics.createResume);
-
-        // ── 2. Render Chart.js Grouped Bar Chart ──
-        renderChart();
-      }
-
-      function setupStatCard(elementId, metric) {
-        const titleEl  = document.getElementById('title' + elementId);
-        const beforeEl = document.getElementById('before' + elementId);
-        const afterEl  = document.getElementById('after' + elementId);
-        const growthEl = document.getElementById('growth' + elementId);
-
-        // Set bilingual title
-        titleEl.innerHTML = `${metric.labelEn}<br><small style="color: #666; font-weight: normal;">${metric.labelTe}</small>`;
-        
-        beforeEl.textContent = metric.before;
-        afterEl.textContent = metric.after;
-
-        // Calculate and show growth %
-        if (metric.before === 0) {
-          growthEl.textContent = `+${metric.after} New`;
-          growthEl.classList.add('infinite');
-        } else {
-          const percentIncrease = Math.round(((metric.after - metric.before) / metric.before) * 100);
-          growthEl.textContent = `+${percentIncrease}%`;
-          growthEl.classList.remove('infinite');
-        }
-      }
-
-      function renderChart() {
-        const ctx = document.getElementById('impactChart').getContext('2d');
-        
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: [
-              ['Name 3+ Jobs', '3+ ఉద్యోగాల పరిజ్ఞానం'],
-              ['Apply Online', 'ఆన్‌లైన్ అప్లికేషన్'],
-              ['Created Resume', 'రెజ్యూమ్ సృష్టి']
-            ],
-            datasets: [
-              {
-                label: 'Before Workshop (ముందు)',
-                data: [
-                  WORKSHOP_DATA.metrics.nameJobs.before,
-                  WORKSHOP_DATA.metrics.applyOnline.before,
-                  WORKSHOP_DATA.metrics.createResume.before
-                ],
-                backgroundColor: 'rgba(211, 47, 47, 0.75)', // red
-                borderColor: 'rgb(211, 47, 47)',
-                borderWidth: 1.5,
-                borderRadius: 4
-              },
-              {
-                label: 'After Workshop (తర్వాత)',
-                data: [
-                  WORKSHOP_DATA.metrics.nameJobs.after,
-                  WORKSHOP_DATA.metrics.applyOnline.after,
-                  WORKSHOP_DATA.metrics.createResume.after
-                ],
-                backgroundColor: 'rgba(27, 94, 32, 0.85)', // theme green (#1b5e20)
-                borderColor: 'rgb(27, 94, 32)',
-                borderWidth: 1.5,
-                borderRadius: 4
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'top',
-                labels: {
-                  font: {
-                    family: 'system-ui, -apple-system, sans-serif',
-                    size: 13,
-                    weight: 'bold'
-                  },
-                  color: '#333'
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return ' ' + context.dataset.label.split(' ')[0] + ': ' + context.raw + ' youth';
-                  }
-                }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                max: Math.ceil(WORKSHOP_DATA.totalParticipants * 1.1),
-                ticks: {
-                  stepSize: 5,
-                  color: '#555',
-                  font: {
-                    family: 'system-ui, -apple-system, sans-serif',
-                    size: 11
-                  }
-                },
-                grid: {
-                  color: 'rgba(0, 0, 0, 0.05)'
-                },
-                title: {
-                  display: true,
-                  text: 'Number of Youth / యువకుల సంఖ్య',
-                  color: '#333',
-                  font: {
-                    weight: 'bold',
-                    size: 12
-                  }
-                }
-              },
-              x: {
-                ticks: {
-                  color: '#333',
-                  font: {
-                    family: 'system-ui, -apple-system, sans-serif',
-                    size: 12,
-                    weight: 'bold'
-                  }
-                },
-                grid: {
-                  display: false
-                }
-              }
-            }
-          }
-        });
-      }
-
-      // Initialise once DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDashboard);
-      } else {
-        initDashboard();
-      }
-    })();
-  </script>
+  <script src="assets/landing.js"></script>
 </body>
 </html>

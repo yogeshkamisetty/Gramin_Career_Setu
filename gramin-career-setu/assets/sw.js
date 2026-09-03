@@ -3,24 +3,70 @@
  * Offline caching for PWA support
  */
 
-const CACHE_NAME = 'gcs-cache-v1';
+const CACHE_NAME = 'gcs-cache-v10';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './careers.html',
+  './career-detail.html',
   './jobs.html',
+  './job-detail.html',
   './quiz.html',
-  './results.html',
+  './quiz-results.html',
   './resume.html',
+  './resume-preview.html',
+  './workshops.html',
+  './resources.html',
+  './scholarships.html',
+  './schemes.html',
+  './roadmap.html',
+  './stories.html',
+  './about.html',
+  './profile.html',
+  './results.html',
+  './admin/index.html',
+  './assets/tokens.css',
   './assets/style.css',
+  './assets/landing.css',
+  './assets/landing.js',
+  './assets/i18n.js',
+  './assets/app.js',
+  './assets/resume-builder-engine.js',
+  './assets/hero-crossroads.jpg',
+  './assets/career-explorer-hero.jpg',
+  './assets/quiz-hero-student.jpg',
+  './assets/quiz-results-student.jpg',
+  './assets/jobs-hero-student.jpg',
+  './assets/resume-hero-clipboard.jpg',
+  './assets/resume-avatar-ravi.jpg',
+  './assets/workshops-hero-class.jpg',
+  './assets/resources-hero-folder.svg',
+  './assets/stories-hero-trophy.svg',
+  './assets/impact-hero-growth.svg',
+  './assets/about-hero-students.svg',
+  './assets/job-detail-developer.svg',
+  './assets/scholarships-hero-cap.svg',
+  './assets/schemes-hero-citizens.svg',
+  './assets/roadmap-hero-explorer.svg',
+  './assets/career-software.jpg',
+  './assets/career-civil.jpg',
+  './assets/career-teacher.jpg',
+  './assets/career-police.jpg',
+  './assets/career-bank.jpg',
+  './assets/career-agriculture.jpg',
+  './assets/profile-ramesh.jpg',
+  './assets/profile-lalitha.jpg',
+  './assets/profile-suresh.jpg',
   './assets/script.js',
   './assets/quiz.js',
   './assets/resume.js',
-  './manifest.json',
+  './assets/saas.css',
+  './assets/career-data.js',
+  './assets/profile.js',
+  './assets/roadmap.js',
+  './assets/jspdf.umd.min.js',
   './data/lang.json',
-  './assets/icon-192.png',
-  './assets/icon-512.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
+  './data/jobs.csv',
 ];
 
 // ── Install Event: Pre-cache static assets and external CDNs ──
@@ -29,10 +75,9 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('[Service Worker] Pre-caching core assets and CDNs...');
-        // We use map & Promise.allSettled or cache.addAll to cache.
-        // If one fails, we still want the rest to be cached, but cache.addAll fails if any item fails.
-        // To be safe, we will add them all. If they are locally hosted, they should succeed.
-        return cache.addAll(ASSETS_TO_CACHE);
+        // Cache each asset independently: one optional/missing file must not
+        // make the entire offline install fail.
+        return Promise.allSettled(ASSETS_TO_CACHE.map(asset => cache.add(asset)));
       })
       .then(() => self.skipWaiting())
       .catch(err => console.error('[Service Worker] Caching failed during install:', err))

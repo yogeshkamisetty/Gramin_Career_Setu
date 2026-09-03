@@ -3,591 +3,588 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- SEO -->
-  <title>ఉద్యోగ సమాచారం — Job Information | Gramin Career Setu</title>
-  <meta name="description" content="గ్రామీణ యువతకు ఉద్యోగ అవకాశాలు — Browse government, ITI, BPO and business jobs for rural youth." />
-  <meta name="theme-color" content="#1b5e20" />
-
-  <!-- PWA -->
+  <meta name="theme-color" content="#1B4D3E" />
+  <title>ఉద్యోగ అవకాశాలు — Job Opportunities | Gramin Career Setu</title>
+  <meta name="description" content="Discover the right job opportunities near you. మీ ప్రాంతంలో సరిపోయే ఉద్యోగాలను కనుగొనండి." />
   <link rel="manifest" href="manifest.json" />
 
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
   <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
   <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
 </head>
 
-<body>
-  <!-- Skip to content (a11y) -->
+<body class="gcs-landing-page">
   <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
 
   <!-- ============================================================
-       HEADER
+       HEADER / NAVIGATION BAR
        ============================================================ -->
-  <header class="site-header" role="banner">
-    <div class="header-inner">
-      <button type="button" class="lang-toggle" id="langToggleBtn" aria-label="Switch language">
-        <span class="lang-toggle-icon" aria-hidden="true">🌐</span>
-        <span data-lang-key="lang-toggle">EN</span>
-      </button>
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
 
-      <h1 class="site-title" data-lang-key="jobs-page-title">ఉద్యోగ సమాచారం</h1>
-      <p class="site-subtitle" data-lang-key="jobs-page-subtitle">అందుబాటులో ఉన్న అవకాశాలు</p>
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link active" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
+            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- ============================================================
-       MAIN CONTENT
-       ============================================================ -->
-  <main class="main-content" id="main">
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
 
-    <!-- ── Toolbar: Search + Filters ── -->
-    <div class="jobs-toolbar">
-      <!-- Search -->
-      <div class="search-box">
-        <span class="search-box__icon" aria-hidden="true">🔍</span>
-        <input
-          type="search"
-          class="search-box__input"
-          id="jobSearchInput"
-          placeholder="ఉద్యోగం కోసం వెతకండి…"
-          data-lang-placeholder="jobs-search-placeholder"
-          autocomplete="off"
-        />
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Jobs</span>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="gcs-page-hero">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">work</span>
+          <span>Job Opportunities</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Discover the right job opportunities near you.</p>
+        <p class="gcs-page-hero-telugu">మీ ప్రాంతంలో సరిపోయే ఉద్యోగాలను కనుగొనండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px;">
+        <img src="assets/jobs-hero-student.jpg" alt="Student searching jobs" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Search & Location Row -->
+    <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 18px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.2fr auto; gap: 12px; align-items: center;">
+        <div style="position: relative;">
+          <input type="text" id="jobSearchInput" placeholder="Search jobs by title, company or skills..." style="width: 100%; padding: 10px 14px 10px 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none;" oninput="filterJobList()" />
+          <span class="material-symbols-outlined" style="position: absolute; left: 10px; top: 10px; font-size: 20px; color: #94A3B8;">search</span>
+        </div>
+
+        <div>
+          <select id="jobLocSelect" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none; background: #fff;" onchange="filterJobList()">
+            <option value="all">📍 All Locations</option>
+            <option value="Hyderabad">Hyderabad, Telangana</option>
+            <option value="Bengaluru">Bengaluru, Karnataka</option>
+            <option value="Amaravati">Amaravati, AP</option>
+            <option value="Chennai">Chennai, Tamil Nadu</option>
+            <option value="Remote">Remote / Work From Home</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="jobCatSelect" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none; background: #fff;" onchange="filterJobList()">
+            <option value="all">💼 All Categories</option>
+            <option value="Software">Software &amp; IT</option>
+            <option value="Government">Government PSUs</option>
+            <option value="Banking">Banking &amp; Finance</option>
+            <option value="Internship">Internships</option>
+          </select>
+        </div>
+
+        <button type="button" class="gcs-btn-cta-1" style="padding: 10px 24px; border: none; cursor: pointer; white-space: nowrap;" onclick="filterJobList()">Search</button>
+      </div>
+    </div>
+
+    <!-- Filter Pills & Sorting Row -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="gcs-pill-tag active" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 6px 14px;" onclick="setPill('all', this)">All Jobs</button>
+        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Full Time', this)">Full Time</button>
+        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Internship', this)">Internship</button>
+        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Part Time', this)">Part Time</button>
+        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Remote', this)">Work From Home</button>
       </div>
 
-      <!-- Filter Pills -->
-      <ul class="filter-pills" id="filterPills" role="tablist" aria-label="Filter by category">
-        <li role="presentation">
-          <button class="filter-pill filter-pill--active" role="tab" aria-selected="true" data-filter="all" id="filterAll">
-            <span class="filter-pill__icon" aria-hidden="true">📋</span>
-            <span data-lang-key="filter-all">అన్నీ</span>
-            <span class="filter-pill__count" id="countAll">0</span>
-          </button>
-        </li>
-        <li role="presentation">
-          <button class="filter-pill" role="tab" aria-selected="false" data-filter="government" id="filterGovt">
-            <span class="filter-pill__icon" aria-hidden="true">🏛️</span>
-            <span data-lang-key="filter-government">ప్రభుత్వం</span>
-            <span class="filter-pill__count" id="countGovt">0</span>
-          </button>
-        </li>
-        <li role="presentation">
-          <button class="filter-pill" role="tab" aria-selected="false" data-filter="iti" id="filterIti">
-            <span class="filter-pill__icon" aria-hidden="true">🔧</span>
-            <span data-lang-key="filter-iti">ITI</span>
-            <span class="filter-pill__count" id="countIti">0</span>
-          </button>
-        </li>
-        <li role="presentation">
-          <button class="filter-pill" role="tab" aria-selected="false" data-filter="bpo" id="filterBpo">
-            <span class="filter-pill__icon" aria-hidden="true">📞</span>
-            <span data-lang-key="filter-bpo">BPO</span>
-            <span class="filter-pill__count" id="countBpo">0</span>
-          </button>
-        </li>
-        <li role="presentation">
-          <button class="filter-pill" role="tab" aria-selected="false" data-filter="business" id="filterBiz">
-            <span class="filter-pill__icon" aria-hidden="true">💰</span>
-            <span data-lang-key="filter-business">వ్యాపారం</span>
-            <span class="filter-pill__count" id="countBiz">0</span>
-          </button>
-        </li>
-      </ul>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #64748B;">
+        <span>Sort by:</span>
+        <select style="padding: 6px 10px; border-radius: 8px; border: 1px solid #CBD5E1; outline: none; font-weight: 600;">
+          <option>Newest</option>
+          <option>Highest Salary</option>
+          <option>Closing Soon</option>
+        </select>
+      </div>
     </div>
 
-    <!-- ── State: Loading ── -->
-    <div class="state-loading" id="stateLoading">
-      <div class="spinner" aria-hidden="true"></div>
-      <p class="state-loading__text" data-lang-key="jobs-loading">ఉద్యోగాలు లోడ్ అవుతున్నాయి…</p>
+    <!-- Get Job Alerts Banner -->
+    <section class="gcs-banner-callout" style="background: #F8FAFC; border-color: #E2E8F0; margin-bottom: 24px; padding: 14px 20px;">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: #F1F5F9; color: var(--gcs-green-primary); width: 40px; height: 40px;">
+          <span class="material-symbols-outlined" style="font-size: 20px;">notifications_active</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="font-size: 0.95rem; color: #0F172A;">Get job alerts</h3>
+          <p class="gcs-banner-callout-sub" style="font-size: 0.82rem; color: #64748B;">Subscribe to get notified about new job openings that match your profile.</p>
+        </div>
+      </div>
+      <button type="button" class="gcs-btn-cta-2" onclick="alert('Job alerts active for your profile!')" style="padding: 6px 16px; font-size: 0.85rem;">Subscribe</button>
+    </section>
+
+    <!-- 124 Jobs Found Count -->
+    <div style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 16px;" id="jobsTotalCount">
+      124 Jobs Found
     </div>
 
-    <!-- ── State: Error ── -->
-    <div class="state-error" id="stateError" style="display: none;">
-      <div class="state-error__icon" aria-hidden="true">⚠️</div>
-      <h3 class="state-error__title" data-lang-key="jobs-error-title">లోడ్ చేయడంలో సమస్య</h3>
-      <p class="state-error__desc" data-lang-key="jobs-error-desc">డేటా లోడ్ చేయడంలో సమస్య ఏర్పడింది. దయచేసి మీ ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేసి మళ్ళీ ప్రయత్నించండి.</p>
-      <button class="btn-retry" id="btnRetry">
-        <span aria-hidden="true">🔄</span>
-        <span data-lang-key="jobs-retry">మళ్ళీ ప్రయత్నించండి</span>
-      </button>
+    <!-- Job Cards List (Detailed Cards) -->
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;" id="jobsFeed">
+      
+      <!-- Card 1: TCS Software Developer -->
+      <article class="job-item-card" data-loc="Hyderabad" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; border: 1px solid #FECDD3;">
+              tcs
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Software Developer</h3>
+              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Tata Consultancy Services <span style="color: #059669;">✔</span></div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.78rem; color: #94A3B8;">2h ago</span>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" onclick="alert('Bookmarked!')"><span class="material-symbols-outlined">bookmark_border</span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;">Full Time</span>
+          <span class="gcs-pill-tag" style="background: #F1F5F9; color: #475569; font-size: 0.75rem;">On-site</span>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+          <span>0–2 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Hyderabad, Telangana</span>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
+          Work on cutting-edge technologies and build scalable software solutions with our enterprise team.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Java</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Spring Boot</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">React</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
+          </div>
+          <a href="job-detail.html?job=tcs-software-developer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;">View Details</a>
+        </div>
+      </article>
+
+      <!-- Card 2: Infosys System Engineer -->
+      <article class="job-item-card" data-loc="Remote" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; border: 1px solid #BFDBFE;">
+              Infosys
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">System Engineer</h3>
+              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Infosys Limited</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.78rem; color: #94A3B8;">4h ago</span>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" onclick="alert('Bookmarked!')"><span class="material-symbols-outlined">bookmark_border</span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;">Full Time</span>
+          <span class="gcs-pill-tag" style="background: #FAF5FF; color: #7C3AED; font-size: 0.75rem;">Work From Home</span>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+          <span>0–3 Yrs Exp</span> • <span>B.E / B.Tech</span> • <span>Pune / Remote</span>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
+          Join our global team and work on innovative cloud and enterprise technology projects.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Java</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">C++</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
+          </div>
+          <a href="job-detail.html?job=infosys-system-engineer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;">View Details</a>
+        </div>
+      </article>
+
+      <!-- Card 3: Wipro Associate Software Engineer -->
+      <article class="job-item-card" data-loc="Bengaluru" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #F0FDF4; color: #166534; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; border: 1px solid #BBF7D0;">
+              Wipro
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Associate Software Engineer</h3>
+              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Wipro Limited</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.78rem; color: #94A3B8;">6h ago</span>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" onclick="alert('Bookmarked!')"><span class="material-symbols-outlined">bookmark_border</span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;">Full Time</span>
+          <span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706; font-size: 0.75rem;">Hybrid</span>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+          <span>0–2 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Bengaluru, Karnataka</span>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
+          Opportunity to work on real-world projects with global clients across modern tech stacks.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Django</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">HTML</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">CSS</span>
+          </div>
+          <a href="job-detail.html?job=wipro-associate-engineer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;">View Details</a>
+        </div>
+      </article>
+
+      <!-- Card 4: Accenture Software Analyst -->
+      <article class="job-item-card" data-loc="Chennai" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FAF5FF; color: #7E22CE; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; border: 1px solid #E9D5FF;">
+              &gt;
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Software Engineering Analyst</h3>
+              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Accenture</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.78rem; color: #94A3B8;">1d ago</span>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" onclick="alert('Bookmarked!')"><span class="material-symbols-outlined">bookmark_border</span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;">Full Time</span>
+          <span class="gcs-pill-tag" style="background: #F1F5F9; color: #475569; font-size: 0.75rem;">On-site</span>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+          <span>0–3 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Chennai, Tamil Nadu</span>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
+          Collaborate with cross-functional teams to deliver best-in-class digital solutions.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">AWS</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Communication</span>
+          </div>
+          <a href="job-detail.html?job=accenture-analyst" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;">View Details</a>
+        </div>
+      </article>
+
+      <!-- Card 5: Zoho Product Intern -->
+      <article class="job-item-card" data-loc="Remote" data-type="Internship" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; border: 1px solid #FDE68A;">
+              Zoho
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Product Intern</h3>
+              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Zoho Corporation</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.78rem; color: #94A3B8;">1d ago</span>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" onclick="alert('Bookmarked!')"><span class="material-symbols-outlined">bookmark_border</span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706; font-size: 0.75rem;">Internship</span>
+          <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB; font-size: 0.75rem;">Remote</span>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+          <span>0–1 Yrs Exp</span> • <span>Any Graduate</span> • <span>Remote</span>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
+          Learn and contribute to our product development team while mastering software lifecycles.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Product Management</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Analytics</span>
+            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Communication</span>
+          </div>
+          <a href="job-detail.html?job=zoho-intern" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;">View Details</a>
+        </div>
+      </article>
     </div>
 
-    <!-- ── State: Empty (no matching results) ── -->
-    <div class="state-empty" id="stateEmpty" style="display: none;">
-      <div class="state-empty__icon" aria-hidden="true">🔍</div>
-      <h3 class="state-empty__title" data-lang-key="jobs-empty-title">ఫలితాలు లేవు</h3>
-      <p class="state-empty__desc" data-lang-key="jobs-empty-desc">ఈ ఫిల్టర్‌కు సరిపోయే ఉద్యోగాలు లేవు. వేరే ఫిల్టర్ ప్రయత్నించండి.</p>
+    <!-- Pagination Row -->
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 40px;">
+      <button type="button" class="gcs-btn-cta-2" style="padding: 6px 12px; font-size: 0.82rem;">&larr; Previous</button>
+      <button type="button" class="gcs-pill-tag active" style="background: var(--gcs-green-primary); color: #fff; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px;">1</button>
+      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;">2</button>
+      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;">3</button>
+      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;">4</button>
+      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;">5</button>
+      <span style="color: #94A3B8;">...</span>
+      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer;">13</button>
+      <button type="button" class="gcs-btn-cta-2" style="padding: 6px 12px; font-size: 0.82rem;">Next &rarr;</button>
     </div>
-
-    <!-- ── Job Cards Container ── -->
-    <div class="job-list" id="jobList" role="list" style="display: none;"></div>
-
-    <!-- ── Results Count ── -->
-    <p class="results-count" id="resultsCount" style="display: none;"></p>
-
   </main>
 
   <!-- ============================================================
-       BOTTOM NAVIGATION
+       FOOTER (5 Columns)
        ============================================================ -->
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="index.html" class="bottom-nav__link" id="navHome">
-      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
-      <span data-lang-key="nav-home">హోమ్</span>
-    </a>
-    <a href="jobs.html" class="bottom-nav__link bottom-nav__link--active" id="navJobs" aria-current="page">
-      <span class="bottom-nav__icon" aria-hidden="true">💼</span>
-      <span data-lang-key="nav-jobs">ఉద్యోగాలు</span>
-    </a>
-    <a href="quiz.html" class="bottom-nav__link" id="navQuiz">
-      <span class="bottom-nav__icon" aria-hidden="true">📝</span>
-      <span data-lang-key="nav-quiz">క్విజ్</span>
-    </a>
-    <a href="resume.html" class="bottom-nav__link" id="navResume">
-      <span class="bottom-nav__icon" aria-hidden="true">📄</span>
-      <span data-lang-key="nav-resume">రెజ్యూమ్</span>
-    </a>
-  </nav>
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="Facebook">
+              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="YouTube">
+              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
+            </a>
+            <a href="#" class="gcs-social-link" title="Instagram">
+              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
+            </a>
+          </div>
+        </div>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <p data-lang-key="footer-text">❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది</p>
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <!-- ============================================================
-       SCRIPTS
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
        ============================================================ -->
-  <!-- Shared utilities (I18n, fetchSheetWithCache, CSV parser) -->
-  <script src="assets/script.js"></script>
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
 
-  <!-- Jobs page logic -->
+  <!-- Interactive Search & Filtering Scripts -->
   <script>
-  (() => {
-    'use strict';
+    let activePill = 'all';
 
-    // ── Constants ──
-    const CACHE_KEY = 'gcs-jobs-csv';
-
-    // ── Demo Data (used when both network + cache fail) ──
-    const DEMO_JOBS = [
-      {
-        job_id: 'D1',
-        title_te: 'విలేజ్ రెవెన్యూ ఆఫీసర్ (VRO)',
-        title_en: 'Village Revenue Officer (VRO)',
-        category: 'government',
-        qualification: '10th / Intermediate',
-        exam_name: 'APPSC Group-IV',
-        where_to_apply: 'https://psc.ap.gov.in',
-        salary_range: '₹21,000 – ₹38,000',
-        prep_time: '3 – 6 months',
-        free_resource: 'https://www.youtube.com/@sakshieducation'
-      },
-      {
-        job_id: 'D2',
-        title_te: 'పోస్టల్ అసిస్టెంట్',
-        title_en: 'Postal Assistant',
-        category: 'government',
-        qualification: '12th Pass',
-        exam_name: 'India Post GDS Exam',
-        where_to_apply: 'https://indiapostgdsonline.gov.in',
-        salary_range: '₹12,000 – ₹25,000',
-        prep_time: '2 – 4 months',
-        free_resource: 'https://www.youtube.com/@adaborakesarreddy'
-      },
-      {
-        job_id: 'D3',
-        title_te: 'ఎలక్ట్రీషియన్ (ITI)',
-        title_en: 'Electrician (ITI)',
-        category: 'iti',
-        qualification: 'ITI Electrician Trade',
-        exam_name: 'NCVT / SCVT',
-        where_to_apply: 'https://ncvtmis.gov.in',
-        salary_range: '₹10,000 – ₹20,000',
-        prep_time: '2 years (ITI course)',
-        free_resource: 'https://www.youtube.com/@TechnicalRahulAdda'
-      },
-      {
-        job_id: 'D4',
-        title_te: 'ఫిట్టర్ (ITI)',
-        title_en: 'Fitter (ITI)',
-        category: 'iti',
-        qualification: 'ITI Fitter Trade',
-        exam_name: 'NCVT / SCVT',
-        where_to_apply: 'https://ncvtmis.gov.in',
-        salary_range: '₹10,000 – ₹18,000',
-        prep_time: '2 years (ITI course)',
-        free_resource: 'https://www.youtube.com/@LearnVocational'
-      },
-      {
-        job_id: 'D5',
-        title_te: 'కస్టమర్ సపోర్ట్ ఎగ్జిక్యూటివ్',
-        title_en: 'Customer Support Executive',
-        category: 'bpo',
-        qualification: 'Intermediate / Degree',
-        exam_name: 'Company Interview',
-        where_to_apply: 'https://www.naukri.com',
-        salary_range: '₹12,000 – ₹22,000',
-        prep_time: '1 month (English & soft skills)',
-        free_resource: 'https://www.youtube.com/@EngVarta'
-      },
-      {
-        job_id: 'D6',
-        title_te: 'డేటా ఎంట్రీ ఆపరేటర్',
-        title_en: 'Data Entry Operator',
-        category: 'bpo',
-        qualification: '10th + Typing Skills',
-        exam_name: 'Typing Test',
-        where_to_apply: 'https://www.indeed.co.in',
-        salary_range: '₹8,000 – ₹15,000',
-        prep_time: '1 – 2 months',
-        free_resource: 'https://www.typingclub.com'
-      },
-      {
-        job_id: 'D7',
-        title_te: 'కిరాణా షాప్ / రిటైల్ స్టోర్',
-        title_en: 'Kirana Shop / Retail Store',
-        category: 'business',
-        qualification: 'No formal qualification',
-        exam_name: 'N/A',
-        where_to_apply: 'https://mudra.org.in',
-        salary_range: '₹15,000 – ₹50,000+ (profit)',
-        prep_time: 'Start with ₹50,000 investment',
-        free_resource: 'https://www.youtube.com/@BusinessIdeasTelugu'
-      },
-      {
-        job_id: 'D8',
-        title_te: 'డెయిరీ ఫార్మింగ్',
-        title_en: 'Dairy Farming',
-        category: 'business',
-        qualification: 'No formal qualification',
-        exam_name: 'N/A',
-        where_to_apply: 'https://www.nabard.org',
-        salary_range: '₹20,000 – ₹60,000+ (profit)',
-        prep_time: 'Training: 1 month',
-        free_resource: 'https://www.youtube.com/@VyavasayaVidyalu'
-      }
-    ];
-
-    // ── Category config ──
-    const CATEGORIES = {
-      government: { icon: '🏛️' },
-      iti:        { icon: '🔧' },
-      bpo:        { icon: '📞' },
-      business:   { icon: '💰' }
-    };
-
-    // ── State ──
-    let allJobs       = [];
-    let activeFilter  = 'all';
-    let searchQuery   = '';
-    let isUsingDemo   = false;
-
-    // ── DOM References ──
-    const dom = {};
-
-    function cacheDom() {
-      dom.loading      = document.getElementById('stateLoading');
-      dom.error         = document.getElementById('stateError');
-      dom.empty         = document.getElementById('stateEmpty');
-      dom.jobList       = document.getElementById('jobList');
-      dom.resultsCount  = document.getElementById('resultsCount');
-      dom.searchInput   = document.getElementById('jobSearchInput');
-      dom.filterPills   = document.getElementById('filterPills');
-      dom.btnRetry      = document.getElementById('btnRetry');
-      dom.countAll      = document.getElementById('countAll');
-      dom.countGovt     = document.getElementById('countGovt');
-      dom.countIti      = document.getElementById('countIti');
-      dom.countBpo      = document.getElementById('countBpo');
-      dom.countBiz      = document.getElementById('countBiz');
-    }
-
-    // ── Show/Hide States ──
-    function showState(state) {
-      dom.loading.style.display      = state === 'loading' ? '' : 'none';
-      dom.error.style.display        = state === 'error'   ? '' : 'none';
-      dom.empty.style.display        = state === 'empty'   ? '' : 'none';
-      dom.jobList.style.display      = state === 'list'    ? '' : 'none';
-      dom.resultsCount.style.display = state === 'list'    ? '' : 'none';
-    }
-
-    // ── Get title in current language ──
-    function getJobTitle(job) {
-      const lang = I18n.getCurrentLang();
-      return lang === 'en' ? (job.title_en || job.title_te) : (job.title_te || job.title_en);
-    }
-
-    // ── Get translated label ──
-    function t(key) {
-      return I18n.getString(key);
-    }
-
-    // ── Get category label ──
-    function getCategoryLabel(cat) {
-      const key = 'filter-' + cat;
-      return t(key);
-    }
-
-    // ── Update pill counts ──
-    function updateCounts() {
-      const counts = { all: allJobs.length, government: 0, iti: 0, bpo: 0, business: 0 };
-      allJobs.forEach(j => {
-        const cat = (j.category || '').toLowerCase();
-        if (counts[cat] !== undefined) counts[cat]++;
-      });
-
-      dom.countAll.textContent  = counts.all;
-      dom.countGovt.textContent = counts.government;
-      dom.countIti.textContent  = counts.iti;
-      dom.countBpo.textContent  = counts.bpo;
-      dom.countBiz.textContent  = counts.business;
-    }
-
-    // ── Filter + Search ──
-    function getFilteredJobs() {
-      return allJobs.filter(job => {
-        // Category filter
-        const cat = (job.category || '').toLowerCase();
-        if (activeFilter !== 'all' && cat !== activeFilter) return false;
-
-        // Search filter — match title in either language
-        if (searchQuery) {
-          const q = searchQuery.toLowerCase();
-          const titleTe = (job.title_te || '').toLowerCase();
-          const titleEn = (job.title_en || '').toLowerCase();
-          if (!titleTe.includes(q) && !titleEn.includes(q)) return false;
+    function setPill(type, btn) {
+      activePill = type;
+      document.querySelectorAll('.gcs-pill-tag').forEach(b => {
+        if (b.tagName === 'BUTTON') {
+          b.classList.remove('active');
+          b.style.background = '#fff';
+          b.style.color = '#334155';
         }
-
-        return true;
       });
+      btn.classList.add('active');
+      btn.style.background = 'var(--gcs-green-primary)';
+      btn.style.color = '#fff';
+      filterJobList();
     }
 
-    // ── Render a single job card ──
-    function renderJobCard(job) {
-      const cat   = (job.category || '').toLowerCase();
-      const title = getJobTitle(job);
-      const badge = CATEGORIES[cat] || { icon: '📋' };
+    function filterJobList() {
+      const q = (document.getElementById('jobSearchInput').value || '').toLowerCase();
+      const loc = document.getElementById('jobLocSelect').value;
+      const cards = document.querySelectorAll('.job-item-card');
+      let visible = 0;
 
-      const card = document.createElement('article');
-      card.className = 'job-card';
-      card.setAttribute('role', 'listitem');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const cardLoc = card.getAttribute('data-loc') || '';
+        const cardType = card.getAttribute('data-type') || '';
 
-      card.innerHTML = `
-        <div class="job-card__header">
-          <h3 class="job-card__title">${escapeHtml(title)}</h3>
-          <span class="job-card__badge job-card__badge--${cat}">
-            ${badge.icon} ${escapeHtml(getCategoryLabel(cat))}
-          </span>
-        </div>
+        const matchesQ = !q || text.includes(q);
+        const matchesLoc = (loc === 'all') || cardLoc.includes(loc);
+        const matchesPill = (activePill === 'all') || cardType.includes(activePill);
 
-        <div class="job-card__details">
-          <div class="job-card__field">
-            <span class="job-card__label">
-              <span class="job-card__label-icon" aria-hidden="true">📚</span>
-              ${escapeHtml(t('job-qualification'))}
-            </span>
-            <span class="job-card__value">${escapeHtml(job.qualification || '—')}</span>
-          </div>
-
-          <div class="job-card__field">
-            <span class="job-card__label">
-              <span class="job-card__label-icon" aria-hidden="true">📝</span>
-              ${escapeHtml(t('job-exam'))}
-            </span>
-            <span class="job-card__value">${escapeHtml(job.exam_name || '—')}</span>
-          </div>
-
-          <div class="job-card__field">
-            <span class="job-card__label">
-              <span class="job-card__label-icon" aria-hidden="true">💰</span>
-              ${escapeHtml(t('job-salary'))}
-            </span>
-            <span class="job-card__value">${escapeHtml(job.salary_range || '—')}</span>
-          </div>
-
-          <div class="job-card__field">
-            <span class="job-card__label">
-              <span class="job-card__label-icon" aria-hidden="true">⏱️</span>
-              ${escapeHtml(t('job-prep-time'))}
-            </span>
-            <span class="job-card__value">${escapeHtml(job.prep_time || '—')}</span>
-          </div>
-
-          ${job.free_resource ? `
-          <div class="job-card__field job-card__field--full">
-            <span class="job-card__label">
-              <span class="job-card__label-icon" aria-hidden="true">📖</span>
-              ${escapeHtml(t('job-resource'))}
-            </span>
-            <span class="job-card__value">
-              <a href="${escapeAttr(job.free_resource)}" target="_blank" rel="noopener noreferrer">
-                ${escapeHtml(shortenUrl(job.free_resource))}
-              </a>
-            </span>
-          </div>
-          ` : ''}
-        </div>
-
-        <div class="job-card__actions">
-          ${job.where_to_apply ? `
-          <a href="${escapeAttr(job.where_to_apply)}" target="_blank" rel="noopener noreferrer" class="btn-apply">
-            <span class="btn-apply__icon" aria-hidden="true">🚀</span>
-            ${escapeHtml(t('job-apply'))}
-          </a>
-          ` : ''}
-        </div>
-      `;
-
-      return card;
-    }
-
-    // ── Render all visible jobs ──
-    function renderJobs() {
-      const filtered = getFilteredJobs();
-
-      if (filtered.length === 0) {
-        showState('empty');
-        return;
-      }
-
-      // Clear & rebuild
-      dom.jobList.innerHTML = '';
-      const fragment = document.createDocumentFragment();
-
-      filtered.forEach((job, i) => {
-        const card = renderJobCard(job);
-        // Stagger animation
-        card.style.animationDelay = Math.min(i * 60, 300) + 'ms';
-        fragment.appendChild(card);
+        if (matchesQ && matchesLoc && matchesPill) {
+          card.style.display = 'block';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
       });
 
-      dom.jobList.appendChild(fragment);
-
-      // Results count
-      const countLabel = t('jobs-results-count');
-      const demoLabel  = isUsingDemo ? (' · ' + t('jobs-using-demo')) : '';
-      dom.resultsCount.textContent = filtered.length + ' ' + countLabel + demoLabel;
-
-      showState('list');
+      document.getElementById('jobsTotalCount').textContent = visible + ' Jobs Found';
     }
-
-    // ── HTML Escaping ──
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    function escapeAttr(str) {
-      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function shortenUrl(url) {
-      try {
-        const u = new URL(url);
-        return u.hostname.replace(/^www\./, '');
-      } catch {
-        return url;
-      }
-    }
-
-    // ── Event: Filter pill click ──
-    function handleFilterClick(e) {
-      const btn = e.target.closest('.filter-pill');
-      if (!btn) return;
-
-      // Update active state
-      dom.filterPills.querySelectorAll('.filter-pill').forEach(p => {
-        p.classList.remove('filter-pill--active');
-        p.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('filter-pill--active');
-      btn.setAttribute('aria-selected', 'true');
-
-      activeFilter = btn.dataset.filter;
-      renderJobs();
-    }
-
-    // ── Event: Search input ──
-    let searchTimer = null;
-    function handleSearch() {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => {
-        searchQuery = dom.searchInput.value.trim();
-        renderJobs();
-      }, 200); // 200ms debounce for responsive feel on low-end phones
-    }
-
-    // ── Event: Retry ──
-    function handleRetry() {
-      loadJobs();
-    }
-
-    // ── Load Jobs ──
-    async function loadJobs() {
-      showState('loading');
-
-      try {
-        allJobs = await fetchSheetWithCache(SHEETS.JOBS, CACHE_KEY);
-        isUsingDemo = false;
-      } catch (err) {
-        console.warn('[jobs] Sheet fetch + cache both failed:', err.message);
-        // Use built-in demo data so the UI is still functional
-        allJobs = DEMO_JOBS;
-        isUsingDemo = true;
-      }
-
-      if (allJobs.length === 0) {
-        showState('error');
-        return;
-      }
-
-      updateCounts();
-      renderJobs();
-    }
-
-    // ── Handle language change: re-render cards + update placeholder ──
-    function onLanguageChange() {
-      // Update search placeholder
-      const placeholder = t('jobs-search-placeholder');
-      if (dom.searchInput) dom.searchInput.placeholder = placeholder;
-
-      // Re-render cards with correct language titles
-      if (allJobs.length > 0) {
-        updateCounts();
-        renderJobs();
-      }
-    }
-
-    // ── Init ──
-    function init() {
-      cacheDom();
-
-      // Wire events
-      dom.filterPills.addEventListener('click', handleFilterClick);
-      dom.searchInput.addEventListener('input', handleSearch);
-      dom.btnRetry.addEventListener('click', handleRetry);
-
-      // Watch for language changes by observing the <html lang> attribute
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach(m => {
-          if (m.attributeName === 'lang') onLanguageChange();
-        });
-      });
-      observer.observe(document.documentElement, { attributes: true });
-
-      // Start loading
-      loadJobs();
-    }
-
-    // Wait for shared script + I18n to init first
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => setTimeout(init, 50));
-    } else {
-      setTimeout(init, 50);
-    }
-  })();
   </script>
+  <script src="assets/landing.js"></script>
 </body>
 </html>

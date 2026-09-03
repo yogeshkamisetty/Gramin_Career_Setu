@@ -12,6 +12,13 @@ const SHEETS = {
   QUIZ: 'https://docs.google.com/spreadsheets/d/e/PLACEHOLDER_QUIZ/pub?output=csv',
 };
 
+// Local seed data keeps the demo useful before a volunteer connects a
+// published Google Sheet. The jobs page tries this file before its final
+// built-in fallback, so it also works on a first offline visit.
+const LOCAL_DATA = {
+  JOBS: 'data/jobs.csv',
+};
+
 // ══════════════════════════════════════════════════════════════════════
 //  i18n — Language System
 // ══════════════════════════════════════════════════════════════════════
@@ -233,40 +240,59 @@ function splitCSVLine(line) {
 }
 
 // ══════════════════════════════════════════════════════════════════════
-//  Network-First Fetch with localStorage Cache
+//  24-Hour Cache-First Fetch Utility (Google Sheets CSV)
 // ══════════════════════════════════════════════════════════════════════
 
 /**
- * Fetch a Google Sheets CSV with offline fallback.
+ * Fetch a Google Sheets CSV with 24-Hour Cache-First Strategy.
  *
- * Strategy:
- *   1. Try to fetch from network.
- *   2. On success → cache the raw CSV text in localStorage, parse, return.
- *   3. On failure → try to read cached CSV from localStorage, parse, return.
- *   4. If both fail → throw so the caller can display an error state.
+ * Strategy (Eco-friendly / Low-bandwidth optimization):
+ *   1. Check if cached CSV exists in localStorage and is fresh (< 24 hours old).
+ *   2. If fresh → return cached data IMMEDIATELY (0 network requests made!).
+ *   3. If stale (> 24 hours) or missing → attempt network fetch.
+ *   4. On successful fetch → update cache + timestamp, parse and return.
+ *   5. On network error → fall back to stale cache if available.
  *
  * @param {string} url       - The published CSV URL
  * @param {string} cacheKey  - localStorage key to store/retrieve cached CSV
  * @returns {Promise<Object[]>}
  */
 async function fetchSheetWithCache(url, cacheKey) {
-  // ── 1. Try Network ──
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  // ── 1. Check Cache-First (Freshness < 24 Hours) ──
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    const ts = localStorage.getItem(cacheKey + '_ts');
+
+    if (cached && cached.trim().length > 10 && ts) {
+      const ageMs = Date.now() - Number(ts);
+      if (ageMs < TWENTY_FOUR_HOURS) {
+        const ageMin = Math.round(ageMs / 60000);
+        console.info(`[fetchSheetWithCache] Serving fresh cached data (${ageMin} min old, skipped network)`);
+        return parseCSV(cached);
+      }
+      console.info(`[fetchSheetWithCache] Cache expired (${Math.round(ageMs / 3600000)} hrs old). Refreshing from network...`);
+    }
+  } catch (e) {
+    // localStorage blocked
+  }
+
+  // ── 2. Network Fetch (Stale or Missing Cache) ──
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('HTTP ' + response.status);
     const csvText = await response.text();
 
-    // Validate that we got real CSV (not an error page)
     if (!csvText || csvText.trim().length < 10) {
       throw new Error('Empty or invalid CSV response');
     }
 
-    // Cache for offline use
+    // Save to cache with timestamp
     try {
       localStorage.setItem(cacheKey, csvText);
       localStorage.setItem(cacheKey + '_ts', Date.now().toString());
     } catch (e) {
-      // Storage full or blocked — continue anyway
       console.warn('[cache] Could not cache CSV:', e.message);
     }
 
@@ -275,22 +301,71 @@ async function fetchSheetWithCache(url, cacheKey) {
     console.warn('[fetchSheetWithCache] Network failed:', networkErr.message);
   }
 
-  // ── 2. Fall back to Cache ──
+  // ── 3. Fall back to Stale Cache if Network Failed ──
   try {
     const cached = localStorage.getItem(cacheKey);
     if (cached && cached.trim().length > 10) {
-      const ts = localStorage.getItem(cacheKey + '_ts');
-      const age = ts ? Math.round((Date.now() - Number(ts)) / 60000) : '?';
-      console.info('[fetchSheetWithCache] Using cached data (' + age + ' min old)');
+      console.info('[fetchSheetWithCache] Network failed. Serving stale cached data.');
       return parseCSV(cached);
     }
   } catch (e) {
     // localStorage blocked
   }
 
-  // ── 3. Both Failed ──
+  // ── 4. Both Failed ──
   throw new Error('No data available — network failed and no offline cache found.');
 }
+
+// ══════════════════════════════════════════════════════════════════════
+//  Battery Saver Mode Engine (Pure Black OLED #000000 Power Saving)
+// ══════════════════════════════════════════════════════════════════════
+
+const BatterySaver = (() => {
+  const STORAGE_KEY = 'gcs-battery-saver';
+
+  function isEnabled() {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === 'true';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function applyState(enabled) {
+    if (enabled) {
+      document.documentElement.setAttribute('data-battery-saver', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-battery-saver');
+    }
+
+    // Update toggle button UI if present
+    const toggleBtn = document.getElementById('batterySaverBtn');
+    if (toggleBtn) {
+      toggleBtn.classList.toggle('battery-saver-toggle--active', enabled);
+      toggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    }
+  }
+
+  function toggle() {
+    const nextState = !isEnabled();
+    try {
+      localStorage.setItem(STORAGE_KEY, nextState.toString());
+    } catch (e) {}
+    applyState(nextState);
+  }
+
+  function init() {
+    const active = isEnabled();
+    applyState(active);
+
+    const toggleBtn = document.getElementById('batterySaverBtn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', toggle);
+    }
+  }
+
+  return { init, toggle, isEnabled };
+})();
 
 // ══════════════════════════════════════════════════════════════════════
 //  Bootstrap — Run on every page
@@ -298,6 +373,7 @@ async function fetchSheetWithCache(url, cacheKey) {
 
 document.addEventListener('DOMContentLoaded', () => {
   I18n.init();
+  BatterySaver.init();
 });
 
 // ── Register Service Worker for Offline/PWA Support ──
