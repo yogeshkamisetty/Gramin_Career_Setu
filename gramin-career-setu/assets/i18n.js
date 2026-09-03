@@ -1,239 +1,693 @@
 /**
  * Gramin Career Setu — Complete Bilingual Translation Engine (Telugu ↔ English)
  * ─────────────────────────────────────────────────────────────────────────────
- * • Offline dictionary for all 18+ portal pages
- * • Real-time DOM replacement for elements with data-lang-key or common UI phrases
+ * • Embedded offline dictionary with all 160+ keys
+ * • Instant real-time DOM translation without network dependencies
  * • Automatic localStorage persistence ('gcs-lang': 'te' | 'en')
- * • Bilingual Text-to-Speech (TTS) audio accessibility helper
+ * • Bilingual Text-to-Speech (TTS) voice narration
  */
 
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'gcs-lang';
-  const DEFAULT_LANG = 'te'; // Default to Telugu for rural outreach
+  const DEFAULT_LANG = 'te';
 
-  // Complete, comprehensive bilingual dictionary
   const dictionary = {
-    // Brand & Navigation
-    'site-title': { te: 'గ్రామీణ కెరీర్ సేతు', en: 'Gramin Career Setu' },
-    'site-subtitle': { te: 'CareerBridge ఇనిషియేటివ్', en: 'CareerBridge Initiative' },
-    'skip-to-content': { te: 'ప్రధాన విషయానికి వెళ్ళండి', en: 'Skip to main content' },
-    'nav-home': { te: 'హోమ్', en: 'Home' },
-    'nav-careers': { te: 'కెరీర్స్', en: 'Careers' },
-    'nav-jobs': { te: 'ఉద్యోగాలు', en: 'Jobs' },
-    'nav-quiz': { te: 'క్విజ్', en: 'Quiz' },
-    'nav-resume': { te: 'రెజ్యూమ్', en: 'Resume' },
-    'nav-workshops': { te: 'వర్క్‌షాప్‌లు', en: 'Workshops' },
-    'nav-resources': { te: 'వనరులు', en: 'Resources' },
-    'nav-more': { te: 'మరిన్ని', en: 'More' },
-    'nav-profile': { te: 'నా ప్రొఫైల్', en: 'My Profile' },
-    'nav-impact': { te: 'ఇంపాక్ట్ డాష్‌బోర్డ్', en: 'Impact Dashboard' },
-    'nav-admin': { te: 'వాలంటీర్ అడ్మిన్', en: 'Volunteer Admin' },
-    'nav-scholarships': { te: 'స్కాలర్‌షిప్‌లు', en: 'Scholarships' },
-    'nav-schemes': { te: 'ప్రభుత్వ పథకాలు', en: 'Govt Schemes' },
-    'nav-roadmap': { te: 'కెరీర్ రోడ్‌మ్యాప్', en: 'Career Roadmap' },
-    'nav-stories': { te: 'విజయ గాథలు', en: 'Success Stories' },
-    'nav-about': { te: 'ప్రాజెక్ట్ గురించి', en: 'About Project' },
+  "site-title": {
+    "te": "గ్రామీణ కెరీర్ సేతు",
+    "en": "Gramin Career Setu"
+  },
+  "site-subtitle": {
+    "te": "CareerBridge Initiative",
+    "en": "CareerBridge Initiative"
+  },
+  "lang-toggle": {
+    "te": "EN",
+    "en": "తెలుగు"
+  },
+  "skip-to-content": {
+    "te": "ప్రధాన విషయానికి వెళ్ళండి",
+    "en": "Skip to main content"
+  },
+  "nav-home": {
+    "te": "హోమ్",
+    "en": "Home"
+  },
+  "nav-careers": {
+    "te": "కెరీర్స్",
+    "en": "Careers"
+  },
+  "nav-jobs": {
+    "te": "ఉద్యోగాలు",
+    "en": "Jobs"
+  },
+  "nav-quiz": {
+    "te": "క్విజ్",
+    "en": "Quiz"
+  },
+  "nav-resume": {
+    "te": "రెజ్యూమ్",
+    "en": "Resume"
+  },
+  "nav-workshops": {
+    "te": "వర్క్‌షాప్‌లు",
+    "en": "Workshops"
+  },
+  "nav-resources": {
+    "te": "రిసోర్సెస్",
+    "en": "Resources"
+  },
+  "nav-more": {
+    "te": "మరిన్ని",
+    "en": "More"
+  },
+  "nav-profile": {
+    "te": "నా ప్రొఫైల్",
+    "en": "My Profile"
+  },
+  "nav-impact": {
+    "te": "వర్క్‌షాప్ ఇంపాక్ట్",
+    "en": "Impact Dashboard"
+  },
+  "nav-admin": {
+    "te": "అడ్మిన్ డాష్‌బోర్డ్",
+    "en": "Volunteer Admin"
+  },
+  "hero-badge": {
+    "te": "యాప్ ఇన్‌స్టాల్ · ఆఫ్‌లైన్‌లో పనిచేస్తుంది",
+    "en": "Install App · Works Offline"
+  },
+  "hero-title-prefix": {
+    "te": "మీ భవిష్యత్తుకు",
+    "en": "A Bridge To"
+  },
+  "hero-title-highlight": {
+    "te": "కెరీర్ వారధి 🌿",
+    "en": "Your Career 🌿"
+  },
+  "hero-sub-en": {
+    "te": "Career guidance, jobs, skill development and opportunities for rural youth.",
+    "en": "Career guidance, jobs, skill development and opportunities for rural youth."
+  },
+  "hero-sub-te": {
+    "te": "మీ కెరీర్‌కు మార్గదర్శనం, ఉద్యోగాలు, నైపుణ్య అభివృద్ధి మరియు అవకాశాలు.",
+    "en": "మీ కెరీర్‌కు మార్గదర్శనం, ఉద్యోగాలు, నైపుణ్య అభివృద్ధి మరియు అవకాశాలు."
+  },
+  "cta-career": {
+    "te": "కెరీర్ మార్గం ఎంచుకోండి",
+    "en": "Find Career Path"
+  },
+  "cta-jobs": {
+    "te": "ఉద్యోగాలు చూడండి",
+    "en": "Explore Jobs"
+  },
+  "cta-resume": {
+    "te": "రెజ్యూమ్ చేయండి",
+    "en": "Build Resume"
+  },
+  "metric-paths": {
+    "te": "కెరీర్ మార్గాలు",
+    "en": "Career Paths"
+  },
+  "metric-jobs": {
+    "te": "ఉద్యోగ వనరులు",
+    "en": "Job Resources"
+  },
+  "metric-telugu": {
+    "te": "తెలుగు మద్దతు",
+    "en": "Telugu Support"
+  },
+  "metric-offline-val": {
+    "te": "ఆఫ్‌లైన్",
+    "en": "Offline"
+  },
+  "metric-access": {
+    "te": "యాక్సెస్",
+    "en": "Access"
+  },
+  "framework-heading": {
+    "te": "మా 4A ఫ్రేమ్‌వర్క్",
+    "en": "Our 4A Framework"
+  },
+  "framework-sub": {
+    "te": "గ్రామీణ విద్యార్థుల నైపుణ్యాలను స్థిరమైన ఉపాధిగా మార్చే నిరూపిత విధానం.",
+    "en": "A proven model to transform rural careers from awareness to sustainable livelihood."
+  },
+  "4a-awareness-title": {
+    "te": "అవగాహన (Awareness)",
+    "en": "Awareness"
+  },
+  "4a-awareness-desc": {
+    "te": "గ్రామాల్లోని యువతకు ఎలాంటి ఉద్యోగాలు, కెరీర్ మార్గాలు ఉన్నాయో తెలియజేయడం.",
+    "en": "Help villagers know what jobs and career paths exist."
+  },
+  "4a-access-title": {
+    "te": "యాక్సెస్ (Access)",
+    "en": "Access"
+  },
+  "4a-access-desc": {
+    "te": "ఇంటర్నెట్ లేదా పరికర పరిమితులతో సంబంధం లేకుండా సమాచారాన్ని సులభంగా అందించడం.",
+    "en": "Make information reachable regardless of internet, device or literacy."
+  },
+  "4a-action-title": {
+    "te": "కార్యాచరణ (Action)",
+    "en": "Action"
+  },
+  "4a-action-desc": {
+    "te": "కేవలం సమాచారంతో ఆగకుండా, దరఖాస్తు వరకు ప్రతి అడుగు పూర్తి చేయించడం.",
+    "en": "Turn awareness into a completed step, not just information."
+  },
+  "4a-account-title": {
+    "te": "జవాబుదారీతనం (Accountability)",
+    "en": "Accountability"
+  },
+  "4a-account-desc": {
+    "te": "వర్క్‌షాప్ ముగిసిన తర్వాత కూడా ఫలితాలు కొనసాగేలా మద్దతు నిలపడం.",
+    "en": "Ensure long-term support and outcome tracking beyond the workshop."
+  },
+  "learn-more": {
+    "te": "మరిన్ని వివరాలు",
+    "en": "Learn More"
+  },
+  "categories-heading": {
+    "te": "కెరీర్ కేటగిరీలు",
+    "en": "Career Categories"
+  },
+  "categories-sub": {
+    "te": "మీకు నచ్చిన రంగాన్ని ఎంచుకుని ఉద్యోగ వివరాలు మరియు రోడ్‌మ్యాప్‌లను చూడండి.",
+    "en": "Choose a domain to view curated paths, exams, and verified jobs."
+  },
+  "view-all": {
+    "te": "అన్నీ చూడండి",
+    "en": "View All"
+  },
+  "cat-govt": {
+    "te": "ప్రభుత్వ ఉద్యోగాలు",
+    "en": "Government Jobs"
+  },
+  "cat-private": {
+    "te": "ప్రైవేట్ ఉద్యోగాలు",
+    "en": "Private Jobs"
+  },
+  "cat-it": {
+    "te": "IT కెరీర్స్",
+    "en": "IT Careers"
+  },
+  "cat-poly": {
+    "te": "పాలిటెక్నిక్",
+    "en": "Polytechnic"
+  },
+  "cat-iti": {
+    "te": "ITI నైపుణ్యాలు",
+    "en": "ITI"
+  },
+  "cat-self": {
+    "te": "స్వయం ఉపాధి",
+    "en": "Self Employment"
+  },
+  "cat-agri": {
+    "te": "వ్యవసాయ టెక్నాలజీ",
+    "en": "Agriculture Technology"
+  },
+  "cat-exam": {
+    "te": "పోటీ పరీక్షలు",
+    "en": "Competitive Exams"
+  },
+  "stories-heading": {
+    "te": "విజయ గాథలు",
+    "en": "Success Stories"
+  },
+  "stories-sub": {
+    "te": "గ్రామీణ సేతు మార్గదర్శకత్వంతో విజయవంతమైన యువత కథలు.",
+    "en": "Real youth from rural Andhra Pradesh & Telangana building their dreams."
+  },
+  "story-ramesh-name": {
+    "te": "రమేష్",
+    "en": "Ramesh"
+  },
+  "story-ramesh-district": {
+    "te": "పల్నాడు జిల్లా",
+    "en": "Palnadu District"
+  },
+  "story-ramesh-role": {
+    "te": "జూనియర్ ఇంజనీర్ (AP గవర్నమెంట్)",
+    "en": "Junior Engineer (AP Government)"
+  },
+  "story-ramesh-quote": {
+    "te": "వర్క్‌షాప్ నా జీవితాన్ని మార్చింది. ఇప్పుడు నాకు ప్రభుత్వ ఉద్యోగం వచ్చింది.",
+    "en": "The workshop changed my life. Now I have a government job."
+  },
+  "story-lalitha-name": {
+    "te": "లలిత",
+    "en": "Lalitha"
+  },
+  "story-lalitha-district": {
+    "te": "శ్రీకాకుళం జిల్లా",
+    "en": "Srikakulam District"
+  },
+  "story-lalitha-role": {
+    "te": "స్టాఫ్ నర్స్ (ప్రభుత్వ ఆసుపత్రి)",
+    "en": "Staff Nurse (Government Hospital)"
+  },
+  "story-lalitha-quote": {
+    "te": "నైపుణ్య శిక్షణ మరియు సరైన మార్గదర్శకత్వం నన్ను నర్స్‌గా మార్చాయి.",
+    "en": "Skill training and guidance helped me become a nurse."
+  },
+  "story-suresh-name": {
+    "te": "సురేష్",
+    "en": "Suresh"
+  },
+  "story-suresh-district": {
+    "te": "అనంతపురం జిల్లా",
+    "en": "Anantapur District"
+  },
+  "story-suresh-role": {
+    "te": "ఎంట్రప్రెన్యూర్ (అగ్రి స్టార్టప్)",
+    "en": "Entrepreneur (Agri Startup)"
+  },
+  "story-suresh-quote": {
+    "te": "ముద్రా లోన్ మద్దతుతో నేను నా స్వంత వ్యవసాయ వ్యాపారాన్ని ప్రారంభించాను.",
+    "en": "I started my own business with Mudra Loan support."
+  },
+  "workshops-heading": {
+    "te": "రాబోయే వర్క్‌షాప్‌లు",
+    "en": "Upcoming Workshops"
+  },
+  "workshops-sub": {
+    "te": "గ్రామాల్లో ఉచిత కెరీర్ కౌన్సెలింగ్, ఫారమ్ ఫిల్లింగ్ మరియు మాక్ పరీక్షలు.",
+    "en": "Free village sessions with career counseling, form-filling & mock tests."
+  },
+  "register-now": {
+    "te": "నమోదు చేసుకోండి",
+    "en": "Register Now"
+  },
+  "ws1-title": {
+    "te": "ప్రభుత్వ ఉద్యోగాల వర్క్‌షాప్",
+    "en": "Government Jobs Workshop"
+  },
+  "ws2-title": {
+    "te": "ప్రైవేట్ & BPO ఉద్యోగాల వర్క్‌షాప్",
+    "en": "Private & BPO Jobs Workshop"
+  },
+  "ws3-title": {
+    "te": "స్వయం ఉపాధి వర్క్‌షాప్",
+    "en": "Self Employment Workshop"
+  },
+  "resource-kit-title": {
+    "te": "రిసోర్స్ కిట్ డౌన్‌లోడ్ చేసుకోండి",
+    "en": "Download Resource Kit"
+  },
+  "resource-kit-sub": {
+    "te": "అన్ని కెరీర్ గైడ్లు, పరీక్ష క్యాలెండర్లు, స్కాలర్‌షిప్ వివరాలు ఒకే PDF లో పొందండి.",
+    "en": "Get all career guides, exam calendars, scholarship lists and workshop materials in one PDF."
+  },
+  "download-now": {
+    "te": "ఇప్పుడే డౌన్‌లోడ్ చేయండి",
+    "en": "Download Now"
+  },
+  "footer-desc": {
+    "te": "గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం, నైపుణ్యాలు మరియు అవకాశాలను అందించడం.",
+    "en": "Empowering rural youth with career guidance, skills and opportunities."
+  },
+  "footer-important": {
+    "te": "ముఖ్యమైన లింకులు",
+    "en": "Important Links"
+  },
+  "footer-quick": {
+    "te": "త్వరిత లింకులు",
+    "en": "Quick Links"
+  },
+  "footer-support": {
+    "te": "సహాయం & మద్దతు",
+    "en": "Support"
+  },
+  "footer-lang": {
+    "te": "భాష",
+    "en": "Language"
+  },
+  "footer-text": {
+    "te": "❤ CSP ప్రాజెక్ట్ — గ్రామీణ యువత కోసం రూపొందించబడింది",
+    "en": "❤ CSP Project — Built for rural youth"
+  },
+  "jobs-page-title": {
+    "te": "ఉద్యోగ సమాచారం",
+    "en": "Job Information"
+  },
+  "jobs-page-subtitle": {
+    "te": "అందుబాటులో ఉన్న అవకాశాలు",
+    "en": "Available opportunities"
+  },
+  "jobs-search-placeholder": {
+    "te": "ఉద్యోగం కోసం వెతకండి…",
+    "en": "Search for a job…"
+  },
+  "filter-all": {
+    "te": "అన్నీ",
+    "en": "All"
+  },
+  "filter-government": {
+    "te": "ప్రభుత్వం",
+    "en": "Government"
+  },
+  "filter-iti": {
+    "te": "ITI",
+    "en": "ITI"
+  },
+  "filter-bpo": {
+    "te": "BPO",
+    "en": "BPO"
+  },
+  "filter-business": {
+    "te": "వ్యాపారం",
+    "en": "Business"
+  },
+  "job-qualification": {
+    "te": "అర్హత",
+    "en": "Qualification"
+  },
+  "job-exam": {
+    "te": "పరీక్ష",
+    "en": "Exam"
+  },
+  "job-salary": {
+    "te": "జీతం",
+    "en": "Salary"
+  },
+  "job-prep-time": {
+    "te": "ప్రిపరేషన్ సమయం",
+    "en": "Prep Time"
+  },
+  "job-resource": {
+    "te": "ఉచిత రిసోర్స్",
+    "en": "Free Resource"
+  },
+  "job-apply": {
+    "te": "దరఖాస్తు చేయండి",
+    "en": "Apply Here"
+  },
+  "jobs-loading": {
+    "te": "ఉద్యోగాలు లోడ్ అవుతున్నాయి…",
+    "en": "Loading jobs…"
+  },
+  "jobs-empty-title": {
+    "te": "ఫలితాలు లేవు",
+    "en": "No results"
+  },
+  "jobs-empty-desc": {
+    "te": "ఈ ఫిల్టర్‌కు సరిపోయే ఉద్యోగాలు లేవు. వేరే ఫిల్టర్ ప్రయత్నించండి.",
+    "en": "No jobs match this filter. Try a different filter or search term."
+  },
+  "jobs-error-title": {
+    "te": "లోడ్ చేయడంలో సమస్య",
+    "en": "Failed to load"
+  },
+  "jobs-error-desc": {
+    "te": "డేటా లోడ్ చేయడంలో సమస్య ఏర్పడింది. దయచేసి మీ ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేసి మళ్ళీ ప్రయత్నించండి.",
+    "en": "Could not load job data. Please check your internet connection and try again."
+  },
+  "jobs-retry": {
+    "te": "మళ్ళీ ప్రయత్నించండి",
+    "en": "Try Again"
+  },
+  "jobs-results-count": {
+    "te": "ఉద్యోగాలు కనుగొనబడ్డాయి",
+    "en": "jobs found"
+  },
+  "jobs-using-demo": {
+    "te": "డెమో డేటా చూపబడుతోంది",
+    "en": "Showing demo data"
+  },
+  "battery-saver": {
+    "te": "బ్యాటరీ సేవర్",
+    "en": "Battery Saver"
+  },
+  "job-view-details": {
+    "te": "వివరాలు చూడండి",
+    "en": "View Details"
+  },
+  "job-hide-details": {
+    "te": "వివరాలు దాచు",
+    "en": "Hide Details"
+  },
+  "quiz-page-title": {
+    "te": "నైపుణ్య పరీక్ష",
+    "en": "Skill Checker"
+  },
+  "quiz-page-subtitle": {
+    "te": "మీకు సరైన కెరీర్ మార్గం కనుగొనండి",
+    "en": "Find the right career path for you"
+  },
+  "quiz-your-result": {
+    "te": "మీ ఫలితం",
+    "en": "Your Result"
+  },
+  "quiz-score-breakdown": {
+    "te": "స్కోర్ వివరాలు",
+    "en": "Score Breakdown"
+  },
+  "quiz-next-steps": {
+    "te": "తదుపరి అడుగులు",
+    "en": "Next Steps"
+  },
+  "quiz-retake": {
+    "te": "మళ్ళీ పరీక్ష చేయండి",
+    "en": "Retake Quiz"
+  },
+  "resume-page-title": {
+    "te": "రెజ్యూమ్ బిల్డర్",
+    "en": "Resume Builder"
+  },
+  "resume-page-subtitle": {
+    "te": "ఉచితంగా మీ ప్రొఫెషనల్ రెజ్యూమ్ తయారు చేయండి",
+    "en": "Build your professional resume for free"
+  },
+  "resume-section-personal": {
+    "te": "వ్యక్తిగత వివరాలు",
+    "en": "Personal Details"
+  },
+  "resume-section-education": {
+    "te": "విద్య & నైపుణ్యాలు",
+    "en": "Education & Skills"
+  },
+  "resume-section-experience": {
+    "te": "అనుభవం & భాషలు",
+    "en": "Experience & Languages"
+  },
+  "resume-label-name": {
+    "te": "పూర్తి పేరు",
+    "en": "Full Name"
+  },
+  "resume-label-phone": {
+    "te": "ఫోన్ నంబర్",
+    "en": "Phone Number"
+  },
+  "resume-label-email": {
+    "te": "ఇమెయిల్",
+    "en": "Email"
+  },
+  "resume-label-village": {
+    "te": "గ్రామం / నగరం",
+    "en": "Village / City"
+  },
+  "resume-label-qualification": {
+    "te": "అత్యధిక విద్యార్హత",
+    "en": "Highest Qualification"
+  },
+  "resume-label-skills": {
+    "te": "ప్రధాన నైపుణ్యాలు",
+    "en": "Key Skills"
+  },
+  "resume-label-experience": {
+    "te": "పని అనుభవం",
+    "en": "Work Experience"
+  },
+  "resume-label-languages": {
+    "te": "తెలిసిన భాషలు",
+    "en": "Languages Known"
+  },
+  "resume-label-objective": {
+    "te": "కెరీర్ ఆబ్జెక్టివ్",
+    "en": "Career Objective"
+  },
+  "resume-optional": {
+    "te": "(ఐచ్ఛికం)",
+    "en": "(Optional)"
+  },
+  "resume-ph-name": {
+    "te": "ఉదా: రాజేష్ కుమార్",
+    "en": "e.g. Rajesh Kumar"
+  },
+  "resume-ph-phone": {
+    "te": "ఉదా: 9876543210",
+    "en": "e.g. 9876543210"
+  },
+  "resume-ph-email": {
+    "te": "ఉదా: rajesh@email.com",
+    "en": "e.g. rajesh@email.com"
+  },
+  "resume-ph-village": {
+    "te": "ఉదా: పెద్దపల్లి, తెలంగాణ",
+    "en": "e.g. Peddapalli, Telangana"
+  },
+  "resume-ph-qualification": {
+    "te": "ఉదా: B.Com, ఇంటర్మీడియేట్, ITI ఎలక్ట్రీషియన్",
+    "en": "e.g. B.Com, Intermediate, ITI Electrician"
+  },
+  "resume-ph-skills": {
+    "te": "ఉదా: MS Office, Typing, ఎలక్ట్రికల్ వైరింగ్, వ్యవసాయం",
+    "en": "e.g. MS Office, Typing, Electrical Wiring, Farming"
+  },
+  "resume-ph-experience": {
+    "te": "ఉదా: XYZ వర్క్‌షాప్‌లో 1 సంవత్సరం హెల్పర్‌గా పనిచేశాను",
+    "en": "e.g. Worked as Helper at XYZ Workshop for 1 year"
+  },
+  "resume-ph-languages": {
+    "te": "ఉదా: తెలుగు, ఇంగ్లీష్, హింది",
+    "en": "e.g. Telugu, English, Hindi"
+  },
+  "resume-ph-objective": {
+    "te": "ఉదా: నా నైపుణ్యాలను ఉపయోగించి ఎదగడానికి స్థిరమైన ఉద్యోగం కోరుకుంటున్నాను.",
+    "en": "e.g. Seeking a stable job where I can use my skills to contribute and grow."
+  },
+  "resume-hint-skills": {
+    "te": "కామాలతో వేరు చేయండి (ఉదా: Typing, MS Office, Farming)",
+    "en": "Separate with commas (e.g. Typing, MS Office, Farming)"
+  },
+  "resume-generate": {
+    "te": "రెజ్యూమ్ PDF తయారు చేయండి",
+    "en": "Generate Resume PDF"
+  },
+  "resume-note": {
+    "te": "PDF ఆటోమేటిగ్గా డౌన్‌లోడ్ అవుతుంది. ఎటువంటి లాగిన్ అవసరం లేదు.",
+    "en": "PDF will download automatically. No login required."
+  },
+  "resume-err-name": {
+    "te": "దయచేసి మీ పేరు నమోదు చేయండి",
+    "en": "Please enter your full name"
+  },
+  "resume-err-phone": {
+    "te": "దయచేసి ఫోన్ నంబర్ నమోదు చేయండి",
+    "en": "Please enter your phone number"
+  },
+  "resume-err-phone-invalid": {
+    "te": "దయచేసి సరైన 10 అంకెల ఫోన్ నంబర్ నమోదు చేయండి",
+    "en": "Please enter a valid 10-digit phone number"
+  },
+  "resume-jspdf-error": {
+    "te": "PDF లైబ్రరీ లోడ్ కాలేదు. దయచేసి పేజీని రిఫ్రెష్ చేయండి.",
+    "en": "PDF library failed to load. Please refresh the page."
+  },
+  "resume-pdf-error": {
+    "te": "PDF తయారీలో సమస్య. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+    "en": "Error generating PDF. Please try again."
+  },
+  "resume-success-title": {
+    "te": "రెజ్యూమ్ విజయవంతంగా తయారైంది!",
+    "en": "Resume generated successfully!"
+  },
+  "resume-success-desc": {
+    "te": "PDF మీ ఫోన్‌లో డౌన్‌లోడ్ అయింది. Downloads ఫోల్డర్‌లో చూడండి.",
+    "en": "The PDF has been downloaded to your phone. Check your Downloads folder."
+  },
+  "resume-another": {
+    "te": "మరొక రెజ్యూమ్ తయారు చేయండి",
+    "en": "Generate Another Resume"
+  },
+  "resume-back-home": {
+    "te": "హోమ్‌కు వెళ్ళండి",
+    "en": "Back to Home"
+  },
+  "node-engineer": {
+    "te": "ఇంజనీర్",
+    "en": "Engineer"
+  },
+  "node-teacher": {
+    "te": "ఉపాధ్యాయులు",
+    "en": "Teacher"
+  },
+  "node-police": {
+    "te": "పోలీస్",
+    "en": "Police"
+  },
+  "node-nurse": {
+    "te": "నర్సింగ్",
+    "en": "Nurse"
+  },
+  "node-entrepreneur": {
+    "te": "స్వయం ఉపాధి",
+    "en": "Entrepreneur"
+  },
+  "nav-scholarships": {
+    "te": "స్కాలర్‌షిప్‌లు",
+    "en": "Scholarships"
+  },
+  "nav-schemes": {
+    "te": "ప్రభుత్వ పథకాలు",
+    "en": "Govt Schemes"
+  },
+  "nav-roadmap": {
+    "te": "కెరీర్ రోడ్‌మ్యాప్",
+    "en": "Career Roadmap"
+  },
+  "nav-stories": {
+    "te": "విజయ గాథలు",
+    "en": "Success Stories"
+  },
+  "nav-about": {
+    "te": "ప్రాజెక్ట్ గురించి",
+    "en": "About Project"
+  },
+  "btn-apply": {
+    "te": "దరఖాస్తు చేసుకోండి",
+    "en": "Apply Now"
+  },
+  "btn-save": {
+    "te": "సేవ్ చేయండి",
+    "en": "Save Job"
+  },
+  "btn-download": {
+    "te": "డౌన్‌లోడ్",
+    "en": "Download"
+  },
+  "btn-view-details": {
+    "te": "వివరాలు చూడండి",
+    "en": "View Details"
+  },
+  "btn-register": {
+    "te": "నమోదు చేసుకోండి",
+    "en": "Register Now"
+  },
+  "btn-search": {
+    "te": "వెతకండి",
+    "en": "Search"
+  },
+  "btn-clear": {
+    "te": "ఫిల్టర్లు క్లియర్ చేయండి",
+    "en": "Clear Filters"
+  },
+  "btn-back": {
+    "te": "వెనక్కి వెళ్ళండి",
+    "en": "Go Back"
+  },
+  "btn-back-jobs": {
+    "te": "← ఉద్యోగాల జాబితాకు",
+    "en": "← Back to Jobs"
+  },
+  "btn-generate-roadmap": {
+    "te": "రోడ్‌మ్యాప్ రూపొందించండి",
+    "en": "Generate Roadmap"
+  },
+  "btn-download-pdf": {
+    "te": "PDF డౌన్‌లోడ్ చేయండి",
+    "en": "Download PDF"
+  },
+  "btn-share": {
+    "te": "షేర్ చేయండి",
+    "en": "Share"
+  }
+};
 
-    // Footer
-    'footer-desc': {
-      te: 'గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం, నైపుణ్యాలు మరియు అవకాశాలను అందించే వేదిక.',
-      en: 'Empowering rural youth with career guidance, practical skills and verified opportunities.'
-    },
-    'footer-important': { te: 'ముఖ్యమైన లింకులు', en: 'Important Links' },
-    'footer-quick': { te: 'త్వరిత లింకులు', en: 'Quick Links' },
-    'footer-support': { te: 'సహాయం & మద్దతు', en: 'Support & Help' },
-    'footer-lang': { te: 'భాష', en: 'Language' },
-
-    // Common Buttons & Actions
-    'btn-apply': { te: 'దరఖాస్తు చేసుకోండి', en: 'Apply Now' },
-    'btn-save': { te: 'సేవ్ చేయండి', en: 'Save Job' },
-    'btn-download': { te: 'డౌన్‌లోడ్', en: 'Download' },
-    'btn-view-details': { te: 'వివరాలు చూడండి', en: 'View Details' },
-    'btn-register': { te: 'నమోదు చేసుకోండి', en: 'Register Now' },
-    'btn-search': { te: 'వెతకండి', en: 'Search' },
-    'btn-clear': { te: 'ఫిల్టర్లు క్లియర్ చేయండి', en: 'Clear Filters' },
-    'btn-back': { te: 'వెనక్కి వెళ్ళండి', en: 'Go Back' },
-    'btn-back-jobs': { te: '← ఉద్యోగాల జాబితాకు', en: '← Back to Jobs' },
-    'btn-generate-roadmap': { te: 'రోడ్‌మ్యాప్ రూపొందించండి', en: 'Generate Roadmap' },
-    'btn-download-pdf': { te: 'PDF డౌన్‌లోడ్ చేయండి', en: 'Download PDF' },
-    'btn-share': { te: 'షేర్ చేయండి', en: 'Share' },
-
-    // Home Page Hero & Stats
-    'hero-headline': {
-      te: 'మీ భవిష్యత్తుకు కెరీర్ వారధి 🌿',
-      en: 'Your Bridge to a Bright Career 🌿'
-    },
-    'hero-tagline': {
-      te: 'గ్రామీణ విద్యార్థుల కోసం సరైన కెరీర్ మార్గదర్శకత్వం, ఉద్యోగ సమాచారం మరియు నైపుణ్యాల వేదిక.',
-      en: 'Tailored career guidance, job vacancies, and free skill workshops for rural youth.'
-    },
-    'hero-btn-quiz': { te: 'స్కిల్ అసెస్‌మెంట్ క్విజ్ రాయండి', en: 'Take Skill Assessment Quiz' },
-    'hero-btn-explore': { te: 'కెరీర్ మార్గాలు అన్వేషించండి', en: 'Explore Career Pathways' },
-    'hero-stat-students': { te: '5,000+ గ్రామీణ విద్యార్థులు', en: '5,000+ Rural Students' },
-    'hero-stat-jobs': { te: '120+ ఉద్యోగ అవకాశాలు', en: '120+ Verified Jobs' },
-    'hero-stat-villages': { te: '35+ గ్రామాలలో వర్క్‌షాప్‌లు', en: '35+ Villages Reached' },
-    'hero-stat-offline': { te: '100% ఆఫ్‌లైన్ PWA మద్దతు', en: '100% Offline PWA Ready' },
-
-    // 4A Framework
-    'framework-title': { te: 'మా 4A ఫ్రేమ్‌వర్క్', en: 'Our 4A Framework' },
-    'framework-desc': {
-      te: 'గ్రామీణ యువతకు స్థిరమైన ఉపాధి కల్పించే మా ప్రత్యేక కార్యాచరణ పద్ధతి.',
-      en: 'Our proven methodology to transition rural students into sustainable careers.'
-    },
-    'pillar-1-title': { te: 'అవగాహన (Awareness)', en: '1. Awareness' },
-    'pillar-1-desc': {
-      te: 'గ్రామ పంచాయతీలు, కాలేజీలలో 100+ ఉద్యోగ మార్గాలు, ప్రభుత్వ పథకాలపై సమాచారం అందించడం.',
-      en: 'Demystifying 100+ career streams, government schemes, and exams at village panchayat level.'
-    },
-    'pillar-2-title': { te: 'యాక్సెస్ (Access)', en: '2. Access' },
-    'pillar-2-desc': {
-      te: 'ఇంటర్నెట్ లేకపోయినా పనిచేసే ఆఫ్‌లైన్ టెక్నాలజీ మరియు సులభమైన తెలుగు భాషలో వనరులు.',
-      en: 'Zero-barrier access with offline PWA technology and native Telugu language guides.'
-    },
-    'pillar-3-title': { te: 'కార్యాచరణ (Action)', en: '3. Action' },
-    'pillar-3-desc': {
-      te: 'ఉచిత రెజ్యూమ్ తయారీ, దరఖాస్తు ఫారమ్ సహాయం మరియు మాక్ ఇంటర్వ్యూలు.',
-      en: 'Form-filling assistance, free ATS resume builder, and practical interview preparation.'
-    },
-    'pillar-4-title': { te: 'జవాబుదారీతనం (Accountability)', en: '4. Accountability' },
-    'pillar-4-desc': {
-      te: 'గ్రామ వాలంటీర్ల నిరంతర పర్యవేక్షణ, మెంటార్‌షిప్ మరియు ఉపాధి సాధన ట్రాకింగ్.',
-      en: 'Village coordinators providing peer mentorship and tracking career placements.'
-    },
-
-    // Job Page & Filters
-    'jobs-search-placeholder': {
-      te: 'ఉద్యోగం, నైపుణ్యం లేదా కంపెనీ పేరుతో వెతకండి...',
-      en: 'Search jobs by title, skills or company...'
-    },
-    'jobs-filter-all': { te: 'అన్ని ఉద్యోగాలు', en: 'All Jobs' },
-    'jobs-filter-fulltime': { te: 'ఫుల్ టైమ్', en: 'Full Time' },
-    'jobs-filter-internship': { te: 'ఇంటర్న్‌షిప్', en: 'Internship' },
-    'jobs-filter-wfh': { te: 'వర్క్ ఫ్రమ్ హోమ్', en: 'Work From Home' },
-    'jobs-filter-parttime': { te: 'పార్ట్ టైమ్', en: 'Part Time' },
-    'jobs-alert-title': { te: 'ఉద్యోగ సమాచారం నోటిఫికేషన్లు పొందండి', en: 'Get instant job alerts' },
-    'jobs-alert-desc': {
-      te: 'మీ విద్యార్హతలకు సరిపోయే కొత్త ఉద్యోగాలు రాగానే మెసేజ్ పొందండి.',
-      en: 'Be the first to know about new job openings that match your skills.'
-    },
-
-    // Resume Builder
-    'resume-wizard-title': { te: 'ప్రొఫెషనల్ రెజ్యూమ్ బిల్డర్', en: 'Professional Resume Builder' },
-    'resume-step-1': { te: 'వ్యక్తిగత వివరాలు', en: 'Personal Details' },
-    'resume-step-2': { te: 'విద్యార్హతలు', en: 'Education' },
-    'resume-step-3': { te: 'నైపుణ్యాలు', en: 'Skills' },
-    'resume-step-4': { te: 'ప్రాజెక్టులు', en: 'Projects' },
-    'resume-step-5': { te: 'అనుభవం', en: 'Experience' },
-    'resume-step-6': { te: 'సర్టిఫికేట్లు', en: 'Certifications' },
-    'resume-step-7': { te: 'ప్రివ్యూ & డౌన్‌లోడ్', en: 'Preview & Download' },
-    'resume-score-title': { te: 'రెజ్యూమ్ స్కోరు', en: 'Resume Score' },
-    'resume-ats-title': { te: 'ATS అనుకూలత', en: 'ATS Compatibility' },
-
-    // Workshops
-    'workshops-title': { te: 'ఉచిత వర్క్‌షాప్‌లు & వెబ్‌నార్లు', en: 'Workshops & Events' },
-    'workshops-tab-all': { te: 'అన్ని వర్క్‌షాప్‌లు', en: 'All Workshops' },
-    'workshops-tab-upcoming': { te: 'రాబోయేవి', en: 'Upcoming' },
-    'workshops-tab-live': { te: 'లైవ్ నౌ', en: 'Live Now' },
-    'workshops-tab-recorded': { te: 'రికార్డెడ్ సెషన్లు', en: 'Recorded' },
-    'workshops-tab-my': { te: 'నా రిజిస్ట్రేషన్లు', en: 'My Registrations' },
-
-    // Resource Kit
-    'resources-title': { te: 'కెరీర్ రిసోర్స్ కిట్', en: 'Resource Kit' },
-    'resources-desc': {
-      te: 'మీ కెరీర్ ప్రయాణానికి ఉపయోగపడే స్టడీ మెటీరియల్, ప్రభుత్వ పథకాలు, స్కాలర్‌షిప్ గైడ్‌లను డౌన్‌లోడ్ చేసుకోండి.',
-      en: 'Download useful study materials, scheme brochures, and competitive exam roadmaps.'
-    },
-
-    // Scholarships
-    'scholarships-title': { te: 'స్కాలర్‌షిప్ ఫైండర్', en: 'Scholarship Finder' },
-    'scholarships-desc': {
-      te: 'మీ విద్యార్హత మరియు వర్గానికి తగిన స్కాలర్‌షిప్పులను సులభంగా కనుగొనండి.',
-      en: 'Find and apply for the best scholarships matching your qualification and category.'
-    },
-
-    // Schemes
-    'schemes-title': { te: 'ప్రభుత్వ పథకాల సమాచారం', en: 'Government Scheme Explorer' },
-    'schemes-desc': {
-      te: 'కేంద్ర, రాష్ట్ర ప్రభుత్వాలు యువతకు అందించే నైపుణ్య, రుణ మరియు స్వయం ఉపాధి పథకాలు.',
-      en: 'Discover central and state government schemes for skill development, loans, and self-employment.'
-    },
-
-    // Roadmap
-    'roadmap-title': { te: 'కెరీర్ రోడ్‌మ్యాప్ జనరేటర్', en: 'Career Roadmap Generator' },
-    'roadmap-desc': {
-      te: 'మీ ప్రస్తుత విద్యార్హతను ఎంచుకోండి — దశలవారీగా మీ లక్ష్యాన్ని ఎలా చేరుకోవాలో చూడండి.',
-      en: 'Plan your future step by step. Select your current education and see the optimal pathway.'
-    },
-
-    // Impact Dashboard
-    'impact-title': { te: 'ప్రభావ విశ్లేషణ డాష్‌బోర్డ్', en: 'Impact Dashboard' },
-    'impact-desc': {
-      te: 'మన గ్రామాల్లో సర్వే చేసిన కుటుంబాలు, నిర్వహించిన వర్క్‌షాప్‌లు మరియు సాధించిన విజయాలు.',
-      en: 'Tracking our field impact: households surveyed, workshop attendance, and career outcomes.'
-    },
-
-    // Success Stories
-    'stories-title': { te: 'మా గ్రామాల విజయ గాథలు', en: 'Success Stories' },
-    'stories-desc': {
-      te: 'గ్రామీణ సేతు మార్గదర్శకత్వంతో ఉద్యోగాలు సాధించి నిలబడిన నిజమైన యువతీ యువకుల కథలు.',
-      en: 'Real stories from our villages: real people, real transformations, and inspiring achievements.'
-    },
-
-    // About Project
-    'about-title': { te: 'గ్రామీణ కెరీర్ సేతు గురించి', en: 'About Gramin Career Setu' },
-    'about-mission-title': { te: 'మా లక్ష్యం (Our Mission)', en: 'Our Mission' },
-    'about-vision-title': { te: 'మా దృష్టి (Our Vision)', en: 'Our Vision' },
-    'about-values-title': { te: 'మా విలువలు (Our Values)', en: 'Our Values' },
-    'about-why-title': { te: 'ఇది ఎందుకు ముఖ్యం?', en: 'Why It Matters' }
-  };
-
-  // Plain-text fallback phrase maps for universal translation
-  const phrasePairs = [
-    ['Home', 'హోమ్'],
-    ['Careers', 'కెరీర్స్'],
-    ['Jobs', 'ఉద్యోగాలు'],
-    ['Quiz', 'క్విజ్'],
-    ['Resume', 'రెజ్యూమ్'],
-    ['Workshops', 'వర్క్‌షాప్‌లు'],
-    ['Resources', 'వనరులు'],
-    ['More', 'మరిన్ని'],
-    ['My Profile', 'నా ప్రొఫైల్'],
-    ['Impact Dashboard', 'ఇంపాక్ట్ డాష్‌బోర్డ్'],
-    ['Volunteer Admin', 'వాలంటీర్ అడ్మిన్'],
-    ['Scholarship Finder', 'స్కాలర్‌షిప్ ఫైండర్'],
-    ['Govt Schemes', 'ప్రభుత్వ పథకాలు'],
-    ['Career Roadmap', 'కెరీర్ రోడ్‌మ్యాప్'],
-    ['Success Stories', 'విజయ గాథలు'],
-    ['About Project', 'ప్రాజెక్ట్ గురించి'],
-    ['Back to Jobs', 'ఉద్యోగాల జాబితాకు'],
-    ['Save Job', 'సేవ్ చేయండి'],
-    ['Apply Now', 'దరఖాస్తు చేసుకోండి'],
-    ['Download PDF', 'PDF డౌన్‌లోడ్'],
-    ['View Details', 'వివరాలు చూడండి'],
-    ['Register Now', 'నమోదు చేసుకోండి'],
-    ['Search Scholarships', 'స్కాలర్‌షిప్‌లు వెతకండి'],
-    ['Clear Filters', 'ఫిల్టర్లు క్లియర్'],
-    ['Generate Roadmap', 'రోడ్‌మ్యాప్ చూపించు'],
-    ['Share', 'షేర్ చేయండి'],
-    ['Full Time', 'ఫుల్ టైమ్'],
-    ['On-site', 'ఆన్-సైట్'],
-    ['Work From Home', 'వర్క్ ఫ్రమ్ హోమ్'],
-    ['Internship', 'ఇంటర్న్‌షిప్'],
-    ['Works Offline', 'ఆఫ్‌లైన్‌లో పనిచేస్తుంది'],
-    ['All Rights Reserved', 'సర్వహక్కులు ప్రత్యేకించబడ్డాయి'],
-    ['Need Help to Apply?', 'దరఖాస్తు చేయడానికి సహాయం కావాలా?'],
-    ['Help Center', 'సహాయ కేంద్రం'],
-    ['Contact Us', 'మమ్మల్ని సంప్రదించండి'],
-    ['Privacy Policy', 'గోప్యతా విధానం'],
-    ['Terms & Conditions', 'నిబంధనలు'],
-    ['Offline Help', 'ఆఫ్‌లైన్ సహాయం']
-  ];
-
-  /**
-   * Get currently active language ('te' or 'en')
-   */
   function getCurrentLanguage() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -242,9 +696,6 @@
     return DEFAULT_LANG;
   }
 
-  /**
-   * Apply language to the page
-   */
   function setLanguage(lang) {
     if (lang !== 'te' && lang !== 'en') lang = DEFAULT_LANG;
 
@@ -253,11 +704,12 @@
     } catch (e) {}
 
     document.documentElement.lang = lang;
+    const isTe = lang === 'te';
 
     // 1. Update elements with [data-lang-key]
     document.querySelectorAll('[data-lang-key]').forEach(el => {
       const key = el.getAttribute('data-lang-key');
-      if (dictionary[key] && dictionary[key][lang]) {
+      if (dictionary[key] && dictionary[key][lang] !== undefined) {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           el.placeholder = dictionary[key][lang];
         } else {
@@ -269,105 +721,74 @@
     // 2. Update elements with [data-lang-placeholder]
     document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
       const key = el.getAttribute('data-lang-placeholder');
-      if (dictionary[key] && dictionary[key][lang]) {
+      if (dictionary[key] && dictionary[key][lang] !== undefined) {
         el.placeholder = dictionary[key][lang];
       }
     });
 
-    // 3. Update active state of language pills across the header and footer
+    // 3. Hero Subtitle toggle: if both .gcs-hero-sub-en and .gcs-hero-sub-te exist, manage visibility
+    const subEn = document.querySelector('.gcs-hero-sub-en');
+    const subTe = document.querySelector('.gcs-hero-sub-te');
+    if (subEn && subTe) {
+      if (isTe) {
+        subEn.style.display = 'none';
+        subTe.style.display = 'block';
+        subTe.style.fontSize = '1.05rem';
+        subTe.style.fontWeight = '600';
+      } else {
+        subEn.style.display = 'block';
+        subTe.style.display = 'none';
+      }
+    }
+
+    // 4. Update language toggle pills
     document.querySelectorAll('#gcsPillTe, .pill-te').forEach(btn => {
-      btn.classList.toggle('active', lang === 'te');
-      btn.style.fontWeight = lang === 'te' ? '700' : '500';
+      btn.classList.toggle('active', isTe);
+      btn.style.fontWeight = isTe ? '800' : '500';
+      btn.style.background = isTe ? '#1B4D3E' : 'transparent';
+      btn.style.color = isTe ? '#FFFFFF' : 'inherit';
     });
     document.querySelectorAll('#gcsPillEn, .pill-en').forEach(btn => {
-      btn.classList.toggle('active', lang === 'en');
-      btn.style.fontWeight = lang === 'en' ? '700' : '500';
+      btn.classList.toggle('active', !isTe);
+      btn.style.fontWeight = !isTe ? '800' : '500';
+      btn.style.background = !isTe ? '#1B4D3E' : 'transparent';
+      btn.style.color = !isTe ? '#FFFFFF' : 'inherit';
     });
 
-    // 4. Translate common buttons, headings and navigation links dynamically
-    translateCommonPhrases(lang);
+    // 5. Update floating pins on image
+    const pinMap = {
+      '.gcs-node-engineer .gcs-node-tag': isTe ? 'ఇంజనీర్' : 'Engineer',
+      '.gcs-node-teacher .gcs-node-tag': isTe ? 'ఉపాధ్యాయులు' : 'Teacher',
+      '.gcs-node-police .gcs-node-tag': isTe ? 'పోలీస్' : 'Police',
+      '.gcs-node-nurse .gcs-node-tag': isTe ? 'నర్సింగ్' : 'Nurse',
+      '.gcs-node-entrepreneur .gcs-node-tag': isTe ? 'స్వయం ఉపాధి' : 'Entrepreneur'
+    };
+    for (const [sel, text] of Object.entries(pinMap)) {
+      const pin = document.querySelector(sel);
+      if (pin) pin.textContent = text;
+    }
 
-    // 5. Fire custom event for dynamic modules (jobs, roadmap, resume, quiz)
+    // 6. Notify any dynamic listeners
     window.dispatchEvent(new CustomEvent('gcs-language-changed', { detail: { lang } }));
   }
 
-  /**
-   * Scan text nodes for common bilingual phrases
-   */
-  function translateCommonPhrases(lang) {
-    const isTe = lang === 'te';
-
-    // Update Navigation links text
-    const navMappings = [
-      ['a[href*="index.html"]', isTe ? 'హోమ్' : 'Home'],
-      ['a[href*="careers.html"]', isTe ? 'కెరీర్స్' : 'Careers'],
-      ['a[href*="jobs.html"]', isTe ? 'ఉద్యోగాలు' : 'Jobs'],
-      ['a[href*="quiz.html"]', isTe ? 'క్విజ్' : 'Quiz'],
-      ['a[href*="resume.html"]', isTe ? 'రెజ్యూమ్' : 'Resume'],
-      ['a[href*="workshops.html"]', isTe ? 'వర్క్‌షాప్‌లు' : 'Workshops'],
-      ['a[href*="resources.html"]', isTe ? 'వనరులు' : 'Resources'],
-      ['a[href*="scholarships.html"]', isTe ? 'స్కాలర్‌షిప్‌లు' : 'Scholarships'],
-      ['a[href*="schemes.html"]', isTe ? 'పథకాలు' : 'Govt Schemes'],
-      ['a[href*="roadmap.html"]', isTe ? 'రోడ్‌మ్యాప్' : 'Roadmap'],
-      ['a[href*="stories.html"]', isTe ? 'విజయ గాథలు' : 'Stories'],
-      ['a[href*="about.html"]', isTe ? 'గురించి' : 'About']
-    ];
-
-    navMappings.forEach(([selector, translatedText]) => {
-      document.querySelectorAll(`.gcs-nav-link${selector}, .gcs-mobile-nav-item${selector}`).forEach(el => {
-        // preserve icons inside if any
-        const icon = el.querySelector('.material-symbols-outlined');
-        if (icon) {
-          const span = el.querySelector('span:not(.material-symbols-outlined)') || el;
-          if (span !== el) span.textContent = translatedText;
-        } else if (!el.hasAttribute('data-lang-key')) {
-          el.textContent = translatedText;
-        }
-      });
-    });
-
-    // Update search placeholders if unkeyed
-    const searchInputs = document.querySelectorAll('input[type="text"][placeholder*="Search"], input[type="text"][placeholder*="వెతకండి"]');
-    searchInputs.forEach(input => {
-      if (input.id === 'jobSearchInput') {
-        input.placeholder = isTe ? 'ఉద్యోగం, కంపెనీ లేదా నైపుణ్యంతో వెతకండి...' : 'Search jobs by title, company or skills...';
-      } else if (input.id === 'resourceSearchInput') {
-        input.placeholder = isTe ? 'స్టడీ మెటీరియల్ లేదా పరీక్ష గైడ్ల కోసం వెతకండి...' : 'Search resources by topic, scheme or exam...';
-      }
-    });
-  }
-
-  /**
-   * Text-to-Speech (TTS) Voice Narration Engine
-   * Speaks in Telugu or Indian English based on current setting
-   */
   function speakText(text, explicitLang) {
-    if (!('speechSynthesis' in window)) {
-      console.warn('SpeechSynthesis not supported by this browser.');
-      return;
-    }
-
-    window.speechSynthesis.cancel(); // stop previous speech
-
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
     const lang = explicitLang || getCurrentLanguage();
     const utterance = new SpeechSynthesisUtterance(text);
-
-    // Pick appropriate voice
     const voices = window.speechSynthesis.getVoices();
     let voice = null;
-
     if (lang === 'te') {
       voice = voices.find(v => v.lang.startsWith('te') || v.name.toLowerCase().includes('telugu'));
       utterance.lang = 'te-IN';
-      utterance.rate = 0.9; // clear, steady pace for rural learners
+      utterance.rate = 0.9;
     } else {
       voice = voices.find(v => v.lang === 'en-IN' || v.name.toLowerCase().includes('india') || v.lang.startsWith('en'));
       utterance.lang = 'en-IN';
       utterance.rate = 1.0;
     }
-
     if (voice) utterance.voice = voice;
-
     window.speechSynthesis.speak(utterance);
   }
 
@@ -379,26 +800,25 @@
     dictionary
   };
 
-  // Expose legacy alias for backward compatibility
   window.switchGcsLanguage = setLanguage;
+
   window.I18n = {
+    init: () => Promise.resolve(),
+    toggle: () => setLanguage(getCurrentLanguage() === 'te' ? 'en' : 'te'),
     applyLanguage: setLanguage,
     getSavedLang: getCurrentLanguage,
+    getCurrentLang: getCurrentLanguage,
     t: (key) => {
       const l = getCurrentLanguage();
       return (dictionary[key] && dictionary[key][l]) || key;
     }
   };
 
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', () => {
-    const initialLang = getCurrentLanguage();
-    setLanguage(initialLang);
-
-    // Ensure voices are loaded for TTS
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => {};
-    }
-  });
+  // Run automatically on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setLanguage(getCurrentLanguage()));
+  } else {
+    setLanguage(getCurrentLanguage());
+  }
 
 })();
