@@ -17,3 +17,23 @@ yarn-error.log*
 
 # Node modules (if any)
 node_modules/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# Backups
+backups/
+*.dump
+
+# Maven build artifacts
+target/
+*.class
+*.jar
+*.war
+

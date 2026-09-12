@@ -42,14 +42,20 @@ gramin-career-setu/
 ├── README.md           # This file
 │
 ├── assets/
-│   ├── style.css       # Global styles
-│   ├── script.js       # Shared logic (language toggle, CSV fetch, utils)
-│   ├── quiz.js         # Quiz-specific logic
-│   ├── resume.js       # Resume builder + jsPDF export logic
+│   ├── tokens.css      # Design tokens (colors, spacing, typography)
+│   ├── style.css       # Core layout and component styles
+│   ├── landing.css     # Landing page styles
+│   ├── i18n-dict.js    # Bilingual translation dictionary (261 keys)
+│   ├── i18n.js         # Translation engine & speech synthesis
+│   ├── app.js          # Core application utilities, bookmarks & offline PWA
+│   ├── auth.js         # Authentication & role guard logic
+│   ├── quiz.js         # RIASEC career aptitude quiz logic
+│   ├── resume-builder-engine.js # Resume builder + ATS scoring engine
+│   ├── pdf-loader.js   # Lazy-loader for jsPDF
 │   └── sw.js           # Service Worker for offline caching (PWA)
 │
 └── data/
-    └── lang.json       # Telugu ↔ English translation strings
+    └── jobs.csv        # Seed job listings for offline demo
 ```
 
 ---
@@ -66,6 +72,18 @@ gramin-career-setu/
    # Or use VS Code "Live Server" extension
    ```
 
+### Automated checks
+
+Install Node.js 18 or newer, then run:
+
+```bash
+npm test
+```
+
+The regression suite verifies the local server entry point, custom 404 handling,
+path traversal protection, malformed URL handling, jobs search/filter wiring,
+and resume character-limit enforcement.
+
 ---
 
 ## 🌐 Deployment (GitHub Pages)
@@ -78,7 +96,7 @@ gramin-career-setu/
 
 ## 📝 Data Source
 
-Job listings and quiz questions can be stored in **Google Sheets** and published as CSV. Replace the placeholder URLs in `assets/script.js` with your own published links when the volunteer-maintained sheet is ready. Until then, the public jobs page uses `data/jobs.csv` (22 seed listings) and caches it for offline use.
+Job listings and survey registrations can be synchronized with **Google Sheets** via the Volunteer Admin Dashboard (`admin/index.html`). Configure your published CSV links in `assets/actions.js` or use the built-in offline listings. The public jobs page features 22 verified job opportunities with client-side category filtering and pagination.
 
 The public `results.html` page is the workshop impact dashboard. Update its editable `WORKSHOP_DATA` object with real pre/post survey values before submitting CSP evidence. The `admin/` page provides a local handover-oriented view for job, survey, and impact tracking.
 

@@ -71,9 +71,15 @@
     };
 
     try {
-      const existing = JSON.parse(localStorage.getItem('gcs-workshop-registrations') || '[]');
+      // Single key shared with assets/actions.js and the dashboard counter.
+      // This used to be 'gcs-workshop-registrations' (hyphen) while the
+      // Storage helper wrote 'gcs_workshop_registrations', so registrations
+      // made here never reached the dashboard.
+      const KEY = 'gcs_workshop_registrations';
+      const existing = JSON.parse(localStorage.getItem(KEY) || '[]');
+      registration.id = 'ws-' + String(title).toLowerCase().replace(/\s+/g, '-');
       existing.push(registration);
-      localStorage.setItem('gcs-workshop-registrations', JSON.stringify(existing));
+      localStorage.setItem(KEY, JSON.stringify(existing));
     } catch (e) {}
 
     const isTelugu = (document.documentElement.lang || 'te') === 'te';
@@ -81,7 +87,11 @@
       ? `🎉 ధన్యవాదాలు ${name}! "${title}" కోసం మీ ఉచిత రిజిస్ట్రేషన్ పూర్తయింది. మీ ఫోన్‌కు SMS కన్ఫర్మేషన్ వస్తుంది.`
       : `🎉 Thank you ${name}! Your free registration for "${title}" is confirmed.`;
 
-    alert(msg);
+    if (window.GCS_APP && window.GCS_APP.toast) {
+      window.GCS_APP.toast.show(msg);
+    } else {
+      alert(msg);
+    }
     window.closeGcsModal('workshopRegisterModal');
     document.getElementById('workshopRegForm').reset();
   };
@@ -173,7 +183,11 @@
       doc.save("Gramin_Career_Setu_Resource_Kit.pdf");
     } catch (err) {
       console.warn('[Resource Kit] PDF creation fallback:', err.message);
-      alert("Downloading Career Resource Kit summary...");
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show("Downloading Career Resource Kit summary...");
+      } else {
+        alert("Downloading Career Resource Kit summary...");
+      }
     }
   };
 

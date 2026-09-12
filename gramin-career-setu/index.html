@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
 
   <!-- SEO -->
+  <meta name="gcs-title-key" content="page-title-index" />
   <title>గ్రామీణ కెరీర్ సేతు — Gramin Career Setu | A Bridge To Your Career</title>
-  <meta name="description" content="గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం — Career guidance, jobs, skill development and opportunities for rural youth." />
+  <meta name="description" content="— Career guidance, jobs, skill development and opportunities for rural youth." />
   <meta name="theme-color" content="#1B4D3E" />
 
   <!-- PWA Manifest -->
@@ -15,7 +24,7 @@
   <!-- Google Fonts: Inter, Public Sans, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheets -->
@@ -23,8 +32,14 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/landing.css" />
 
-  <!-- jsPDF for Resource Kit PDF Generation -->
-  <script src="assets/jspdf.umd.min.js"></script>
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -59,10 +74,11 @@
           <a href="#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
+            <div class="gcs-dropdown-menu" role="menu">
               <a href="dashboard.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">dashboard</span>
                 <span>Student Dashboard</span>
@@ -90,12 +106,12 @@
 
         <!-- Right Header Actions (Language Toggle & Mobile Menu) -->
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill active" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -150,13 +166,8 @@
             <span data-lang-key="hero-title-prefix">A Bridge To</span><br />
             <span class="gcs-highlight" data-lang-key="hero-title-highlight">Your Career</span>
           </h1>
-
-          <p class="gcs-hero-sub-en" data-lang-key="hero-sub-en">
+          <p class="gcs-hero-sub-en" data-lang-key="hero-sub">
             Career guidance, jobs, skill development and opportunities for rural youth.
-          </p>
-
-          <p class="gcs-hero-sub-te" data-lang-key="hero-sub-te">
-            మీ కెరీర్‌కు మార్గదర్శనం, ఉద్యోగాలు, నైపుణ్య అభివృద్ధి మరియు అవకాశాలు.
           </p>
 
           <div class="gcs-hero-ctas">
@@ -182,7 +193,7 @@
             <div class="gcs-node-circle green">
               <span class="material-symbols-outlined">settings</span>
             </div>
-            <span class="gcs-node-tag">Engineer</span>
+            <span class="gcs-node-tag" data-lang-key="node-engineer">Engineer</span>
           </a>
 
           <!-- 2. Teacher (Upper Left path to school) -->
@@ -190,7 +201,7 @@
             <div class="gcs-node-circle blue">
               <span class="material-symbols-outlined">menu_book</span>
             </div>
-            <span class="gcs-node-tag">Teacher</span>
+            <span class="gcs-node-tag" data-lang-key="node-teacher">Teacher</span>
           </a>
 
           <!-- 3. Police (Upper Right path to govt office) -->
@@ -198,7 +209,7 @@
             <div class="gcs-node-circle navy">
               <span class="material-symbols-outlined">shield</span>
             </div>
-            <span class="gcs-node-tag">Police</span>
+            <span class="gcs-node-tag" data-lang-key="node-police">Police</span>
           </a>
 
           <!-- 4. Nurse (Lower Left branch) -->
@@ -206,7 +217,7 @@
             <div class="gcs-node-circle cyan">
               <span class="material-symbols-outlined">add</span>
             </div>
-            <span class="gcs-node-tag">Nurse</span>
+            <span class="gcs-node-tag" data-lang-key="node-nurse">Nurse</span>
           </a>
 
           <!-- 5. Entrepreneur (Lower Right branch) -->
@@ -214,7 +225,7 @@
             <div class="gcs-node-circle teal">
               <span class="material-symbols-outlined">bar_chart</span>
             </div>
-            <span class="gcs-node-tag">Entrepreneur</span>
+            <span class="gcs-node-tag" data-lang-key="node-entrepreneur">Entrepreneur</span>
           </a>
         </div>
 
@@ -228,23 +239,23 @@
           <!-- Mobile overlay nodes -->
           <a href="career-detail.html?career=software-engineer" class="gcs-path-node gcs-mobile-node-engineer">
             <div class="gcs-node-circle green"><span class="material-symbols-outlined">settings</span></div>
-            <span class="gcs-node-tag">Engineer</span>
+            <span class="gcs-node-tag" data-lang-key="node-engineer">Engineer</span>
           </a>
           <a href="career-detail.html?career=school-teacher" class="gcs-path-node gcs-mobile-node-teacher">
             <div class="gcs-node-circle blue"><span class="material-symbols-outlined">menu_book</span></div>
-            <span class="gcs-node-tag">Teacher</span>
+            <span class="gcs-node-tag" data-lang-key="node-teacher">Teacher</span>
           </a>
           <a href="career-detail.html?career=sub-inspector" class="gcs-path-node gcs-mobile-node-police">
             <div class="gcs-node-circle navy"><span class="material-symbols-outlined">shield</span></div>
-            <span class="gcs-node-tag">Police</span>
+            <span class="gcs-node-tag" data-lang-key="node-police">Police</span>
           </a>
           <a href="career-detail.html?career=staff-nurse" class="gcs-path-node gcs-mobile-node-nurse">
             <div class="gcs-node-circle cyan"><span class="material-symbols-outlined">add</span></div>
-            <span class="gcs-node-tag">Nurse</span>
+            <span class="gcs-node-tag" data-lang-key="node-nurse">Nurse</span>
           </a>
           <a href="career-detail.html?career=entrepreneur" class="gcs-path-node gcs-mobile-node-entrepreneur">
             <div class="gcs-node-circle teal"><span class="material-symbols-outlined">bar_chart</span></div>
-            <span class="gcs-node-tag">Entrepreneur</span>
+            <span class="gcs-node-tag" data-lang-key="node-entrepreneur">Entrepreneur</span>
           </a>
         </div>
 
@@ -263,7 +274,8 @@
               <span class="material-symbols-outlined">school</span>
             </div>
             <div>
-              <div class="gcs-metric-num">100+</div>
+              <!-- Keep in step with the real content count in careers.html -->
+              <div class="gcs-metric-num">8</div>
               <div class="gcs-metric-label" data-lang-key="metric-paths">Career Paths</div>
             </div>
           </div>
@@ -273,7 +285,8 @@
               <span class="material-symbols-outlined">work</span>
             </div>
             <div>
-              <div class="gcs-metric-num">500+</div>
+              <!-- Keep in step with JOBS_DATABASE in assets/app.js -->
+              <div class="gcs-metric-num">6</div>
               <div class="gcs-metric-label" data-lang-key="metric-jobs">Job Resources</div>
             </div>
           </div>
@@ -700,13 +713,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -753,8 +766,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -808,15 +822,15 @@
       
       <form id="workshopRegForm" onsubmit="handleWorkshopFormSubmit(event)">
         <div style="margin-bottom: 14px;">
-          <label style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Full Name (పూర్తి పేరు) *</label>
+          <label for="wsRegName" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Full Name (పూర్తి పేరు) *</label>
           <input type="text" id="wsRegName" required style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="e.g. Ramesh Kumar" />
         </div>
         <div style="margin-bottom: 14px;">
-          <label style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Mobile Number (ఫోన్ నంబర్) *</label>
+          <label for="wsRegPhone" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Mobile Number (ఫోన్ నంబర్) *</label>
           <input type="tel" id="wsRegPhone" required pattern="[0-9]{10}" style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="10-digit phone number" />
         </div>
         <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Village / Mandal (గ్రామం / మండలం) *</label>
+          <label for="wsRegVillage" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Village / Mandal (గ్రామం / మండలం) *</label>
           <input type="text" id="wsRegVillage" required style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="e.g. Marripalem" />
         </div>
         <button type="submit" class="gcs-btn-cta-1" style="width: 100%; justify-content: center;">
@@ -850,10 +864,5 @@
   </div>
 
   <!-- Scripts -->
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/script.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

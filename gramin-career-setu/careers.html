@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-careers" />
   <title>కెరీర్ ఎక్స్‌ప్లోరర్ — Career Explorer | Gramin Career Setu</title>
-  <meta name="description" content="Explore 100+ career options and find the perfect path for your future. మీ భవిష్యత్తుకు సరైన మార్గాన్ని కనుగొనండి." />
+  <meta name="description" content="Explore detailed career guides and find the right path for your future." />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheet -->
@@ -19,6 +28,14 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -51,7 +68,7 @@
           <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
@@ -73,12 +90,12 @@
         </nav>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -117,9 +134,8 @@
     <!-- Page Hero Banner with Image -->
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
-        <h1 class="gcs-page-hero-title">Career Explorer</h1>
-        <p class="gcs-page-hero-desc">Explore 100+ career options and find the perfect path for your future.</p>
-        <p class="gcs-page-hero-telugu">మీ భవిష్యత్తుకు సరైన మార్గాన్ని కనుగొనండి.</p>
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-careers">Career Explorer</h1>
+        <p class="gcs-page-hero-desc" data-lang-key="hero-sub-careers">Explore detailed career guides and find the right path for your future.</p>
       </div>
       <div class="gcs-page-hero-visual">
         <img src="assets/career-explorer-hero.jpg" alt="Student exploring career pathways at crossroads" loading="lazy" />
@@ -130,7 +146,7 @@
     <section class="gcs-search-filter-card">
       <div class="gcs-search-input-row">
         <span class="material-symbols-outlined" style="color: #64748B;">search</span>
-        <input type="text" id="careerSearchInput" placeholder="Search careers, e.g., Engineer, Teacher, Police..." oninput="filterCareers()" />
+        <input type="text" id="careerSearchInput" placeholder="Search careers, e.g., Engineer, Teacher, Police..." data-lang-placeholder="jobs-search-placeholder" oninput="filterCareers()" />
         <button type="button" class="gcs-voice-search-btn" id="voiceSearchBtn" onclick="triggerVoiceSearch()" title="Voice Search" aria-label="Voice Search">
           <span class="material-symbols-outlined" style="font-size: 20px;">mic</span>
         </button>
@@ -184,7 +200,7 @@
           <label><span class="material-symbols-outlined" style="font-size: 14px;">work</span> Job Type</label>
           <select id="filterJobType" onchange="filterCareers()">
             <option value="all">All Job Types</option>
-            <option value="govt">Government</option>
+            <option value="govt" data-lang-key="filter-government">Government</option>
             <option value="pvt">Private Sector</option>
             <option value="self">Self Employment</option>
           </select>
@@ -194,7 +210,7 @@
       <div class="gcs-filter-action-row">
         <button type="button" class="gcs-clear-filters-link" onclick="resetFilters()">
           <span class="material-symbols-outlined" style="font-size: 16px;">restart_alt</span>
-          <span>Clear Filters</span>
+          <span data-lang-key="btn-clear">Clear Filters</span>
         </button>
         <button type="button" class="gcs-apply-filters-btn" onclick="filterCareers()">Apply Filters</button>
       </div>
@@ -268,7 +284,7 @@
           <div class="gcs-cat-tile-icon" style="background: #FAF5FF; color: #9333EA;">
             <span class="material-symbols-outlined">business_center</span>
           </div>
-          <span class="gcs-cat-tile-name">Business</span>
+          <span class="gcs-cat-tile-name" data-lang-key="filter-business">Business</span>
           <span class="gcs-cat-tile-count">20 Careers</span>
         </div>
       </div>
@@ -279,7 +295,7 @@
       <div class="gcs-section-header-row">
         <h2 class="gcs-section-header-title">Top Career Options</h2>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 0.85rem; color: #64748B;">Sort by:</span>
+          <span style="font-size: 0.85rem; color: #64748B;" data-lang-key="label-sort-by">Sort by:</span>
           <select id="sortSelect" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600; outline: none; font-size: 0.85rem;">
             <option>Popular</option>
             <option>High Salary</option>
@@ -301,7 +317,7 @@
             <div class="gcs-career-card-qual">B.Tech Degree</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=civil-engineer" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -319,7 +335,7 @@
             <div class="gcs-career-card-qual">B.Ed / D.El.Ed</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=school-teacher" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -337,7 +353,7 @@
             <div class="gcs-career-card-qual">Degree (Any Stream)</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=sub-inspector" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -355,7 +371,7 @@
             <div class="gcs-career-card-qual">B.Sc Nursing</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=staff-nurse" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -373,7 +389,7 @@
             <div class="gcs-career-card-qual">B.Tech / MCA</div>
             <div class="gcs-career-card-tag" style="background: #F3E8FF; color: #7E22CE;"><span class="material-symbols-outlined" style="font-size: 14px;">bolt</span> Very High Demand</div>
             <a href="career-detail.html?career=software-engineer" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -391,7 +407,7 @@
             <div class="gcs-career-card-qual">Degree (Any Stream)</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=bank-officer" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -409,7 +425,7 @@
             <div class="gcs-career-card-qual">B.Sc Agriculture</div>
             <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=agricultural-officer" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -427,7 +443,7 @@
             <div class="gcs-career-card-qual">Any Qualification</div>
             <div class="gcs-career-card-tag" style="background: #FEF3C7; color: #B45309;"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Growth</div>
             <a href="career-detail.html?career=entrepreneur" class="gcs-career-card-btn">
-              <span>View Details</span>
+              <span data-lang-key="btn-view-details">View Details</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
             </a>
           </div>
@@ -475,13 +491,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -524,8 +540,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -618,7 +635,11 @@
 
     function triggerVoiceSearch() {
       if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('Voice recognition is not supported in this browser. Please type your search.');
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('🎤 Voice recognition is not supported in this browser. Please type your search.');
+        } else {
+          alert('Voice recognition is not supported in this browser. Please type your search.');
+        }
         return;
       }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -641,20 +662,18 @@
     }
 
     function speakSearchHelp() {
-      if ('speechSynthesis' in window) {
-        const isTelugu = document.documentElement.lang === 'te';
-        const msg = isTelugu 
-          ? 'ఇంజనీర్, టీచర్, పోలీస్ లేదా నర్స్ వంటి కెరీర్ల కోసం శోధించండి.'
-          : 'Search for careers like Engineer, Teacher, Police, Nurse or Software Developer.';
+      const isTelugu = document.documentElement.lang === 'te';
+      const msg = isTelugu 
+        ? 'ఇంజనీర్, టీచర్, పోలీస్ లేదా నర్స్ వంటి కెరీర్ల కోసం శోధించండి.'
+        : 'Search for careers like Engineer, Teacher, Police, Nurse or Software Developer.';
+      if (window.GCS_I18N && window.GCS_I18N.speak) {
+        window.GCS_I18N.speak(msg, isTelugu ? 'te' : 'en');
+      } else if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(msg);
-        utterance.lang = isTelugu ? 'te-IN' : 'en-US';
+        utterance.lang = isTelugu ? 'te-IN' : 'en-IN';
         window.speechSynthesis.speak(utterance);
       }
     }
   </script>
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

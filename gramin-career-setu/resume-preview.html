@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-resume-preview" />
   <title>రెజ్యూమ్ ప్రివ్యూ — Resume Preview | Gramin Career Setu</title>
   <meta name="description" content="Review your professional resume, check ATS compatibility, and download high quality PDF." />
   <link rel="manifest" href="manifest.json" />
@@ -11,17 +20,27 @@
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- jsPDF for instant client-side download -->
-  <script src="assets/jspdf.umd.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'"></script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/tokens.css" />
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/resume-builder-engine.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -53,7 +72,7 @@
           <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
@@ -75,12 +94,12 @@
         </nav>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -111,7 +130,7 @@
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Home</a>
+      <a href="index.html" data-lang-key="nav-home">Home</a>
       <span class="gcs-breadcrumb-sep">&gt;</span>
       <a href="resume.html">Resume Builder</a>
       <span class="gcs-breadcrumb-sep">&gt;</span>
@@ -150,7 +169,7 @@
           <span class="material-symbols-outlined" style="font-size: 18px;">share</span>
           <span>Share Resume</span>
         </button>
-        <button type="button" class="gcs-btn-cta-2" style="padding: 8px 14px; font-size: 0.88rem;" onclick="alert('Draft Saved in Offline LocalStorage!')">
+        <button type="button" class="gcs-btn-cta-2" style="padding: 8px 14px; font-size: 0.88rem;" onclick="GCS_APP.toast.show('💾 Draft saved on this device.')">
           <span class="material-symbols-outlined" style="font-size: 18px;">bookmark</span>
           <span>Save Draft</span>
         </button>
@@ -161,200 +180,7 @@
     <div style="display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; margin-bottom: 40px;">
       
       <!-- Left Column: Full A4 Resume Document (Printable) -->
-      <div id="a4ResumeSheet" style="background: #ffffff; border: 1px solid #CBD5E1; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); display: grid; grid-template-columns: 260px 1fr; min-height: 840px; overflow: hidden;">
-        
-        <!-- Left Sidebar (Forest Green) -->
-        <div style="background: #153E31; color: #ECFDF5; padding: 32px 22px; display: flex; flex-direction: column;">
-          <!-- Avatar & Title -->
-          <div style="text-align: center; margin-bottom: 24px;">
-            <img src="assets/resume-avatar-ravi.jpg" alt="Ravi Teja" style="width: 105px; height: 105px; border-radius: 50%; object-fit: cover; border: 3px solid #34D399; margin-bottom: 12px;" />
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0 0 4px 0;">Ravi Teja</h2>
-            <div style="font-size: 0.85rem; color: #A7F3D0; font-weight: 600;">Aspiring Software Developer</div>
-          </div>
-
-          <!-- Contact Row -->
-          <div style="font-size: 0.78rem; color: #D1FAE5; line-height: 1.8; margin-bottom: 24px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 14px;">
-            <div>📞 +91 98765 43210</div>
-            <div>✉️ raviteja@gmail.com</div>
-            <div>📍 Gudur, Andhra Pradesh</div>
-            <div>🔗 in/raviteja</div>
-            <div>💻 github.com/raviteja</div>
-          </div>
-
-          <!-- Skills Bars -->
-          <div style="margin-bottom: 24px;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: #ffffff; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">
-              Skills
-            </div>
-            
-            <div style="margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px;">
-                <span>HTML &amp; CSS</span>
-                <span>90%</span>
-              </div>
-              <div style="height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px;">
-                <div style="width: 90%; height: 100%; background: #34D399; border-radius: 3px;"></div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px;">
-                <span>JavaScript</span>
-                <span>80%</span>
-              </div>
-              <div style="height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px;">
-                <div style="width: 80%; height: 100%; background: #34D399; border-radius: 3px;"></div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px;">
-                <span>Python</span>
-                <span>75%</span>
-              </div>
-              <div style="height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px;">
-                <div style="width: 75%; height: 100%; background: #34D399; border-radius: 3px;"></div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px;">
-                <span>SQL</span>
-                <span>70%</span>
-              </div>
-              <div style="height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px;">
-                <div style="width: 70%; height: 100%; background: #34D399; border-radius: 3px;"></div>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px;">
-                <span>Problem Solving</span>
-                <span>85%</span>
-              </div>
-              <div style="height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px;">
-                <div style="width: 85%; height: 100%; background: #34D399; border-radius: 3px;"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Languages -->
-          <div style="margin-bottom: 20px;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: #ffffff; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">
-              Languages
-            </div>
-            <div style="font-size: 0.75rem; line-height: 1.8;">
-              <div style="display: flex; justify-content: space-between;"><span>Telugu</span> <span>●●●●●</span></div>
-              <div style="display: flex; justify-content: space-between;"><span>English</span> <span>●●●●○</span></div>
-              <div style="display: flex; justify-content: space-between;"><span>Hindi</span> <span>●●●○○</span></div>
-            </div>
-          </div>
-
-          <!-- Interests -->
-          <div>
-            <div style="font-size: 0.8rem; font-weight: 800; color: #ffffff; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">
-              Interests
-            </div>
-            <div style="font-size: 0.75rem; line-height: 1.6; color: #A7F3D0;">
-              <div>💻 Coding &amp; Open Source</div>
-              <div>📖 Reading Tech Blogs</div>
-              <div>🧩 Algorithmic Puzzles</div>
-              <div>🏏 Cricket &amp; Fitness</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Content Area (White) -->
-        <div style="padding: 36px 30px;">
-          <!-- Career Objective -->
-          <div style="margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 20px;">person</span>
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; letter-spacing: 0.04em;">Career Objective</h3>
-            </div>
-            <p style="font-size: 0.85rem; color: #475569; line-height: 1.6; margin: 0;">
-              To work in a challenging environment and utilize my skills in software development to contribute to the growth of the organization and enhance my professional skills.
-            </p>
-          </div>
-
-          <!-- Education -->
-          <div style="margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-              <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 20px;">school</span>
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; letter-spacing: 0.04em;">Education</h3>
-            </div>
-            
-            <div style="margin-bottom: 12px;">
-              <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">Bachelor of Technology in Computer Science</div>
-              <div style="font-size: 0.8rem; color: #475569;">Lakireddy Bali Reddy College of Engineering, Mylavaram</div>
-              <div style="font-size: 0.75rem; color: #64748B;">2021 – 2025 | CGPA: 8.45</div>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-              <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">Intermediate (MPC)</div>
-              <div style="font-size: 0.8rem; color: #475569;">Sri Chaitanya Junior College, Vijayawada</div>
-              <div style="font-size: 0.75rem; color: #64748B;">2019 – 2021 | 92.3%</div>
-            </div>
-
-            <div>
-              <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">SSC (10th Class)</div>
-              <div style="font-size: 0.8rem; color: #475569;">ZP High School, Gudur</div>
-              <div style="font-size: 0.75rem; color: #64748B;">2018 – 2019 | 95%</div>
-            </div>
-          </div>
-
-          <!-- Projects -->
-          <div style="margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-              <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 20px;">terminal</span>
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; letter-spacing: 0.04em;">Projects</h3>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-              <div style="font-size: 0.88rem; font-weight: 700; color: #0F172A;">1. Student Result Management System</div>
-              <p style="font-size: 0.8rem; color: #475569; margin: 2px 0 4px 0;">A web application to manage student information, marks, and generate PDF report cards.</p>
-              <div style="font-size: 0.75rem; color: #059669; font-weight: 600;">Tech Stack: HTML, CSS, JavaScript, PHP, MySQL</div>
-            </div>
-
-            <div>
-              <div style="font-size: 0.88rem; font-weight: 700; color: #0F172A;">2. Personal Portfolio Website</div>
-              <p style="font-size: 0.8rem; color: #475569; margin: 2px 0 4px 0;">A responsive personal portfolio website to showcase academic projects and coding challenges.</p>
-              <div style="font-size: 0.75rem; color: #059669; font-weight: 600;">Tech Stack: HTML, CSS, JavaScript</div>
-            </div>
-          </div>
-
-          <!-- Experience -->
-          <div style="margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-              <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 20px;">work</span>
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; letter-spacing: 0.04em;">Experience</h3>
-            </div>
-
-            <div>
-              <div style="font-size: 0.88rem; font-weight: 700; color: #0F172A;">Web Development Intern</div>
-              <div style="font-size: 0.8rem; color: #475569;">TechnoHacks EduTech | May 2024 – July 2024</div>
-              <ul style="margin: 4px 0 0 0; padding-left: 18px; font-size: 0.78rem; color: #64748B; line-height: 1.5;">
-                <li>Developed responsive web pages using modern HTML, CSS, and JavaScript.</li>
-                <li>Collaborated with mentor to debug and optimize web application performance.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Certifications & Achievements -->
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-              <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 20px;">workspace_premium</span>
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; letter-spacing: 0.04em;">Certifications &amp; Awards</h3>
-            </div>
-            <ul style="margin: 0; padding-left: 18px; font-size: 0.8rem; color: #475569; line-height: 1.6;">
-              <li>Python for Everybody — Coursera</li>
-              <li>JavaScript Basics — Great Learning</li>
-              <li>Secured 1st Prize in College Hackathon 2024</li>
-              <li>Completed 50+ Coding Challenges on HackerRank</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <div id="a4ResumeSheet" class="gcs-printable-resume"></div>
 
       <!-- Right Column: Controls & Analytics -->
       <aside style="display: flex; flex-direction: column; gap: 20px;">
@@ -371,18 +197,18 @@
 
           <div style="font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 6px;">Accent Color</div>
           <div style="display: flex; gap: 8px;">
-            <button type="button" class="color-swatch-btn" data-color="#1B4D3E" style="width: 26px; height: 26px; border-radius: 50%; background: #1B4D3E; border: 2px solid #34D399; cursor: pointer;" title="Emerald"></button>
-            <button type="button" class="color-swatch-btn" data-color="#2563EB" style="width: 26px; height: 26px; border-radius: 50%; background: #2563EB; border: 2px solid #93C5FD; cursor: pointer;" title="Sapphire"></button>
-            <button type="button" class="color-swatch-btn" data-color="#7C3AED" style="width: 26px; height: 26px; border-radius: 50%; background: #7C3AED; border: 2px solid #C4B5FD; cursor: pointer;" title="Violet"></button>
-            <button type="button" class="color-swatch-btn" data-color="#DC2626" style="width: 26px; height: 26px; border-radius: 50%; background: #DC2626; border: 2px solid #FCA5A5; cursor: pointer;" title="Ruby"></button>
-            <button type="button" class="color-swatch-btn" data-color="#0F172A" style="width: 26px; height: 26px; border-radius: 50%; background: #0F172A; border: 2px solid #94A3B8; cursor: pointer;" title="Slate"></button>
+            <button type="button" class="color-swatch-btn" data-color="#1B4D3E" aria-label="Select Emerald theme" style="width: 26px; height: 26px; border-radius: 50%; background: #1B4D3E; border: 2px solid #34D399; cursor: pointer;" title="Emerald"></button>
+            <button type="button" class="color-swatch-btn" data-color="#2563EB" aria-label="Select Sapphire theme" style="width: 26px; height: 26px; border-radius: 50%; background: #2563EB; border: 2px solid #93C5FD; cursor: pointer;" title="Sapphire"></button>
+            <button type="button" class="color-swatch-btn" data-color="#7C3AED" aria-label="Select Violet theme" style="width: 26px; height: 26px; border-radius: 50%; background: #7C3AED; border: 2px solid #C4B5FD; cursor: pointer;" title="Violet"></button>
+            <button type="button" class="color-swatch-btn" data-color="#DC2626" aria-label="Select Ruby theme" style="width: 26px; height: 26px; border-radius: 50%; background: #DC2626; border: 2px solid #FCA5A5; cursor: pointer;" title="Ruby"></button>
+            <button type="button" class="color-swatch-btn" data-color="#0F172A" aria-label="Select Slate theme" style="width: 26px; height: 26px; border-radius: 50%; background: #0F172A; border: 2px solid #94A3B8; cursor: pointer;" title="Slate"></button>
           </div>
         </div>
 
         <!-- Resume Score -->
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px;">
-          <div style="width: 60px; height: 60px; border-radius: 50%; border: 4px solid var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--gcs-green-primary); flex-shrink: 0;">
-            85<span style="font-size: 0.65rem; color: #64748B;">/100</span>
+          <div id="previewScoreValue" style="width: 60px; height: 60px; border-radius: 50%; border: 4px solid var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--gcs-green-primary); flex-shrink: 0;">
+            0<span style="font-size: 0.65rem; color: #64748B;">/100</span>
           </div>
           <div>
             <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A;">Great Score!</div>
@@ -393,8 +219,8 @@
 
         <!-- ATS Score -->
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px;">
-          <div style="width: 60px; height: 60px; border-radius: 50%; border: 4px solid #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #2563EB; flex-shrink: 0;">
-            92%
+          <div id="previewAtsValue" style="width: 60px; height: 60px; border-radius: 50%; border: 4px solid #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #2563EB; flex-shrink: 0;">
+            0%
           </div>
           <div>
             <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A;">ATS Compatibility</div>
@@ -406,11 +232,11 @@
         <!-- Quick Actions List -->
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
           <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Quick Actions</div>
-          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="alert('ATS Check Passed: 92% Match for Software Developer')">
+          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="GCS_ACTIONS.notAvailable('ATS deep check')">
             <span style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">target</span> Check ATS Score</span>
             <span>&gt;</span>
           </button>
-          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="alert('Spell check completed: No errors found!')">
+          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="GCS_ACTIONS.notAvailable('Spell check')">
             <span style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">spellcheck</span> Spell Check</span>
             <span>&gt;</span>
           </button>
@@ -485,7 +311,7 @@
           <p class="gcs-banner-callout-sub" style="color: #047857;">Share your resume with our volunteer mentors and get personalized tips within 24 hours.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-1" onclick="alert('Resume submitted for volunteer mentor review!')" style="border: none; cursor: pointer; white-space: nowrap;">
+      <button type="button" class="gcs-btn-cta-1" onclick="GCS_ACTIONS.notAvailable('Mentor review')" style="border: none; cursor: pointer; white-space: nowrap;">
         <span>Get Feedback</span>
         <span class="material-symbols-outlined">send</span>
       </button>
@@ -510,13 +336,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -559,8 +385,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -606,70 +433,22 @@
   </nav>
 
   <!-- Interactive Scripts -->
+
   <script>
-    function downloadResumePDF() {
-      const { jsPDF } = window.jspdf || {};
-      if (!jsPDF) {
-        window.print();
-        return;
-      }
-      const doc = new jsPDF();
-      doc.setFillColor(21, 62, 49);
-      doc.rect(0, 0, 70, 297, 'F');
-      
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(16);
-      doc.text('Ravi Teja', 10, 30);
-      doc.setFontSize(9);
-      doc.setTextColor(167, 243, 208);
-      doc.text('Aspiring Software Dev', 10, 37);
-
-      doc.setTextColor(209, 250, 229);
-      doc.setFontSize(8);
-      doc.text('+91 98765 43210', 10, 52);
-      doc.text('raviteja@gmail.com', 10, 58);
-      doc.text('Gudur, Andhra Pradesh', 10, 64);
-      doc.text('in/raviteja', 10, 70);
-
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(12);
-      doc.text('CAREER OBJECTIVE', 78, 25);
-      doc.setFontSize(8.5);
-      doc.setTextColor(71, 85, 105);
-      doc.text('To work in a challenging environment and utilize my skills in software development.', 78, 33);
-
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(12);
-      doc.text('EDUCATION', 78, 50);
-      doc.setFontSize(9);
-      doc.text('B.Tech in Computer Science - CGPA 8.45', 78, 58);
-      doc.setFontSize(8);
-      doc.setTextColor(100, 116, 139);
-      doc.text('Lakireddy Bali Reddy College of Engineering (2021-2025)', 78, 64);
-
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(12);
-      doc.text('PROJECTS', 78, 80);
-      doc.setFontSize(9);
-      doc.text('1. Student Result Management System (HTML, CSS, JS, PHP, MySQL)', 78, 88);
-      doc.text('2. Personal Portfolio Website (HTML, CSS, JavaScript)', 78, 96);
-
-      doc.save('Ravi_Teja_Resume.pdf');
-    }
-
     function shareResume() {
+      const profile = (window.GCS_RESUME && window.GCS_RESUME.loadProfile) ? window.GCS_RESUME.loadProfile() : null;
+      const title = (profile && profile.fullName) ? `${profile.fullName} - Professional Resume` : 'Professional Resume';
       if (navigator.share) {
-        navigator.share({ title: 'Ravi Teja - Professional Resume', url: window.location.href });
-      } else {
+        navigator.share({ title: title, url: window.location.href });
+      } else if (navigator.clipboard) {
         navigator.clipboard.writeText(window.location.href);
-        alert('Resume link copied to clipboard!');
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('📋 Resume link copied to clipboard!');
+        } else {
+          alert('Resume link copied to clipboard!');
+        }
       }
     }
   </script>
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/resume-builder-engine.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

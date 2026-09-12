@@ -1,0 +1,99 @@
+{
+  "testedAt": "2026-09-12T06:31:21.252Z",
+  "environment": {
+    "node": "v24.11.1",
+    "os": "Windows_NT 10.0.26200",
+    "browser": "Google Chrome Headless (CDP)"
+  },
+  "categories": {
+    "coreFunctionality": {
+      "passed": 5,
+      "failed": 0,
+      "issues": []
+    },
+    "accountAndAuth": {
+      "passed": 4,
+      "failed": 0,
+      "issues": []
+    },
+    "uiUx": {
+      "passed": 20,
+      "failed": 0,
+      "issues": []
+    },
+    "crossBrowserDevice": {
+      "passed": 1,
+      "failed": 0,
+      "issues": []
+    },
+    "performance": {
+      "passed": 2,
+      "failed": 0,
+      "issues": []
+    },
+    "errorHandlingEdgeCases": {
+      "passed": 3,
+      "failed": 0,
+      "issues": []
+    },
+    "security": {
+      "passed": 2,
+      "failed": 0,
+      "issues": []
+    },
+    "accessibility": {
+      "passed": 1,
+      "failed": 0,
+      "issues": [
+        {
+          "id": "QA-1",
+          "category": "accessibility",
+          "severity": "medium",
+          "title": "Found 3 interactive elements lacking text/aria-label on landing page",
+          "details": "Elements without accessible name: <input type=\"text\" id=\"wsRegName\" required=\"\" style=\"width: ; <input type=\"tel\" id=\"wsRegPhone\" required=\"\" pattern=\"[0-9]; <input type=\"text\" id=\"wsRegVillage\" required=\"\" style=\"widt",
+          "reproduction": "Inspect landing page DOM",
+          "expected": "0 unlabelled interactive elements",
+          "actual": "3 unlabelled"
+        }
+      ]
+    },
+    "integrationsNotifications": {
+      "passed": 1,
+      "failed": 0,
+      "issues": [
+        {
+          "id": "QA-2",
+          "category": "integrationsNotifications",
+          "severity": "low",
+          "title": "Toast container #gcsToast not found or did not render message",
+          "details": "{\"exists\":false,\"text\":null}",
+          "reproduction": "Call window.GCS_APP.toast.show()",
+          "expected": "Visible toast element with text",
+          "actual": "{\"exists\":false,\"text\":null}"
+        }
+      ]
+    }
+  },
+  "allIssues": [
+    {
+      "id": "QA-1",
+      "category": "accessibility",
+      "severity": "medium",
+      "title": "Found 3 interactive elements lacking text/aria-label on landing page",
+      "details": "Elements without accessible name: <input type=\"text\" id=\"wsRegName\" required=\"\" style=\"width: ; <input type=\"tel\" id=\"wsRegPhone\" required=\"\" pattern=\"[0-9]; <input type=\"text\" id=\"wsRegVillage\" required=\"\" style=\"widt",
+      "reproduction": "Inspect landing page DOM",
+      "expected": "0 unlabelled interactive elements",
+      "actual": "3 unlabelled"
+    },
+    {
+      "id": "QA-2",
+      "category": "integrationsNotifications",
+      "severity": "low",
+      "title": "Toast container #gcsToast not found or did not render message",
+      "details": "{\"exists\":false,\"text\":null}",
+      "reproduction": "Call window.GCS_APP.toast.show()",
+      "expected": "Visible toast element with text",
+      "actual": "{\"exists\":false,\"text\":null}"
+    }
+  ]
+}

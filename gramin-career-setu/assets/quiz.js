@@ -269,6 +269,8 @@ const QUIZ_DATA = {
   }
 };
 
+window.QUIZ_DATA = QUIZ_DATA;
+
 const Quiz = (() => {
   'use strict';
 
@@ -504,6 +506,7 @@ const Quiz = (() => {
 
   function init() {
     cacheDom();
+    if (!dom.questionArea) return;
     showQuestion(0);
 
     const observer = new MutationObserver(mutations => {

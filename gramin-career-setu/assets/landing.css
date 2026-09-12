@@ -2781,3 +2781,248 @@
 }
 
 
+
+/* ══════════════════════════════════════════════════════════════════
+   i18n — language echo, script-aware typography, tap targets
+   Added by the accessibility / i18n remediation pass.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Telugu companion line rendered by 'both' mode (GCS_I18N). */
+.gcs-lang-echo {
+  font-family: var(--font-telugu);
+  font-size: 0.95em;
+  color: var(--gcs-green-primary);
+  font-weight: 600;
+  line-height: 1.7;
+  margin-top: 2px;
+}
+
+/* Telugu glyphs have taller ascenders/descenders than Latin and clip
+   at Latin line-heights. Applied via <html lang>, which the engine keeps
+   in sync with the active language. */
+:lang(te) body,
+[data-lang="both"] .gcs-lang-echo {
+  line-height: 1.75;
+}
+
+:lang(te) .gcs-btn-cta-1,
+:lang(te) .gcs-btn-cta-2 {
+  padding-block: 0.7em;
+  line-height: 1.6;
+}
+
+/* Language pills: the .active class is the single source of truth.
+   Inline styles were previously written by JS and by hand in the footer,
+   which left the footer switcher permanently stuck on Telugu. */
+.gcs-lang-pill {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 14px;
+}
+
+.gcs-footer .gcs-lang-pill {
+  color: #94A3B8;
+}
+
+.gcs-footer .gcs-lang-pill.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* WCAG 2.5.5 — minimum 44x44 interactive targets.
+   Matters most for the older, lower-vision phones this audience uses. */
+.gcs-mobile-toggle,
+.gcs-social-link,
+.gcs-speak-search-btn {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Disabled Listen button when the device has no voice for this language. */
+.gcs-speak-search-btn[aria-disabled="true"] {
+  filter: grayscale(1);
+}
+
+/* Info dialog — replaces blocking alert() for real content. */
+.gcs-info-dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 24px 26px;
+  max-width: 460px;
+  width: calc(100% - 32px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+  color: #0F172A;
+  background: #ffffff;
+}
+
+.gcs-info-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.gcs-info-dialog h3 {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gcs-green-primary);
+}
+
+.gcs-info-dialog ol {
+  margin: 0 0 20px;
+  padding-inline-start: 22px;
+  line-height: 1.85;
+  font-size: 0.94rem;
+  color: #334155;
+}
+
+.gcs-info-dialog ol:empty {
+  display: none;
+}
+
+.gcs-info-dialog button {
+  width: 100%;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+/* Registered / subscribed confirmation state */
+.is-registered {
+  background: #ECFDF5 !important;
+  border-color: #86EFAC !important;
+  color: #047857 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Small-screen header fit
+   At 360px the header actions (2 language pills + Sign In + menu)
+   overflowed to 443px, pushing the menu button off-screen entirely.
+   The brand is the flexible element; the controls must never shrink.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 560px) {
+  .gcs-header-inner {
+    gap: 8px;
+  }
+
+  /* Brand yields space first and truncates. */
+  .gcs-brand {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .gcs-brand-meta {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .gcs-brand-title {
+    font-size: 0.92rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  /* Tagline is decorative — the logo and title already identify the site. */
+  .gcs-brand-sub {
+    display: none;
+  }
+
+  /* Controls keep their full size and never shrink. */
+  .gcs-header-actions {
+    gap: 6px;
+    flex: 0 0 auto;
+  }
+
+  .gcs-lang-group {
+    padding: 2px;
+    flex: 0 0 auto;
+  }
+
+  .gcs-lang-pill {
+    padding: 10px 7px;
+    min-width: 0;
+    font-size: 0.7rem;
+  }
+
+  #gcsHeaderAuthBtn .gcs-btn-cta-1 {
+    padding: 10px 9px;
+  }
+
+  /* Sign In label is redundant next to the icon at this width. */
+  #gcsHeaderAuthBtn .gcs-btn-cta-1 span:not(.material-symbols-outlined) {
+    display: none;
+  }
+
+  .gcs-mobile-toggle {
+    flex: 0 0 auto;
+    margin-inline-start: 2px;
+  }
+
+  /* Search + filters stack instead of squeezing into one unusable row. */
+  .gcs-jobs-searchbar,
+  .gcs-search-row,
+  .gcs-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gcs-jobs-searchbar > *,
+  .gcs-search-row > *,
+  .gcs-filter-row > * {
+    width: 100%;
+  }
+
+  /* Category pills scroll horizontally rather than forcing page width. */
+  .gcs-pill-row {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safety net: no page should ever scroll sideways. This backs up the
+   rules above rather than substituting for them. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Filter / search grids
+   These were inline `display:grid` styles, which no media query could
+   override — at 360px the job search box collapsed to 59px wide.
+   ══════════════════════════════════════════════════════════════════ */
+.gcs-filter-grid {
+  display: grid;
+  gap: 12px;
+  align-items: center;
+}
+
+.gcs-filter-grid--jobs { grid-template-columns: 2fr 1.2fr 1.2fr auto; }
+.gcs-filter-grid--sch  { grid-template-columns: repeat(4, 1fr) auto; align-items: end; }
+.gcs-filter-grid--ws   { grid-template-columns: repeat(6, 1fr); }
+
+@media (max-width: 900px) {
+  .gcs-filter-grid--sch { grid-template-columns: repeat(2, 1fr); }
+  .gcs-filter-grid--ws  { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .gcs-filter-grid,
+  .gcs-filter-grid--jobs,
+  .gcs-filter-grid--sch,
+  .gcs-filter-grid--ws {
+    grid-template-columns: 1fr;
+  }
+
+  .gcs-filter-grid > * {
+    width: 100%;
+    min-width: 0;
+  }
+}

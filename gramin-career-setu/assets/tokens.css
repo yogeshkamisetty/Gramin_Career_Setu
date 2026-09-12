@@ -8,8 +8,6 @@
    ================================================================ */
 
 /* ── Typography & Icons — Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Public+Sans:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 /* ================================================================
    LIGHT THEME (default)
@@ -115,9 +113,9 @@
   /* ────────────────────────────────────────────────────────────
      TYPOGRAPHY
      ──────────────────────────────────────────────────────────── */
-  --font-telugu: 'Noto Sans Telugu', 'Public Sans', sans-serif;
-  --font-latin:  'Public Sans', 'Inter', sans-serif;
-  --font-body:   var(--font-telugu);
+  --font-telugu: 'Noto Sans Telugu', 'Nirmala UI', 'Gautami', sans-serif;
+  --font-latin:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:   'Inter', 'Noto Sans Telugu', 'Nirmala UI', system-ui, sans-serif;
   --font-mono:   'Cascadia Code', 'Consolas', monospace;
 
   /* 6-step scale */

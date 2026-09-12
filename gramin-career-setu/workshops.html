@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-workshops" />
   <title>వర్క్‌షాప్‌లు — Workshops & Events | Gramin Career Setu</title>
-  <meta name="description" content="Learn new skills, attend live sessions and build your career. కొత్త నైపుణ్యాలు నేర్చుకోండి, లైవ్ సెషన్లలో పాల్గొనండి." />
+  <meta name="description" content="Learn new skills, attend live sessions and build your career." />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheet -->
@@ -19,6 +28,15 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -50,7 +68,7 @@
           <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
@@ -72,12 +90,12 @@
         </nav>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -108,7 +126,7 @@
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Home</a>
+      <a href="index.html" data-lang-key="nav-home">Home</a>
       <span class="gcs-breadcrumb-sep">&gt;</span>
       <span class="gcs-breadcrumb-current">Workshops &amp; Events</span>
     </nav>
@@ -116,9 +134,9 @@
     <!-- Hero Banner with Live Online Class Illustration -->
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
-        <h1 class="gcs-page-hero-title">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-workshops">
           <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">event</span>
-          <span>Workshops &amp; Events</span>
+          <span data-lang-text>Workshops &amp; Events</span>
         </h1>
         <p class="gcs-page-hero-desc">Learn new skills, attend live sessions and build your career.</p>
         <p class="gcs-page-hero-telugu">కొత్త నైపుణ్యాలు నేర్చుకోండి, లైవ్ సెషన్లలో పాల్గొనండి, మీ కెరీర్‌ను ముందుకు తీసుకెళ్ళండి.</p>
@@ -175,7 +193,7 @@
               <span>👤 Ravi Kiran</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Python for Beginners')">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Python for Beginners')" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 
@@ -196,7 +214,7 @@
               <span>👤 Anusha Reddy</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Resume Building Masterclass')">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Resume Building Masterclass')" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 
@@ -217,7 +235,7 @@
               <span>👤 Suresh Babu</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Interview Preparation')">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Interview Preparation')" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 
@@ -255,7 +273,7 @@
           <p class="gcs-banner-callout-sub" style="color: #1D4ED8;">Register anyway and get 100% free lifetime access to the recorded session and certificate.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-2" style="background: #ffffff; white-space: nowrap;" onclick="alert('All registered users receive recording links via WhatsApp & email.')">Know More</button>
+      <button type="button" class="gcs-btn-cta-2" style="background: #ffffff; white-space: nowrap;" onclick="GCS_ACTIONS.notAvailable('Recording links')">Know More</button>
     </section>
 
     <!-- Recorded Workshops Section -->
@@ -280,7 +298,7 @@
               <span>👤 Sai Charan</span>
               <span>📅 15 May 2024</span>
             </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="alert('Playing Web Development Basics recording...')">▶ Watch Now</button>
+            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Web Development Basics recording')">▶ Watch Now</button>
           </div>
         </article>
 
@@ -298,7 +316,7 @@
               <span>👤 Priya Nair</span>
               <span>📅 12 May 2024</span>
             </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="alert('Playing Data Science Overview recording...')">▶ Watch Now</button>
+            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Data Science Overview recording')">▶ Watch Now</button>
           </div>
         </article>
 
@@ -316,7 +334,7 @@
               <span>👤 Karthik P</span>
               <span>📅 10 May 2024</span>
             </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="alert('Playing Digital Marketing 101 recording...')">▶ Watch Now</button>
+            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Digital Marketing 101 recording')">▶ Watch Now</button>
           </div>
         </article>
 
@@ -334,7 +352,7 @@
               <span>👤 Lakshmi Devi</span>
               <span>📅 08 May 2024</span>
             </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="alert('Playing Excel for Everyone recording...')">▶ Watch Now</button>
+            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Excel for Everyone recording')">▶ Watch Now</button>
           </div>
         </article>
       </div>
@@ -371,7 +389,7 @@
         <a href="#categories" class="gcs-section-view-all-btn">View All &rarr;</a>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;">
+      <div class="gcs-filter-grid gcs-filter-grid--ws">
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
           <span class="material-symbols-outlined" style="color: #2563EB; font-size: 26px;">code</span>
           <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Programming</div>
@@ -392,7 +410,7 @@
 
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
           <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 26px;">storefront</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Business</div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;" data-lang-key="filter-business">Business</div>
           <div style="font-size: 0.72rem; color: #64748B;">8 Workshops</div>
         </div>
 
@@ -422,8 +440,9 @@
         </div>
       </div>
       <div style="display: flex; gap: 8px;">
-        <input type="email" placeholder="Enter your email" style="padding: 8px 14px; border-radius: 8px; border: 1.5px solid #86EFAC; font-size: 0.88rem; outline: none;" />
-        <button type="button" class="gcs-btn-cta-1" onclick="alert('Subscribed successfully!')" style="border: none; cursor: pointer; white-space: nowrap;">Subscribe</button>
+        <label for="workshopAlertEmail" class="sr-only">Email for workshop alerts</label>
+        <input id="workshopAlertEmail" type="email" placeholder="Enter your email" style="padding: 8px 14px; border-radius: 8px; border: 1.5px solid #86EFAC; font-size: 0.88rem; outline: none;" />
+        <button type="button" class="gcs-btn-cta-1" data-subscribe-topic="workshops" style="border: none; cursor: pointer; white-space: nowrap;" data-lang-key="btn-subscribe">Subscribe</button>
       </div>
     </section>
   </main>
@@ -446,13 +465,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -495,8 +514,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -543,9 +563,33 @@
 
   <!-- Interactive Scripts -->
   <script>
-    function registerWorkshop(title) {
-      alert(`Registration Successful for "${title}"! A confirmation has been stored offline and sent via SMS.`);
+    // Delegates to GCS_ACTIONS so registration has ONE implementation and
+    // ONE stored shape. This page previously wrote bare title strings while
+    // actions.js and landing.js wrote objects under the same key.
+    function registerWorkshop(title, btn) {
+      const target = btn || (typeof event !== 'undefined' && event ? event.currentTarget || event.target : null);
+      const id = 'ws-' + String(title).toLowerCase().replace(/\s+/g, '-');
+      GCS_ACTIONS.toggleWorkshop(id, title, target);
     }
+
+    // Restore registered state on load, including entries saved as bare
+    // title strings by the previous implementation.
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        const raw = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]');
+        const ids = raw.map(e => (e && typeof e === 'object') ? e.id : 'ws-' + String(e).toLowerCase().replace(/\s+/g, '-'));
+        document.querySelectorAll('.gcs-workshop-card').forEach(card => {
+          const title = card.querySelector('.gcs-workshop-title')?.textContent?.trim();
+          const btn = card.querySelector('button[onclick^="registerWorkshop"]');
+          if (!title || !btn) return;
+          const id = 'ws-' + title.toLowerCase().replace(/\s+/g, '-');
+          if (ids.includes(id)) {
+            btn.textContent = window.GCS_I18N ? GCS_I18N.t('btn-registered') : 'Registered ✓';
+            btn.classList.add('is-registered');
+          }
+        });
+      } catch (e) {}
+    });
 
     function filterWorkshops(cat, btn) {
       document.querySelectorAll('.gcs-pill-tag').forEach(b => {
@@ -574,9 +618,5 @@
       });
     }
   </script>
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

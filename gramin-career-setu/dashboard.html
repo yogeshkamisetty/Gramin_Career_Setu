@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-dashboard" />
   <title>నా డ్యాష్‌బోర్డ్ — Student Dashboard | Gramin Career Setu</title>
   <meta name="description" content="Personalized career dashboard for rural youth on Gramin Career Setu." />
   <link rel="manifest" href="manifest.json" />
@@ -11,7 +20,7 @@
   <!-- Google Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheets -->
@@ -124,6 +133,14 @@
       .dash-hero-banner { grid-template-columns: 1fr; }
     }
   </style>
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
 </head>
 
 <body>
@@ -146,15 +163,15 @@
       <nav style="display: flex; flex-direction: column; gap: 4px;">
         <a href="dashboard.html" class="dash-nav-item active">
           <span class="material-symbols-outlined">home</span>
-          <span>Home</span>
+          <span data-lang-key="nav-home">Home</span>
         </a>
         <a href="careers.html" class="dash-nav-item">
           <span class="material-symbols-outlined">explore</span>
-          <span>Careers</span>
+          <span data-lang-key="nav-careers">Careers</span>
         </a>
         <a href="jobs.html" class="dash-nav-item">
           <span class="material-symbols-outlined">work</span>
-          <span>Jobs</span>
+          <span data-lang-key="nav-jobs">Jobs</span>
         </a>
         <a href="quiz.html" class="dash-nav-item">
           <span class="material-symbols-outlined">quiz</span>
@@ -166,11 +183,11 @@
         </a>
         <a href="workshops.html" class="dash-nav-item">
           <span class="material-symbols-outlined">groups</span>
-          <span>Workshops</span>
+          <span data-lang-key="nav-workshops">Workshops</span>
         </a>
         <a href="resources.html" class="dash-nav-item">
           <span class="material-symbols-outlined">folder_open</span>
-          <span>Resources</span>
+          <span data-lang-key="nav-resources">Resources</span>
         </a>
         <a href="scholarships.html" class="dash-nav-item">
           <span class="material-symbols-outlined">school</span>
@@ -218,19 +235,20 @@
         <!-- Global Search Bar -->
         <div class="dash-search-box">
           <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 12px; font-size: 20px; color: #94A3B8;">search</span>
-          <input type="text" class="gcs-form-input" style="width: 100%; padding-left: 44px; border-radius: 24px; background: #ffffff;" placeholder="Search careers, jobs, resources..." onkeydown="if(event.key==='Enter') window.location.href='jobs.html?q=' + encodeURIComponent(this.value)" />
+          <label for="dashboardSearchInput" class="sr-only">Search careers, jobs, and resources</label>
+          <input id="dashboardSearchInput" type="text" class="gcs-form-input" style="width: 100%; padding-left: 44px; border-radius: 24px; background: #ffffff;" placeholder="Search careers, jobs, resources..." onkeydown="if(event.key==='Enter') window.location.href='jobs.html?q=' + encodeURIComponent(this.value)" />
         </div>
 
         <!-- Right Action Items -->
         <div style="display: flex; align-items: center; gap: 14px;">
           <!-- Language Toggle -->
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
           <!-- Notification Bell with Badge 3 -->
-          <button type="button" onclick="alert('🔔 3 New Notifications:\n1. Free APPSC Workshop on Sunday\n2. 5 new TCS & Wipro jobs added\n3. Resume template 2 updated')" style="position: relative; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
+          <button type="button" onclick="GCS_ACTIONS.notAvailable('Notifications')" style="position: relative; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
             <span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
             <span style="position: absolute; top: -2px; right: -2px; background: #EF4444; color: #ffffff; font-size: 0.65rem; font-weight: 800; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff;">3</span>
           </button>
@@ -270,9 +288,9 @@
       <section class="dash-hero-banner">
         <div>
           <h1 style="font-size: 1.85rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">
-            Welcome back, <span id="dashHeroGreetingName">Ravi</span>! 👋
+            Welcome back, <span id="dashHeroGreetingName">Student</span>! 👋
           </h1>
-          <p style="font-size: 1.1rem; font-weight: 700; color: #059669; margin: 0 0 8px 0;" data-lang-key="dash-greeting-te">
+          <p style="font-size: 1.1rem; font-weight: 700; color: #059669; margin: 0 0 8px 0;" data-lang-key="dash-greeting">
             మీ లక్ష్యానికి మరో అడుగు ముందుకు!
           </p>
           <p style="font-size: 0.92rem; color: #475569; margin: 0;">
@@ -297,7 +315,7 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Skills Tested</div>
-            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">2</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSkillsCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Quizzes Completed</div>
             <a href="quiz-results.html" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">View Results &rarr;</a>
           </div>
@@ -310,7 +328,7 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Resumes Created</div>
-            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">1</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashResumesCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Resume Created</div>
             <a href="resume-preview.html" style="font-size: 0.78rem; font-weight: 700; color: #2563EB; text-decoration: none;">View Resume &rarr;</a>
           </div>
@@ -323,7 +341,7 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Jobs Saved</div>
-            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSavedJobsCount">5</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSavedJobsCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Jobs Saved</div>
             <a href="jobs.html" style="font-size: 0.78rem; font-weight: 700; color: #D97706; text-decoration: none;">View Jobs &rarr;</a>
           </div>
@@ -336,7 +354,7 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Workshops Joined</div>
-            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;">1</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashWorkshopsCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Workshop Joined</div>
             <a href="workshops.html" style="font-size: 0.78rem; font-weight: 700; color: #7C3AED; text-decoration: none;">View Workshops &rarr;</a>
           </div>
@@ -361,7 +379,7 @@
                   <div style="font-size: 0.72rem; color: #64748B;">Discover the best career options for you</div>
                 </div>
               </div>
-              <a href="careers.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Explore</a>
+              <a href="careers.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;" data-lang-key="btn-explore">Explore</a>
             </div>
 
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -372,7 +390,7 @@
                   <div style="font-size: 0.72rem; color: #64748B;">Search latest government &amp; private jobs</div>
                 </div>
               </div>
-              <a href="jobs.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;">Search</a>
+              <a href="jobs.html" class="gcs-btn-cta-1" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none; border-radius: 6px;" data-lang-key="btn-search">Search</a>
             </div>
 
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -474,7 +492,7 @@
                   <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Anantapur</div>
                 </div>
               </div>
-              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Resume Building Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-resume-building" data-workshop-title="Resume Building Workshop" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
             </div>
 
             <!-- Workshop 2 -->
@@ -489,7 +507,7 @@
                   <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Kurnool</div>
                 </div>
               </div>
-              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Interview Skills Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-interview-skills" data-workshop-title="Interview Skills Workshop" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
             </div>
 
             <!-- Workshop 3 -->
@@ -504,7 +522,7 @@
                   <div style="font-size: 0.7rem; color: #64748B;">Sunday, 10:00 AM • Kadapa</div>
                 </div>
               </div>
-              <button type="button" class="gcs-btn-cta-2" onclick="alert('Registered successfully for Career Guidance Workshop!')" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-career-guidance" data-workshop-title="Career Guidance Workshop" style="font-size: 0.72rem; padding: 5px 8px;">Register</button>
             </div>
 
           </div>
@@ -538,28 +556,60 @@
   </div>
 
   <!-- Scripts -->
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
   <script>
-    // Initialize Dashboard with Current User Profile
+    // Initialize Dashboard with Current User Profile & Real Stats
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Route guard: redirect to login if unauthenticated
+      if (window.GCS_AUTH && !window.GCS_AUTH.requireAuth()) return;
+
       const user = window.GCS_AUTH ? window.GCS_AUTH.getUser() : null;
       if (user) {
-        document.getElementById('dashUserName').textContent = user.name;
-        document.getElementById('dashHeroGreetingName').textContent = user.name.split(' ')[0];
+        const firstName = (user.name || 'Student').trim().split(' ')[0];
+        const nameEl = document.getElementById('dashUserName');
+        const greetEl = document.getElementById('dashHeroGreetingName');
+        if (nameEl) nameEl.textContent = user.name || 'Student';
+        if (greetEl) greetEl.textContent = firstName;
         if (user.avatar) {
-          document.getElementById('dashUserAvatar').src = user.avatar;
+          const avatarEl = document.getElementById('dashUserAvatar');
+          if (avatarEl) avatarEl.src = user.avatar;
         }
       }
 
-      // Update saved jobs counter from localStorage
+      // 2. Compute dynamic stats from localStorage
       try {
-        const saved = JSON.parse(localStorage.getItem('gcs_saved_jobs') || '[]');
-        if (saved.length > 0) {
-          document.getElementById('dashSavedJobsCount').textContent = saved.length;
+        // Jobs Saved
+        const savedJobs = JSON.parse(localStorage.getItem('gcs_saved_jobs') || '[]');
+        const savedJobsEl = document.getElementById('dashSavedJobsCount');
+        if (savedJobsEl) savedJobsEl.textContent = savedJobs.length;
+
+        // Quizzes Tested
+        const quizRes = JSON.parse(localStorage.getItem('gcs_quiz_results') || 'null');
+        const skillsEl = document.getElementById('dashSkillsCount');
+        if (skillsEl) skillsEl.textContent = quizRes ? '1' : '0';
+
+        // Resumes Created
+        const resumeData = JSON.parse(localStorage.getItem('gcs_resume_data') || 'null');
+        const resumeEl = document.getElementById('dashResumesCount');
+        if (resumeEl) resumeEl.textContent = (resumeData && resumeData.fullName) ? '1' : '0';
+
+        // Workshops Joined
+        // Migrate any registrations left under the old hyphenated key.
+        const legacy = localStorage.getItem('gcs-workshop-registrations');
+        if (legacy) {
+          const merged = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]')
+            .concat(JSON.parse(legacy));
+          localStorage.setItem('gcs_workshop_registrations', JSON.stringify(merged));
+          localStorage.removeItem('gcs-workshop-registrations');
         }
-      } catch (e) {}
+        // Ignore empty/garbage entries so a malformed record cannot inflate
+        // the counter the student sees.
+        const workshops = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]')
+          .filter(Boolean);
+        const workshopEl = document.getElementById('dashWorkshopsCount');
+        if (workshopEl) workshopEl.textContent = workshops.length;
+      } catch (e) {
+        console.warn('Dashboard stat computation error', e);
+      }
     });
   </script>
 </body>

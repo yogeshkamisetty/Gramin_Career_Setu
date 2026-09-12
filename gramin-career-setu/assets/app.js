@@ -465,7 +465,12 @@
     if (!isJobDetailPage) return;
 
     const params = new URLSearchParams(window.location.search);
-    const jobId = params.get('id') || 'tcs-software-developer';
+    const rawJobId = params.get('job') || params.get('id') || 'tcs-software-developer';
+    const idAliases = {
+      'accenture-analyst': 'accenture-software-analyst',
+      'zoho-intern': 'zoho-product-intern'
+    };
+    const jobId = idAliases[rawJobId] || rawJobId;
     const job = JOBS_DATABASE.find(j => j.id === jobId) || JOBS_DATABASE[0];
 
     // Populate Job Hero
@@ -476,7 +481,7 @@
     document.title = `${job.title} — ${job.company} | Gramin Career Setu`;
 
     // Save Job button handler
-    const saveBtn = document.querySelector('button[onclick*="Save Job"], button[onclick*="Saved to Bookmarks"]');
+    const saveBtn = document.getElementById('btnSaveJobDetail') || document.querySelector('button[onclick*="Save Job"], button[onclick*="Saved to Bookmarks"]');
     if (saveBtn) {
       const isSaved = Storage.isBookmarked('jobs', job.id);
       updateSaveBtnUI(saveBtn, isSaved);
@@ -490,7 +495,7 @@
     }
 
     // Apply Now button handler
-    const applyBtns = document.querySelectorAll('button[onclick*="Apply Now"], button[onclick*="official TCS"]');
+    const applyBtns = document.querySelectorAll('#btnApplyJobDetail, button[onclick*="Apply Now"], button[onclick*="official TCS"]');
     applyBtns.forEach(btn => {
       btn.onclick = (e) => {
         e.preventDefault();
@@ -595,30 +600,86 @@
     if (modal) modal.classList.remove('open');
   };
 
-  window.submitJobApplication = function (e) {
+  window.submitJobApplication = async function (e) {
     e.preventDefault();
     const job = window._activeApplyJob || JOBS_DATABASE[0];
-    const name = document.getElementById('appFullName').value.trim();
-    const phone = document.getElementById('appPhone').value.trim();
-    const village = document.getElementById('appVillage').value.trim();
+    const name = (document.getElementById('appFullName')?.value || '').trim();
+    const phone = (document.getElementById('appPhone')?.value || '').trim();
+    const village = (document.getElementById('appVillage')?.value || '').trim();
 
-    const application = {
-      id: 'APP-' + Math.floor(100000 + Math.random() * 900000),
-      jobId: job.id,
-      jobTitle: job.title,
-      company: job.company,
-      applicantName: name,
-      phone,
-      village,
-      submittedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-    };
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Submitting...';
+    }
 
-    const existing = Storage.get('job_applications', []);
-    existing.unshift(application);
-    Storage.set('job_applications', existing);
+    try {
+      if (window.GCS_API && window.GCS_API.jobs) {
+        const result = await window.GCS_API.jobs.apply(job.id, { applicantName: name, phone, village });
+        const existing = Storage.get('job_applications', []);
 
-    closeJobApplyModal();
-    Toast.show(`🎉 Application #${application.id} submitted successfully to ${job.company}!`);
+        if (result && result.queued) {
+          const offlineApp = {
+            id: 'OFFLINE-' + Date.now(),
+            jobId: job.id,
+            jobTitle: job.title,
+            company: job.company,
+            applicantName: name,
+            phone,
+            village,
+            status: 'QUEUED_OFFLINE',
+            submittedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+          };
+          existing.unshift(offlineApp);
+          Storage.set('job_applications', existing);
+          closeJobApplyModal();
+          Toast.show(`📶 Saved offline: Application queued for automatic sync when online.`);
+        } else {
+          const serverApp = {
+            id: result?.data?.id || ('APP-' + Date.now()),
+            jobId: job.id,
+            jobTitle: job.title,
+            company: job.company,
+            applicantName: name,
+            phone,
+            village,
+            status: result?.data?.status || 'PENDING',
+            submittedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+          };
+          existing.unshift(serverApp);
+          Storage.set('job_applications', existing);
+          closeJobApplyModal();
+          Toast.show(`🎉 Application #${serverApp.id} submitted successfully to ${job.company}!`);
+        }
+      } else {
+        // Standalone client fallback without API
+        const standaloneApp = {
+          id: 'APP-' + Date.now(),
+          jobId: job.id,
+          jobTitle: job.title,
+          company: job.company,
+          applicantName: name,
+          phone,
+          village,
+          status: 'PENDING',
+          submittedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+        };
+        const existing = Storage.get('job_applications', []);
+        existing.unshift(standaloneApp);
+        Storage.set('job_applications', existing);
+        closeJobApplyModal();
+        Toast.show(`🎉 Application submitted successfully to ${job.company}!`);
+      }
+    } catch (err) {
+      console.warn('[GCS] Application submission rejected:', err.message);
+      Toast.show(`⚠️ ${err.message || 'Application submission failed. Please try again.'}`);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+    }
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -737,26 +798,12 @@
   //  7. Workshops Registration & My Registrations View
   // ══════════════════════════════════════════════════════════════════════
 
-  window.registerWorkshop = function (title) {
-    const name = prompt('Enter your Full Name to register for free:');
-    if (!name || name.trim() === '') return;
-
-    const phone = prompt('Enter your 10-digit Phone Number for SMS confirmation:');
-    if (!phone || phone.trim() === '') return;
-
-    const regItem = {
-      title,
-      name: name.trim(),
-      phone: phone.trim(),
-      registeredAt: new Date().toLocaleDateString('en-IN')
-    };
-
-    const existing = Storage.get('workshop_registrations', []);
-    existing.unshift(regItem);
-    Storage.set('workshop_registrations', existing);
-
-    Toast.show(`🎉 Registered for "${title}"! Check SMS for details.`);
-  };
+  // Workshop registration lives in assets/actions.js (GCS_ACTIONS.toggleWorkshop).
+  // The previous implementation here collected details through three
+  // sequential prompt() dialogs, which are blocked outright in sandboxed and
+  // embedded contexts, and — being defined in a deferred script — silently
+  // overwrote the page-level handler. It also wrote a fourth distinct shape
+  // under the shared storage key.
 
   window.filterWorkshopCategory = function (cat, btn) {
     if (btn) {
@@ -774,9 +821,17 @@
 
     if (cat === 'my') {
       const myRegs = Storage.get('workshop_registrations', []);
+      // Entries have been written in several shapes over time (bare title
+      // strings, {title}, {workshop, id}). Normalise before comparing so a
+      // legacy entry cannot throw on a missing field.
+      const regTitles = myRegs.map(r => {
+        if (typeof r === 'string') return r.toLowerCase();
+        return String((r && (r.workshop || r.title || r.id)) || '').toLowerCase();
+      });
       cards.forEach(c => {
         const title = c.querySelector('.gcs-workshop-title');
-        const match = title && myRegs.some(r => r.title.toLowerCase().includes(title.textContent.trim().toLowerCase()));
+        const t = title ? title.textContent.trim().toLowerCase() : '';
+        const match = !!t && regTitles.some(r => r.includes(t) || r === 'ws-' + t.replace(/\s+/g, '-'));
         c.style.display = match ? 'block' : 'none';
       });
       Toast.show(`Showing ${myRegs.length} registered workshops.`);
@@ -800,7 +855,7 @@
     try {
       const { jsPDF } = window.jspdf || {};
       if (!jsPDF) {
-        alert(`Downloading ${resourceTitle}...`);
+        Toast.show(`📥 Preparing ${resourceTitle}...`);
         return;
       }
       const doc = new jsPDF();
@@ -832,7 +887,7 @@
       doc.save(`${resourceTitle.replace(/\s+/g, '_')}_GCS.pdf`);
       Toast.show(`📥 Downloaded ${resourceTitle}!`);
     } catch (e) {
-      alert(`Downloaded ${resourceTitle}!`);
+      Toast.show(`📥 Downloaded ${resourceTitle}!`);
     }
   };
 
@@ -880,9 +935,76 @@
     }, 1500);
   };
 
+  // HTML Escaping Utility for XSS Prevention
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Universal Bookmark Toggle
+  window.toggleGcsBookmark = function (type, id, btn) {
+    const isSaved = Storage.toggleBookmark(type, id);
+    if (btn) {
+      const icon = btn.querySelector('.material-symbols-outlined') || (btn.classList.contains('material-symbols-outlined') ? btn : null);
+      if (icon) {
+        icon.textContent = isSaved ? 'bookmark' : 'bookmark_border';
+      }
+      btn.style.color = isSaved ? '#059669' : '#64748B';
+    }
+    const typeLabel = type === 'jobs' ? 'Job' : type === 'scholarships' ? 'Scholarship' : type === 'resources' ? 'Resource' : 'Career';
+    Toast.show(isSaved ? `✅ ${typeLabel} saved to bookmarks!` : `ℹ️ ${typeLabel} removed from bookmarks.`);
+    return isSaved;
+  };
+
+  function initAllBookmarks() {
+    document.querySelectorAll('[data-bookmark-type][data-bookmark-id]').forEach(btn => {
+      const type = btn.getAttribute('data-bookmark-type');
+      const id = btn.getAttribute('data-bookmark-id');
+      const isSaved = Storage.isBookmarked(type, id);
+      const icon = btn.querySelector('.material-symbols-outlined') || (btn.classList.contains('material-symbols-outlined') ? btn : null);
+      if (icon) {
+        icon.textContent = isSaved ? 'bookmark' : 'bookmark_border';
+      }
+      btn.style.color = isSaved ? '#059669' : '#64748B';
+      btn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.toggleGcsBookmark(type, id, btn);
+      };
+    });
+  }
+
   // Initialize interactive features on load
   document.addEventListener('DOMContentLoaded', () => {
     initJobDetailPage();
+    initAllBookmarks();
+  });
+
+  // ── Service Worker registration ─────────────────────────────────
+  // Lives here rather than in the legacy script.js, which only two of the
+  // 22 pages load — offline support was effectively off site-wide.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const base = location.pathname.includes('/admin/') ? '../sw.js' : './sw.js';
+      navigator.serviceWorker.register(base).catch(err => {
+        console.warn('[Service Worker] registration failed:', err);
+      });
+    });
+  }
+
+  // ── Text-to-Speech Resilience Listener ───────────────────────────
+  window.addEventListener('gcs-speech-unavailable', (e) => {
+    const lang = (e && e.detail && e.detail.lang) || 'te';
+    const isTe = lang === 'te';
+    const msg = isTe
+      ? 'ℹ️ మీ పరికరంలో తెలుగు వాయిస్ లేదు (No Telugu voice on this device). English voice fallback active.'
+      : 'ℹ️ Audio speech voice is not available on this device.';
+    Toast.show(msg, 'info');
   });
 
   // Global Exports
@@ -890,7 +1012,9 @@
     jobs: JOBS_DATABASE,
     scholarships: SCHOLARSHIPS_DATABASE,
     storage: Storage,
-    toast: Toast
+    toast: Toast,
+    escapeHtml: escapeHtml,
+    toggleBookmark: window.toggleGcsBookmark
   };
 
 })();

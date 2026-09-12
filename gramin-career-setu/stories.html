@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-stories" />
   <title>విజయ గాథలు — Success Stories | Gramin Career Setu</title>
-  <meta name="description" content="Real stories from our villages. Real people. Real impact. మా గ్రామ యువత లక్ష్య సాధన కథలు." />
+  <meta name="description" content="Real stories from our villages. Real people. Real impact." />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheet -->
@@ -19,6 +28,14 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -50,7 +67,7 @@
           <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
@@ -80,12 +97,12 @@
         </nav>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -118,7 +135,7 @@
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Home</a>
+      <a href="index.html" data-lang-key="nav-home">Home</a>
       <span class="gcs-breadcrumb-sep">&gt;</span>
       <span class="gcs-breadcrumb-current">Success Stories</span>
     </nav>
@@ -126,9 +143,9 @@
     <!-- Hero Banner with Trophy Illustration -->
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
-        <h1 class="gcs-page-hero-title">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-stories">
           <span class="material-symbols-outlined" style="color: #F59E0B; font-size: 34px;">stars</span>
-          <span>Success Stories</span>
+          <span data-lang-text>Success Stories</span>
         </h1>
         <p class="gcs-page-hero-desc">Real stories from our villages. Real people. Real impact.</p>
         <p class="gcs-page-hero-telugu">మా గ్రామ యువత లక్ష్య సాధన కథలు.</p>
@@ -185,7 +202,7 @@
         <article style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
           <div style="height: 180px; position: relative; background: #0F172A;">
             <img src="assets/profile-ramesh.jpg" alt="Sandeep Kumar" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
-            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="alert('Playing Sandeep Kumar video story...')">
+            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="GCS_ACTIONS.notAvailable('Sandeep Kumar video story')">
               <span class="material-symbols-outlined">play_arrow</span>
             </button>
             <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">04:35</span>
@@ -204,7 +221,7 @@
         <article style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
           <div style="height: 180px; position: relative; background: #0F172A;">
             <img src="assets/profile-lalitha.jpg" alt="Lalitha Kumari" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
-            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="alert('Playing Lalitha Kumari video story...')">
+            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="GCS_ACTIONS.notAvailable('Lalitha Kumari video story')">
               <span class="material-symbols-outlined">play_arrow</span>
             </button>
             <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">03:42</span>
@@ -223,7 +240,7 @@
         <article style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
           <div style="height: 180px; position: relative; background: #0F172A;">
             <img src="assets/profile-suresh.jpg" alt="Ramesh Babu" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
-            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="alert('Playing Ramesh Babu video story...')">
+            <button type="button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="GCS_ACTIONS.notAvailable('Ramesh Babu video story')">
               <span class="material-symbols-outlined">play_arrow</span>
             </button>
             <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">03:58</span>
@@ -276,7 +293,7 @@
           <div style="border-top: 1px solid #F1F5F9; padding-top: 10px; font-size: 0.78rem; color: #64748B;">
             <div>🎓 <strong>Education:</strong> B.Tech (CSE)</div>
             <div>⏳ <strong>Journey:</strong> 2018 – 2022</div>
-            <a href="#" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">Read Full Story &rarr;</a>
+            <a href="#success-journey" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View Success Journey &rarr;</a>
           </div>
         </article>
 
@@ -308,7 +325,7 @@
           <div style="border-top: 1px solid #F1F5F9; padding-top: 10px; font-size: 0.78rem; color: #64748B;">
             <div>🎓 <strong>Education:</strong> Degree (BA)</div>
             <div>⏳ <strong>Journey:</strong> 2019 – 2023</div>
-            <a href="#" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">Read Full Story &rarr;</a>
+            <a href="#success-journey" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View Success Journey &rarr;</a>
           </div>
         </article>
 
@@ -340,14 +357,14 @@
           <div style="border-top: 1px solid #F1F5F9; padding-top: 10px; font-size: 0.78rem; color: #64748B;">
             <div>🎓 <strong>Education:</strong> ITI (Electronics)</div>
             <div>⏳ <strong>Journey:</strong> 2017 – 2021</div>
-            <a href="#" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">Read Full Story &rarr;</a>
+            <a href="#success-journey" style="display: inline-block; margin-top: 8px; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View Success Journey &rarr;</a>
           </div>
         </article>
       </div>
     </section>
 
     <!-- Their 5-Step Journey Flow -->
-    <section class="gcs-roadmap-flow-card" style="margin-bottom: 36px;">
+    <section id="success-journey" class="gcs-roadmap-flow-card" style="margin-bottom: 36px;">
       <div style="text-align: center; margin-bottom: 24px;">
         <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Their Journey to Success</h2>
         <p style="font-size: 0.85rem; color: #64748B; margin: 0;">How Gramin Career Setu empowers every student to reach their goals</p>
@@ -405,7 +422,7 @@
           <p class="gcs-banner-callout-sub" style="color: #047857;">ప్రతి గ్రామంలో ప్రతిభ ఉంది. సరైన దారి చూపిస్తే వారు విజయం సాధిస్తారు! Have you achieved your goal? Share your inspiring journey.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-1" onclick="alert('Thank you for inspiring others! Please share your contact or story with our volunteer team.');" style="border: none; cursor: pointer; white-space: nowrap;">
+      <button type="button" class="gcs-btn-cta-1" onclick="GCS_ACTIONS.notAvailable(GCS_I18N.t('story-submit'));" style="border: none; cursor: pointer; white-space: nowrap;">
         <span>Share Your Story</span>
         <span class="material-symbols-outlined">arrow_forward</span>
       </button>
@@ -430,13 +447,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -479,8 +496,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -525,9 +543,5 @@
     </a>
   </nav>
 
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

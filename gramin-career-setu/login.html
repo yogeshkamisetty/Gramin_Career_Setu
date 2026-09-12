@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-login" />
   <title>లాగిన్ & రిజిస్ట్రేషన్ — Login & Sign Up | Gramin Career Setu</title>
   <meta name="description" content="Sign in or create an account on Gramin Career Setu to access personalized career roadmaps, job alerts, and resume builder." />
   <link rel="manifest" href="manifest.json" />
@@ -11,7 +20,7 @@
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- Stylesheet -->
@@ -101,6 +110,14 @@
       outline: none;
     }
   </style>
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page" style="background: #F8FAFC;">
@@ -123,9 +140,9 @@
         </a>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
           <a href="index.html" style="font-size: 0.85rem; font-weight: 700; color: #64748B; text-decoration: none; margin-left: 8px;">✕ Close</a>
         </div>
@@ -167,11 +184,11 @@
       </div>
     </div>
 
-    <!-- Quick Role-Based Demo Switcher Bar -->
+    <!-- Quick Role-Based Switcher Bar -->
     <div style="max-width: 520px; margin: 0 auto 24px auto; background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
       <div style="font-size: 0.8rem; font-weight: 800; color: #064E3B; display: flex; align-items: center; gap: 6px;">
         <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">bolt</span>
-        <span>Quick Demo Login:</span>
+        <span>Quick Login:</span>
       </div>
       <div style="display: flex; gap: 6px; flex-wrap: wrap;">
         <button type="button" class="gcs-pill-tag" onclick="window.GCS_AUTH.loginDemo('student')" style="cursor: pointer; background: #ffffff; border: 1px solid #86EFAC; color: #064E3B; font-weight: 700;">👨‍🎓 Student</button>
@@ -197,28 +214,28 @@
       <form id="signInForm" onsubmit="handleSignInSubmit(event)">
         <!-- Mobile Number -->
         <div style="margin-bottom: 14px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number</label>
+          <label for="loginPhone" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">call</span>
-            <input type="tel" id="loginPhone" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="Enter your mobile number" value="9876543210" required />
+            <input type="tel" id="loginPhone" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="10-digit mobile number" value="9876543210" required />
           </div>
           <div id="loginPhoneErr" style="font-size: 0.75rem; color: #DC2626; margin-top: 4px; display: none;"></div>
         </div>
 
         <!-- Password -->
         <div style="margin-bottom: 8px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Password</label>
+          <label for="loginPassword" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Password</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">lock</span>
-            <input type="password" id="loginPassword" class="gcs-form-input" style="width: 100%; padding-left: 38px; padding-right: 38px;" placeholder="Enter your password" value="password123" required />
-            <button type="button" onclick="togglePassVisibility('loginPassword', this)" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #94A3B8;">
+            <input type="password" id="loginPassword" class="gcs-form-input" style="width: 100%; padding-left: 38px; padding-right: 38px;" placeholder="Enter password" value="demo123" required />
+            <button type="button" aria-label="Toggle password visibility" onclick="togglePassVisibility('loginPassword', this)" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #94A3B8;">
               <span class="material-symbols-outlined" style="font-size: 18px;">visibility</span>
             </button>
           </div>
         </div>
 
         <div style="text-align: right; margin-bottom: 18px;">
-          <a href="#" onclick="alert('Password reset link sent to your registered mobile number.')" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">Forgot Password?</a>
+          <a href="javascript:void(0)" onclick="GCS_ACTIONS.notAvailable('Password reset')" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">Forgot Password?</a>
         </div>
 
         <!-- Sign In Button -->
@@ -232,7 +249,12 @@
           <hr style="flex: 1; border: none; border-top: 1px solid #E2E8F0;" />
         </div>
 
-        <!-- Alternate Social / OTP Logins -->
+        <!-- Alternate Social / OTP / SSO Logins -->
+        <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginWithOidc()" style="width: 100%; justify-content: center; font-size: 0.85rem; padding: 10px; margin-bottom: 10px; border: 1.5px solid #2563EB; color: #1D4ED8; background: #EFF6FF; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">verified_user</span>
+          <span>Single Sign-On (Keycloak / OIDC)</span>
+        </button>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
           <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginDemo('student')" style="justify-content: center; font-size: 0.8rem; padding: 10px 8px;">
             <span>🌐 Google</span>
@@ -245,7 +267,7 @@
         <!-- New to Gramin Career Setu -->
         <div style="text-align: center; font-size: 0.84rem; color: #475569; margin-bottom: 20px;">
           <span>New to Gramin Career Setu?</span>
-          <a href="#" onclick="switchAuthView('signup')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign Up</a>
+          <a href="javascript:void(0)" onclick="switchAuthView('signup')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign Up</a>
         </div>
 
         <!-- 3 Trust Badges -->
@@ -286,7 +308,7 @@
       <form id="signUpForm" onsubmit="handleSignUpSubmit(event)">
         <!-- Full Name -->
         <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Full Name *</label>
+          <label for="regName" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Full Name *</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">person</span>
             <input type="text" id="regName" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="Enter your full name" required />
@@ -295,7 +317,7 @@
 
         <!-- Mobile Number -->
         <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number *</label>
+          <label for="regPhone" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number *</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">call</span>
             <input type="tel" id="regPhone" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="10-digit mobile number" required />
@@ -305,7 +327,7 @@
 
         <!-- Role Selector -->
         <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">I am registering as: *</label>
+          <label for="regRole" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">I am registering as: *</label>
           <select id="regRole" class="gcs-form-input" style="width: 100%;">
             <option value="student" selected>Student / Job Seeker</option>
             <option value="volunteer">Village Coordinator / Volunteer</option>
@@ -315,7 +337,7 @@
 
         <!-- Email (Optional) -->
         <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Email Address (Optional)</label>
+          <label for="regEmail" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Email Address (Optional)</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">mail</span>
             <input type="email" id="regEmail" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="Enter your email address" />
@@ -324,7 +346,7 @@
 
         <!-- Password with Strength Meter -->
         <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Password *</label>
+          <label for="regPassword" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Password *</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">lock</span>
             <input type="password" id="regPassword" class="gcs-form-input" style="width: 100%; padding-left: 38px; padding-right: 38px;" placeholder="Create a strong password" oninput="updatePasswordStrengthUI()" required />
@@ -346,7 +368,7 @@
 
         <!-- Confirm Password -->
         <div style="margin-bottom: 16px;">
-          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Confirm Password *</label>
+          <label for="regConfirmPassword" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Confirm Password *</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">lock_reset</span>
             <input type="password" id="regConfirmPassword" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="Confirm your password" required />
@@ -369,11 +391,11 @@
 
         <div style="text-align: center; font-size: 0.84rem; color: #475569; margin-bottom: 12px;">
           <span>Already have an account?</span>
-          <a href="#" onclick="switchAuthView('signin')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign In</a>
+          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign In</a>
         </div>
 
         <p style="font-size: 0.72rem; color: #94A3B8; text-align: center; margin: 0; line-height: 1.4;">
-          By signing up, you agree to our <a href="#" style="color: #64748B;">Terms &amp; Conditions</a> and <a href="#" style="color: #64748B;">Privacy Policy</a>.
+          By signing up, you agree to our <a href="about.html" style="color: #64748B;">Terms &amp; Conditions</a> and <a href="about.html" style="color: #64748B;">Privacy Policy</a>.
         </p>
       </form>
     </section>
@@ -437,12 +459,12 @@
 
       <!-- 6 Auto-Advancing Digit Input Boxes -->
       <div class="otp-input-row">
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp1" value="1" oninput="handleOtpInput(this, 'otp2')" onkeydown="handleOtpBackspace(this, event, '')" />
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp2" value="2" oninput="handleOtpInput(this, 'otp3')" onkeydown="handleOtpBackspace(this, event, 'otp1')" />
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp3" value="3" oninput="handleOtpInput(this, 'otp4')" onkeydown="handleOtpBackspace(this, event, 'otp2')" />
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp4" value="4" oninput="handleOtpInput(this, 'otp5')" onkeydown="handleOtpBackspace(this, event, 'otp3')" />
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp5" value="5" oninput="handleOtpInput(this, 'otp6')" onkeydown="handleOtpBackspace(this, event, 'otp4')" />
-        <input type="text" class="otp-digit-box" maxlength="1" id="otp6" value="6" oninput="handleOtpInput(this, '')" onkeydown="handleOtpBackspace(this, event, 'otp5')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp1" placeholder="•" aria-label="OTP digit 1" inputmode="numeric" oninput="handleOtpInput(this, 'otp2')" onkeydown="handleOtpBackspace(this, event, '')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp2" placeholder="•" aria-label="OTP digit 2" inputmode="numeric" oninput="handleOtpInput(this, 'otp3')" onkeydown="handleOtpBackspace(this, event, 'otp1')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp3" placeholder="•" aria-label="OTP digit 3" inputmode="numeric" oninput="handleOtpInput(this, 'otp4')" onkeydown="handleOtpBackspace(this, event, 'otp2')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp4" placeholder="•" aria-label="OTP digit 4" inputmode="numeric" oninput="handleOtpInput(this, 'otp5')" onkeydown="handleOtpBackspace(this, event, 'otp3')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp5" placeholder="•" aria-label="OTP digit 5" inputmode="numeric" oninput="handleOtpInput(this, 'otp6')" onkeydown="handleOtpBackspace(this, event, 'otp4')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp6" placeholder="•" aria-label="OTP digit 6" inputmode="numeric" oninput="handleOtpInput(this, '')" onkeydown="handleOtpBackspace(this, event, 'otp5')" />
       </div>
 
       <div style="text-align: center; font-size: 0.8rem; color: #64748B; margin-bottom: 18px;">
@@ -456,7 +478,7 @@
 
       <div style="text-align: center; font-size: 0.82rem; color: #475569; margin-bottom: 24px;">
         <span>Didn't receive OTP?</span>
-        <a href="#" onclick="resendOtpMock()" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Resend OTP</a>
+        <a href="javascript:void(0)" onclick="resendOtpCode()" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Resend OTP</a>
       </div>
 
       <!-- Why verify mobile number checklist -->
@@ -492,7 +514,7 @@
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; text-align: center;">
           <div style="background: #F8FAFC; border-radius: 10px; padding: 12px 6px;">
             <span class="material-symbols-outlined" style="color: #059669;">explore</span>
-            <div style="font-size: 0.78rem; font-weight: 800; color: #0F172A; margin-top: 4px;">Explore</div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: #0F172A; margin-top: 4px;" data-lang-key="btn-explore">Explore</div>
             <div style="font-size: 0.68rem; color: #64748B;">Best career paths</div>
           </div>
           <div style="background: #F8FAFC; border-radius: 10px; padding: 12px 6px;">
@@ -507,7 +529,7 @@
           </div>
           <div style="background: #F8FAFC; border-radius: 10px; padding: 12px 6px;">
             <span class="material-symbols-outlined" style="color: #7C3AED;">description</span>
-            <div style="font-size: 0.78rem; font-weight: 800; color: #0F172A; margin-top: 4px;">Resume</div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: #0F172A; margin-top: 4px;" data-lang-key="nav-resume">Resume</div>
             <div style="font-size: 0.68rem; color: #64748B;">ATS in minutes</div>
           </div>
           <div style="background: #F8FAFC; border-radius: 10px; padding: 12px 6px;">
@@ -580,29 +602,39 @@
       }
     }
 
-    function handleSignInSubmit(e) {
+    async function handleSignInSubmit(e) {
       e.preventDefault();
       const phone = document.getElementById('loginPhone').value.trim();
       const pass = document.getElementById('loginPassword').value.trim();
 
-      const res = window.GCS_AUTH.login(phone, pass, 'student');
+      const errEl = document.getElementById('loginPhoneErr');
+      if (errEl) errEl.style.display = 'none';
+
+      const res = await window.GCS_AUTH.login(phone, pass);
       if (res.success) {
         if (window.GCS_APP && window.GCS_APP.toast) {
           window.GCS_APP.toast.show(`Welcome back, ${res.user.name}!`);
         }
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
         setTimeout(() => {
-          window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
-        }, 500);
+          if (next) {
+            window.location.href = decodeURIComponent(next);
+          } else {
+            window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
+          }
+        }, 400);
       } else {
-        const errEl = document.getElementById('loginPhoneErr');
         if (errEl) {
           errEl.textContent = res.message;
           errEl.style.display = 'block';
+        } else {
+          alert(res.message);
         }
       }
     }
 
-    function handleSignUpSubmit(e) {
+    async function handleSignUpSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
       const phone = document.getElementById('regPhone').value.trim();
@@ -620,9 +652,12 @@
         return;
       }
 
-      const res = window.GCS_AUTH.signup({ name, phone, email, role, password: pass, confirmPassword: confirm });
+      const res = await window.GCS_AUTH.signup({ name, phone, email, role, password: pass, confirmPassword: confirm });
       if (res.success) {
         document.getElementById('otpTargetPhone').textContent = '+91 ' + phone;
+        if (res.demoOtpCode && window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(`📱 Generated OTP: ${res.demoOtpCode}`);
+        }
         switchAuthView('success');
       } else {
         alert(res.message || 'Please fill in all required fields.');
@@ -657,16 +692,31 @@
         if (window.GCS_APP && window.GCS_APP.toast) {
           window.GCS_APP.toast.show(`🎉 Mobile Verified! Welcome, ${res.user.name}`);
         }
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
         setTimeout(() => {
-          window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
-        }, 500);
+          if (next) {
+            window.location.href = decodeURIComponent(next);
+          } else {
+            window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
+          }
+        }, 400);
       } else {
-        alert('Invalid OTP code. Please enter 6 digits (Demo code: 123456).');
+        alert(res.message || 'Invalid OTP code.');
       }
     }
 
-    function resendOtpMock() {
-      alert('A fresh 6-digit OTP has been sent to your mobile number via SMS (Demo code: 123456).');
+    function resendOtpCode() {
+      let pending = null;
+      try {
+        pending = JSON.parse(localStorage.getItem('gcs_pending_signup') || 'null');
+      } catch (e) {}
+      const code = pending ? pending.otpCode : '123456';
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(`📱 Fresh OTP sent via SMS: ${code}`);
+      } else {
+        alert(`A fresh 6-digit OTP has been sent via SMS: ${code}`);
+      }
     }
 
     // Auto countdown timer simulation
@@ -682,9 +732,5 @@
   </script>
 
   <!-- Core Scripts -->
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>

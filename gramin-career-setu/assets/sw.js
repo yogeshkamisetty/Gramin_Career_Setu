@@ -3,10 +3,11 @@
  * Offline caching for PWA support
  */
 
-const CACHE_NAME = 'gcs-cache-v12';
+const CACHE_NAME = 'gcs-cache-v14';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './404.html',
   './login.html',
   './dashboard.html',
   './careers.html',
@@ -32,6 +33,21 @@ const ASSETS_TO_CACHE = [
   './assets/landing.css',
   './assets/landing.js',
   './assets/i18n.js',
+  './assets/fonts/text.css',
+  './assets/fonts/files/2f8d8ec7d7a4.woff2',
+  './assets/fonts/files/395290514d97.woff2',
+  './assets/fonts/files/4ee8fc9834b2.woff2',
+  './assets/fonts/files/567244088c9c.woff2',
+  './assets/fonts/files/8e11d0a3a21c.woff2',
+  './assets/fonts/files/983e90946228.woff2',
+  './assets/fonts/files/a6d20149358d.woff2',
+  './assets/fonts/files/ec84a3760fbd.woff2',
+  './assets/fonts/files/eef1e4977282.woff2',
+  './assets/fonts/files/f55b8d3974cf.woff2',
+  './assets/pdf-loader.js',
+  './assets/actions.js',
+  './assets/api.js',
+  './assets/i18n-dict.js',
   './assets/app.js',
   './assets/auth.js',
   './assets/resume-builder-engine.js',
@@ -64,15 +80,10 @@ const ASSETS_TO_CACHE = [
   './assets/profile-ramesh.jpg',
   './assets/profile-lalitha.jpg',
   './assets/profile-suresh.jpg',
-  './assets/script.js',
   './assets/quiz.js',
-  './assets/resume.js',
   './assets/saas.css',
   './assets/career-data.js',
   './assets/profile.js',
-  './assets/roadmap.js',
-  './assets/jspdf.umd.min.js',
-  './data/lang.json',
   './data/jobs.csv',
 ];
 

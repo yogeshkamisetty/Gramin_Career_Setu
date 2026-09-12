@@ -1,27 +1,45 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
   <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-quiz-results" />
   <title>ఫలితాలు — Skill Checker Results | Gramin Career Setu</title>
-  <meta name="description" content="Your personalized career recommendations and aptitude match report. అద్భుతం! ఇవే మీ వ్యక్తిగత కెరీర్ సూచనలు." />
+  <meta name="description" content="Your personalized career recommendations and aptitude match report." />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
   <!-- jsPDF for client-side report download -->
-  <script src="assets/jspdf.umd.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'"></script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/tokens.css" />
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/quiz.js" defer></script>
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
 </head>
 
 <body class="gcs-landing-page">
@@ -53,7 +71,7 @@
           <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
 
           <div class="gcs-dropdown">
-            <a href="#" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
               <span data-lang-key="nav-more">More</span>
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
@@ -75,12 +93,12 @@
         </nav>
 
         <div class="gcs-header-actions">
-          <div class="gcs-lang-group" role="group" aria-label="Language Switcher">
-            <button type="button" class="gcs-lang-pill" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" id="gcsPillEn" onclick="switchGcsLanguage('en')">EN</button>
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
 
-          <button type="button" class="gcs-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -112,7 +130,7 @@
     <!-- Breadcrumb & Top Actions -->
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
       <nav class="gcs-breadcrumb" style="margin-bottom: 0;" aria-label="Breadcrumb">
-        <a href="index.html">Home</a>
+        <a href="index.html" data-lang-key="nav-home">Home</a>
         <span class="gcs-breadcrumb-sep">&gt;</span>
         <a href="quiz.html">Skill Checker Quiz</a>
         <span class="gcs-breadcrumb-sep">&gt;</span>
@@ -122,11 +140,11 @@
       <div style="display: flex; align-items: center; gap: 10px;">
         <button type="button" class="gcs-btn-cta-2" style="padding: 8px 16px; font-size: 0.88rem;" onclick="speakResultsSummary()">
           <span class="material-symbols-outlined" style="font-size: 18px;">volume_up</span>
-          <span>Listen</span>
+          <span data-lang-key="btn-listen">Listen</span>
         </button>
         <button type="button" class="gcs-btn-cta-1" style="padding: 8px 20px; font-size: 0.88rem; border: none; cursor: pointer;" onclick="downloadResultsPDF()">
           <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
-          <span>Download Report</span>
+          <span data-lang-key="btn-download-report">Download Report</span>
         </button>
       </div>
     </div>
@@ -154,19 +172,19 @@
           <div style="width: 130px; height: 130px; position: relative; flex-shrink: 0;">
             <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
               <path stroke="#E2E8F0" stroke-width="3.5" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-              <path stroke="#059669" stroke-width="3.5" stroke-dasharray="78, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path id="matchGaugeCircle" stroke="#059669" stroke-width="3.5" stroke-dasharray="78, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
             </svg>
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-              <div style="font-size: 1.8rem; font-weight: 800; color: #059669; line-height: 1;">78%</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #047857; margin-top: 2px;">Good Match</div>
+              <div id="matchGaugeScore" style="font-size: 1.8rem; font-weight: 800; color: #059669; line-height: 1;">78%</div>
+              <div id="matchGaugeLabel" style="font-size: 0.72rem; font-weight: 700; color: #047857; margin-top: 2px;">Good Match</div>
             </div>
           </div>
 
           <div>
-            <p style="font-size: 0.95rem; color: #334155; line-height: 1.5; margin: 0 0 6px 0;">
+            <p id="matchGaugeDescEn" style="font-size: 0.95rem; color: #334155; line-height: 1.5; margin: 0 0 6px 0;">
               You have strong skills and interests that match many high-paying career options.
             </p>
-            <p style="font-size: 0.9rem; color: var(--gcs-green-primary); font-weight: 600; margin: 0;">
+            <p id="matchGaugeDescTe" style="font-size: 0.9rem; color: var(--gcs-green-primary); font-weight: 600; margin: 0;">
               మీకు మంచి నైపుణ్యాలు మరియు ఆసక్తులు సరిపోయే కెరీర్ మార్గాలు ఉన్నాయి.
             </p>
           </div>
@@ -174,7 +192,7 @@
 
         <div style="margin-top: 20px; border-top: 1px solid #F1F5F9; padding-top: 14px;">
           <div style="font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 8px;">Your Strength Areas:</div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <div id="matchStrengthsContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="gcs-pill-tag" style="background: #F0FDF4; color: #059669;">Problem Solving</span>
             <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB;">Analytical Thinking</span>
             <span class="gcs-pill-tag" style="background: #FAF5FF; color: #9333EA;">Communication</span>
@@ -186,17 +204,17 @@
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
           <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0;">Top Career Match</h2>
-          <span style="background: #ECFDF5; color: #059669; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Best Match</span>
+          <span id="topMatchBadge" style="background: #ECFDF5; color: #059669; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Best Match</span>
         </div>
 
         <div style="display: flex; align-items: center; gap: 18px;">
           <div style="width: 100px; height: 100px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #E2E8F0;">
-            <img src="assets/career-software.jpg" alt="Software Engineer" style="width: 100%; height: 100%; object-fit: cover;" />
+            <img id="topMatchImg" src="assets/career-software.jpg" alt="Career Match" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
           <div>
-            <h3 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Software Engineer</h3>
-            <div style="font-size: 0.95rem; font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px;">Match Score: 92%</div>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <h3 id="topMatchTitle" style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Software Engineer</h3>
+            <div id="topMatchScore" style="font-size: 0.95rem; font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px;">Match Score: 92%</div>
+            <div id="topMatchPills" style="display: flex; gap: 6px; flex-wrap: wrap;">
               <span class="gcs-pill-tag">High Demand</span>
               <span class="gcs-pill-tag">Great Salary</span>
               <span class="gcs-pill-tag">Bright Future</span>
@@ -204,7 +222,7 @@
           </div>
         </div>
 
-        <a href="career-detail.html?career=software-engineer" class="gcs-btn-cta-1" style="margin-top: 20px; text-decoration: none; justify-content: center;">
+        <a id="topMatchLink" href="career-detail.html?career=software-engineer" class="gcs-btn-cta-1" style="margin-top: 20px; text-decoration: none; justify-content: center;">
           <span>View Career Details</span>
           <span class="material-symbols-outlined">arrow_forward</span>
         </a>
@@ -220,7 +238,6 @@
         <div style="display: flex; align-items: center; gap: 24px;">
           <div style="width: 140px; height: 140px; position: relative; flex-shrink: 0;">
             <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-              <!-- Donut Segments with multi-colors -->
               <circle cx="18" cy="18" r="14" fill="none" stroke="#22C55E" stroke-width="4" stroke-dasharray="30 70" stroke-dashoffset="0" />
               <circle cx="18" cy="18" r="14" fill="none" stroke="#3B82F6" stroke-width="4" stroke-dasharray="25 75" stroke-dashoffset="-30" />
               <circle cx="18" cy="18" r="14" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="20 80" stroke-dashoffset="-55" />
@@ -232,7 +249,7 @@
             </div>
           </div>
 
-          <div style="flex: 1;">
+          <div id="matchWheelLegend" style="flex: 1;">
             <div class="gcs-wheel-legend-item">
               <span><span class="gcs-wheel-dot" style="background: #22C55E;"></span> IT &amp; Software</span>
               <strong style="color: #1E293B;">92%</strong>
@@ -265,7 +282,7 @@
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
         <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px 0;">Top 5 Career Recommendations</h2>
 
-        <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div id="topRecsList" style="display: flex; flex-direction: column; gap: 8px;">
           <a href="career-detail.html?career=software-engineer" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
             <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
               <span style="width: 24px; height: 24px; border-radius: 50%; background: #059669; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">1</span>
@@ -312,13 +329,13 @@
     </div>
 
     <!-- Recommended Learning Roadmap Section -->
-    <section class="gcs-roadmap-flow-card">
+    <section class="gcs-roadmap-flow-card" id="resultsRoadmapCard">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
         <span class="material-symbols-outlined" style="color: var(--gcs-green-primary);">timeline</span>
         <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0;">Recommended Learning Roadmap</h2>
       </div>
 
-      <div class="gcs-roadmap-steps-row">
+      <div id="resultsRoadmapSteps" class="gcs-roadmap-steps-row">
         <div class="gcs-roadmap-step-item">
           <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">account_balance</span></div>
           <div class="gcs-roadmap-step-title">10th Class</div>
@@ -464,13 +481,13 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Facebook">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
               <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
             </a>
-            <a href="#" class="gcs-social-link" title="YouTube">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
               <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
             </a>
-            <a href="#" class="gcs-social-link" title="Instagram">
+            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
               <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
@@ -513,8 +530,9 @@
         <div class="gcs-footer-col">
           <h4 data-lang-key="footer-lang">Language</h4>
           <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
-            <button type="button" class="gcs-lang-pill active" style="color: #ffffff;" onclick="switchGcsLanguage('te')">తెలుగు</button>
-            <button type="button" class="gcs-lang-pill" style="color: #94A3B8;" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
           </div>
           <p style="font-size: 0.8rem; color: #94A3B8;">
             Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
@@ -561,59 +579,328 @@
 
   <!-- Interactive Scripts -->
   <script>
+    const PATH_CONFIG = {
+      government: {
+        topCareer: 'Village Secretariat / Sub Inspector',
+        topCareerTe: 'గ్రామ సచివాలయం / సబ్ ఇన్‌స్పెక్టర్',
+        slug: 'sub-inspector',
+        img: 'assets/career-police.jpg',
+        strengths: [
+          { en: 'Analytical Thinking', te: 'విశ్లేషణాత్మక ఆలోచన', bg: '#EFF6FF', color: '#2563EB' },
+          { en: 'Public Administration', te: 'ప్రజా పరిపాలన', bg: '#F0FDF4', color: '#059669' },
+          { en: 'Discipline & General Studies', te: 'క్రమశిక్షణ & అధ్యయనం', bg: '#FAF5FF', color: '#9333EA' }
+        ],
+        pills: ['High Stability', 'Government Pension', 'Social Respect'],
+        recs: [
+          { name: 'Sub Inspector (SI)', score: '94%', slug: 'sub-inspector' },
+          { name: 'Village Secretariat Executive', score: '88%', slug: 'sub-inspector' },
+          { name: 'Bank Officer (PO/Clerk)', score: '82%', slug: 'bank-officer' },
+          { name: 'School Teacher (DSC)', score: '79%', slug: 'school-teacher' },
+          { name: 'Agricultural Extension Officer', score: '74%', slug: 'agricultural-officer' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Focus on Maths & Social Studies' },
+          { icon: 'menu_book', title: 'Intermediate', desc: 'MPC / BiPC / MEC with high percentage' },
+          { icon: 'school', title: 'Graduation', desc: 'Any Bachelor Degree (BA / BSc / BCom / BTech)' },
+          { icon: 'edit_note', title: 'Exam Prep', desc: 'Daily current affairs, GK, APPSC/SSC mocks' },
+          { icon: 'military_tech', title: 'Selection', desc: 'Pass Prelims, Mains & Document Verification' }
+        ]
+      },
+      iti: {
+        topCareer: 'Civil & Technical Technician',
+        topCareerTe: 'సివిల్ & సాంకేతిక నిపుణుడు',
+        slug: 'civil-engineer',
+        img: 'assets/career-civil.jpg',
+        strengths: [
+          { en: 'Hands-on Problem Solving', te: 'ప్రాక్టికల్ పరిష్కారాలు', bg: '#F0FDF4', color: '#059669' },
+          { en: 'Mechanical & Tool Aptitude', te: 'మెకానికల్ నైపుణ్యం', bg: '#EFF6FF', color: '#2563EB' },
+          { en: 'Technical Safety', te: 'సాంకేతిక భద్రత', bg: '#FAF5FF', color: '#9333EA' }
+        ],
+        pills: ['High Demand', 'Early Earnings', 'Self-Employment Ready'],
+        recs: [
+          { name: 'Civil Infrastructure Supervisor', score: '93%', slug: 'civil-engineer' },
+          { name: 'Industrial Electrician', score: '87%', slug: 'civil-engineer' },
+          { name: 'Solar Technician & Installer', score: '83%', slug: 'civil-engineer' },
+          { name: 'Automobile & Machine Fitter', score: '78%', slug: 'civil-engineer' },
+          { name: 'Electronics Technician', score: '72%', slug: 'civil-engineer' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Pass with Science & Maths credits' },
+          { icon: 'build', title: 'ITI / Diploma', desc: '2-year Trade Diploma (NCVT / State Board)' },
+          { icon: 'engineering', title: 'Apprenticeship', desc: 'National Apprenticeship Training (NATS)' },
+          { icon: 'verified', title: 'Certifications', desc: 'Safety protocols & equipment handling' },
+          { icon: 'handyman', title: 'Job / Workshop', desc: 'Join engineering firm or start workshop' }
+        ]
+      },
+      bpo: {
+        topCareer: 'Software & Digital Services Associate',
+        topCareerTe: 'సాఫ్ట్‌వేర్ & డిజిటల్ సర్వీసెస్ అసోసియేట్',
+        slug: 'software-engineer',
+        img: 'assets/career-software.jpg',
+        strengths: [
+          { en: 'Problem Solving', te: 'సమస్య పరిష్కారం', bg: '#F0FDF4', color: '#059669' },
+          { en: 'Analytical Thinking', te: 'విశ్లేషణాత్మక ఆలోచన', bg: '#EFF6FF', color: '#2563EB' },
+          { en: 'Verbal & Digital Communication', te: 'కమ్యూనికేషన్ స్కిల్స్', bg: '#FAF5FF', color: '#9333EA' }
+        ],
+        pills: ['High Demand', 'Great Salary', 'Bright Future'],
+        recs: [
+          { name: 'Software Engineer', score: '92%', slug: 'software-engineer' },
+          { name: 'Web Developer', score: '85%', slug: 'software-engineer' },
+          { name: 'Customer Support Lead', score: '81%', slug: 'software-engineer' },
+          { name: 'Data Management Associate', score: '76%', slug: 'software-engineer' },
+          { name: 'IT Helpdesk Specialist', score: '70%', slug: 'software-engineer' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'English & Basic Computer literacy' },
+          { icon: 'menu_book', title: 'Intermediate', desc: 'MPC / MEC / Commerce' },
+          { icon: 'school', title: 'Degree / B.Tech', desc: 'B.E / B.Tech / B.Sc / Degree' },
+          { icon: 'code', title: 'Skills', desc: 'Programming, Typing >40 WPM, DBMS' },
+          { icon: 'work', title: 'Job', desc: 'Placement in IT Services or BPO Centre' }
+        ]
+      },
+      business: {
+        topCareer: 'Rural Agri-Business & Enterprise Founder',
+        topCareerTe: 'రూరల్ అగ్రి-బిజినెస్ & ఎంటర్‌ప్రెన్యూర్',
+        slug: 'entrepreneur',
+        img: 'assets/profile-suresh.jpg',
+        strengths: [
+          { en: 'Commercial Acumen', te: 'వ్యాపార దృష్టి', bg: '#F0FDF4', color: '#059669' },
+          { en: 'Leadership & Initiative', te: 'నాయకత్వం & చొరవ', bg: '#EFF6FF', color: '#2563EB' },
+          { en: 'Local Market Networking', te: 'స్థానిక మార్కెట్ సంబంధాలు', bg: '#FAF5FF', color: '#9333EA' }
+        ],
+        pills: ['Unlimited Growth', 'Be Your Own Boss', 'Local Job Creator'],
+        recs: [
+          { name: 'Agri-Business & Enterprise Founder', score: '95%', slug: 'entrepreneur' },
+          { name: 'Agricultural Extension Officer', score: '86%', slug: 'agricultural-officer' },
+          { name: 'Digital Seva Centre Owner', score: '81%', slug: 'entrepreneur' },
+          { name: 'Dairy & Poultry Farm Manager', score: '75%', slug: 'entrepreneur' },
+          { name: 'Rural Logistics Operator', score: '71%', slug: 'entrepreneur' }
+        ],
+        roadmap: [
+          { icon: 'search', title: 'Market Study', desc: 'Identify unmet village/mandal service demand' },
+          { icon: 'description', title: 'Business Plan', desc: 'Calculate setup costs, margins & break-even' },
+          { icon: 'payments', title: 'Mudra Loan', desc: 'Apply for PMMY (Tarun/Kishore) financing' },
+          { icon: 'storefront', title: 'Setup & Pilot', desc: 'Procure equipment and launch local services' },
+          { icon: 'trending_up', title: 'Scale & Hire', desc: 'Grow customer base and mentor youth' }
+        ]
+      }
+    };
+
+    let currentQuizData = null;
+    let currentConfig = PATH_CONFIG.bpo;
+
+    function initQuizResults() {
+      let saved = null;
+      try {
+        const raw = localStorage.getItem('gcs_quiz_results');
+        if (raw) saved = JSON.parse(raw);
+      } catch (e) {
+        console.warn('Failed to parse quiz results:', e);
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!saved && !urlParams.has('demo')) {
+        window.location.replace('quiz.html');
+        return;
+      }
+
+      // Default demo payload if navigated with ?demo=1
+      if (!saved) {
+        saved = {
+          scores: { government: 6, iti: 4, bpo: 9, business: 5 },
+          topPath: 'bpo',
+          pathNameEn: 'BPO / Customer Service',
+          pathNameTe: 'BPO / కస్టమర్ సర్వీస్',
+          matchScore: 82,
+          timestamp: new Date().toISOString()
+        };
+      }
+
+      currentQuizData = saved;
+      const topKey = (saved.topPath && PATH_CONFIG[saved.topPath]) ? saved.topPath : 'bpo';
+      currentConfig = PATH_CONFIG[topKey];
+      const matchScore = saved.matchScore || 80;
+
+      // 1. Match Gauge
+      const gaugeCircle = document.getElementById('matchGaugeCircle');
+      if (gaugeCircle) {
+        gaugeCircle.setAttribute('stroke-dasharray', `${matchScore}, 100`);
+      }
+      const gaugeScore = document.getElementById('matchGaugeScore');
+      if (gaugeScore) gaugeScore.textContent = `${matchScore}%`;
+      const gaugeLabel = document.getElementById('matchGaugeLabel');
+      if (gaugeLabel) gaugeLabel.textContent = matchScore >= 80 ? 'Excellent Match' : 'Good Match';
+
+      // 2. Strengths
+      const strengthsContainer = document.getElementById('matchStrengthsContainer');
+      if (strengthsContainer && currentConfig.strengths) {
+        strengthsContainer.innerHTML = currentConfig.strengths.map(st => `
+          <span class="gcs-pill-tag" style="background: ${st.bg}; color: ${st.color};">${st.en}</span>
+        `).join('');
+      }
+
+      // 3. Top Career Match Card
+      const topTitle = document.getElementById('topMatchTitle');
+      if (topTitle) topTitle.textContent = currentConfig.topCareer;
+      const topScore = document.getElementById('topMatchScore');
+      if (topScore) topScore.textContent = `Match Score: ${matchScore}%`;
+      const topImg = document.getElementById('topMatchImg');
+      if (topImg && currentConfig.img) topImg.src = currentConfig.img;
+      const topPills = document.getElementById('topMatchPills');
+      if (topPills && currentConfig.pills) {
+        topPills.innerHTML = currentConfig.pills.map(p => `<span class="gcs-pill-tag">${p}</span>`).join('');
+      }
+      const topLink = document.getElementById('topMatchLink');
+      if (topLink) topLink.href = `career-detail.html?career=${currentConfig.slug}`;
+
+      // 4. Wheel Legend
+      const wheelLegend = document.getElementById('matchWheelLegend');
+      if (wheelLegend && saved.scores) {
+        const pathColors = {
+          government: '#059669',
+          iti: '#EA580C',
+          bpo: '#2563EB',
+          business: '#9333EA'
+        };
+        const pathNames = {
+          government: 'Government & Public Service',
+          iti: 'Technical & Engineering Trades',
+          bpo: 'Digital & Customer Services',
+          business: 'Business & Entrepreneurship'
+        };
+        const entries = Object.keys(pathNames).map(k => {
+          const rawScore = saved.scores[k] || 1;
+          const pct = Math.min(96, Math.max(30, Math.round((rawScore / 12) * 100)));
+          return { key: k, name: pathNames[k], color: pathColors[k], pct: pct };
+        }).sort((a, b) => b.pct - a.pct);
+
+        wheelLegend.innerHTML = entries.map(e => `
+          <div class="gcs-wheel-legend-item">
+            <span><span class="gcs-wheel-dot" style="background: ${e.color};"></span> ${e.name}</span>
+            <strong style="color: #1E293B;">${e.pct}%</strong>
+          </div>
+        `).join('');
+      }
+
+      // 5. Top 5 Recommendations
+      const recsList = document.getElementById('topRecsList');
+      if (recsList && currentConfig.recs) {
+        const rankColors = ['#059669', '#2563EB', '#D97706', '#0284C7', '#9333EA'];
+        recsList.innerHTML = currentConfig.recs.map((r, i) => `
+          <a href="career-detail.html?career=${r.slug}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
+              <span style="width: 24px; height: 24px; border-radius: 50%; background: ${rankColors[i] || '#059669'}; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">${i + 1}</span>
+              <span>${r.name}</span>
+            </span>
+            <span style="color: ${rankColors[i] || '#059669'}; font-weight: 700; font-size: 0.88rem;">${r.score} Match &gt;</span>
+          </a>
+        `).join('');
+      }
+
+      // 6. Roadmap Steps
+      const roadmapSteps = document.getElementById('resultsRoadmapSteps');
+      if (roadmapSteps && currentConfig.roadmap) {
+        roadmapSteps.innerHTML = currentConfig.roadmap.map((s, idx) => `
+          <div class="gcs-roadmap-step-item">
+            <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">${s.icon}</span></div>
+            <div class="gcs-roadmap-step-title">${s.title}</div>
+            <div class="gcs-roadmap-step-desc">${s.desc}</div>
+          </div>
+          ${idx < currentConfig.roadmap.length - 1 ? '<span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>' : ''}
+        `).join('');
+      }
+    }
+
     function speakResultsSummary() {
-      if ('speechSynthesis' in window) {
-        const msg = 'Congratulations! Your career match score is 78 percent. Your top career recommendation is Software Engineer with a 92 percent compatibility score.';
+      const score = currentQuizData?.matchScore || 80;
+      const isTe = document.documentElement.lang === 'te';
+      let msg = '';
+      if (isTe) {
+        msg = `అభినందనలు! మీ కెరీర్ అసెస్‌మెంట్‌లో ${score} శాతం అనుకూలత లభించింది. మీకు అత్యంత అనుకూలమైన కెరీర్ ${currentConfig.topCareerTe}.`;
+      } else {
+        msg = `Congratulations! Your career aptitude match score is ${score} percent. Your top career recommendation is ${currentConfig.topCareer}.`;
+      }
+      if (window.GCS_I18N && window.GCS_I18N.speak) {
+        window.GCS_I18N.speak(msg, isTe ? 'te' : 'en');
+      } else if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(msg);
+        utterance.lang = isTe ? 'te-IN' : 'en-IN';
         window.speechSynthesis.speak(utterance);
       }
     }
 
-    function downloadResultsPDF() {
-      const { jsPDF } = window.jspdf || {};
-      if (!jsPDF) {
-        window.print();
-        return;
-      }
+    async function downloadResultsPDF() {
+      const lib = await GCS_PDF.load().catch(() => null);
+      if (!lib) { window.print(); return; }
+      const { jsPDF } = lib;
       const doc = new jsPDF();
+      const score = currentQuizData?.matchScore || 80;
+      const topCareer = currentConfig.topCareer;
+
       doc.setFillColor(27, 77, 62);
-      doc.rect(0, 0, 210, 30, 'F');
+      doc.rect(0, 0, 210, 32, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(16);
-      doc.text('Gramin Career Setu - Career Assessment Report', 14, 18);
+      doc.text('Gramin Career Setu - Career Assessment Report', 14, 20);
 
       doc.setTextColor(15, 23, 42);
-      doc.setFontSize(18);
-      doc.text('Your Career Match: 78% (Good Match)', 14, 45);
+      doc.setFontSize(17);
+      doc.text(`Your Career Match: ${score}% (${score >= 80 ? 'Excellent Match' : 'Good Match'})`, 14, 48);
 
       doc.setFontSize(12);
       doc.setTextColor(5, 150, 105);
-      doc.text('Top Recommended Career: Software Engineer (92% Match)', 14, 58);
+      doc.text(`Top Recommended Career: ${topCareer}`, 14, 59);
 
       doc.setTextColor(71, 85, 105);
-      doc.setFontSize(10);
-      doc.text('Top 5 Career Options:', 14, 72);
-      doc.text('1. Software Engineer - 92% Match', 20, 82);
-      doc.text('2. Data Scientist - 85% Match', 20, 92);
-      doc.text('3. Cyber Security Analyst - 75% Match', 20, 102);
-      doc.text('4. Web Developer - 72% Match', 20, 112);
-      doc.text('5. Database Administrator - 68% Match', 20, 122);
+      doc.setFontSize(11);
+      doc.text('Top Recommended Career Paths:', 14, 73);
 
-      doc.text('Strength Areas: Problem Solving, Analytical Thinking, Communication', 14, 138);
+      doc.setFontSize(10);
+      let y = 83;
+      if (currentConfig.recs) {
+        currentConfig.recs.forEach((rec, idx) => {
+          doc.text(`${idx + 1}. ${rec.name} — ${rec.score} Compatibility`, 20, y);
+          y += 8;
+        });
+      }
+
+      y += 4;
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Evaluated Strength Areas:', 14, y);
+      y += 8;
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      if (currentConfig.strengths) {
+        doc.text(currentConfig.strengths.map(s => s.en).join('   |   '), 20, y);
+      }
+
+      y += 12;
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Recommended Next Milestones:', 14, y);
+      y += 8;
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      if (currentConfig.roadmap) {
+        currentConfig.roadmap.forEach((step, idx) => {
+          doc.text(`Step ${idx + 1}: ${step.title} — ${step.desc}`, 20, y);
+          y += 8;
+        });
+      }
 
       doc.setDrawColor(226, 232, 240);
-      doc.line(14, 150, 196, 150);
-
+      doc.line(14, 260, 196, 260);
       doc.setFontSize(9);
       doc.setTextColor(148, 163, 184);
-      doc.text('Generated by Gramin Career Setu - Offline PWA for Rural Youth', 14, 160);
+      doc.text('Generated by Gramin Career Setu — Offline PWA for Rural Youth', 14, 270);
 
-      doc.save('Skill_Checker_Career_Report.pdf');
+      const safeFilename = topCareer.replace(/[^a-zA-Z0-9]/g, '_');
+      doc.save(`${safeFilename}_Career_Report.pdf`);
     }
+
+    window.addEventListener('DOMContentLoaded', initQuizResults);
   </script>
-  <script src="assets/i18n.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/auth.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>
