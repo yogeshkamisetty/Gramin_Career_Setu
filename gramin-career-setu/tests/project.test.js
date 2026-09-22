@@ -160,4 +160,27 @@ test('serves production security headers on HTTP responses', async () => {
   assert.match(response.headers['content-security-policy'], /default-src 'self'/);
 });
 
+test('resumes API client sends structured { resumeJson } payload', () => {
+  const api = fs.readFileSync(path.join(root, 'assets', 'api.js'), 'utf8');
+  assert.match(api, /body:\s*JSON\.stringify\(\{\s*resumeJson:\s*jsonString\s*\}\)/);
+});
+
+test('V5 migration contains pg_trgm and composite indexes', () => {
+  const v5Path = path.join(root, 'backend', 'src', 'main', 'resources', 'db', 'migration', 'V5__job_search_trigram_and_quiz_indexes.sql');
+  assert.ok(fs.existsSync(v5Path), 'V5 migration file must exist');
+  const v5Sql = fs.readFileSync(v5Path, 'utf8');
+  assert.match(v5Sql, /CREATE EXTENSION IF NOT EXISTS pg_trgm/i);
+  assert.match(v5Sql, /idx_jobs_search_trgm_gin/i);
+  assert.match(v5Sql, /idx_quiz_user_created/i);
+  assert.match(v5Sql, /idx_resumes_user_updated/i);
+});
+
+test('actuator configuration isolates liveness probe from external dependencies', () => {
+  const appYml = fs.readFileSync(path.join(root, 'backend', 'src', 'main', 'resources', 'application.yml'), 'utf8');
+  const prodYml = fs.readFileSync(path.join(root, 'backend', 'src', 'main', 'resources', 'application-prod.yml'), 'utf8');
+  assert.match(appYml, /liveness:\s*\n\s*include:\s*livenessState/);
+  assert.match(prodYml, /liveness:\s*\n\s*include:\s*livenessState/);
+  assert.match(prodYml, /readiness:\s*\n\s*include:\s*readinessState,db,redis,diskSpace/);
+});
+
 

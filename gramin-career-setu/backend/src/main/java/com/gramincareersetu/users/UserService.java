@@ -94,7 +94,7 @@ public class UserService {
         );
         profileRepository.save(initialProfile);
 
-        log.info("Provisioned new user account: id={}, email={}", savedUser.getId(), savedUser.getEmail());
+        log.info("Provisioned new user account: id={}, email={}", savedUser.getId(), com.gramincareersetu.common.PiiUtils.maskEmail(savedUser.getEmail()));
         return savedUser;
     }
 

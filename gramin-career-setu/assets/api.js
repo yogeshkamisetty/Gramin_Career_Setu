@@ -228,9 +228,13 @@
 
       async cancel(workshopId, { phone }) {
         try {
+          const payload = { phone: (phone || '').trim() };
+          if (arguments[1] && arguments[1].cancellationCode) {
+            payload.cancellationCode = arguments[1].cancellationCode.trim();
+          }
           const res = await GCS_API.request(`/workshops/${encodeURIComponent(workshopId)}/cancel`, {
             method: 'POST',
-            body: JSON.stringify({ phone })
+            body: JSON.stringify(payload)
           });
           return { success: true, data: res.data };
         } catch (err) {
@@ -247,7 +251,7 @@
         try {
           const res = await GCS_API.request('/resumes/calculate-ats', {
             method: 'POST',
-            body: jsonString
+            body: JSON.stringify({ resumeJson: jsonString })
           });
           if (res && res.success && res.data) return res.data;
         } catch (err) {

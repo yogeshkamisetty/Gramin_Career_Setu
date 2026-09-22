@@ -1,18 +1,16 @@
 package com.gramincareersetu.resumes;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gramincareersetu.auth.AuthenticatedUserResolver;
 import com.gramincareersetu.common.ApiResponse;
+import com.gramincareersetu.common.BadRequestException;
 import com.gramincareersetu.users.UserEntity;
-import com.gramincareersetu.users.UserService;
 import jakarta.validation.Valid;
-import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +22,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResumeController {
 
     private final ResumeService resumeService;
-    private final UserService userService;
+    private final AuthenticatedUserResolver userResolver;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public ResumeController(ResumeService resumeService, UserService userService) {
+    public ResumeController(
+            ResumeService resumeService,
+            AuthenticatedUserResolver userResolver,
+            ObjectMapper objectMapper
+    ) {
         this.resumeService = resumeService;
-        this.userService = userService;
+        this.userResolver = userResolver;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/my-resume")
     public ResponseEntity<ApiResponse<ResumeDto>> getMyResume(Authentication authentication) {
-        UserEntity user = resolveUser(authentication);
+        UserEntity user = userResolver.resolve(authentication);
         ResumeDto resume = resumeService.getResumeByUserId(user.getId());
         return ResponseEntity.ok(ApiResponse.ok(resume));
     }
@@ -44,48 +48,31 @@ public class ResumeController {
             Authentication authentication,
             @Valid @RequestBody SaveResumeRequest request
     ) {
-        UserEntity user = resolveUser(authentication);
+        UserEntity user = userResolver.resolve(authentication);
         ResumeDto saved = resumeService.saveResume(user.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok("Resume saved successfully", saved));
     }
 
     @PostMapping("/calculate-ats")
-    public ResponseEntity<ApiResponse<AtsEvaluationDto>> calculateAtsScore(@RequestBody String resumeJson) {
-        AtsEvaluationDto evaluation = resumeService.evaluateAts(resumeJson);
-        return ResponseEntity.ok(ApiResponse.ok("ATS evaluation completed", evaluation));
-    }
+    public ResponseEntity<ApiResponse<AtsEvaluationDto>> calculateAtsScore(@RequestBody(required = false) String rawBody) {
+        if (rawBody == null || rawBody.isBlank()) {
+            throw new BadRequestException("Resume payload cannot be empty");
+        }
 
-    private UserEntity resolveUser(Authentication authentication) {
-        String keycloakId = null;
-        String email = null;
-        String fullName = null;
-        Set<String> roles = Collections.emptySet();
-
-        if (authentication != null) {
-            roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toSet());
-
-            if (authentication.getPrincipal() instanceof Jwt jwt) {
-                keycloakId = jwt.getSubject();
-                email = jwt.getClaimAsString("email");
-                fullName = jwt.getClaimAsString("name");
-                if (fullName == null) {
-                    fullName = jwt.getClaimAsString("preferred_username");
+        String resumeJson = rawBody;
+        // If client sent {"resumeJson": "..."}, unwrap it; otherwise accept raw JSON payload
+        if (rawBody.trim().startsWith("{")) {
+            try {
+                JsonNode node = objectMapper.readTree(rawBody);
+                if (node.has("resumeJson") && node.get("resumeJson").isTextual()) {
+                    resumeJson = node.get("resumeJson").asText();
                 }
-            } else {
-                keycloakId = authentication.getName();
-                email = authentication.getName() + "@gramincareersetu.org";
-                fullName = authentication.getName();
+            } catch (Exception ignored) {
+                // Keep rawBody if JSON parsing fails here; evaluateAts handles validation
             }
         }
 
-        if (keycloakId == null) {
-            keycloakId = "local-dev-user-001";
-            email = "dev@gramincareersetu.org";
-            fullName = "Development Scholar";
-        }
-
-        return userService.getOrCreateUserFromPrincipal(keycloakId, email, fullName, roles);
+        AtsEvaluationDto evaluation = resumeService.evaluateAts(resumeJson);
+        return ResponseEntity.ok(ApiResponse.ok("ATS evaluation completed", evaluation));
     }
 }

@@ -7,21 +7,26 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * In-memory rate limiting and abuse mitigation filter for public submission endpoints.
- * Throttles excessive requests per client IP to protect against automated spam and denial-of-service.
+ * Robust, distributed-ready rate limiting and abuse mitigation filter for public submission endpoints.
+ * Prioritizes Redis distributed counters when available, with in-memory fallback for offline/dev modes.
+ * Sanitizes IP resolution against spoofed headers by verifying the immediate upstream proxy.
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
@@ -35,8 +40,14 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     @Value("${app.rate-limiting.max-requests-per-minute:25}")
     private int maxRequestsPerMinute;
 
+    private final Optional<StringRedisTemplate> redisTemplate;
     private final ConcurrentHashMap<String, RequestCounter> requestCounts = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+    @Autowired
+    public RateLimitingFilter(Optional<StringRedisTemplate> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -50,23 +61,30 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         String clientIp = resolveClientIp(request);
         String endpoint = request.getRequestURI();
         String key = clientIp + ":" + endpoint;
-
         long currentMinute = System.currentTimeMillis() / 60000;
-        RequestCounter counter = requestCounts.compute(key, (k, existing) -> {
-            if (existing == null || existing.minute != currentMinute) {
-                return new RequestCounter(currentMinute, 1);
-            }
-            existing.count.incrementAndGet();
-            return existing;
-        });
 
-        // Periodic cleanup of stale entries when map grows
-        if (requestCounts.size() > 2000) {
-            requestCounts.entrySet().removeIf(entry -> entry.getValue().minute < currentMinute);
+        boolean rateLimitExceeded = false;
+
+        if (redisTemplate.isPresent()) {
+            try {
+                String redisKey = "gcs:ratelimit:" + key;
+                Long currentCount = redisTemplate.get().opsForValue().increment(redisKey);
+                if (currentCount != null && currentCount == 1) {
+                    redisTemplate.get().expire(redisKey, Duration.ofMinutes(1));
+                }
+                if (currentCount != null && currentCount > maxRequestsPerMinute) {
+                    rateLimitExceeded = true;
+                }
+            } catch (Exception e) {
+                log.warn("Redis rate-limiting check failed, falling back to in-memory counter: {}", e.getMessage());
+                rateLimitExceeded = checkInMemoryRateLimit(key, currentMinute);
+            }
+        } else {
+            rateLimitExceeded = checkInMemoryRateLimit(key, currentMinute);
         }
 
-        if (counter.count.get() > maxRequestsPerMinute) {
-            log.warn("Rate limit exceeded for IP {} on endpoint {}", clientIp, endpoint);
+        if (rateLimitExceeded) {
+            log.warn("Rate limit exceeded for IP {} on endpoint {}", PiiUtils.maskPhone(clientIp), endpoint);
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setHeader("Retry-After", "60");
@@ -77,6 +95,23 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean checkInMemoryRateLimit(String key, long currentMinute) {
+        RequestCounter counter = requestCounts.compute(key, (k, existing) -> {
+            if (existing == null || existing.minute != currentMinute) {
+                return new RequestCounter(currentMinute, 1);
+            }
+            existing.count.incrementAndGet();
+            return existing;
+        });
+
+        // Periodic cleanup of stale entries when map exceeds threshold
+        if (requestCounts.size() > 2000) {
+            requestCounts.entrySet().removeIf(entry -> entry.getValue().minute < currentMinute);
+        }
+
+        return counter.count.get() > maxRequestsPerMinute;
     }
 
     private boolean isProtectedEndpoint(HttpServletRequest request) {
@@ -91,15 +126,32 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     }
 
     private String resolveClientIp(HttpServletRequest request) {
-        String xForwardedFor = request.getHeader("X-Forwarded-For");
-        if (xForwardedFor != null && !xForwardedFor.isBlank()) {
-            return xForwardedFor.split(",")[0].trim();
+        String remoteAddr = request.getRemoteAddr();
+
+        // Only trust forwarded headers if the immediate connection is from a trusted local loopback/proxy
+        boolean isLocalProxy = "127.0.0.1".equals(remoteAddr)
+                || "0:0:0:0:0:0:0:1".equals(remoteAddr)
+                || "localhost".equalsIgnoreCase(remoteAddr)
+                || (remoteAddr != null && (remoteAddr.startsWith("172.") || remoteAddr.startsWith("10.")));
+
+        if (isLocalProxy) {
+            String xForwardedFor = request.getHeader("X-Forwarded-For");
+            if (xForwardedFor != null && !xForwardedFor.isBlank()) {
+                String[] ips = xForwardedFor.split(",");
+                for (String ip : ips) {
+                    String trimmed = ip.trim();
+                    if (!trimmed.isBlank() && !"unknown".equalsIgnoreCase(trimmed)) {
+                        return trimmed;
+                    }
+                }
+            }
+            String xRealIp = request.getHeader("X-Real-IP");
+            if (xRealIp != null && !xRealIp.isBlank()) {
+                return xRealIp.trim();
+            }
         }
-        String xRealIp = request.getHeader("X-Real-IP");
-        if (xRealIp != null && !xRealIp.isBlank()) {
-            return xRealIp.trim();
-        }
-        return request.getRemoteAddr() != null ? request.getRemoteAddr() : "127.0.0.1";
+
+        return remoteAddr != null ? remoteAddr : "127.0.0.1";
     }
 
     private static class RequestCounter {

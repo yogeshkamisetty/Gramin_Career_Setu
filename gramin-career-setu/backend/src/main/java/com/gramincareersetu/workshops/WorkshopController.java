@@ -1,6 +1,6 @@
 package com.gramincareersetu.workshops;
 
-import com.gramincareersetu.auth.SecurityUtils;
+import com.gramincareersetu.auth.AuthenticatedUserResolver;
 import com.gramincareersetu.common.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WorkshopController {
 
     private final WorkshopService workshopService;
+    private final AuthenticatedUserResolver userResolver;
 
     @Autowired
-    public WorkshopController(WorkshopService workshopService) {
+    public WorkshopController(WorkshopService workshopService, AuthenticatedUserResolver userResolver) {
         this.workshopService = workshopService;
+        this.userResolver = userResolver;
     }
 
     @GetMapping
@@ -37,17 +40,10 @@ public class WorkshopController {
     public ResponseEntity<ApiResponse<WorkshopRegistrationEntity>> registerForWorkshop(
             @PathVariable String id,
             @RequestHeader(value = "Idempotency-Key", required = false) String headerIdempotencyKey,
-            @Valid @RequestBody RegisterWorkshopRequest request
+            @Valid @RequestBody RegisterWorkshopRequest request,
+            Authentication authentication
     ) {
-        UUID userId = SecurityUtils.getCurrentUserId()
-                .map(s -> {
-                    try {
-                        return UUID.fromString(s);
-                    } catch (Exception e) {
-                        return null;
-                    }
-                })
-                .orElse(null);
+        UUID userId = userResolver.resolveUserId(authentication).orElse(null);
 
         String effectiveKey = (headerIdempotencyKey != null && !headerIdempotencyKey.isBlank())
                 ? headerIdempotencyKey
@@ -63,9 +59,12 @@ public class WorkshopController {
     @PostMapping("/{id}/cancel")
     public ResponseEntity<ApiResponse<Void>> cancelWorkshop(
             @PathVariable String id,
-            @Valid @RequestBody CancelWorkshopRequest request
+            @Valid @RequestBody CancelWorkshopRequest request,
+            Authentication authentication
     ) {
-        workshopService.cancelRegistration(id, request.phone());
+        UUID userId = userResolver.resolveUserId(authentication).orElse(null);
+        boolean isAdmin = userResolver.isAdmin(authentication);
+        workshopService.cancelRegistration(id, request, userId, isAdmin);
         return ResponseEntity.ok(ApiResponse.ok("Workshop registration cancelled successfully", null));
     }
 }

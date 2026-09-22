@@ -39,10 +39,10 @@ public class QuizService {
     public QuizRecommendationDto evaluateAndSaveQuiz(QuizSubmissionRequest request, UUID userId) {
         Map<String, Integer> scores = calculateDimensionScores(request.answers());
 
-        int govScore = scores.getOrDefault("government", 0);
-        int itiScore = scores.getOrDefault("iti", 0);
-        int bpoScore = scores.getOrDefault("bpo", 0);
-        int busScore = scores.getOrDefault("business", 0);
+        int govScore = scores.getOrDefault(CareerTrack.GOVERNMENT.getCode(), 0);
+        int itiScore = scores.getOrDefault(CareerTrack.TECHNICAL_ITI.getCode(), 0);
+        int bpoScore = scores.getOrDefault(CareerTrack.VOCATIONAL_BPO.getCode(), 0);
+        int busScore = scores.getOrDefault(CareerTrack.BUSINESS_ENTREPRENEUR.getCode(), 0);
 
         String recommendedTrack = determineTopTrack(govScore, itiScore, bpoScore, busScore);
 
@@ -104,10 +104,10 @@ public class QuizService {
 
     private Map<String, Integer> calculateDimensionScores(Map<String, String> answers) {
         Map<String, Integer> totals = new LinkedHashMap<>();
-        totals.put("government", 0);
-        totals.put("iti", 0);
-        totals.put("bpo", 0);
-        totals.put("business", 0);
+        totals.put(CareerTrack.GOVERNMENT.getCode(), 0);
+        totals.put(CareerTrack.TECHNICAL_ITI.getCode(), 0);
+        totals.put(CareerTrack.VOCATIONAL_BPO.getCode(), 0);
+        totals.put(CareerTrack.BUSINESS_ENTREPRENEUR.getCode(), 0);
 
         if (answers == null || answers.isEmpty()) {
             return totals;
