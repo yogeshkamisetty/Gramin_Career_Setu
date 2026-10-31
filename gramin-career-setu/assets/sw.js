@@ -24,6 +24,7 @@ const ASSETS_TO_CACHE = [
   './assets/style.css',
   './assets/saas.css',
   './assets/landing.css',
+  './assets/ui.css',
   './assets/i18n-dict.js',
   './assets/i18n.js',
   './assets/api.js',
@@ -45,6 +46,7 @@ const ASSETS_TO_CACHE = [
   './assets/fonts/files/567244088c9c.woff2',
   './assets/fonts/files/8e11d0a3a21c.woff2',
   './assets/fonts/files/2f8d8ec7d7a4.woff2',
+  './assets/fonts/files/plus-jakarta-sans-var.woff2',
 
   // The pages a student is most likely to want without a connection
   './jobs.html',

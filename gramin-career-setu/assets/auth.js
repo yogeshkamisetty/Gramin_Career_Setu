@@ -908,30 +908,30 @@
           <div class="gcs-user-pill-dropdown" style="position: relative; display: inline-block;">
             <button type="button" onclick="toggleHeaderUserMenu(event)" style="display: flex; align-items: center; gap: 8px; background: #ECFDF5; border: 1.5px solid #86EFAC; border-radius: 24px; padding: 4px 12px 4px 4px; cursor: pointer; font-family: inherit;">
               <img src="${safeAvatar}" alt="${safeName}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;" onerror="this.src='${pfx}assets/resume-avatar-ravi.webp'" />
-              <span style="font-size: 0.82rem; font-weight: 700; color: #064E3B; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${safeFirstName}</span>
-              <span class="material-symbols-outlined" style="font-size: 16px; color: #059669;">expand_more</span>
+              <span style="font-size: var(--text-sm); font-weight: 700; color: #064E3B; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${safeFirstName}</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #059669;">expand_more</span>
             </button>
             <div id="headerUserMenu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; z-index: 9999; padding: 6px 0;">
               <div style="padding: 10px 16px; border-bottom: 1px solid #F1F5F9;">
-                <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A;">${safeName}</div>
-                <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">${safeRoleLabel}</div>
+                <div style="font-size: var(--text-sm); font-weight: 800; color: #0F172A;">${safeName}</div>
+                <div style="font-size: var(--text-xs); color: #059669; font-weight: 600;">${safeRoleLabel}</div>
               </div>
-              <a href="${dashLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.82rem; color: #334155; text-decoration: none; font-weight: 600;">
-                <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">dashboard</span>
+              <a href="${dashLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: var(--text-sm); color: #334155; text-decoration: none; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #059669;">dashboard</span>
                 <span data-lang-key="ui-my-dashboard">My Dashboard</span>
               </a>
-              <a href="${profileLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.82rem; color: #334155; text-decoration: none; font-weight: 600;">
-                <span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">account_circle</span>
+              <a href="${profileLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: var(--text-sm); color: #334155; text-decoration: none; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #2563EB;">account_circle</span>
                 <span data-lang-key="ui-my-profile">My Profile</span>
               </a>
               ${user.role === 'admin' || user.role === 'volunteer' ? `
-              <a href="${adminLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.82rem; color: #334155; text-decoration: none; font-weight: 600;">
-                <span class="material-symbols-outlined" style="font-size: 18px; color: #7C3AED;">admin_panel_settings</span>
+              <a href="${adminLink}" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: var(--text-sm); color: #334155; text-decoration: none; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #7C3AED;">admin_panel_settings</span>
                 <span data-lang-key="ui-admin-panel">Admin Panel</span>
               </a>` : ''}
               <hr style="border: none; border-top: 1px solid #F1F5F9; margin: 4px 0;" />
-              <button type="button" onclick="window.GCS_AUTH.logout()" style="display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 16px; font-size: 0.82rem; color: #DC2626; background: none; border: none; text-align: left; cursor: pointer; font-weight: 700;">
-                <span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+              <button type="button" onclick="window.GCS_AUTH.logout()" style="display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 16px; font-size: var(--text-sm); color: #DC2626; background: none; border: none; text-align: left; cursor: pointer; font-weight: 700;">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg);">logout</span>
                 <span data-lang-key="ui-sign-out">Sign Out</span>
               </button>
             </div>
@@ -940,8 +940,8 @@
       } else {
         // Guest mode
         authBtn.innerHTML = `
-          <a href="${pfx}login.html" class="gcs-btn-cta-1" style="padding: 6px 14px; font-size: 0.82rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; margin-left: 6px;">
-            <span class="material-symbols-outlined" style="font-size: 16px;">login</span>
+          <a href="${pfx}login.html" class="gcs-btn-cta-1" style="padding: 6px 14px; font-size: var(--text-sm); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; margin-left: 6px;">
+            <span class="material-symbols-outlined" style="font-size: var(--text-base);">login</span>
             <span data-lang-key="ui-sign-in">Sign In</span>
           </a>
         `;

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/pdf-loader.js" defer></script>
@@ -128,11 +129,11 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb & Action Row -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-      <nav class="gcs-breadcrumb" style="margin-bottom: 0;" aria-label="Breadcrumb">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+      <nav class="gcs-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0">
         <a href="index.html" data-lang-key="nav-home">Home</a>
         <span class="gcs-breadcrumb-sep">&gt;</span>
         <a href="careers.html">Career Explorer</a>
@@ -140,17 +141,17 @@
         <span class="gcs-breadcrumb-current" id="breadcrumbCareer">Software Engineer</span>
       </nav>
 
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <a href="careers.html" class="gcs-btn-cta-2" style="padding: 6px 14px; font-size: 0.85rem; text-decoration: none;">
-          <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span>
+      <div class="ui-icon-row ui-icon-row--gap-12">
+        <a href="careers.html" class="gcs-btn-cta-2" style="padding: 4px 12px; font-size: var(--text-sm); text-decoration: none">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_back</span>
           <span>Back to Careers</span>
         </a>
-        <button type="button" class="gcs-btn-cta-2" style="padding: 6px 14px; font-size: 0.85rem;" onclick="shareCareer()">
-          <span class="material-symbols-outlined" style="font-size: 16px;">share</span>
+        <button type="button" class="gcs-btn-cta-2" onclick="shareCareer()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">share</span>
           <span>Share</span>
         </button>
-        <button type="button" class="gcs-btn-cta-2" id="btnSaveDetail" style="padding: 6px 14px; font-size: 0.85rem;" onclick="toggleSave()">
-          <span class="material-symbols-outlined" style="font-size: 16px;">bookmark</span>
+        <button type="button" class="gcs-btn-cta-2" id="btnSaveDetail" onclick="toggleSave()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span>
           <span>Save</span>
         </button>
       </div>
@@ -171,17 +172,17 @@
 
         <div class="gcs-detail-metrics-row">
           <div class="gcs-detail-metric-item">
-            <span class="gcs-detail-metric-val" style="color: var(--gcs-green-medium);" id="detailSalary">₹ 3.5L – ₹ 15L / year</span>
+            <span class="gcs-detail-metric-val" id="detailSalary" style="color: var(--gcs-green-medium)">₹ 3.5L – ₹ 15L / year</span>
             <span class="gcs-detail-metric-lbl">Typical pay (indicative)</span>
           </div>
-          <div style="width: 1px; height: 32px; background: #E2E8F0;"></div>
+          <div style="width: 1px; height: 32px; background: #E2E8F0"></div>
           <div class="gcs-detail-metric-item">
-            <span class="gcs-detail-metric-val" style="color: #7E22CE;" id="detailDemand">Very High</span>
+            <span class="gcs-detail-metric-val" id="detailDemand" style="color: #7E22CE">Very High</span>
             <span class="gcs-detail-metric-lbl">Job Demand</span>
           </div>
-          <div style="width: 1px; height: 32px; background: #E2E8F0;"></div>
+          <div style="width: 1px; height: 32px; background: #E2E8F0"></div>
           <div class="gcs-detail-metric-item">
-            <span class="gcs-detail-metric-val" style="color: #D97706;" id="detailRating">★ 4.6 / 5</span>
+            <span class="gcs-detail-metric-val" id="detailRating" style="color: #D97706">★ 4.6 / 5</span>
             <span class="gcs-detail-metric-lbl">Career Rating</span>
           </div>
         </div>
@@ -209,30 +210,30 @@
     </nav>
 
     <!-- Tab 1: Overview Panel -->
-    <section id="tab-overview" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-overview" style="margin-bottom: 28px;">
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <section id="tab-overview" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-overview" style="margin-bottom: 24px">
+      <div class="ui-grid">
         <!-- Card 1: Overview -->
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center">
               <span class="material-symbols-outlined">description</span>
             </div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #0F172A;">Overview</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Overview</h3>
           </div>
-          <p id="overviewCardText" style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin: 0;">
+          <p id="overviewCardText" style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6; margin: 0">
             <strong>Software Engineers</strong> design, develop and maintain software applications. They work with programming languages, databases, cloud tools and modern frameworks to solve real-world problems.
           </p>
         </div>
 
         <!-- Card 2: Eligibility -->
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center;">
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center">
               <span class="material-symbols-outlined">how_to_reg</span>
             </div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #0F172A;">Eligibility</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Eligibility</h3>
           </div>
-          <ul id="eligibilityList" style="margin: 0; padding-left: 18px; font-size: 0.88rem; color: #475569; line-height: 1.6;">
+          <ul id="eligibilityList" style="margin: 0; padding-left: 16px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6">
             <li>10+2 with Mathematics (Any Stream)</li>
             <li>Bachelor's Degree in B.E / B.Tech / B.Sc (CS/IT) or related field</li>
             <li>Good logical and problem solving skills</li>
@@ -240,35 +241,35 @@
         </div>
 
         <!-- Card 3: Salary Trends -->
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center;">
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center">
               <span class="material-symbols-outlined">payments</span>
             </div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #0F172A;">Typical pay by experience</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Typical pay by experience</h3>
           </div>
-          <div id="salaryBreakdown" style="font-size: 0.88rem; color: #475569; line-height: 1.8;">
+          <div id="salaryBreakdown" style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
             <div>• <strong>Fresher:</strong> ₹ 3.5L – ₹ 6L / year</div>
             <div>• <strong>1–3 Years:</strong> ₹ 6L – ₹ 10L / year</div>
             <div>• <strong>5+ Years:</strong> ₹ 10L – ₹ 15L+ / year</div>
           </div>
-          <p style="font-size: 0.78rem; color: #94A3B8; margin: 12px 0 0; line-height: 1.5;">
+          <p style="font-size: var(--text-sm); color: #94A3B8; margin: 12px 0 0; line-height: 1.5">
             Indicative ranges to give you a sense of scale, not measured averages.
             Actual pay depends on the employer, the district and the year — a government
             post pays what its notification states.
-            <br /><span style="color:#A3B0C2;">ఇవి ఒక అంచనా మాత్రమే, కచ్చితమైన సగటు కాదు.</span>
+            <br /><span style="color: #A3B0C2">ఇవి ఒక అంచనా మాత్రమే, కచ్చితమైన సగటు కాదు.</span>
           </p>
         </div>
       </div>
     </section>
 
     <!-- Tab 2: Education Roadmap Flow Card -->
-    <section id="tab-roadmap" class="gcs-tab-panel gcs-roadmap-flow-card" role="tabpanel" aria-labelledby="tab-btn-roadmap" style="display: none; margin-bottom: 28px;">
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-        <span class="material-symbols-outlined" style="color: var(--gcs-green-primary);">timeline</span>
-        <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0;">Education Roadmap</h2>
+    <section id="tab-roadmap" class="gcs-tab-panel gcs-roadmap-flow-card" role="tabpanel" aria-labelledby="tab-btn-roadmap" style="display: none; margin-bottom: 24px">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px">
+        <span class="material-symbols-outlined" style="color: var(--gcs-green-primary)">timeline</span>
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">Education Roadmap</h2>
       </div>
-      <p style="font-size: 0.9rem; color: #64748B; margin: 0 0 20px 0;">Follow these sequential milestones from school to your first professional job.</p>
+      <p style="font-size: var(--text-base); color: var(--color-text-muted); margin: 0 0 20px 0">Follow these sequential milestones from school to your first professional job.</p>
 
       <div id="roadmapStepsContainer" class="gcs-roadmap-steps-row">
         <!-- Injected via JavaScript -->
@@ -276,98 +277,98 @@
     </section>
 
     <!-- Tab 3: Skills You Need -->
-    <section id="tab-skills" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-skills" style="display: none; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center;">
+    <section id="tab-skills" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-skills" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center">
             <span class="material-symbols-outlined">code</span>
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: #0F172A;">Skills You Need</h2>
-            <div style="font-size: 0.85rem; color: #64748B;">Essential technical capabilities and practical tools required to excel.</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Skills You Need</h2>
+            <div class="ui-meta">Essential technical capabilities and practical tools required to excel.</div>
           </div>
         </div>
-        <ul id="skillsList" style="margin: 0; padding-left: 20px; font-size: 0.95rem; color: #475569; line-height: 1.8;">
+        <ul id="skillsList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
           <!-- Injected via JavaScript -->
         </ul>
       </div>
     </section>
 
     <!-- Tab 4: Entrance Exams -->
-    <section id="tab-exams" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-exams" style="display: none; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center;">
+    <section id="tab-exams" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-exams" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center">
             <span class="material-symbols-outlined">assignment</span>
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: #0F172A;">Entrance &amp; Recruitment Exams</h2>
-            <div style="font-size: 0.85rem; color: #64748B;">Key qualifying entrance examinations or government competitive recruitment tests.</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Entrance &amp; Recruitment Exams</h2>
+            <div class="ui-meta">Key qualifying entrance examinations or government competitive recruitment tests.</div>
           </div>
         </div>
-        <ul id="examsList" style="margin: 0; padding-left: 20px; font-size: 0.95rem; color: #475569; line-height: 1.8;">
+        <ul id="examsList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
           <!-- Injected via JavaScript -->
         </ul>
       </div>
     </section>
 
     <!-- Tab 5: Top Colleges -->
-    <section id="tab-colleges" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-colleges" style="display: none; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center;">
+    <section id="tab-colleges" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-colleges" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center">
             <span class="material-symbols-outlined">account_balance</span>
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: #0F172A;">Top Institutions &amp; Universities</h2>
-            <div style="font-size: 0.85rem; color: #64748B;">Premier public universities, government institutes, and accredited regional colleges.</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Top Institutions &amp; Universities</h2>
+            <div class="ui-meta">Premier public universities, government institutes, and accredited regional colleges.</div>
           </div>
         </div>
-        <ul id="collegesList" style="margin: 0; padding-left: 20px; font-size: 0.95rem; color: #475569; line-height: 1.8;">
+        <ul id="collegesList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
           <!-- Injected via JavaScript -->
         </ul>
       </div>
     </section>
 
     <!-- Tab 6: Scholarships -->
-    <section id="tab-scholarships" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-scholarships" style="display: none; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center;">
+    <section id="tab-scholarships" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-scholarships" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center">
             <span class="material-symbols-outlined">card_membership</span>
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: #0F172A;">Scholarships &amp; Financial Support</h2>
-            <div style="font-size: 0.85rem; color: #64748B;">Welfare schemes, fee reimbursements and merit grants for eligible rural students.</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Scholarships &amp; Financial Support</h2>
+            <div class="ui-meta">Welfare schemes, fee reimbursements and merit grants for eligible rural students.</div>
           </div>
         </div>
-        <ul id="scholarshipsList" style="margin: 0 0 16px 0; padding-left: 20px; font-size: 0.95rem; color: #475569; line-height: 1.8;">
+        <ul id="scholarshipsList" style="margin: 0 0 16px 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
           <!-- Injected via JavaScript -->
         </ul>
-        <a href="scholarships.html" style="font-size: 0.88rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">Explore All 50+ Scholarships &rarr;</a>
+        <a href="scholarships.html" style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); text-decoration: none">Explore All 50+ Scholarships &rarr;</a>
       </div>
     </section>
 
     <!-- Tab 7: Free Learning Resources -->
-    <section id="tab-resources" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-resources" style="display: none; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
+    <section id="tab-resources" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-resources" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center">
             <span class="material-symbols-outlined">cast_for_education</span>
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: #0F172A;">Free Learning Resources</h2>
-            <div style="font-size: 0.85rem; color: #64748B;">Government portals, open lecture series, and practical mock tests to prepare at zero cost.</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Free Learning Resources</h2>
+            <div class="ui-meta">Government portals, open lecture series, and practical mock tests to prepare at zero cost.</div>
           </div>
         </div>
-        <div id="resourcesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">
+        <div class="ui-grid ui-grid--4" id="resourcesGrid" style="text-align: center">
           <!-- Injected via JavaScript -->
         </div>
       </div>
     </section>
 
     <!-- Tab 8: Related Careers Row -->
-    <section id="tab-related" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-related" style="display: none; margin-bottom: 28px;">
+    <section id="tab-related" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-related" style="display: none; margin-bottom: 24px">
       <div class="gcs-section-header-row">
         <h2 class="gcs-section-header-title">Related Careers</h2>
         <a href="careers.html" class="gcs-section-view-all-btn">View All</a>
@@ -379,17 +380,17 @@
     </section>
 
     <!-- Download Career Roadmap CTA Card -->
-    <section class="gcs-banner-callout" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-color: #6EE7B7; margin-bottom: 28px;">
+    <section class="gcs-banner-callout" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-color: #6EE7B7; margin-bottom: 24px">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #ffffff; color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">download</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Download Complete Career Roadmap</h3>
-          <p class="gcs-banner-callout-sub" style="color: #047857;" id="roadmapCtaSub">Get the complete step-by-step career path and college checklist in PDF format.</p>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Download Complete Career Roadmap</h3>
+          <p class="gcs-banner-callout-sub" id="roadmapCtaSub" style="color: #047857">Get the complete step-by-step career path and college checklist in PDF format.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-1" onclick="downloadRoadmapPDF()" style="border: none; cursor: pointer; white-space: nowrap;">
+      <button type="button" class="gcs-btn-cta-1" onclick="downloadRoadmapPDF()" style="border: none; cursor: pointer; white-space: nowrap">
         <span class="material-symbols-outlined">picture_as_pdf</span>
         <span>Download PDF</span>
       </button>
@@ -421,7 +422,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
@@ -552,8 +553,8 @@
           'Andhra University College of Engineering, Visakhapatnam'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (100% Fee Reimbursement)',
-          'AP Jagananna Vasathi Deevena (Hostel & Boarding Allowance)',
+          'AP Post-Matric Fee Reimbursement (RTF) (100% Fee Reimbursement)',
+          'AP Post-Matric Maintenance Allowance (MTF) (Hostel & Boarding Allowance)',
           'National Scholarship Portal (NSP Post-Matric OBC/SC/ST)',
           'Pragati Scholarship for Girls (AICTE Approved)'
         ],
@@ -618,7 +619,7 @@
           'S.V. University College of Engineering, Tirupati'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (Full Tuition Reimbursement)',
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Tuition Reimbursement)',
           'NSP Post-Matric Scholarship for BC/SC/ST',
           'Pragati Scholarship for Girls (AICTE)',
           'L&T Build India Scholarship (Full M.Tech Sponsorship)'
@@ -684,8 +685,8 @@
           'Govt IASE Colleges (Nellore, Rajahmundry, Kurnool)'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (Full College Fee Support)',
-          'AP Jagananna Vasathi Deevena',
+          'AP Post-Matric Fee Reimbursement (RTF) (Full College Fee Support)',
+          'AP Post-Matric Maintenance Allowance (MTF)',
           'NSP Central Sector Scheme for University Students',
           'Post-Matric Scholarships for Minorities and Backward Classes'
         ],
@@ -751,7 +752,7 @@
         ],
         scholarships: [
           'Police Welfare Board Educational Grants',
-          'AP Jagananna Vidya Deevena (for Degree studies)',
+          'AP Post-Matric Fee Reimbursement (RTF) (for Degree studies)',
           'NSP Post-Matric Scholarships',
           'Martyrs Children Educational Concessions'
         ],
@@ -816,8 +817,8 @@
           'Govt Medical College Nursing Schools (Kurnool, Nellore)'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (Full Fee Waiver)',
-          'AP Jagananna Vasathi Deevena (Hostel & Boarding)',
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Fee Waiver)',
+          'AP Post-Matric Maintenance Allowance (MTF) (Hostel & Boarding)',
           'National Florence Nightingale Trust Grants',
           'NHM Stipend during Rural Primary Health Training'
         ],
@@ -882,7 +883,7 @@
           'National Institute of Bank Management (NIBM), Pune'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (for Degree studies)',
+          'AP Post-Matric Fee Reimbursement (RTF) (for Degree studies)',
           'Post-Matric Scholarship for Minorities / EWS',
           'State Bank of India Youth Fellowship',
           'NABARD Rural Banking Internship Grants'
@@ -948,7 +949,7 @@
           'College of Agricultural Engineering, Madakasira'
         ],
         scholarships: [
-          'AP Jagananna Vidya Deevena (Full Course Fee Waiver)',
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Course Fee Waiver)',
           'ICAR National Talent Scholarship (NTS)',
           'Post-Matric Agri Scholarships for Farmers Children',
           'ANGRAU Merit Stipend during RAWE Village Internship'
@@ -1133,9 +1134,9 @@
       if (resourcesGrid && c.resources) {
         resourcesGrid.innerHTML = c.resources.map(res => `
           <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px 12px;">
-            <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 28px;">${res.icon}</span>
-            <div style="font-size: 0.88rem; font-weight: 700; color: #0F172A; margin-top: 6px;">${res.name}</div>
-            <div style="font-size: 0.75rem; color: #64748B; margin-top: 4px;">${res.desc}</div>
+            <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-2xl);">${res.icon}</span>
+            <div style="font-size: var(--text-base); font-weight: 700; color: #0F172A; margin-top: 6px;">${res.name}</div>
+            <div style="font-size: var(--text-xs); color: #64748B; margin-top: 4px;">${res.desc}</div>
           </div>
         `).join('');
       }

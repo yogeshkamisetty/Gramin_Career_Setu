@@ -21,8 +21,8 @@
   const SCHOLARSHIPS_DATABASE = [
     {
       id: 'post-matric-obc',
-      title: 'Post Matric Scholarship Scheme (OBC)',
-      provider: 'AP State Government',
+      title: 'Post Matric Fee Reimbursement (RTF & MTF)',
+      provider: 'AP Social Welfare & BC Welfare Departments',
       badge: 'Merit Based',
       amount: '₹15,000 / year',
       eligibility: '10th Pass & above, OBC category, income < ₹2.5 Lakh',
@@ -36,7 +36,7 @@
     },
     {
       id: 'nsp-central-sector',
-      title: 'National Scholarship Portal (NSP)',
+      title: 'PM-USP Central Sector Scheme of Scholarship (CSSS)',
       provider: 'Government of India',
       badge: 'Merit Based',
       amount: '₹20,000 / year',
@@ -51,11 +51,11 @@
     },
     {
       id: 'saksham-scholarship',
-      title: 'Saksham Scholarship Scheme',
+      title: 'AICTE Saksham Scholarship for Specially-Abled (Divyang)',
       provider: 'Ministry of Social Justice & AICTE',
       badge: 'Need Based',
-      amount: '₹12,000 / year',
-      eligibility: 'Specially-abled students / Family income < ₹2.5 Lakh',
+      amount: '₹50,000 / year',
+      eligibility: 'Specially-abled students (disability >= 40%) in technical degree/diploma',
       deadline: '15 Sep 2024',
       qual: ['10th', 'inter', 'degree'],
       category: 'all',
@@ -66,8 +66,8 @@
     },
     {
       id: 'pre-matric-obc',
-      title: 'Pre Matric Scholarship for OBC Students',
-      provider: 'AP State Government',
+      title: 'PM-YASASVI Scholarship Scheme (OBC, EBC & DNT)',
+      provider: 'AP Social Welfare & BC Welfare Departments',
       badge: 'Merit Based',
       amount: '₹10,000 / year',
       eligibility: '9th & 10th Class students with passing grades',
@@ -169,7 +169,7 @@
         color: #ffffff;
         padding: 12px 20px;
         border-radius: 12px;
-        font-size: 0.9rem;
+        font-size: var(--text-base);
         font-weight: 600;
         font-family: 'Plus Jakarta Sans', sans-serif;
         box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -184,7 +184,7 @@
 
       const icon = isSuccess ? 'check_circle' : 'info';
       toast.innerHTML = `
-        <span class="material-symbols-outlined" style="font-size: 20px;">${icon}</span>
+        <span class="material-symbols-outlined" style="font-size: var(--text-xl);">${icon}</span>
         <span>${message}</span>
       `;
 
@@ -404,6 +404,16 @@
 
   // Initialize interactive features on load
   document.addEventListener('DOMContentLoaded', () => {
+    // Lift the sticky header off the content once the page scrolls.
+    var gcsHeader = document.querySelector('.gcs-header');
+    if (gcsHeader) {
+      var onScroll = function () {
+        gcsHeader.classList.toggle('is-stuck', window.scrollY > 4);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
     // Footer copyright year, so it never reads as stale.
     document.querySelectorAll('.gcs-current-year').forEach(el => {
       el.textContent = String(new Date().getFullYear());

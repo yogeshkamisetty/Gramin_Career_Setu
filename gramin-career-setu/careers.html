@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -126,7 +127,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px;">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -149,20 +150,20 @@
     <!-- Search & Multi-Filter Card -->
     <section class="gcs-search-filter-card">
       <div class="gcs-search-input-row">
-        <span class="material-symbols-outlined" style="color: #64748B;">search</span>
+        <span class="material-symbols-outlined" style="color: var(--color-text-muted);">search</span>
         <input type="text" id="careerSearchInput" placeholder="Search careers, e.g., Engineer, Teacher, Police..." data-lang-placeholder="jobs-search-placeholder" oninput="filterCareers()" />
         <button type="button" class="gcs-voice-search-btn" id="voiceSearchBtn" onclick="triggerVoiceSearch()" title="Voice Search" aria-label="Voice Search">
-          <span class="material-symbols-outlined" style="font-size: 20px;">mic</span>
+          <span class="material-symbols-outlined" style="font-size: var(--text-xl);">mic</span>
         </button>
         <button type="button" class="gcs-speak-search-btn" onclick="speakSearchHelp()">
-          <span class="material-symbols-outlined" style="font-size: 18px;">volume_up</span>
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg);">volume_up</span>
           <span>Speak Search</span>
         </button>
       </div>
 
       <div class="gcs-filter-selects-grid">
         <div class="gcs-filter-select-box">
-          <label><span class="material-symbols-outlined" style="font-size: 14px;">school</span> Qualification</label>
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">school</span> Qualification</label>
           <select id="filterQual" onchange="filterCareers()">
             <option value="all">All Qualifications</option>
             <option value="10th">10th Pass</option>
@@ -175,7 +176,7 @@
         </div>
 
         <div class="gcs-filter-select-box">
-          <label><span class="material-symbols-outlined" style="font-size: 14px;">favorite</span> Interest Area</label>
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">favorite</span> Interest Area</label>
           <select id="filterInterest" onchange="filterCareers()">
             <option value="all">All Interests</option>
             <option value="Engineering">Technology / Engineering</option>
@@ -190,7 +191,7 @@
         </div>
 
         <div class="gcs-filter-select-box">
-          <label><span class="material-symbols-outlined" style="font-size: 14px;">payments</span> Salary Range</label>
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">payments</span> Salary Range</label>
           <select id="filterSalary" onchange="filterCareers()">
             <option value="all">All Salary</option>
             <option value="low">₹2L - ₹4L / year</option>
@@ -201,7 +202,7 @@
         </div>
 
         <div class="gcs-filter-select-box">
-          <label><span class="material-symbols-outlined" style="font-size: 14px;">work</span> Job Type</label>
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">work</span> Job Type</label>
           <select id="filterJobType" onchange="filterCareers()">
             <option value="all">All Job Types</option>
             <option value="govt" data-lang-key="filter-government">Government</option>
@@ -213,7 +214,7 @@
 
       <div class="gcs-filter-action-row">
         <button type="button" class="gcs-clear-filters-link" onclick="resetFilters()">
-          <span class="material-symbols-outlined" style="font-size: 16px;">restart_alt</span>
+          <span class="material-symbols-outlined" style="font-size: var(--text-base);">restart_alt</span>
           <span data-lang-key="btn-clear">Clear Filters</span>
         </button>
         <button type="button" class="gcs-apply-filters-btn" onclick="filterCareers()">Apply Filters</button>
@@ -277,7 +278,7 @@
         </div>
 
         <div class="gcs-cat-tile" onclick="selectCategory('IT & Software', this)">
-          <div class="gcs-cat-tile-icon" style="background: #F8FAFC; color: #0284C7;">
+          <div class="gcs-cat-tile-icon" style="background: var(--color-surface-sunken); color: #0284C7;">
             <span class="material-symbols-outlined">computer</span>
           </div>
           <span class="gcs-cat-tile-name">IT &amp; Software</span>
@@ -298,9 +299,9 @@
     <section>
       <div class="gcs-section-header-row">
         <h2 class="gcs-section-header-title">Top Career Options</h2>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 0.85rem; color: #64748B;" data-lang-key="label-sort-by">Sort by:</span>
-          <select id="sortSelect" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600; outline: none; font-size: 0.85rem;">
+        <div class="ui-icon-row">
+          <span class="ui-meta" data-lang-key="label-sort-by">Sort by:</span>
+          <select id="sortSelect" style="padding: 4px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600; outline: none; font-size: var(--text-sm);">
             <option>Popular</option>
             <option>High Salary</option>
             <option>Demand</option>
@@ -313,16 +314,16 @@
         <article class="gcs-career-card" data-cat="Engineering" data-qual="btech">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-civil.webp" alt="Civil Engineer at construction site" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Civil Engineer</h3>
             <div class="gcs-career-card-salary">₹3.5L – ₹8L / year</div>
             <div class="gcs-career-card-qual">B.Tech Degree</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=civil-engineer" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -331,16 +332,16 @@
         <article class="gcs-career-card" data-cat="Teaching" data-qual="degree">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-teacher.webp" alt="School Teacher teaching students" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">School Teacher</h3>
             <div class="gcs-career-card-salary">₹2.5L – ₹6L / year</div>
             <div class="gcs-career-card-qual">B.Ed / D.El.Ed</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=school-teacher" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -349,16 +350,16 @@
         <article class="gcs-career-card" data-cat="Police & Defense" data-qual="degree">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-police.webp" alt="Sub Inspector officer" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Sub Inspector (SI)</h3>
             <div class="gcs-career-card-salary">₹4L – ₹9L / year</div>
             <div class="gcs-career-card-qual">Degree (Any Stream)</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=sub-inspector" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -367,16 +368,16 @@
         <article class="gcs-career-card" data-cat="Healthcare" data-qual="nursing">
           <div class="gcs-career-card-thumb">
             <img src="assets/profile-lalitha.webp" alt="Staff nurse at work" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Staff Nurse</h3>
             <div class="gcs-career-card-salary">₹3L – ₹7L / year</div>
             <div class="gcs-career-card-qual">B.Sc Nursing</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=staff-nurse" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -385,16 +386,16 @@
         <article class="gcs-career-card" data-cat="IT & Software" data-qual="btech">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-software.webp" alt="Software Developer programming" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Software Developer</h3>
             <div class="gcs-career-card-salary">₹4L – ₹12L / year</div>
             <div class="gcs-career-card-qual">B.Tech / MCA</div>
-            <div class="gcs-career-card-tag" style="background: #F3E8FF; color: #7E22CE;"><span class="material-symbols-outlined" style="font-size: 14px;">bolt</span> Very High Demand</div>
+            <div class="gcs-career-card-tag" style="background: #F3E8FF; color: #7E22CE;"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">bolt</span> Very High Demand</div>
             <a href="career-detail.html?career=software-engineer" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -403,16 +404,16 @@
         <article class="gcs-career-card" data-cat="Banking & Finance" data-qual="degree">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-bank.webp" alt="Bank Officer at desk" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Bank Officer</h3>
             <div class="gcs-career-card-salary">₹3L – ₹7L / year</div>
             <div class="gcs-career-card-qual">Degree (Any Stream)</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=bank-officer" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -421,16 +422,16 @@
         <article class="gcs-career-card" data-cat="Agriculture" data-qual="agri">
           <div class="gcs-career-card-thumb">
             <img src="assets/career-agriculture.webp" alt="Agricultural Officer in field" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Agricultural Officer</h3>
             <div class="gcs-career-card-salary">₹3L – ₹6L / year</div>
             <div class="gcs-career-card-qual">B.Sc Agriculture</div>
-            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Demand</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
             <a href="career-detail.html?career=agricultural-officer" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -439,16 +440,16 @@
         <article class="gcs-career-card" data-cat="Business" data-qual="all">
           <div class="gcs-career-card-thumb">
             <img src="assets/profile-suresh.webp" alt="Small business owner at work" loading="lazy" />
-            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: 18px;">favorite</span></button>
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
           </div>
           <div class="gcs-career-card-body">
             <h3 class="gcs-career-card-title">Entrepreneur</h3>
             <div class="gcs-career-card-salary">Variable Income</div>
             <div class="gcs-career-card-qual">Any Qualification</div>
-            <div class="gcs-career-card-tag" style="background: #FEF3C7; color: #B45309;"><span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> High Growth</div>
+            <div class="gcs-career-card-tag" style="background: #FEF3C7; color: #B45309;"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Growth</div>
             <a href="career-detail.html?career=entrepreneur" class="gcs-career-card-btn">
               <span data-lang-key="btn-view-details">View Details</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
             </a>
           </div>
         </article>
@@ -498,7 +499,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

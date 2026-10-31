@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="data/workshops.js" defer></script>
@@ -127,7 +128,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -140,13 +141,13 @@
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-workshops">
-          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">event</span>
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">event</span>
           <span data-lang-text>Workshops &amp; Events</span>
         </h1>
         <p class="gcs-page-hero-desc">Free sessions held in your village, in Telugu. Here is what we cover and when we are next out.</p>
         <p class="gcs-page-hero-telugu">మీ గ్రామంలోనే ఉచిత సెషన్లు, తెలుగులో. మేము ఏమి నేర్పుతామో, ఎప్పుడు వస్తామో ఇక్కడ చూడండి.</p>
       </div>
-      <div class="gcs-page-hero-visual" style="max-width: 280px;">
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
         <img src="assets/workshops-hero-class.webp" alt="Workshops and Events Classroom Illustration" loading="lazy" />
       </div>
     </section>
@@ -163,82 +164,82 @@
          ============================================================ -->
 
     <!-- Scheduled sessions, or an honest empty state -->
-    <section style="margin-bottom: 36px;">
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">Next sessions</h2>
-      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px;">తదుపరి వర్క్‌షాప్‌లు</p>
+    <section style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">Next sessions</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px">తదుపరి వర్క్‌షాప్‌లు</p>
 
-      <div id="wsNone" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px;">
-        <div style="display: flex; align-items: flex-start; gap: 14px;">
-          <span class="material-symbols-outlined" style="color: #D97706; font-size: 26px; flex-shrink: 0;">event_busy</span>
+      <div id="wsNone" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px">
+        <div style="display: flex; align-items: flex-start; gap: 12px">
+          <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">event_busy</span>
           <div>
-            <h3 style="font-size: 1.02rem; font-weight: 800; color: #0F172A; margin: 0 0 6px;">No sessions are booked right now</h3>
-            <p style="font-size: 0.93rem; font-weight: 700; color: #92400E; margin: 0 0 10px;">ప్రస్తుతం ఎటువంటి సెషన్లు నిర్ణయించబడలేదు</p>
-            <p style="font-size: 0.88rem; color: #475569; margin: 0 0 6px; max-width: 70ch;">
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px">No sessions are booked right now</h3>
+            <p style="font-size: var(--text-base); font-weight: 700; color: #92400E; margin: 0 0 8px">ప్రస్తుతం ఎటువంటి సెషన్లు నిర్ణయించబడలేదు</p>
+            <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 4px; max-width: 70ch">
               We run these workshops in villages, in person. When a date is fixed it appears here with
               the village and venue. Ask your village volunteer to request one, or use the guides on
               this site in the meantime — they cover the same ground.
             </p>
-            <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 14px; max-width: 70ch;">
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 12px; max-width: 70ch">
               మేము ఈ వర్క్‌షాప్‌లను గ్రామాల్లో ప్రత్యక్షంగా నిర్వహిస్తాము. తేదీ నిర్ణయమైన వెంటనే
               గ్రామం, వేదికతో సహా ఇక్కడ కనిపిస్తుంది.
             </p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="apply-online.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 9px 18px; font-size: 0.86rem;">Read the apply-online guide</a>
-              <a href="roadmap.html" class="gcs-btn-cta-2" style="text-decoration: none; padding: 9px 18px; font-size: 0.86rem;">See your roadmap</a>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <a href="apply-online.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">Read the apply-online guide</a>
+              <a href="roadmap.html" class="gcs-btn-cta-2" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">See your roadmap</a>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="wsScheduled" hidden style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;"></div>
+      <div id="wsScheduled" hidden style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px"></div>
     </section>
 
     <!-- What we teach. Descriptions, not events — no dates, no registration. -->
-    <section style="margin-bottom: 36px;">
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">What we cover</h2>
-      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px;">మేము ఏమి నేర్పుతాము</p>
-      <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 18px; max-width: 72ch;">
+    <section style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">What we cover</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px">మేము ఏమి నేర్పుతాము</p>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px; max-width: 72ch">
         These are the sessions this project is set up to run. They are free, held in the village,
         and taught in Telugu.
       </p>
-      <div id="wsCurriculum" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;"></div>
+      <div id="wsCurriculum" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px"></div>
     </section>
 
     <!-- The record of sessions actually held -->
-    <section id="wsHeldSection" hidden style="margin-bottom: 36px;">
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">Sessions we have held</h2>
-      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px;">మేము నిర్వహించిన సెషన్లు</p>
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left;">
+    <section id="wsHeldSection" hidden style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">Sessions we have held</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px">మేము నిర్వహించిన సెషన్లు</p>
+      <div class="ui-card" style="overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm); text-align: left">
           <thead>
-            <tr style="border-bottom: 1.5px solid #E2E8F0; color: #64748B;">
-              <th scope="col" style="padding: 8px 6px;">Date</th>
-              <th scope="col" style="padding: 8px 6px;">Session</th>
-              <th scope="col" style="padding: 8px 6px;">Village</th>
-              <th scope="col" style="padding: 8px 6px; text-align: right;">Attended</th>
+            <tr style="border-bottom: 1.5px solid #E2E8F0; color: var(--color-text-muted)">
+              <th scope="col" style="padding: 8px 4px">Date</th>
+              <th scope="col" style="padding: 8px 4px">Session</th>
+              <th scope="col" style="padding: 8px 4px">Village</th>
+              <th scope="col" style="padding: 8px 4px; text-align: right">Attended</th>
             </tr>
           </thead>
           <tbody id="wsHeldRows"></tbody>
         </table>
-        <p style="font-size: 0.8rem; color: #94A3B8; margin: 12px 0 0;">
+        <p style="font-size: var(--text-sm); color: #94A3B8; margin: 12px 0 0">
           Survey results from these sessions are on the
-          <a href="results.html" style="color: var(--gcs-green-primary); font-weight: 700;">impact dashboard</a>.
+          <a href="results.html" style="color: var(--gcs-green-primary); font-weight: 700">impact dashboard</a>.
         </p>
       </div>
     </section>
 
     <!-- Request a workshop -->
-    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC;">
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #ffffff; color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">groups</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Want a workshop in your village?</h3>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Want a workshop in your village?</h3>
           <p class="gcs-banner-callout-sub">మీ గ్రామంలో వర్క్‌షాప్ కావాలా? మీ గ్రామ వాలంటీర్ లేదా సచివాలయాన్ని సంప్రదించండి.</p>
         </div>
       </div>
-      <a href="about.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 10px 20px;">Contact the team</a>
+      <a href="about.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">Contact the team</a>
     </section>
 
     <script>
@@ -276,15 +277,15 @@
 
           // ── What we cover ──────────────────────────────────────────────
           document.getElementById('wsCurriculum').innerHTML = data.curriculum.map(function (c) {
-            return '<article style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:20px;">'
-              + '<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">'
-              +   '<span class="material-symbols-outlined" style="color:var(--gcs-green-primary); font-size:24px;">' + esc(c.icon) + '</span>'
-              +   '<span class="gcs-pill-tag" style="background:#F1F5F9; color:#475569; font-size:0.72rem;">' + esc(c.durationEn) + '</span>'
+            return '<article class="ui-card">'
+              + '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px">'
+              +   '<span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-2xl)">' + esc(c.icon) + '</span>'
+              +   '<span class="gcs-pill-tag" style="background: #F1F5F9; color: var(--color-text-secondary); font-size: var(--text-xs)">' + esc(c.durationEn) + '</span>'
               + '</div>'
-              + '<h3 style="font-size:1rem; font-weight:800; color:#0F172A; margin:0 0 2px;">' + esc(c.titleEn) + '</h3>'
-              + '<p style="font-size:0.86rem; color:#64748B; margin:0 0 10px;">' + esc(c.titleTe) + '</p>'
-              + '<p style="font-size:0.85rem; color:#475569; margin:0 0 6px;">' + esc(c.descEn) + '</p>'
-              + '<p style="font-size:0.82rem; color:#94A3B8; margin:0;">' + esc(c.descTe) + '</p>'
+              + '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">' + esc(c.titleEn) + '</h3>'
+              + '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 8px">' + esc(c.titleTe) + '</p>'
+              + '<p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 4px">' + esc(c.descEn) + '</p>'
+              + '<p style="font-size: var(--text-sm); color: #94A3B8; margin: 0">' + esc(c.descTe) + '</p>'
               + '</article>';
           }).join('');
 
@@ -296,14 +297,14 @@
             var wrap = document.getElementById('wsScheduled');
             wrap.innerHTML = scheduled.map(function (s) {
               var topic = topicById[s.curriculumId] || {};
-              return '<article style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:20px;">'
-                + '<span class="gcs-pill-tag" style="background:#ECFDF5; color:#047857; font-size:0.72rem;">' + formatDate(s.date) + (s.time ? ' · ' + esc(s.time) : '') + '</span>'
-                + '<h3 style="font-size:1rem; font-weight:800; color:#0F172A; margin:10px 0 2px;">' + esc(topic.titleEn || s.curriculumId) + '</h3>'
-                + '<p style="font-size:0.86rem; color:#64748B; margin:0 0 10px;">' + esc(topic.titleTe || '') + '</p>'
-                + '<p style="font-size:0.84rem; color:#475569; margin:0 0 4px;"><strong>' + esc(s.village) + '</strong>, ' + esc(s.district) + '</p>'
-                + (s.venue ? '<p style="font-size:0.82rem; color:#94A3B8; margin:0 0 12px;">' + esc(s.venue) + '</p>' : '<div style="height:12px;"></div>')
-                + '<button type="button" class="gcs-btn-cta-1" style="width:100%; justify-content:center; border:none; cursor:pointer;"'
-                +   ' data-workshop-id="' + esc(s.id) + '" data-workshop-title="' + esc(topic.titleEn || s.curriculumId) + '">'
+              return '<article class="ui-card">'
+                + '<span class="gcs-pill-tag" style="background: #ECFDF5; color: #047857; font-size: var(--text-xs)">' + formatDate(s.date) + (s.time ? ' · ' + esc(s.time) : '') + '</span>'
+                + '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 8px 0 2px">' + esc(topic.titleEn || s.curriculumId) + '</h3>'
+                + '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 8px">' + esc(topic.titleTe || '') + '</p>'
+                + '<p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 4px"><strong>' + esc(s.village) + '</strong>, ' + esc(s.district) + '</p>'
+                + (s.venue ? '<p style="font-size: var(--text-sm); color: #94A3B8; margin: 0 0 12px">' + esc(s.venue) + '</p>' : '<div style="height: 12px"></div>')
+                + '<button type="button" class="gcs-btn-cta-1"'
+                +   ' data-workshop-id="' + esc(s.id) + '" data-workshop-title="' + esc(topic.titleEn || s.curriculumId) + '" style="width: 100%; justify-content: center; border: none; cursor: pointer">'
                 +   '<span data-action-label>Register</span>'
                 + '</button>'
                 + '</article>';
@@ -332,11 +333,11 @@
           if (held.length) {
             document.getElementById('wsHeldRows').innerHTML = held.map(function (h) {
               var topic = topicById[h.curriculumId] || {};
-              return '<tr style="border-bottom:1px solid #F1F5F9;">'
-                + '<td style="padding:10px 6px; color:#475569;">' + formatDate(h.date) + '</td>'
-                + '<td style="padding:10px 6px; font-weight:700; color:#0F172A;">' + esc(topic.titleEn || h.curriculumId) + '</td>'
-                + '<td style="padding:10px 6px; color:#64748B;">' + esc(h.village) + ', ' + esc(h.district) + '</td>'
-                + '<td style="padding:10px 6px; text-align:right; font-weight:700;">' + esc(h.attended) + '</td>'
+              return '<tr style="border-bottom: 1px solid #F1F5F9">'
+                + '<td style="padding: 8px 4px; color: var(--color-text-secondary)">' + formatDate(h.date) + '</td>'
+                + '<td style="padding: 8px 4px; font-weight: 700; color: var(--color-text-primary)">' + esc(topic.titleEn || h.curriculumId) + '</td>'
+                + '<td style="padding: 8px 4px; color: var(--color-text-muted)">' + esc(h.village) + ', ' + esc(h.district) + '</td>'
+                + '<td style="padding: 8px 4px; text-align: right; font-weight: 700">' + esc(h.attended) + '</td>'
                 + '</tr>';
             }).join('');
             document.getElementById('wsHeldSection').hidden = false;
@@ -374,7 +375,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

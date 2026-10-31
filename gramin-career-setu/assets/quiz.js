@@ -422,7 +422,7 @@ const Quiz = (() => {
         <div class="score-bar ${isWinner ? 'score-bar--winner' : ''}">
           <div class="score-bar__label">
             <span style="display: flex; align-items: center; gap: 4px;">
-              <span class="material-symbols-outlined" style="font-size: 16px;">${QUIZ_DATA.paths[key].icon}</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">${QUIZ_DATA.paths[key].icon}</span>
               ${escapeHtml(pathNames[key])}
             </span>
             <span class="score-bar__pct">${pct}%</span>

@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -135,7 +136,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px;">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -148,7 +149,7 @@
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-stories">
-          <span class="material-symbols-outlined" style="color: #F59E0B; font-size: 34px;">stars</span>
+          <span class="material-symbols-outlined" style="color: #F59E0B; font-size: var(--text-3xl);">stars</span>
           <span data-lang-text>Success Stories</span>
         </h1>
         <p class="gcs-page-hero-desc">Student journeys from our workshops — published only with the student's consent.</p>
@@ -172,18 +173,18 @@
          (see the checklist below). Until then this page states that plainly.
          ============================================================ -->
 
-    <section style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 28px 24px; margin-bottom: 32px;">
-      <div style="display: flex; align-items: flex-start; gap: 14px;">
-        <span class="material-symbols-outlined" style="color: #D97706; font-size: 28px; flex-shrink: 0;">history_edu</span>
+    <section style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px 24px; margin-bottom: 32px;">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0;">history_edu</span>
         <div>
-          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">No participant stories published yet</h2>
-          <p style="font-size: 0.95rem; font-weight: 700; color: #92400E; margin: 0 0 10px 0;">పాల్గొన్నవారి కథనాలు ఇంకా ప్రజురితం కాలేదు</p>
-          <p style="font-size: 0.88rem; color: #475569; margin: 0 0 8px 0; max-width: 70ch;">
+          <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0;">No participant stories published yet</h2>
+          <p style="font-size: var(--text-base); font-weight: 700; color: #92400E; margin: 0 0 8px 0;">పాల్గొన్నవారి కథనాలు ఇంకా ప్రజురితం కాలేదు</p>
+          <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 8px 0; max-width: 70ch;">
             We publish a student's journey only after they have taken part in a workshop and
             have given us written permission to share it. No story on this page will be an
             illustration or a composite.
           </p>
-          <p style="font-size: 0.85rem; color: #64748B; margin: 0; max-width: 70ch;">
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; max-width: 70ch;">
             ఒక విద్యార్థి వర్క్‌షాప్‌లో పాల్గొని, తమ కథను పంచుకోవడానికి లిఖితపూర్వక అనుమతి
             ఇచ్చిన తర్వాత మాత్రమే మేము దానిని ప్రచురిస్తాము.
           </p>
@@ -192,11 +193,11 @@
     </section>
 
     <!-- Consent checklist: what must be true before a story is added here -->
-    <section style="margin-bottom: 36px;">
-      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <h2 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Before a story is added here</h2>
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 14px 0;">ఒక కథను జోడించే ముందు</p>
-        <ul style="margin: 0; padding-left: 22px; font-size: 0.86rem; color: #475569; display: flex; flex-direction: column; gap: 8px;">
+    <section style="margin-bottom: 32px;">
+      <div style="background: var(--color-surface-sunken); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px;">
+        <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0;">Before a story is added here</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 12px 0;">ఒక కథను జోడించే ముందు</p>
+        <ul style="margin: 0; padding-left: 20px; font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 8px;">
           <li>The student took part in one of our workshops, and we can name the date and village.</li>
           <li>The student has signed a consent form allowing their name, photograph and outcome to be published.</li>
           <li>The outcome described actually happened, and we can say how we know (admission letter, appointment order, exam result).</li>
@@ -207,10 +208,10 @@
     </section>
 
     <!-- Their 5-Step Journey Flow -->
-    <section id="success-journey" class="gcs-roadmap-flow-card" style="margin-bottom: 36px;">
+    <section id="success-journey" class="gcs-roadmap-flow-card" style="margin-bottom: 32px;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Their Journey to Success</h2>
-        <p style="font-size: 0.85rem; color: #64748B; margin: 0;">The five steps a student moves through on this platform</p>
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0;">Their Journey to Success</h2>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0;">The five steps a student moves through on this platform</p>
       </div>
 
       <div class="gcs-roadmap-steps-row">
@@ -257,7 +258,7 @@
     <!-- Share Your Story Banner -->
     <section class="gcs-banner-callout" style="background: #ECFDF5; border-color: #6EE7B7;">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #ffffff; color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary);">
           <span class="material-symbols-outlined">record_voice_over</span>
         </div>
         <div>
@@ -301,7 +302,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

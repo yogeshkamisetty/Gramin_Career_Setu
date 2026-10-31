@@ -610,7 +610,7 @@ window.GCS_ROADMAPS = {
           whyEn: 'State recruitment for posts inside your own village or ward, at Intermediate and degree level.',
           whyTe: 'మీ గ్రామం లేదా వార్డులోనే ఉండే పోస్టులకు రాష్ట్ర నియామకం; ఇంటర్, డిగ్రీ స్థాయిలో.',
           fromLevel: 'inter',
-          officialName: 'Grama Ward Sachivalayam', officialUrl: 'https://gramawardsachivalayam.ap.gov.in'
+          officialName: 'APPSC / AP Seva', officialUrl: 'https://psc.ap.gov.in'
         },
         {
           titleEn: 'Bank clerk via IBPS', titleTe: 'IBPS ద్వారా బ్యాంక్ క్లర్క్',
@@ -727,7 +727,7 @@ window.GCS_ROADMAPS = {
           whyEn: '3 – 6 months, free, with certification — mobile repair, solar panel fitting, CCTV installation.',
           whyTe: '3 – 6 నెలలు, ఉచితం, సర్టిఫికెట్‌తో — మొబైల్ రిపేర్, సోలార్ ప్యానెల్ ఫిట్టింగ్, CCTV ఇన్‌స్టాలేషన్.',
           fromLevel: '10th',
-          officialName: 'PMKVY', officialUrl: 'https://www.pmkvyofficial.org'
+          officialName: 'PMKVY', officialUrl: 'https://www.skillindiadigital.gov.in/content/pmkvy'
         },
         {
           titleEn: 'APSSDC skill training', titleTe: 'APSSDC నైపుణ్య శిక్షణ',

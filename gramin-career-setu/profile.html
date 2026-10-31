@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/career-data.js" defer></script>
@@ -129,15 +130,15 @@
   <!-- ============================================================
        MAIN CONTENT: PROFILE FORM
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 32px; padding-bottom: 64px; max-width: 760px;">
-    <section class="form-card" aria-labelledby="profile-title" style="background: #ffffff; padding: 32px; border-radius: 20px; border: 1px solid #E2E8F0; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
-      <span class="eyebrow" style="color: var(--gcs-green-primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;">Your starting point · 2 minutes</span>
-      <h1 id="profile-title" style="font-size: 2.1rem; font-weight: 800; color: #0F172A; margin: 8px 0 10px 0;">Let’s build your career path.</h1>
-      <p style="font-size: 1rem; color: #475569; line-height: 1.6; margin-bottom: 24px;">Tell us a little about yourself. We’ll match your strengths and interests with realistic opportunities, then give you a step-by-step plan.</p>
+  <main class="gcs-container" id="main" style="padding-top: 32px; padding-bottom: 48px; max-width: 760px">
+    <section class="form-card ui-card" aria-labelledby="profile-title">
+      <span class="eyebrow" style="color: var(--gcs-green-primary); font-weight: 700; font-size: var(--text-sm); letter-spacing: 0.05em; text-transform: uppercase">Your starting point · 2 minutes</span>
+      <h1 id="profile-title" style="font-size: var(--text-3xl); font-weight: 800; color: var(--color-text-primary); margin: 8px 0 8px 0">Let’s build your career path.</h1>
+      <p style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 24px">Tell us a little about yourself. We’ll match your strengths and interests with realistic opportunities, then give you a step-by-step plan.</p>
       
       <div class="progress" aria-label="Profile completion"><span id="progressBar"></span></div>
       
-      <form id="profileForm" style="margin-top: 20px;">
+      <form id="profileForm" style="margin-top: 20px">
         <div class="form-grid">
           <div class="field"><label for="name">Your name</label><input id="name" name="name" required placeholder="e.g. Anitha"></div>
           <div class="field"><label for="location">Village / town</label><input id="location" name="location" required placeholder="e.g. Peddapalli"></div>
@@ -148,9 +149,9 @@
           </div></div>
           <div class="field field-full"><label for="goal">What is your current career goal?</label><textarea id="goal" name="goal" placeholder="e.g. I want a stable job within two years, or I want to start a small digital service centre."></textarea></div>
         </div>
-        <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 28px;">
-          <a class="gcs-btn-cta-2" href="index.html" style="text-decoration: none;">Back</a>
-          <button class="gcs-btn-cta-1" type="submit" style="border: none; cursor: pointer;">Create my career plan →</button>
+        <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px">
+          <a class="gcs-btn-cta-2" href="index.html" style="text-decoration: none">Back</a>
+          <button class="gcs-btn-cta-1" type="submit" style="border: none; cursor: pointer">Create my career plan →</button>
         </div>
       </form>
     </section>
@@ -181,7 +182,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

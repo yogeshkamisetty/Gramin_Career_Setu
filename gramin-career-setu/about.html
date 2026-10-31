@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -135,7 +136,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -145,47 +146,47 @@
     </nav>
 
     <!-- Page Hero Banner -->
-    <section class="gcs-page-hero" style="margin-bottom: 28px;">
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-about">About Gramin Career Setu</h1>
-        <p class="gcs-page-hero-desc" style="font-weight: 700; color: var(--gcs-green-primary);">A Bridge To Your Career</p>
-        <p style="font-size: 0.95rem; color: #475569; line-height: 1.6; margin: 6px 0 0 0;">
+        <p class="gcs-page-hero-desc" style="font-weight: 700; color: var(--gcs-green-primary)">A Bridge To Your Career</p>
+        <p style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6; margin: 4px 0 0 0">
           Gramin Career Setu is a community service initiative to empower rural youth with the right career guidance, opportunities, and resources — in their own language, for a brighter future.
         </p>
       </div>
-      <div class="gcs-page-hero-visual" style="max-width: 280px;">
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
         <img src="assets/about-hero-students.svg" alt="About Gramin Career Setu Project" loading="lazy" />
       </div>
     </section>
 
     <!-- Core Value Pillars (4 Grid) -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 36px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">
+    <div class="ui-grid ui-grid--4" style="margin-bottom: 32px">
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
           <span class="material-symbols-outlined">target</span>
         </div>
-        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Our Mission</h3>
-        <p style="font-size: 0.82rem; color: #64748B; line-height: 1.6; margin: 0;">
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Mission</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
           To empower rural youth with career guidance, practical skills, and verified opportunities to build sustainable futures.
         </p>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
           <span class="material-symbols-outlined">visibility</span>
         </div>
-        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Our Vision</h3>
-        <p style="font-size: 0.82rem; color: #64748B; line-height: 1.6; margin: 0;">
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Vision</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
           A rural India where every student has equal access to the right guidance, technology, and resources to achieve their dreams.
         </p>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
           <span class="material-symbols-outlined">handshake</span>
         </div>
-        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Our Values</h3>
-        <ul style="margin: 0; padding-left: 16px; font-size: 0.82rem; color: #64748B; line-height: 1.6;">
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Values</h3>
+        <ul style="margin: 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6">
           <li>Inclusivity &amp; Access</li>
           <li>Youth Empowerment</li>
           <li>Community First</li>
@@ -193,51 +194,51 @@
         </ul>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
           <span class="material-symbols-outlined">favorite</span>
         </div>
-        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Why It Matters</h3>
-        <p style="font-size: 0.82rem; color: #64748B; line-height: 1.6; margin: 0;">
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Why It Matters</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
           Rural youth often lack awareness of emerging careers. We bridge that gap with offline tech and peer mentorship.
         </p>
       </div>
     </div>
 
     <!-- Sustainable Development Goals (SDGs) Section -->
-    <section style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 26px; margin-bottom: 36px;">
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Sustainable Development Goals (SDGs)</h2>
-      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
-        <div style="background: #C5192D; color: #fff; border-radius: 12px; padding: 14px; text-align: center;">
-          <div style="font-size: 1.4rem; font-weight: 800;">4</div>
-          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Quality Education</div>
+    <section class="ui-card" style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Sustainable Development Goals (SDGs)</h2>
+      <div class="ui-grid ui-grid--4">
+        <div style="background: #C5192D; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">4</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Quality Education</div>
         </div>
 
-        <div style="background: #A21942; color: #fff; border-radius: 12px; padding: 14px; text-align: center;">
-          <div style="font-size: 1.4rem; font-weight: 800;">8</div>
-          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Decent Work &amp; Economic Growth</div>
+        <div style="background: #A21942; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">8</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Decent Work &amp; Economic Growth</div>
         </div>
 
-        <div style="background: #FD6925; color: #fff; border-radius: 12px; padding: 14px; text-align: center;">
-          <div style="font-size: 1.4rem; font-weight: 800;">9</div>
-          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Industry &amp; Innovation</div>
+        <div style="background: #FD6925; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">9</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Industry &amp; Innovation</div>
         </div>
 
-        <div style="background: #DD1367; color: #fff; border-radius: 12px; padding: 14px; text-align: center;">
-          <div style="font-size: 1.4rem; font-weight: 800;">10</div>
-          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Reduced Inequalities</div>
+        <div style="background: #DD1367; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">10</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Reduced Inequalities</div>
         </div>
 
-        <div style="background: #19486A; color: #fff; border-radius: 12px; padding: 14px; text-align: center;">
-          <div style="font-size: 1.4rem; font-weight: 800;">17</div>
-          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Partnerships for Goals</div>
+        <div style="background: #19486A; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">17</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Partnerships for Goals</div>
         </div>
       </div>
     </section>
 
     <!-- Our Journey Timeline -->
-    <section class="gcs-roadmap-flow-card" style="margin-bottom: 36px;">
-      <h2 style="font-size: 1.3rem; font-weight: 800; color: #0F172A; margin: 0 0 20px 0;">Our Journey Timeline</h2>
+    <section class="gcs-roadmap-flow-card" style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 20px 0">Our Journey Timeline</h2>
       <div class="gcs-roadmap-steps-row">
         <div class="gcs-roadmap-step-item">
           <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">flag</span></div>
@@ -272,50 +273,50 @@
     </section>
 
     <!-- Team Members & Partners Grid -->
-    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 36px;">
+    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 32px">
       <!-- Project Team -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+      <div class="ui-card">
         <!-- TODO before submission: confirm these are the real team members and
              roles. Photographs were removed because the same three stock
              portraits also appeared across the site as student success
              stories; add real photographs here only with each member’s consent. -->
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Project Team</h3>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; text-align: center;">
+        <h3 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Project Team</h3>
+        <div class="ui-grid ui-grid--4" style="text-align: center">
           <div>
-            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #047857; color: #ffffff; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px;">KC</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A;">K. Sai Charan</div>
-            <div style="font-size: 0.72rem; color: #64748B;">Project Lead</div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #047857; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">KC</div>
+            <div class="ui-label-inline">K. Sai Charan</div>
+            <div class="ui-meta-xs">Project Lead</div>
           </div>
           <div>
-            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #1D4ED8; color: #ffffff; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px;">MB</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A;">M. Bharath</div>
-            <div style="font-size: 0.72rem; color: #64748B;">Design Lead</div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #1D4ED8; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">MB</div>
+            <div class="ui-label-inline">M. Bharath</div>
+            <div class="ui-meta-xs">Design Lead</div>
           </div>
           <div>
-            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #6D28D9; color: #ffffff; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px;">SL</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A;">S. Lavanya</div>
-            <div style="font-size: 0.72rem; color: #64748B;">Content Lead</div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #6D28D9; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">SL</div>
+            <div class="ui-label-inline">S. Lavanya</div>
+            <div class="ui-meta-xs">Content Lead</div>
           </div>
           <div>
-            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #B45309; color: #ffffff; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px;">PA</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A;">P. Anusha</div>
-            <div style="font-size: 0.72rem; color: #64748B;">Tech Lead</div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #B45309; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">PA</div>
+            <div class="ui-label-inline">P. Anusha</div>
+            <div class="ui-meta-xs">Tech Lead</div>
           </div>
         </div>
       </div>
 
       <!-- Partners -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="ui-card" style="justify-content: space-between">
         <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 14px 0;">Our Partners &amp; Supporters</h3>
-          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; font-weight: 700; color: #334155;">
+          <h3 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 12px 0">Our Partners &amp; Supporters</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: var(--text-sm); font-weight: 700; color: #334155">
             <div>🏛️ APSSDC — Andhra Pradesh Skill Development</div>
             <div>📜 PMKVY — Pradhan Mantri Kaushal Vikas Yojana</div>
             <div>🤝 NULM — National Urban Livelihoods Mission</div>
             <div>💼 Skill India Initiative</div>
           </div>
         </div>
-        <div style="border-top: 1px solid #F1F5F9; padding-top: 12px; font-size: 0.8rem; color: #64748B;">
+        <div style="border-top: 1px solid #F1F5F9; padding-top: 12px; font-size: var(--text-sm); color: var(--color-text-muted)">
           📞 Helpline: 1800-123-4567 • ✉️ support@gramincareersetu.in
         </div>
       </div>
@@ -347,7 +348,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

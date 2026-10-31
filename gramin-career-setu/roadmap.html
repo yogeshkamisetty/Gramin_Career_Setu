@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/pdf-loader.js" defer></script>
@@ -84,7 +85,7 @@
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: var(--text-sm);
       border: 2px solid #CBD5E1;
       background: #ffffff;
       color: #64748B;
@@ -128,7 +129,7 @@
 
     .road-node-flag {
       display: inline-block;
-      font-size: 0.68rem;
+      font-size: var(--text-xs);
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -139,19 +140,19 @@
     .road-step.is-active .road-node-flag { background: #ECFDF5; color: #047857; }
     .road-step.is-done .road-node-flag { background: #F1F5F9; color: #64748B; }
 
-    .road-node-title { font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 2px; }
+    .road-node-title { font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 2px; }
     .road-step.is-done .road-node-title { color: #475569; }
-    .road-node-title-te { font-size: 0.86rem; color: #64748B; margin: 0 0 8px; }
+    .road-node-title-te { font-size: var(--text-sm); color: #64748B; margin: 0 0 8px; }
 
     .road-node-meta {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      font-size: 0.78rem;
+      font-size: var(--text-sm);
       color: #64748B;
       align-items: center;
     }
-    .road-node-meta .material-symbols-outlined { font-size: 16px; vertical-align: -3px; }
+    .road-node-meta .material-symbols-outlined { font-size: var(--text-base); vertical-align: -3px; }
     .road-node-open { margin-left: auto; font-weight: 700; color: var(--gcs-green-primary, #047857); }
 
     /* ── Node detail dialog ────────────────────────────────────────── */
@@ -178,11 +179,11 @@
       border-radius: 18px 18px 0 0;
     }
     .road-dialog-stage {
-      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em;
+      font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.05em;
       text-transform: uppercase; color: #047857; margin: 0 0 4px;
     }
-    .road-dialog-head h3 { font-size: 1.1rem; font-weight: 800; margin: 0; }
-    .road-dialog-subtitle { font-size: 0.88rem; color: #64748B; margin: 2px 0 0; }
+    .road-dialog-head h3 { font-size: var(--text-lg); font-weight: 800; margin: 0; }
+    .road-dialog-subtitle { font-size: var(--text-base); color: #64748B; margin: 2px 0 0; }
     .road-dialog-close {
       margin-left: auto; flex-shrink: 0;
       background: #F1F5F9; border: none; border-radius: 50%;
@@ -195,16 +196,16 @@
     .road-field { margin-bottom: 18px; }
     .road-field:last-child { margin-bottom: 0; }
     .road-field-label {
-      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em;
+      font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.04em;
       text-transform: uppercase; color: #94A3B8; margin: 0 0 6px;
       display: flex; align-items: center; gap: 6px;
     }
-    .road-field-label .material-symbols-outlined { font-size: 16px; }
-    .road-field p { margin: 0 0 4px; font-size: 0.9rem; color: #334155; }
-    .road-field p.te { color: #64748B; font-size: 0.86rem; }
-    .road-field ol { margin: 0 0 6px; padding-left: 20px; font-size: 0.9rem; color: #334155; }
+    .road-field-label .material-symbols-outlined { font-size: var(--text-base); }
+    .road-field p { margin: 0 0 4px; font-size: var(--text-base); color: #334155; }
+    .road-field p.te { color: #64748B; font-size: var(--text-sm); }
+    .road-field ol { margin: 0 0 6px; padding-left: 20px; font-size: var(--text-base); color: #334155; }
     .road-field ol li { margin-bottom: 6px; }
-    .road-field ol.te { color: #64748B; font-size: 0.86rem; }
+    .road-field ol.te { color: #64748B; font-size: var(--text-sm); }
 
     .road-verify {
       background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px;
@@ -214,7 +215,7 @@
 
     .road-official {
       display: inline-flex; align-items: center; gap: 8px;
-      text-decoration: none; font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; font-weight: 700; font-size: var(--text-base);
       color: #ffffff; background: var(--gcs-green-primary, #047857);
       padding: 10px 18px; border-radius: 10px;
     }
@@ -224,10 +225,10 @@
       background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px;
       padding: 16px; display: flex; flex-direction: column; gap: 8px;
     }
-    .road-alt h3 { font-size: 0.95rem; font-weight: 800; color: #0F172A; margin: 0; }
-    .road-alt .te { font-size: 0.84rem; color: #64748B; margin: 0; }
-    .road-alt p { font-size: 0.85rem; color: #475569; margin: 0; }
-    .road-alt a { font-size: 0.85rem; font-weight: 700; color: var(--gcs-green-primary, #047857); text-decoration: none; margin-top: auto; }
+    .road-alt h3 { font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0; }
+    .road-alt .te { font-size: var(--text-sm); color: #64748B; margin: 0; }
+    .road-alt p { font-size: var(--text-sm); color: #475569; margin: 0; }
+    .road-alt a { font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary, #047857); text-decoration: none; margin-top: auto; }
 
     /* ── Print: a volunteer hands this to a student ────────────────── */
     @media print {
@@ -348,7 +349,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -358,16 +359,16 @@
     </nav>
 
     <!-- Page Hero Banner -->
-    <section class="gcs-page-hero" style="margin-bottom: 24px;">
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-roadmap">
-          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">alt_route</span>
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">alt_route</span>
           <span data-lang-text>Career Roadmap Generator</span>
         </h1>
         <p class="gcs-page-hero-desc">Plan your future step by step. Choose your current education and see the best career path for you.</p>
         <p class="gcs-page-hero-telugu">మీ విద్యను ఎంచుకోండి మరియు మీ కెరీర్ మార్గాన్ని తెలుసుకోండి.</p>
       </div>
-      <div class="gcs-page-hero-visual" style="max-width: 280px;">
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
         <img src="assets/roadmap-hero-explorer.svg" alt="Career Roadmap Generator" loading="lazy" />
       </div>
     </section>
@@ -384,16 +385,16 @@
          ============================================================ -->
 
     <!-- Step 1: the two questions that constrain everything below -->
-    <section style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.02); margin-bottom: 24px;">
-      <h2 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Tell us two things</h2>
-      <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0;">రెండు విషయాలు చెప్పండి</p>
+    <section class="ui-card" style="margin-bottom: 24px">
+      <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">Tell us two things</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0">రెండు విషయాలు చెప్పండి</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
         <div>
-          <label for="roadEdu" style="display:block; font-size:0.78rem; font-weight:800; color:#334155; margin-bottom:6px;">
+          <label for="roadEdu" style="display: block; font-size: var(--text-sm); font-weight: 800; color: #334155; margin-bottom: 4px">
             1. What have you studied? / మీరు ఎంత వరకు చదివారు?
           </label>
-          <select id="roadEdu" class="gcs-form-input" style="width:100%; padding:11px 12px; font-size:0.9rem; border:1.5px solid #CBD5E1; border-radius:10px; background:#fff;">
+          <select id="roadEdu" class="gcs-form-input ui-card" style="width: 100%; font-size: var(--text-base)">
             <option value="below10">Studying before 10th / 10వ తరగతి కంటే ముందు</option>
             <option value="10th">10th pass / 10వ తరగతి పాస్</option>
             <option value="inter">Intermediate pass / ఇంటర్మీడియట్ పాస్</option>
@@ -403,10 +404,10 @@
         </div>
 
         <div>
-          <label for="roadGoal" style="display:block; font-size:0.78rem; font-weight:800; color:#334155; margin-bottom:6px;">
+          <label for="roadGoal" style="display: block; font-size: var(--text-sm); font-weight: 800; color: #334155; margin-bottom: 4px">
             2. What do you want to become? / మీరు ఏమి కావాలనుకుంటున్నారు?
           </label>
-          <select id="roadGoal" class="gcs-form-input" style="width:100%; padding:11px 12px; font-size:0.9rem; border:1.5px solid #CBD5E1; border-radius:10px; background:#fff;">
+          <select id="roadGoal" class="gcs-form-input ui-card" style="width: 100%; font-size: var(--text-base)">
             <!-- filled from data/roadmaps.js -->
           </select>
         </div>
@@ -414,58 +415,58 @@
     </section>
 
     <!-- The honest note about this particular goal -->
-    <section id="roadReality" hidden style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:16px; padding:20px; margin-bottom:24px;">
-      <div style="display:flex; align-items:flex-start; gap:12px;">
-        <span class="material-symbols-outlined" style="color:#D97706; font-size:24px; flex-shrink:0;">lightbulb</span>
+    <section id="roadReality" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 20px; margin-bottom: 24px">
+      <div style="display: flex; align-items: flex-start; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">lightbulb</span>
         <div>
-          <h2 style="font-size:0.98rem; font-weight:800; color:#0F172A; margin:0 0 8px 0;">Before you start — the honest picture</h2>
-          <p id="roadRealityEn" style="font-size:0.88rem; color:#475569; margin:0 0 8px 0; max-width:75ch;"></p>
-          <p id="roadRealityTe" style="font-size:0.86rem; color:#64748B; margin:0; max-width:75ch;"></p>
+          <h2 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0">Before you start — the honest picture</h2>
+          <p id="roadRealityEn" style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 8px 0; max-width: 75ch"></p>
+          <p id="roadRealityTe" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; max-width: 75ch"></p>
         </div>
       </div>
     </section>
 
     <!-- The flow itself -->
-    <section style="margin-bottom:28px;">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:6px;">
+    <section style="margin-bottom: 24px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px">
         <div>
-          <h2 id="roadFlowTitle" style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0;"></h2>
-          <p id="roadFlowTitleTe" style="font-size:0.9rem; font-weight:700; color:var(--gcs-green-primary); margin:2px 0 0 0;"></p>
+          <h2 id="roadFlowTitle" style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0"></h2>
+          <p id="roadFlowTitleTe" style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 2px 0 0 0"></p>
         </div>
-        <button type="button" class="gcs-btn-cta-2" style="padding:8px 16px; font-size:0.85rem;" onclick="window.print()">
-          <span class="material-symbols-outlined" style="font-size:18px;">print</span>
+        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 8px 16px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">print</span>
           <span>Print this roadmap</span>
         </button>
       </div>
 
-      <p id="roadStartNote" style="font-size:0.85rem; color:#64748B; margin:10px 0 18px 0;"></p>
+      <p id="roadStartNote" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 8px 0 16px 0"></p>
 
       <ol id="roadFlow" class="road-flow"></ol>
     </section>
 
     <!-- Alternatives: reachable routes towards the same kind of work -->
-    <section id="roadAltsSection" hidden style="margin-bottom:28px;">
-      <h2 style="font-size:1.1rem; font-weight:800; color:#0F172A; margin:0 0 2px 0;">Other routes to similar work</h2>
-      <p style="font-size:0.9rem; font-weight:700; color:var(--gcs-green-primary); margin:0 0 6px 0;">ఇలాంటి పనికి ఇతర మార్గాలు</p>
-      <p style="font-size:0.84rem; color:#64748B; margin:0 0 16px 0; max-width:75ch;">
+    <section id="roadAltsSection" hidden style="margin-bottom: 24px">
+      <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">Other routes to similar work</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px 0">ఇలాంటి పనికి ఇతర మార్గాలు</p>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px 0; max-width: 75ch">
         These are shorter or easier to reach than the main path above, and they lead to real work in the same field.
         Many students end up choosing one of these — that is a good outcome, not a lesser one.
       </p>
-      <div id="roadAlts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px;"></div>
+      <div id="roadAlts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px"></div>
     </section>
 
     <!-- Where to go next from here -->
-    <section class="gcs-banner-callout" style="background:#F0FDF4; border-color:#86EFAC;">
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background:#ffffff; color:var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">work</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color:#064E3B;">See the jobs you can apply for right now</h3>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">See the jobs you can apply for right now</h3>
           <p class="gcs-banner-callout-sub">మీరు ఇప్పుడే దరఖాస్తు చేయగల ఉద్యోగాలను చూడండి</p>
         </div>
       </div>
-      <a id="roadJobsLink" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration:none; padding:10px 20px;">Open job list</a>
+      <a id="roadJobsLink" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">Open job list</a>
     </section>
 
     <!-- Node detail panel -->
@@ -504,7 +505,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
           </ul>
@@ -681,7 +682,7 @@
           return ''
             + '<li class="' + cls + '">'
             +   '<span class="road-step-marker" aria-hidden="true">'
-            +     (isDone ? '<span class="material-symbols-outlined" style="font-size:18px;">check</span>' : (i + 1))
+            +     (isDone ? '<span class="material-symbols-outlined" style="font-size: var(--text-lg);">check</span>' : (i + 1))
             +   '</span>'
             +   '<button type="button" class="road-node" data-step-index="' + i + '">'
             +     flag
@@ -722,8 +723,8 @@
         wrap.innerHTML = sorted.map(alt => {
           const ready = RANK[alt.fromLevel] <= RANK[level];
           const badge = ready
-            ? '<span class="gcs-pill-tag" style="background:#ECFDF5; color:#047857; font-size:0.72rem;">You can start this now</span>'
-            : '<span class="gcs-pill-tag" style="background:#F1F5F9; color:#64748B; font-size:0.72rem;">Needs ' + esc(data.levelLabels[alt.fromLevel].en) + '</span>';
+            ? '<span class="gcs-pill-tag" style="background:#ECFDF5; color:#047857; font-size: var(--text-xs);">You can start this now</span>'
+            : '<span class="gcs-pill-tag" style="background:#F1F5F9; color:#64748B; font-size: var(--text-xs);">Needs ' + esc(data.levelLabels[alt.fromLevel].en) + '</span>';
           return ''
             + '<div class="road-alt">'
             +   badge
@@ -771,7 +772,7 @@
           + '<div class="road-field">'
           +   '<p class="road-field-label"><span class="material-symbols-outlined">open_in_new</span>Where to go</p>'
           +   '<a class="road-official" href="' + esc(step.officialUrl) + '" target="_blank" rel="noopener noreferrer">'
-          +     '<span class="material-symbols-outlined" style="font-size:18px;">public</span>'
+          +     '<span class="material-symbols-outlined" style="font-size: var(--text-lg);">public</span>'
           +     esc(step.officialName)
           +   '</a>'
           + '</div>'

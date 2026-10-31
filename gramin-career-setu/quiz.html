@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -127,7 +128,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px; max-width: 960px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px; max-width: 960px">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -140,7 +141,7 @@
     <section class="gcs-page-hero">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-quiz">
-          <span class="material-symbols-outlined" style="color: #059669; font-size: 32px;">check_circle</span>
+          <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-3xl)">check_circle</span>
           <span data-lang-text>Skill Checker Quiz</span>
         </h1>
         <p class="gcs-page-hero-desc" data-lang-key="hero-sub-quiz">Answer a few simple questions and get personalized career recommendations.</p>
@@ -151,46 +152,46 @@
     </section>
 
     <!-- Quiz Question Stepper Card -->
-    <section class="gcs-search-filter-card" style="padding: 28px 32px;" id="quizStepperCard">
+    <section class="gcs-search-filter-card" id="quizStepperCard" style="padding: 24px 32px">
       <!-- Stepper Top Bar: Progress & Audio -->
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-        <div style="flex: 1; max-width: 380px;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: #475569; margin-bottom: 6px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+        <div style="flex: 1; max-width: 380px">
+          <div style="display: flex; justify-content: space-between; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">
             <span>Your Progress</span>
             <span id="quizProgressNum">Question 1 of 5</span>
           </div>
-          <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden;">
-            <div id="quizProgressBar" style="height: 100%; width: 20%; background: var(--gcs-green-primary); transition: width 0.3s ease;"></div>
+          <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden">
+            <div id="quizProgressBar" style="height: 100%; width: 20%; background: var(--gcs-green-primary); transition: width 0.3s ease"></div>
           </div>
         </div>
 
-        <div style="display: flex; gap: 8px;">
+        <div style="display: flex; gap: 8px">
           <button type="button" class="gcs-speak-search-btn" onclick="speakQuestion('en')">
-            <span class="material-symbols-outlined" style="font-size: 18px;">volume_up</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">volume_up</span>
             <span data-lang-key="btn-listen">Listen</span>
           </button>
           <button type="button" class="gcs-speak-search-btn" onclick="speakQuestion('te')">
-            <span class="material-symbols-outlined" style="font-size: 18px;">translate</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">translate</span>
             <span>తెలుగు లో వినండి</span>
           </button>
         </div>
       </div>
 
       <!-- Question Content Area -->
-      <div style="text-align: center; margin: 32px auto; max-width: 680px;">
-        <div style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; border: 2px solid #86EFAC; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 32px; color: var(--gcs-green-primary);" id="questionIcon">
-          <span class="material-symbols-outlined" style="font-size: 36px;">calculate</span>
+      <div style="text-align: center; margin: 32px auto; max-width: 680px">
+        <div id="questionIcon" style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; border: 2px solid #86EFAC; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: var(--text-3xl); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-3xl)">calculate</span>
         </div>
 
-        <div style="font-size: 0.85rem; font-weight: 700; color: var(--gcs-green-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;" id="questionStepLabel">
+        <div id="questionStepLabel" style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px">
           Question 1
         </div>
 
-        <h2 style="font-size: 1.65rem; font-weight: 800; color: #0F172A; margin: 0 0 8px 0; line-height: 1.3;" id="questionTitleEn">
+        <h2 id="questionTitleEn" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0; line-height: 1.3">
           Do you enjoy solving mathematical or logical problems?
         </h2>
 
-        <p style="font-size: 1.1rem; color: #64748B; font-weight: 600; margin: 0;" id="questionTitleTe">
+        <p id="questionTitleTe" style="font-size: var(--text-lg); color: var(--color-text-muted); font-weight: 600; margin: 0">
           మీకు గణిత లేదా తార్కిక సమస్యలు పరిష్కరించడం ఇష్టమా?
         </p>
       </div>
@@ -201,132 +202,132 @@
       </div>
 
       <!-- Stepper Action Buttons -->
-      <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #E2E8F0; padding-top: 20px; margin-top: 10px;">
-        <button type="button" class="gcs-btn-cta-2" id="btnQuizPrev" onclick="prevQuestion()" style="opacity: 0.5; pointer-events: none;">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #E2E8F0; padding-top: 20px; margin-top: 8px">
+        <button type="button" class="gcs-btn-cta-2" id="btnQuizPrev" onclick="prevQuestion()" style="opacity: 0.5; pointer-events: none">
           <span class="material-symbols-outlined">arrow_back</span>
           <span data-lang-key="btn-previous">Previous</span>
         </button>
 
-        <button type="button" class="gcs-btn-cta-1" id="btnQuizNext" onclick="nextQuestion()" style="border: none; cursor: pointer;">
+        <button type="button" class="gcs-btn-cta-1" id="btnQuizNext" onclick="nextQuestion()" style="border: none; cursor: pointer">
           <span data-lang-key="btn-next">Next</span>
           <span class="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
 
       <!-- Tip Callout -->
-      <div style="margin-top: 20px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 20px;">💡</span>
-        <div style="font-size: 0.88rem; color: #92400E; font-weight: 500;">
+      <div style="margin-top: 20px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px">
+        <span style="font-size: var(--text-xl)">💡</span>
+        <div style="font-size: var(--text-base); color: #92400E; font-weight: 500">
           <strong>There are no right or wrong answers.</strong> Be honest! / సరైన లేదా తప్పు సమాధానాలు లేవు. నిజాయితీగా సమాధానం ఇవ్వండి!
         </div>
       </div>
     </section>
 
     <!-- Quiz Features Badges (4 Column Grid) -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #F0FDF4; color: var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
+    <div class="ui-grid ui-grid--4" style="margin-bottom: 32px">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #F0FDF4; color: var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
           <span class="material-symbols-outlined">volume_up</span>
         </div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">Text to Speech</div>
-          <div style="font-size: 0.78rem; color: #64748B;">Listen in Telugu or English</div>
+          <div class="ui-title-sm">Text to Speech</div>
+          <div class="ui-meta">Listen in Telugu or English</div>
         </div>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
           <span class="material-symbols-outlined">psychology</span>
         </div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">Personalized Results</div>
-          <div style="font-size: 0.78rem; color: #64748B;">Tailored to your skills</div>
+          <div class="ui-title-sm">Personalized Results</div>
+          <div class="ui-meta">Tailored to your skills</div>
         </div>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
           <span class="material-symbols-outlined">quiz</span>
         </div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">5-Minute Quick Quiz</div>
-          <div style="font-size: 0.78rem; color: #64748B;">Fast &amp; easy evaluation</div>
+          <div class="ui-title-sm">5-Minute Quick Quiz</div>
+          <div class="ui-meta">Fast &amp; easy evaluation</div>
         </div>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
           <span class="material-symbols-outlined">lock</span>
         </div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">100% Private</div>
-          <div style="font-size: 0.78rem; color: #64748B;">No registration needed</div>
+          <div class="ui-title-sm">100% Private</div>
+          <div class="ui-meta">No registration needed</div>
         </div>
       </div>
     </div>
 
     <!-- What You'll Get Section -->
-    <section style="margin-bottom: 40px;">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">What You'll Get</h2>
-        <div style="width: 48px; height: 3px; background: var(--gcs-green-primary); margin: 0 auto; border-radius: 2px;"></div>
+    <section style="margin-bottom: 32px">
+      <div style="text-align: center; margin-bottom: 24px">
+        <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">What You'll Get</h2>
+        <div style="width: 48px; height: 3px; background: var(--gcs-green-primary); margin: 0 auto; border-radius: 2px"></div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 16px; text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 24px;">
+      <div class="ui-grid ui-grid--4">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
             <span class="material-symbols-outlined">track_changes</span>
           </div>
-          <div style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Career Match Score</div>
-          <div style="font-size: 0.78rem; color: #64748B; line-height: 1.4;">See how well careers match your skills.</div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Career Match Score</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">See how well careers match your skills.</div>
         </div>
 
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 16px; text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 24px;">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
             <span class="material-symbols-outlined">timeline</span>
           </div>
-          <div style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Personalized Roadmap</div>
-          <div style="font-size: 0.78rem; color: #64748B; line-height: 1.4;">Step-by-step path to your goal.</div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Personalized Roadmap</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Step-by-step path to your goal.</div>
         </div>
 
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 16px; text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 24px;">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
             <span class="material-symbols-outlined">star</span>
           </div>
-          <div style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Top 5 Careers</div>
-          <div style="font-size: 0.78rem; color: #64748B; line-height: 1.4;">Recommended for your profile.</div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Top 5 Careers</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Recommended for your profile.</div>
         </div>
 
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 16px; text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 24px;">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
             <span class="material-symbols-outlined">school</span>
           </div>
-          <div style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Skills &amp; Courses</div>
-          <div style="font-size: 0.78rem; color: #64748B; line-height: 1.4;">Free courses on SWAYAM.</div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Skills &amp; Courses</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Free courses on SWAYAM.</div>
         </div>
 
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 16px; text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 24px;">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
             <span class="material-symbols-outlined">description</span>
           </div>
-          <div style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;" data-lang-key="btn-download-report">Download Report</div>
-          <div style="font-size: 0.78rem; color: #64748B; line-height: 1.4;">Save results as PDF report.</div>
+          <div data-lang-key="btn-download-report" style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Download Report</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Save results as PDF report.</div>
         </div>
       </div>
     </section>
 
     <!-- Bottom Action Banner -->
-    <section class="gcs-banner-callout" style="background: #F8FAFC; border-color: #CBD5E1;">
+    <section class="gcs-banner-callout" style="background: var(--color-surface-sunken); border-color: #CBD5E1">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: var(--gcs-green-tint); color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--gcs-green-tint); color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">checklist</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #0F172A;">Ready to discover your perfect career path?</h3>
-          <p class="gcs-banner-callout-sub" style="color: #475569;">Take the quick assessment above and view your full career compatibility report.</p>
+          <h3 class="gcs-banner-callout-title" style="color: var(--color-text-primary)">Ready to discover your perfect career path?</h3>
+          <p class="gcs-banner-callout-sub" style="color: var(--color-text-secondary)">Take the quick assessment above and view your full career compatibility report.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-1" onclick="document.getElementById('quizStepperCard').scrollIntoView({behavior: 'smooth'})" style="border: none; cursor: pointer; white-space: nowrap;">
+      <button type="button" class="gcs-btn-cta-1" onclick="document.getElementById('quizStepperCard').scrollIntoView({behavior: 'smooth'})" style="border: none; cursor: pointer; white-space: nowrap">
         <span data-lang-key="btn-start-quiz">Start Quiz Now</span>
         <span class="material-symbols-outlined">arrow_forward</span>
       </button>
@@ -358,7 +359,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
@@ -460,7 +461,7 @@
       document.getElementById('quizProgressBar').style.width = `${((currentQ + 1) / total) * 100}%`;
       document.getElementById('questionTitleEn').textContent = q.text_en;
       document.getElementById('questionTitleTe').textContent = q.text_te;
-      document.getElementById('questionIcon').innerHTML = `<span class="material-symbols-outlined" style="font-size: 36px;">${q.icon}</span>`;
+      document.getElementById('questionIcon').innerHTML = `<span class="material-symbols-outlined" style="font-size: var(--text-3xl);">${q.icon}</span>`;
 
       // Render options dynamically
       const optContainer = document.getElementById('quizOptionsContainer');

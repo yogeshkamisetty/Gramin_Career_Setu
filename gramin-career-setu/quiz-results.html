@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/quiz.js" defer></script>
@@ -130,11 +131,11 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb & Top Actions -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-      <nav class="gcs-breadcrumb" style="margin-bottom: 0;" aria-label="Breadcrumb">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+      <nav class="gcs-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0">
         <a href="index.html" data-lang-key="nav-home">Home</a>
         <span class="gcs-breadcrumb-sep">&gt;</span>
         <a href="quiz.html">Skill Checker Quiz</a>
@@ -142,20 +143,20 @@
         <span class="gcs-breadcrumb-current">Results</span>
       </nav>
 
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button type="button" class="gcs-btn-cta-2" style="padding: 8px 16px; font-size: 0.88rem;" onclick="speakResultsSummary()">
-          <span class="material-symbols-outlined" style="font-size: 18px;">volume_up</span>
+      <div class="ui-icon-row">
+        <button type="button" class="gcs-btn-cta-2" onclick="speakResultsSummary()" style="padding: 8px 16px; font-size: var(--text-base)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">volume_up</span>
           <span data-lang-key="btn-listen">Listen</span>
         </button>
-        <button type="button" class="gcs-btn-cta-1" style="padding: 8px 20px; font-size: 0.88rem; border: none; cursor: pointer;" onclick="downloadResultsPDF()">
-          <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+        <button type="button" class="gcs-btn-cta-1" onclick="downloadResultsPDF()" style="padding: 8px 20px; font-size: var(--text-base); border: none; cursor: pointer">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">download</span>
           <span data-lang-key="btn-download-report">Download Report</span>
         </button>
       </div>
     </div>
 
     <!-- Header Banner with Thumbs Up Student -->
-    <section class="gcs-page-hero" style="margin-bottom: 28px;">
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title">Your Skill Checker Results 🎉</h1>
         <p class="gcs-page-hero-desc">Great job! Here are your personalized career recommendations.</p>
@@ -167,59 +168,59 @@
     </section>
 
     <!-- Top 2 Cards Row: Career Match Score & Top Career Match -->
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 24px;">
+    <div class="ui-grid ui-grid--2" style="margin-bottom: 24px">
       <!-- Card 1: Match Score Gauge -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Your Career Match Score</h2>
+      <div class="ui-card" style="justify-content: space-between">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Your Career Match Score</h2>
         
-        <div style="display: flex; align-items: center; gap: 24px;">
+        <div style="display: flex; align-items: center; gap: 24px">
           <!-- SVG Gauge Circle -->
-          <div style="width: 130px; height: 130px; position: relative; flex-shrink: 0;">
-            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+          <div style="width: 130px; height: 130px; position: relative; flex-shrink: 0">
+            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg)">
               <path stroke="#E2E8F0" stroke-width="3.5" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
               <path id="matchGaugeCircle" stroke="#059669" stroke-width="3.5" stroke-dasharray="78, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
             </svg>
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-              <div id="matchGaugeScore" style="font-size: 1.8rem; font-weight: 800; color: #059669; line-height: 1;">78%</div>
-              <div id="matchGaugeLabel" style="font-size: 0.72rem; font-weight: 700; color: #047857; margin-top: 2px;">Good Match</div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center">
+              <div id="matchGaugeScore" style="font-size: var(--text-3xl); font-weight: 800; color: #059669; line-height: 1">78%</div>
+              <div id="matchGaugeLabel" style="font-size: var(--text-xs); font-weight: 700; color: #047857; margin-top: 2px">Good Match</div>
             </div>
           </div>
 
           <div>
-            <p id="matchGaugeDescEn" style="font-size: 0.95rem; color: #334155; line-height: 1.5; margin: 0 0 6px 0;">
+            <p id="matchGaugeDescEn" style="font-size: var(--text-base); color: #334155; line-height: 1.5; margin: 0 0 4px 0">
               You have strong skills and interests that match many high-paying career options.
             </p>
-            <p id="matchGaugeDescTe" style="font-size: 0.9rem; color: var(--gcs-green-primary); font-weight: 600; margin: 0;">
+            <p id="matchGaugeDescTe" style="font-size: var(--text-base); color: var(--gcs-green-primary); font-weight: 600; margin: 0">
               మీకు మంచి నైపుణ్యాలు మరియు ఆసక్తులు సరిపోయే కెరీర్ మార్గాలు ఉన్నాయి.
             </p>
           </div>
         </div>
 
-        <div style="margin-top: 20px; border-top: 1px solid #F1F5F9; padding-top: 14px;">
-          <div style="font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 8px;">Your Strength Areas:</div>
-          <div id="matchStrengthsContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="background: #F0FDF4; color: #059669;">Problem Solving</span>
-            <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB;">Analytical Thinking</span>
-            <span class="gcs-pill-tag" style="background: #FAF5FF; color: #9333EA;">Communication</span>
+        <div style="margin-top: 20px; border-top: 1px solid #F1F5F9; padding-top: 12px">
+          <div style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); margin-bottom: 8px">Your Strength Areas:</div>
+          <div id="matchStrengthsContainer" style="display: flex; gap: 8px; flex-wrap: wrap">
+            <span class="gcs-pill-tag" style="background: #F0FDF4; color: #059669">Problem Solving</span>
+            <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB">Analytical Thinking</span>
+            <span class="gcs-pill-tag" style="background: #FAF5FF; color: #9333EA">Communication</span>
           </div>
         </div>
       </div>
 
       <!-- Card 2: Top Career Match -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-          <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0;">Top Career Match</h2>
-          <span id="topMatchBadge" style="background: #ECFDF5; color: #059669; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Best Match</span>
+      <div class="ui-card" style="justify-content: space-between">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px">
+          <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">Top Career Match</h2>
+          <span id="topMatchBadge" style="background: #ECFDF5; color: #059669; font-size: var(--text-sm); font-weight: 700; padding: 4px 8px; border-radius: 6px">Best Match</span>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 18px;">
-          <div style="width: 100px; height: 100px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #E2E8F0;">
-            <img id="topMatchImg" src="assets/career-software.webp" alt="Career Match" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div style="display: flex; align-items: center; gap: 16px">
+          <div style="width: 100px; height: 100px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #E2E8F0">
+            <img id="topMatchImg" src="assets/career-software.webp" alt="Career Match" / style="width: 100%; height: 100%; object-fit: cover">
           </div>
           <div>
-            <h3 id="topMatchTitle" style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Software Engineer</h3>
-            <div id="topMatchScore" style="font-size: 0.95rem; font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px;"></div>
-            <div id="topMatchPills" style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <h3 id="topMatchTitle" style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Software Engineer</h3>
+            <div id="topMatchScore" style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px"></div>
+            <div id="topMatchPills" style="display: flex; gap: 4px; flex-wrap: wrap">
               <span class="gcs-pill-tag">High Demand</span>
               <span class="gcs-pill-tag">Great Salary</span>
               <span class="gcs-pill-tag">Bright Future</span>
@@ -227,7 +228,7 @@
           </div>
         </div>
 
-        <a id="topMatchLink" href="career-detail.html?career=software-engineer" class="gcs-btn-cta-1" style="margin-top: 20px; text-decoration: none; justify-content: center;">
+        <a id="topMatchLink" href="career-detail.html?career=software-engineer" class="gcs-btn-cta-1" style="margin-top: 20px; text-decoration: none; justify-content: center">
           <span>View Career Details</span>
           <span class="material-symbols-outlined">arrow_forward</span>
         </a>
@@ -235,32 +236,32 @@
     </div>
 
     <!-- Middle 2 Cards Row: Match Wheel & Top 5 Recommendations -->
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 24px;">
+    <div class="ui-grid ui-grid--2" style="margin-bottom: 24px">
       <!-- Card 3: Match Wheel Breakdown -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Your Career Match Wheel</h2>
+      <div class="ui-card">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Your Career Match Wheel</h2>
 
-        <div style="display: flex; align-items: center; gap: 24px;">
-          <div style="width: 140px; height: 140px; position: relative; flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 24px">
+          <div style="width: 140px; height: 140px; position: relative; flex-shrink: 0">
             <!-- Arcs are drawn by JS from the student's own quiz scores. -->
-            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;" id="matchWheelSvg" role="img" aria-label="Your score across the four career tracks"></svg>
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 0.85rem; font-weight: 800; color: #1E293B;">
+            <svg viewBox="0 0 36 36" id="matchWheelSvg" role="img" aria-label="Your score across the four career tracks" style="width: 100%; height: 100%"></svg>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: var(--text-sm); font-weight: 800; color: #1E293B">
               You
             </div>
           </div>
 
-          <div id="matchWheelLegend" style="flex: 1;">
+          <div id="matchWheelLegend" style="flex: 1">
             <!-- Filled by JS from the stored quiz scores. Empty until then, so
                  a reader never sees a percentage the quiz did not produce. -->
           </div>
             <div class="gcs-wheel-legend-item">
-              <span><span class="gcs-wheel-dot" style="background: #8B5CF6;"></span> Design &amp; Media</span>
-              <strong style="color: #1E293B;">60%</strong>
+              <span><span class="gcs-wheel-dot" style="background: #8B5CF6"></span> Design &amp; Media</span>
+              <strong style="color: #1E293B">60%</strong>
             </div>
           </div>
         </div>
 
-        <div style="margin-top: 14px; font-size: 0.82rem; color: #D97706; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+        <div style="margin-top: 12px; font-size: var(--text-sm); color: #D97706; font-weight: 600; display: flex; align-items: center; gap: 4px">
           <span>⭐ Higher score means better match with your skills and interests.</span>
         </div>
       </div>
@@ -270,27 +271,26 @@
            figures that no part of the quiz produced. The quiz has four tracks,
            so the honest next step is the roadmap for the track you scored
            highest on. -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 14px;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0;">What to do next</h2>
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0;">తర్వాత ఏమి చేయాలి</p>
+      <div class="ui-card" style="gap: 12px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">What to do next</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0">తర్వాత ఏమి చేయాలి</p>
 
-        <p style="font-size: 0.88rem; color: #475569; margin: 0;">
+        <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0">
           Your answers point towards <strong id="resultTrackName">this track</strong>. The roadmap
           below is built for your own education level, and shows what to do at each step.
         </p>
 
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-          <a id="resultRoadmapLink" href="roadmap.html" class="gcs-btn-cta-1" style="text-decoration:none; padding:12px 20px; justify-content:center; display:inline-flex; align-items:center; gap:8px;">
-            <span class="material-symbols-outlined" style="font-size:20px;">route</span>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto">
+          <a id="resultRoadmapLink" href="roadmap.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 12px 20px; justify-content: center; display: inline-flex; align-items: center; gap: 8px">
+            <span class="material-symbols-outlined" style="font-size: var(--text-xl)">route</span>
             <span>See my step-by-step roadmap</span>
           </a>
-          <a id="resultJobsLink" href="jobs.html" class="gcs-btn-cta-2" style="text-decoration:none; padding:12px 20px; justify-content:center; display:inline-flex; align-items:center; gap:8px;">
-            <span class="material-symbols-outlined" style="font-size:20px;">work</span>
+          <a id="resultJobsLink" href="jobs.html" class="gcs-btn-cta-2" style="text-decoration: none; padding: 12px 20px; justify-content: center; display: inline-flex; align-items: center; gap: 8px">
+            <span class="material-symbols-outlined" style="font-size: var(--text-xl)">work</span>
             <span>Jobs I can apply for now</span>
           </a>
         </div>
       </div>
-    </div>
 
     <!-- 4 Resource Cards.
          These used to be fixed lists — "Programming (Python, Java)",
@@ -298,59 +298,59 @@
          Companies" — shown to every student regardless of their result, and
          the job figures were invented. They are now filled from the student's
          own track, and the job count is counted from data/jobs.csv. -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 20px;">psychology</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Skills you need</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <span class="material-symbols-outlined" style="color: #7C3AED; font-size: var(--text-xl)">psychology</span>
+          <h3 style="font-size: var(--text-base); font-weight: 700; margin: 0; color: var(--color-text-primary)">Skills you need</h3>
         </div>
-        <ul id="cardSkills" style="margin: 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
+        <ul id="cardSkills" style="margin: 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.6"></ul>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span class="material-symbols-outlined" style="color: #2563EB; font-size: 20px;">school</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Free training</h3>
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <span class="material-symbols-outlined" style="color: #2563EB; font-size: var(--text-xl)">school</span>
+          <h3 style="font-size: var(--text-base); font-weight: 700; margin: 0; color: var(--color-text-primary)">Free training</h3>
         </div>
-        <ul id="cardCourses" style="margin: 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
+        <ul id="cardCourses" style="margin: 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.6"></ul>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span class="material-symbols-outlined" style="color: #D97706; font-size: 20px;">card_membership</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Scholarships</h3>
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-xl)">card_membership</span>
+          <h3 style="font-size: var(--text-base); font-weight: 700; margin: 0; color: var(--color-text-primary)">Scholarships</h3>
         </div>
-        <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;">
-          <li><a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style="color:#475569;">National Scholarship Portal</a></li>
-          <li><a href="https://jnanabhumi.ap.gov.in" target="_blank" rel="noopener noreferrer" style="color:#475569;">AP Jnanabhumi (fee reimbursement)</a></li>
+        <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.6">
+          <li><a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style="color: var(--color-text-secondary)">National Scholarship Portal</a></li>
+          <li><a href="https://jnanabhumi.ap.gov.in" target="_blank" rel="noopener noreferrer" style="color: var(--color-text-secondary)">AP Jnanabhumi (fee reimbursement)</a></li>
           <li>Post-matric scholarships for SC / ST / BC / minority students</li>
         </ul>
-        <a href="scholarships.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">See scholarships &rarr;</a>
+        <a href="scholarships.html" style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); text-decoration: none">See scholarships &rarr;</a>
       </div>
 
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span class="material-symbols-outlined" style="color: #059669; font-size: 20px;">work</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Roles in this track</h3>
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-xl)">work</span>
+          <h3 style="font-size: var(--text-base); font-weight: 700; margin: 0; color: var(--color-text-primary)">Roles in this track</h3>
         </div>
-        <p id="cardJobsCount" style="font-size: 0.82rem; color: #475569; margin: 0 0 10px 0;"></p>
-        <ul id="cardJobs" style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
-        <a id="cardJobsLink" href="jobs.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">See all roles &rarr;</a>
+        <p id="cardJobsCount" style="font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 8px 0"></p>
+        <ul id="cardJobs" style="margin: 0 0 12px 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.6"></ul>
+        <a id="cardJobsLink" href="jobs.html" style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); text-decoration: none">See all roles &rarr;</a>
       </div>
     </div>
 
     <!-- Bottom Action Card: Build Resume Callout -->
-    <section class="gcs-banner-callout" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-color: #6EE7B7;">
+    <section class="gcs-banner-callout" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-color: #6EE7B7">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #ffffff; color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">description</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Ready to take the next step?</h3>
-          <p class="gcs-banner-callout-sub" style="color: #047857;">Create your professional resume and apply for top career and job opportunities!</p>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Ready to take the next step?</h3>
+          <p class="gcs-banner-callout-sub" style="color: #047857">Create your professional resume and apply for top career and job opportunities!</p>
         </div>
       </div>
-      <a href="resume.html" class="gcs-btn-cta-1" style="border: none; text-decoration: none; white-space: nowrap;">
+      <a href="resume.html" class="gcs-btn-cta-1" style="border: none; text-decoration: none; white-space: nowrap">
         <span>Build Your Resume</span>
         <span class="material-symbols-outlined">arrow_forward</span>
       </a>
@@ -382,7 +382,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
@@ -507,8 +507,8 @@
           { en: 'Basic measurement and tools', te: 'ప్రాథమిక కొలతలు, పనిముట్లు' }
         ],
         courses: [
-          { name: 'ITI trades — NCVT MIS', url: 'https://ncvtmis.gov.in' },
-          { name: 'Free short skill courses — PMKVY', url: 'https://www.pmkvyofficial.org' },
+          { name: 'ITI trades — Skill India Digital', url: 'https://www.skillindiadigital.gov.in' },
+          { name: 'Free short skill courses — PMKVY', url: 'https://www.skillindiadigital.gov.in/content/pmkvy' },
           { name: 'Apprenticeship with stipend — NAPS', url: 'https://www.apprenticeshipindia.gov.in' },
           { name: 'APSSDC skill training', url: 'https://apssdc.in' }
         ],
@@ -534,7 +534,7 @@
           { name: 'Free typing practice — TypingClub', url: 'https://www.typingclub.com' },
           { name: 'Free training and jobs — National Career Service', url: 'https://www.ncs.gov.in' },
           { name: 'Digital literacy — PMGDISHA', url: 'https://www.pmgdisha.in' },
-          { name: 'Short skill courses — PMKVY', url: 'https://www.pmkvyofficial.org' }
+          { name: 'Short skill courses — PMKVY', url: 'https://www.skillindiadigital.gov.in/content/pmkvy' }
         ],
       },
       business: {

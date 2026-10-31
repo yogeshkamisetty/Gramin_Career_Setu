@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="assets/tokens.css" />
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -160,7 +161,7 @@
         <!-- Floating Install App Badge (Top Right) -->
         <div class="gcs-offline-pill gcs-hero-offline-badge">
           <span class="gcs-pulse-dot"></span>
-          <span class="material-symbols-outlined" style="font-size: 16px;">offline_pin</span>
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">offline_pin</span>
           <span data-lang-key="hero-badge">Install App · Works Offline</span>
         </div>
 
@@ -176,15 +177,15 @@
 
           <div class="gcs-hero-ctas">
             <a href="careers.html" class="gcs-btn-cta-1">
-              <span class="material-symbols-outlined" style="font-size: 19px;">explore</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">explore</span>
               <span data-lang-key="cta-career">Find Career Path</span>
             </a>
             <a href="jobs.html" class="gcs-btn-cta-2">
-              <span class="material-symbols-outlined" style="font-size: 19px;">work</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">work</span>
               <span data-lang-key="cta-jobs">Explore Jobs</span>
             </a>
             <a href="resume.html" class="gcs-btn-cta-3">
-              <span class="material-symbols-outlined" style="font-size: 19px;">description</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">description</span>
               <span data-lang-key="cta-resume">Build Resume</span>
             </a>
           </div>
@@ -282,27 +283,27 @@
          collecting an answer we cannot use is how forms get long enough
          that people abandon them.
          ============================================================ -->
-    <section class="gcs-section" id="personalise" style="padding-top: 0;" aria-labelledby="personalise-title">
+    <section class="gcs-section" id="personalise" aria-labelledby="personalise-title" style="padding-top: 0">
       <div class="gcs-container">
-        <div id="eduPrompt" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
-          <h2 id="personalise-title" style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">
+        <div class="ui-card" id="eduPrompt">
+          <h2 id="personalise-title" style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">
             What have you studied?
           </h2>
-          <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px;">మీరు ఎంత వరకు చదివారు?</p>
-          <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 14px; max-width: 65ch;">
+          <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px">మీరు ఎంత వరకు చదివారు?</p>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 12px; max-width: 65ch">
             Tell us once and we will only show you jobs you can actually apply for.
-            <span style="color:#94A3B8;">ఒక్కసారి చెప్పండి — మీరు దరఖాస్తు చేయగలిగిన ఉద్యోగాలను మాత్రమే చూపుతాము.</span>
+            <span style="color: #94A3B8">ఒక్కసారి చెప్పండి — మీరు దరఖాస్తు చేయగలిగిన ఉద్యోగాలను మాత్రమే చూపుతాము.</span>
           </p>
-          <div id="eduChoices" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+          <div id="eduChoices" style="display: flex; flex-wrap: wrap; gap: 8px"></div>
         </div>
 
-        <div id="eduChosen" hidden style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-          <p style="margin: 0; font-size: 0.9rem; color: #065F46;">
+        <div id="eduChosen" hidden style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+          <p style="margin: 0; font-size: var(--text-base); color: #065F46">
             Showing what suits <strong id="eduChosenLabel"></strong>.
           </p>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a id="eduChosenJobs" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 18px; font-size: 0.85rem;">See my jobs</a>
-            <button type="button" id="eduChange" class="gcs-btn-cta-2" style="padding: 8px 18px; font-size: 0.85rem; cursor: pointer;">Change</button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a id="eduChosenJobs" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">See my jobs</a>
+            <button type="button" id="eduChange" class="gcs-btn-cta-2" style="padding: 8px 16px; font-size: var(--text-sm); cursor: pointer">Change</button>
           </div>
         </div>
       </div>
@@ -347,7 +348,7 @@
             btn.type = 'button';
             btn.className = 'gcs-pill-tag';
             btn.style.cssText = 'cursor:pointer; background:#fff; border:1.5px solid #CBD5E1; padding:9px 16px; font-weight:700;';
-            btn.innerHTML = l.en + ' <span style="color:#94A3B8; font-weight:600;">' + l.te + '</span>';
+            btn.innerHTML = l.en + ' <span style="color: #94A3B8; font-weight: 600">' + l.te + '</span>';
             btn.addEventListener('click', function () {
               var s = store();
               if (s) {
@@ -446,7 +447,7 @@
             <p data-lang-key="4a-awareness-desc">Help villagers know what jobs and paths exist.</p>
             <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Awareness')">
               <span data-lang-key="learn-more">Learn More</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
             </button>
           </article>
 
@@ -459,7 +460,7 @@
             <p data-lang-key="4a-access-desc">Make information reachable regardless of internet, device or literacy.</p>
             <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Access')">
               <span data-lang-key="learn-more">Learn More</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
             </button>
           </article>
 
@@ -472,7 +473,7 @@
             <p data-lang-key="4a-action-desc">Turn awareness into a completed step, not just information.</p>
             <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Action')">
               <span data-lang-key="learn-more">Learn More</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
             </button>
           </article>
 
@@ -485,7 +486,7 @@
             <p data-lang-key="4a-account-desc">Prove it worked and make sure it keeps working after the team leaves.</p>
             <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Accountability')">
               <span data-lang-key="learn-more">Learn More</span>
-              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
             </button>
           </article>
         </div>
@@ -495,7 +496,7 @@
     <!-- ============================================================
          CAREER CATEGORIES (8 Cards)
          ============================================================ -->
-    <section class="gcs-section" id="categories" style="background: #ffffff;" aria-labelledby="cat-heading">
+    <section class="gcs-section" id="categories" aria-labelledby="cat-heading" style="background: var(--color-surface)">
       <div class="gcs-container">
         <div class="gcs-section-header">
           <div>
@@ -504,7 +505,7 @@
           </div>
           <a href="jobs.html" class="gcs-btn-view-all">
             <span data-lang-key="view-all">View All</span>
-            <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-base)">chevron_right</span>
           </a>
         </div>
 
@@ -598,19 +599,19 @@
           </div>
         </div>
 
-        <div style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 16px; padding: 32px 24px; text-align: center;">
-          <span class="material-symbols-outlined" style="font-size: 40px; color: #94A3B8;">history_edu</span>
-          <h3 style="margin: 10px 0 6px; font-size: 1.05rem; font-weight: 800; color: #0F172A;">
+        <div style="background: var(--color-surface-sunken); border: 1px dashed #CBD5E1; border-radius: 16px; padding: 32px 24px; text-align: center">
+          <span class="material-symbols-outlined" style="font-size: 40px; color: #94A3B8">history_edu</span>
+          <h3 style="margin: 8px 0 4px; font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary)">
             Our first workshops are still ahead
           </h3>
-          <p style="margin: 0 0 4px; font-size: 0.9rem; color: #475569;">
+          <p style="margin: 0 0 4px; font-size: var(--text-base); color: var(--color-text-secondary)">
             We will publish a student’s journey here only after they have taken part and
             agreed to share it. Nothing on this page is an illustration.
           </p>
-          <p style="margin: 0 0 16px; font-size: 0.86rem; color: #64748B;">
+          <p style="margin: 0 0 16px; font-size: var(--text-sm); color: var(--color-text-muted)">
             వర్క్‌షాప్‌లో పాల్గొని, అనుమతి ఇచ్చిన విద్యార్థుల కథలను మాత్రమే ప్రజురిస్తాము.
           </p>
-          <a href="workshops.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 10px 22px;">
+          <a href="workshops.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">
             See upcoming workshops
           </a>
         </div>
@@ -620,7 +621,7 @@
     <!-- ============================================================
          UPCOMING WORKSHOPS
          ============================================================ -->
-    <section class="gcs-section" id="workshops" style="background: #ffffff;" aria-labelledby="ws-heading">
+    <section class="gcs-section" id="workshops" aria-labelledby="ws-heading" style="background: var(--color-surface)">
       <div class="gcs-container">
         <div class="gcs-section-header">
           <div>
@@ -629,7 +630,7 @@
           </div>
           <a href="#workshops" class="gcs-btn-view-all">
             <span data-lang-key="view-all">View All</span>
-            <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-base)">chevron_right</span>
           </a>
         </div>
 
@@ -645,11 +646,11 @@
               <div>
                 <h3 class="gcs-ws-title" data-lang-key="ws1-title">Government Jobs Workshop</h3>
                 <div class="gcs-ws-location">
-                  <span class="material-symbols-outlined" style="font-size: 16px; color: #16A34A;">location_on</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #16A34A">location_on</span>
                   <span>ZP High School, Marripalem</span>
                 </div>
                 <div class="gcs-ws-time">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
                   <span>10:00 AM - 1:00 PM</span>
                 </div>
               </div>
@@ -672,11 +673,11 @@
               <div>
                 <h3 class="gcs-ws-title" data-lang-key="ws2-title">Private & BPO Jobs Workshop</h3>
                 <div class="gcs-ws-location">
-                  <span class="material-symbols-outlined" style="font-size: 16px; color: #2563EB;">location_on</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #2563EB">location_on</span>
                   <span>Community Hall, Pedakurapadu</span>
                 </div>
                 <div class="gcs-ws-time">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
                   <span>10:00 AM - 1:00 PM</span>
                 </div>
               </div>
@@ -699,11 +700,11 @@
               <div>
                 <h3 class="gcs-ws-title" data-lang-key="ws3-title">Self Employment Workshop</h3>
                 <div class="gcs-ws-location">
-                  <span class="material-symbols-outlined" style="font-size: 16px; color: #EA580C;">location_on</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #EA580C">location_on</span>
                   <span>Panchayat Office, Lingala</span>
                 </div>
                 <div class="gcs-ws-time">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
                   <span>10:00 AM - 1:00 PM</span>
                 </div>
               </div>
@@ -731,7 +732,7 @@
           </div>
           <button type="button" class="gcs-btn-download" onclick="downloadResourceKit()">
             <span data-lang-key="download-now">Download Now</span>
-            <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">download</span>
           </button>
         </div>
 
@@ -767,7 +768,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>

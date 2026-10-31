@@ -115,6 +115,10 @@
      ──────────────────────────────────────────────────────────── */
   --font-telugu: 'Noto Sans Telugu', 'Nirmala UI', 'Gautami', sans-serif;
   --font-latin:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Headings. Plus Jakarta Sans carries no Telugu glyphs, so Noto Sans Telugu
+     sits behind it: a Telugu heading falls through glyph by glyph instead of
+     dropping to a system font and breaking the Telugu-first design. */
+  --font-heading: 'Plus Jakarta Sans', 'Noto Sans Telugu', 'Nirmala UI', system-ui, sans-serif;
   --font-body:   'Inter', 'Noto Sans Telugu', 'Nirmala UI', system-ui, sans-serif;
   --font-mono:   'Cascadia Code', 'Consolas', monospace;
 
@@ -148,6 +152,15 @@
   /* ────────────────────────────────────────────────────────────
      BORDER RADIUS (Stitch System: 8px / 12px / 16px / 24px)
      ──────────────────────────────────────────────────────────── */
+  /* Layout ------------------------------------------------------------- */
+  /* The one page width. Pages currently mix 1180, 1140, 1024, 992, 900,
+     820, 720, 640 and 460px. Named --page-* so it does not collide with
+     the legacy --container-max (540px) further down, which still feeds
+     .header-inner and .main-content. */
+  --page-max:     1140px;
+  --page-pad:     20px;
+  --section-gap:  56px;
+
   --radius-xs:   4px;
   --radius-sm:   8px;
   --radius-md:   12px;

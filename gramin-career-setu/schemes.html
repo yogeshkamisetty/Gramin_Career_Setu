@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
@@ -141,7 +142,7 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
     <!-- Breadcrumb -->
     <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
@@ -151,171 +152,171 @@
     </nav>
 
     <!-- Page Hero Banner -->
-    <section class="gcs-page-hero" style="margin-bottom: 24px;">
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-schemes">
-          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">account_balance</span>
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">account_balance</span>
           <span data-lang-text>Government Scheme Explorer</span>
         </h1>
         <p class="gcs-page-hero-desc">Discover government schemes and apply for the support you deserve.</p>
         <p class="gcs-page-hero-telugu">మీకు అందుబాటులో ఉన్న ప్రభుత్వ పథకాలు తెలుసుకోండి.</p>
       </div>
-      <div class="gcs-page-hero-visual" style="max-width: 280px;">
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
         <img src="assets/schemes-hero-citizens.svg" alt="Government Schemes Explorer" loading="lazy" />
       </div>
     </section>
 
     <!-- Filter Category Pills (6 Pills) -->
-    <div style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 28px; padding-bottom: 4px;">
-      <button type="button" class="gcs-pill-tag active" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('all', this)">All Schemes</button>
-      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('skill', this)">🎓 Skill Development</button>
-      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('financial', this)">💰 Financial Support</button>
-      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('employment', this)">💼 Employment</button>
-      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('entrepreneurship', this)">🚀 Entrepreneurship</button>
-      <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px;" onclick="filterSchemeCategory('social', this)">🤝 Social Welfare</button>
+    <div style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; padding-bottom: 4px">
+      <button type="button" class="gcs-pill-tag active" onclick="filterSchemeCategory('all', this)" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 8px 16px">All Schemes</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('skill', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🎓 Skill Development</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('financial', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">💰 Financial Support</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('employment', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">💼 Employment</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('entrepreneurship', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🚀 Entrepreneurship</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('social', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🤝 Social Welfare</button>
     </div>
 
     <!-- 5 Government Scheme Cards (5 Grid) -->
-    <div id="schemesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 36px;">
+    <div id="schemesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px">
       
       <!-- Scheme 1: Skill India -->
-      <article class="scheme-card-item" data-cat="skill" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <article class="scheme-card-item ui-card" data-cat="skill" style="justify-content: space-between">
         <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
               <span class="material-symbols-outlined">workspace_premium</span>
             </div>
-            <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #ECFDF5; color: #059669;">Skill Dev</span>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #ECFDF5; color: #059669">Skill Dev</span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Skill India</h3>
-          <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Skill India</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
             Empowering youth with industry relevant skills and better employment opportunities.
           </p>
 
-          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
             <div>🛡️ <strong>Benefits:</strong> Free skill training</div>
             <div>👤 <strong>Eligibility:</strong> 10th Pass &amp; above</div>
             <div>🌐 <strong>Apply:</strong> Online / Offline</div>
           </div>
         </div>
 
-        <a href="https://www.skillindia.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+        <a href="https://www.skillindia.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
       </article>
 
       <!-- Scheme 2: PMKVY -->
-      <article class="scheme-card-item" data-cat="skill" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <article class="scheme-card-item ui-card" data-cat="skill" style="justify-content: space-between">
         <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
               <span class="material-symbols-outlined">school</span>
             </div>
-            <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #FFFBEB; color: #D97706;">Skill Dev</span>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FFFBEB; color: #D97706">Skill Dev</span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">PMKVY</h3>
-          <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">PMKVY</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
             Short-term skill training programs with certification and placement assistance.
           </p>
 
-          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
             <div>🛡️ <strong>Benefits:</strong> Stipend + Certificate</div>
             <div>👤 <strong>Eligibility:</strong> 18 – 45 years</div>
             <div>🌐 <strong>Apply:</strong> Training Center</div>
           </div>
         </div>
 
-        <a href="https://pmkvyofficial.org" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+        <a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
       </article>
 
       <!-- Scheme 3: Mudra Loan -->
-      <article class="scheme-card-item" data-cat="financial" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <article class="scheme-card-item ui-card" data-cat="financial" style="justify-content: space-between">
         <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
               <span class="material-symbols-outlined">account_balance_wallet</span>
             </div>
-            <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #EFF6FF; color: #2563EB;">Financial</span>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #EFF6FF; color: #2563EB">Financial</span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">Mudra Loan</h3>
-          <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Mudra Loan</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
             Collateral-free loans up to ₹10 lakh for non-corporate small enterprises.
           </p>
 
-          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
             <div>🛡️ <strong>Benefits:</strong> Up to ₹10,00,000</div>
             <div>👤 <strong>Eligibility:</strong> Self Employed</div>
             <div>🌐 <strong>Apply:</strong> Bank / Online</div>
           </div>
         </div>
 
-        <a href="https://www.mudra.org.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+        <a href="https://www.mudra.org.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
       </article>
 
       <!-- Scheme 4: APSSDC -->
-      <article class="scheme-card-item" data-cat="employment" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <article class="scheme-card-item ui-card" data-cat="employment" style="justify-content: space-between">
         <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
               <span class="material-symbols-outlined">business_center</span>
             </div>
-            <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #FAF5FF; color: #7C3AED;">Employment</span>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FAF5FF; color: #7C3AED">Employment</span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">APSSDC</h3>
-          <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">APSSDC</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
             Skilling &amp; placement support for youth in Andhra Pradesh across sectors.
           </p>
 
-          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
             <div>🛡️ <strong>Benefits:</strong> Training + Jobs</div>
             <div>👤 <strong>Eligibility:</strong> 10th / Inter / Degree</div>
             <div>🌐 <strong>Apply:</strong> APSSDC Portal</div>
           </div>
         </div>
 
-        <a href="https://apssdc.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+        <a href="https://apssdc.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
       </article>
 
       <!-- Scheme 5: NULM -->
-      <article class="scheme-card-item" data-cat="social" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <article class="scheme-card-item ui-card" data-cat="social" style="justify-content: space-between">
         <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
               <span class="material-symbols-outlined">diversity_3</span>
             </div>
-            <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #FFF1F2; color: #E11D48;">Welfare</span>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FFF1F2; color: #E11D48">Welfare</span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">NULM</h3>
-          <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">NULM</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
             Empowering rural &amp; urban poor through self employment initiatives.
           </p>
 
-          <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
             <div>🛡️ <strong>Benefits:</strong> Self Employment</div>
             <div>👤 <strong>Eligibility:</strong> Low Income Families</div>
             <div>🌐 <strong>Apply:</strong> Municipal / Ward</div>
           </div>
         </div>
 
-        <a href="https://nulm.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+        <a href="https://nulm.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
       </article>
     </div>
 
     <!-- Need Help Callout Banner -->
-    <section class="gcs-banner-callout" style="background: #F8FAFC; border-color: #CBD5E1;">
+    <section class="gcs-banner-callout" style="background: var(--color-surface-sunken); border-color: #CBD5E1">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #F1F5F9; color: var(--gcs-green-primary);">
+        <div class="gcs-banner-callout-icon" style="background: #F1F5F9; color: var(--gcs-green-primary)">
           <span class="material-symbols-outlined">support_agent</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #0F172A;">Need Help to Apply?</h3>
-          <p class="gcs-banner-callout-sub" style="color: #64748B;">Visit your nearest MeeSeva / CSC Center or contact your village volunteer for free application assistance.</p>
+          <h3 class="gcs-banner-callout-title" style="color: var(--color-text-primary)">Need Help to Apply?</h3>
+          <p class="gcs-banner-callout-sub" style="color: var(--color-text-muted)">Visit your nearest MeeSeva / CSC Center or contact your village volunteer for free application assistance.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-2" onclick="GCS_ACTIONS.showSteps(GCS_I18N.t('meeseva-title'), [GCS_I18N.t('meeseva-1'), GCS_I18N.t('meeseva-2'), GCS_I18N.t('meeseva-3')])" style="white-space: nowrap; background: #fff;">
+      <button type="button" class="gcs-btn-cta-2" onclick="GCS_ACTIONS.showSteps(GCS_I18N.t('meeseva-title'), [GCS_I18N.t('meeseva-1'), GCS_I18N.t('meeseva-2'), GCS_I18N.t('meeseva-3')])" style="white-space: nowrap; background: var(--color-surface)">
         <span class="material-symbols-outlined">location_on</span>
         <span>Find Help Centers</span>
       </button>
@@ -342,7 +343,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
           </ul>
@@ -428,23 +429,23 @@
             <article class="scheme-card-item" data-cat="${(item.category || '').toLowerCase()}" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                  <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                  <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl);">
                     <span class="material-symbols-outlined">workspace_premium</span>
                   </div>
-                  <span class="gcs-pill-tag" style="font-size: 0.68rem; background: #ECFDF5; color: #059669;">${item.category || 'Scheme'}</span>
+                  <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #ECFDF5; color: #059669;">${item.category || 'Scheme'}</span>
                 </div>
-                <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">${isTe && item.titleTe ? item.titleTe : item.titleEn}</h3>
-                <div style="font-size: 0.78rem; color: #64748B; margin-bottom: 8px;">${item.ministry || 'Govt of India'}</div>
-                <p style="font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+                <h3 style="font-size: var(--text-lg); font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">${isTe && item.titleTe ? item.titleTe : item.titleEn}</h3>
+                <div style="font-size: var(--text-sm); color: #64748B; margin-bottom: 8px;">${item.ministry || 'Govt of India'}</div>
+                <p style="font-size: var(--text-sm); color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
                   ${item.benefit || 'Subsidies, credit linkage, and livelihood support.'}
                 </p>
-                <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+                <div style="font-size: var(--text-sm); color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
                   <div>🛡️ <strong>Benefits:</strong> ${item.benefit || 'Financial Support'}</div>
                   <div>👤 <strong>Eligibility:</strong> ${item.eligibility || 'Eligible Rural Citizens'}</div>
                   <div>🌐 <strong>Category:</strong> ${item.category || 'General'}</div>
                 </div>
               </div>
-              <a href="${item.applicationUrl || 'https://www.india.gov.in'}" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; text-decoration: none;">View Details &rarr;</a>
+              <a href="${item.applicationUrl || 'https://www.india.gov.in'}" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none;">View Details &rarr;</a>
             </article>
           `).join('');
         }

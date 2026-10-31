@@ -317,7 +317,7 @@
     // Builder page score circles
     const scoreEl = document.getElementById('builderScoreValue');
     if (scoreEl) {
-      scoreEl.innerHTML = `${score}<span style="font-size: 0.75rem; color: #64748B;">/100</span>`;
+      scoreEl.innerHTML = `${score}<span style="font-size: var(--text-xs); color: #64748B;">/100</span>`;
     }
     const atsEl = document.getElementById('builderAtsValue');
     if (atsEl) {
@@ -327,7 +327,7 @@
     // Preview page score circles
     const prevScore = document.getElementById('previewScoreValue');
     if (prevScore) {
-      prevScore.innerHTML = `${score}<span style="font-size: 0.65rem; color: #64748B;">/100</span>`;
+      prevScore.innerHTML = `${score}<span style="font-size: var(--text-xs); color: #64748B;">/100</span>`;
     }
     const prevAts = document.getElementById('previewAtsValue');
     if (prevAts) {
@@ -506,29 +506,29 @@
 
       div.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">Qualification #${idx + 1}</span>
-          <button type="button" onclick="window.removeEducationRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: 0.78rem; display: flex; align-items: center; gap: 2px;">
-            <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+          <span style="font-size: var(--text-sm); font-weight: 700; color: #475569;">Qualification #${idx + 1}</span>
+          <button type="button" onclick="window.removeEducationRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: var(--text-sm); display: flex; align-items: center; gap: 2px;">
+            <span class="material-symbols-outlined" style="font-size: var(--text-base);">delete</span>
             <span>Remove</span>
           </button>
         </div>
         <div class="gcs-form-row-2">
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Degree / Diploma / SSC</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Degree / Diploma / SSC</label>
             <input type="text" class="gcs-form-input edu-degree" value="${escapeHtml(edu?.degree || '')}" placeholder="e.g. B.Tech in CSE" />
           </div>
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">School / College</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">School / College</label>
             <input type="text" class="gcs-form-input edu-school" value="${escapeHtml(edu?.school || '')}" placeholder="e.g. LBRCE / Govt Junior College" />
           </div>
         </div>
         <div class="gcs-form-row-2">
           <div class="gcs-form-group" style="margin-bottom: 0;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Year / Duration</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Year / Duration</label>
             <input type="text" class="gcs-form-input edu-year" value="${escapeHtml(edu?.year || '')}" placeholder="e.g. 2020 – 2024" />
           </div>
           <div class="gcs-form-group" style="margin-bottom: 0;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Grade / Percentage / CGPA</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Grade / Percentage / CGPA</label>
             <input type="text" class="gcs-form-input edu-grade" value="${escapeHtml(edu?.grade || '')}" placeholder="e.g. CGPA: 8.45 / 85%" />
           </div>
         </div>
@@ -553,24 +553,24 @@
 
       div.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">Project #${idx + 1}</span>
-          <button type="button" onclick="window.removeProjectRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: 0.78rem; display: flex; align-items: center; gap: 2px;">
-            <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+          <span style="font-size: var(--text-sm); font-weight: 700; color: #475569;">Project #${idx + 1}</span>
+          <button type="button" onclick="window.removeProjectRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: var(--text-sm); display: flex; align-items: center; gap: 2px;">
+            <span class="material-symbols-outlined" style="font-size: var(--text-base);">delete</span>
             <span>Remove</span>
           </button>
         </div>
         <div class="gcs-form-row-2">
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Project Title</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Project Title</label>
             <input type="text" class="gcs-form-input proj-title" value="${escapeHtml(proj?.title || '')}" placeholder="e.g. Student Portal" />
           </div>
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Technologies Used</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Technologies Used</label>
             <input type="text" class="gcs-form-input proj-tech" value="${escapeHtml(proj?.tech || '')}" placeholder="e.g. React, Node.js, SQL" />
           </div>
         </div>
         <div class="gcs-form-group" style="margin-bottom: 0;">
-          <label class="gcs-form-label" style="font-size: 0.78rem;">Description & Impact</label>
+          <label class="gcs-form-label" style="font-size: var(--text-sm);">Description & Impact</label>
           <textarea class="gcs-form-textarea proj-desc" rows="2" placeholder="Brief summary of what the project does...">${escapeHtml(proj?.desc || '')}</textarea>
         </div>
       `;
@@ -594,28 +594,28 @@
 
       div.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">Experience #${idx + 1}</span>
-          <button type="button" onclick="window.removeExperienceRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: 0.78rem; display: flex; align-items: center; gap: 2px;">
-            <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+          <span style="font-size: var(--text-sm); font-weight: 700; color: #475569;">Experience #${idx + 1}</span>
+          <button type="button" onclick="window.removeExperienceRow(${idx})" style="background: none; border: none; cursor: pointer; color: #EF4444; font-size: var(--text-sm); display: flex; align-items: center; gap: 2px;">
+            <span class="material-symbols-outlined" style="font-size: var(--text-base);">delete</span>
             <span>Remove</span>
           </button>
         </div>
         <div class="gcs-form-row-2">
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Job Title / Role</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Job Title / Role</label>
             <input type="text" class="gcs-form-input exp-role" value="${escapeHtml(exp?.role || '')}" placeholder="e.g. Web Development Intern" />
           </div>
           <div class="gcs-form-group" style="margin-bottom: 8px;">
-            <label class="gcs-form-label" style="font-size: 0.78rem;">Organization / Company</label>
+            <label class="gcs-form-label" style="font-size: var(--text-sm);">Organization / Company</label>
             <input type="text" class="gcs-form-input exp-company" value="${escapeHtml(exp?.company || '')}" placeholder="e.g. TechnoHacks Solutions" />
           </div>
         </div>
         <div class="gcs-form-group" style="margin-bottom: 8px;">
-          <label class="gcs-form-label" style="font-size: 0.78rem;">Duration</label>
+          <label class="gcs-form-label" style="font-size: var(--text-sm);">Duration</label>
           <input type="text" class="gcs-form-input exp-duration" value="${escapeHtml(exp?.duration || '')}" placeholder="e.g. June 2023 – August 2023" />
         </div>
         <div class="gcs-form-group" style="margin-bottom: 0;">
-          <label class="gcs-form-label" style="font-size: 0.78rem;">Responsibilities / Accomplishments</label>
+          <label class="gcs-form-label" style="font-size: var(--text-sm);">Responsibilities / Accomplishments</label>
           <textarea class="gcs-form-textarea exp-desc" rows="2" placeholder="Brief summary of duties and impact...">${escapeHtml(exp?.desc || '')}</textarea>
         </div>
       `;
@@ -764,9 +764,9 @@
       // Clean Single-Column ATS layout
       resumeContainer.innerHTML = `
         <div class="resume-min-header">
-          <h1 style="font-size: 2rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
-          <div style="font-size: 0.95rem; color: var(--resume-primary); font-weight: 700; margin-bottom: 8px;">${escapeHtml(profile.title || '')}</div>
-          <div style="font-size: 0.82rem; color: #475569; display: flex; gap: 16px; flex-wrap: wrap;">
+          <h1 style="font-size: var(--text-3xl); font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
+          <div style="font-size: var(--text-base); color: var(--resume-primary); font-weight: 700; margin-bottom: 8px;">${escapeHtml(profile.title || '')}</div>
+          <div style="font-size: var(--text-sm); color: #475569; display: flex; gap: 16px; flex-wrap: wrap;">
             ${profile.address ? `<span>📍 ${escapeHtml(profile.address)}</span>` : ''}
             ${profile.phone ? `<span>📱 ${escapeHtml(profile.phone)}</span>` : ''}
             ${profile.email ? `<span>✉️ ${escapeHtml(profile.email)}</span>` : ''}
@@ -778,13 +778,13 @@
         ${profile.objective ? `
         <div class="resume-min-section">
           <h3>Career Objective</h3>
-          <p style="font-size: 0.88rem; color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
+          <p style="font-size: var(--text-base); color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
         </div>` : ''}
 
         ${safeSkills.length > 0 || safeSoftSkills.length > 0 ? `
         <div class="resume-min-section">
           <h3>Technical &amp; Key Skills</h3>
-          <div style="font-size: 0.88rem; color: #334155; line-height: 1.6;">
+          <div style="font-size: var(--text-base); color: #334155; line-height: 1.6;">
             ${safeSkills.length > 0 ? `<strong>Core Skills:</strong> ${safeSkills.map(s => escapeHtml(s)).join(', ')}<br />` : ''}
             ${safeSoftSkills.length > 0 ? `<strong>Soft Skills:</strong> ${safeSoftSkills.map(s => escapeHtml(s)).join(', ')}` : ''}
           </div>
@@ -795,11 +795,11 @@
           <h3>Education</h3>
           ${safeEducation.map(e => `
             <div style="margin-bottom: 10px;">
-              <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0F172A; font-size: 0.9rem;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0F172A; font-size: var(--text-base);">
                 <span>${escapeHtml(e.degree || '')}</span>
                 <span style="color: #64748B;">${escapeHtml(e.year || '')}</span>
               </div>
-              <div style="font-size: 0.82rem; color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <strong>' + escapeHtml(e.grade) + '</strong>' : ''}</div>
+              <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <strong>' + escapeHtml(e.grade) + '</strong>' : ''}</div>
             </div>
           `).join('')}
         </div>` : ''}
@@ -809,8 +809,8 @@
           <h3>Key Projects</h3>
           ${safeProjects.map(p => `
             <div style="margin-bottom: 12px;">
-              <div style="font-weight: 700; color: #0F172A; font-size: 0.9rem;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-weight: 500; font-size: 0.78rem; color: var(--resume-primary);">(' + escapeHtml(p.tech) + ')</span>' : ''}</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
+              <div style="font-weight: 700; color: #0F172A; font-size: var(--text-base);">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-weight: 500; font-size: var(--text-sm); color: var(--resume-primary);">(' + escapeHtml(p.tech) + ')</span>' : ''}</div>
+              <div style="font-size: var(--text-sm); color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
             </div>
           `).join('')}
         </div>` : ''}
@@ -820,11 +820,11 @@
           <h3>Experience &amp; Internships</h3>
           ${safeExperience.map(x => `
             <div style="margin-bottom: 10px;">
-              <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0F172A; font-size: 0.9rem;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0F172A; font-size: var(--text-base);">
                 <span>${escapeHtml(x.role || '')}${x.company ? ' — ' + escapeHtml(x.company) : ''}</span>
                 <span style="color: #64748B;">${escapeHtml(x.duration || '')}</span>
               </div>
-              <div style="font-size: 0.82rem; color: #475569;">${escapeHtml(x.desc || '')}</div>
+              <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(x.desc || '')}</div>
             </div>
           `).join('')}
         </div>` : ''}
@@ -832,7 +832,7 @@
         ${safeAchievements.length > 0 ? `
         <div class="resume-min-section">
           <h3>Certifications &amp; Achievements</h3>
-          <ul style="margin: 0; padding-left: 18px; font-size: 0.85rem; color: #334155; line-height: 1.6;">
+          <ul style="margin: 0; padding-left: 18px; font-size: var(--text-sm); color: #334155; line-height: 1.6;">
             ${safeAchievements.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
           </ul>
         </div>` : ''}
@@ -841,9 +841,9 @@
       // Classic Ivy Academic Layout (Serif)
       resumeContainer.innerHTML = `
         <div class="resume-classic-header">
-          <h1 style="font-size: 1.85rem; font-weight: 700; margin: 0 0 4px 0; color: #111827; letter-spacing: 0.02em;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
-          <div style="font-size: 0.95rem; font-style: italic; color: var(--resume-primary); margin-bottom: 8px;">${escapeHtml(profile.title || '')}</div>
-          <div style="font-size: 0.82rem; color: #374151; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+          <h1 style="font-size: var(--text-3xl); font-weight: 700; margin: 0 0 4px 0; color: #111827; letter-spacing: 0.02em;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
+          <div style="font-size: var(--text-base); font-style: italic; color: var(--resume-primary); margin-bottom: 8px;">${escapeHtml(profile.title || '')}</div>
+          <div style="font-size: var(--text-sm); color: #374151; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
             ${profile.address ? `<span>${escapeHtml(profile.address)}</span>` : ''}
             ${profile.phone ? `<span>• Tel: ${escapeHtml(profile.phone)}</span>` : ''}
             ${profile.email ? `<span>• Email: ${escapeHtml(profile.email)}</span>` : ''}
@@ -853,53 +853,53 @@
 
         ${profile.objective ? `
         <div style="margin-bottom: 20px;">
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Career Objective</h3>
-          <p style="font-size: 0.88rem; color: #1F2937; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Career Objective</h3>
+          <p style="font-size: var(--text-base); color: #1F2937; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
         </div>` : ''}
 
         ${safeEducation.length > 0 ? `
         <div style="margin-bottom: 20px;">
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Education</h3>
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Education</h3>
           ${safeEducation.map(e => `
             <div style="margin-bottom: 10px;">
-              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.92rem; color: #111827;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: var(--text-base); color: #111827;">
                 <span>${escapeHtml(e.degree || '')}</span>
                 <span style="font-style: italic; color: #4B5563;">${escapeHtml(e.year || '')}</span>
               </div>
-              <div style="font-size: 0.85rem; color: #374151;">${escapeHtml(e.school || '')}${e.grade ? ' — ' + escapeHtml(e.grade) : ''}</div>
+              <div style="font-size: var(--text-sm); color: #374151;">${escapeHtml(e.school || '')}${e.grade ? ' — ' + escapeHtml(e.grade) : ''}</div>
             </div>
           `).join('')}
         </div>` : ''}
 
         ${safeExperience.length > 0 ? `
         <div style="margin-bottom: 20px;">
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Professional Experience</h3>
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Professional Experience</h3>
           ${safeExperience.map(x => `
             <div style="margin-bottom: 10px;">
-              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.92rem; color: #111827;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: var(--text-base); color: #111827;">
                 <span>${escapeHtml(x.role || '')}${x.company ? ', ' + escapeHtml(x.company) : ''}</span>
                 <span style="font-style: italic; color: #4B5563;">${escapeHtml(x.duration || '')}</span>
               </div>
-              <div style="font-size: 0.85rem; color: #374151; margin-top: 2px;">${escapeHtml(x.desc || '')}</div>
+              <div style="font-size: var(--text-sm); color: #374151; margin-top: 2px;">${escapeHtml(x.desc || '')}</div>
             </div>
           `).join('')}
         </div>` : ''}
 
         ${safeProjects.length > 0 ? `
         <div style="margin-bottom: 20px;">
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Key Projects</h3>
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 10px;">Key Projects</h3>
           ${safeProjects.map(p => `
             <div style="margin-bottom: 10px;">
-              <div style="font-weight: 700; font-size: 0.92rem; color: #111827;">${escapeHtml(p.title || '')}${p.tech ? ' <em>(' + escapeHtml(p.tech) + ')</em>' : ''}</div>
-              <div style="font-size: 0.85rem; color: #374151;">${escapeHtml(p.desc || '')}</div>
+              <div style="font-weight: 700; font-size: var(--text-base); color: #111827;">${escapeHtml(p.title || '')}${p.tech ? ' <em>(' + escapeHtml(p.tech) + ')</em>' : ''}</div>
+              <div style="font-size: var(--text-sm); color: #374151;">${escapeHtml(p.desc || '')}</div>
             </div>
           `).join('')}
         </div>` : ''}
 
         ${safeSkills.length > 0 ? `
         <div style="margin-bottom: 20px;">
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Skills &amp; Competencies</h3>
-          <div style="font-size: 0.85rem; color: #1F2937; line-height: 1.6;">
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Skills &amp; Competencies</h3>
+          <div style="font-size: var(--text-sm); color: #1F2937; line-height: 1.6;">
             <strong>Skills:</strong> ${safeSkills.map(s => escapeHtml(s)).join(', ')}<br />
             ${safeSoftSkills.length > 0 ? `<strong>Attributes:</strong> ${safeSoftSkills.map(s => escapeHtml(s)).join(', ')}<br />` : ''}
             ${safeLanguages.length > 0 ? `<strong>Languages:</strong> ${safeLanguages.map(l => escapeHtml(l)).join(', ')}` : ''}
@@ -908,8 +908,8 @@
 
         ${safeAchievements.length > 0 ? `
         <div>
-          <h3 style="font-size: 1.05rem; font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Honors &amp; Certifications</h3>
-          <ul style="margin: 0; padding-left: 20px; font-size: 0.85rem; color: #1F2937; line-height: 1.6;">
+          <h3 style="font-size: var(--text-lg); font-variant: small-caps; color: var(--resume-primary); border-bottom: 1px solid #9CA3AF; padding-bottom: 2px; margin-bottom: 8px;">Honors &amp; Certifications</h3>
+          <ul style="margin: 0; padding-left: 20px; font-size: var(--text-sm); color: #1F2937; line-height: 1.6;">
             ${safeAchievements.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
           </ul>
         </div>` : ''}
@@ -919,10 +919,10 @@
       resumeContainer.innerHTML = `
         <div class="resume-exec-header">
           <div>
-            <h1 style="font-size: 1.75rem; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
-            <div style="font-size: 0.95rem; color: rgba(255,255,255,0.88); font-weight: 600;">${escapeHtml(profile.title || '')}</div>
+            <h1 style="font-size: var(--text-2xl); font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">${escapeHtml(profile.fullName || 'Professional Resume')}</h1>
+            <div style="font-size: var(--text-base); color: rgba(255,255,255,0.88); font-weight: 600;">${escapeHtml(profile.title || '')}</div>
           </div>
-          <div style="font-size: 0.78rem; text-align: right; color: rgba(255,255,255,0.92); line-height: 1.6;">
+          <div style="font-size: var(--text-sm); text-align: right; color: rgba(255,255,255,0.92); line-height: 1.6;">
             ${profile.phone ? `<div>📱 ${escapeHtml(profile.phone)}</div>` : ''}
             ${profile.email ? `<div>✉️ ${escapeHtml(profile.email)}</div>` : ''}
             ${profile.address ? `<div>📍 ${escapeHtml(profile.address)}</div>` : ''}
@@ -934,45 +934,45 @@
           <div class="resume-exec-main">
             ${profile.objective ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 1rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Executive Summary</h3>
-              <p style="font-size: 0.85rem; color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Executive Summary</h3>
+              <p style="font-size: var(--text-sm); color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
             </div>` : ''}
 
             ${safeExperience.length > 0 ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 1rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Experience</h3>
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Experience</h3>
               ${safeExperience.map(x => `
                 <div style="margin-bottom: 12px;">
-                  <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                  <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                     <span>${escapeHtml(x.role || '')}${x.company ? ' — ' + escapeHtml(x.company) : ''}</span>
                     <span style="color: #64748B; font-weight: 600;">${escapeHtml(x.duration || '')}</span>
                   </div>
-                  <div style="font-size: 0.82rem; color: #475569; margin-top: 2px; line-height: 1.5;">${escapeHtml(x.desc || '')}</div>
+                  <div style="font-size: var(--text-sm); color: #475569; margin-top: 2px; line-height: 1.5;">${escapeHtml(x.desc || '')}</div>
                 </div>
               `).join('')}
             </div>` : ''}
 
             ${safeProjects.length > 0 ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 1rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Projects &amp; Initiatives</h3>
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Projects &amp; Initiatives</h3>
               ${safeProjects.map(p => `
                 <div style="margin-bottom: 12px;">
-                  <div style="font-weight: 800; font-size: 0.88rem; color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: 0.75rem; color: var(--resume-primary); font-weight: 600;">(' + escapeHtml(p.tech) + ')</span>' : ''}</div>
-                  <div style="font-size: 0.82rem; color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
+                  <div style="font-weight: 800; font-size: var(--text-base); color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: var(--text-xs); color: var(--resume-primary); font-weight: 600;">(' + escapeHtml(p.tech) + ')</span>' : ''}</div>
+                  <div style="font-size: var(--text-sm); color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
                 </div>
               `).join('')}
             </div>` : ''}
 
             ${safeEducation.length > 0 ? `
             <div>
-              <h3 style="font-size: 1rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Education</h3>
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Education</h3>
               ${safeEducation.map(e => `
                 <div style="margin-bottom: 10px;">
-                  <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                  <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                     <span>${escapeHtml(e.degree || '')}</span>
                     <span style="color: #64748B; font-weight: 600;">${escapeHtml(e.year || '')}</span>
                   </div>
-                  <div style="font-size: 0.82rem; color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <strong>' + escapeHtml(e.grade) + '</strong>' : ''}</div>
+                  <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <strong>' + escapeHtml(e.grade) + '</strong>' : ''}</div>
                 </div>
               `).join('')}
             </div>` : ''}
@@ -981,32 +981,32 @@
           <div class="resume-exec-side">
             ${safeSkills.length > 0 ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 0.9rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Core Skills</h3>
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Core Skills</h3>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                ${safeSkills.map(s => `<span style="background: #F1F5F9; color: #0F172A; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${escapeHtml(s)}</span>`).join('')}
+                ${safeSkills.map(s => `<span style="background: #F1F5F9; color: #0F172A; padding: 3px 8px; border-radius: 4px; font-size: var(--text-xs); font-weight: 600;">${escapeHtml(s)}</span>`).join('')}
               </div>
             </div>` : ''}
 
             ${safeSoftSkills.length > 0 ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 0.9rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Competencies</h3>
-              <div style="font-size: 0.8rem; color: #334155; line-height: 1.7;">
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Competencies</h3>
+              <div style="font-size: var(--text-sm); color: #334155; line-height: 1.7;">
                 ${safeSoftSkills.map(s => `<div>• ${escapeHtml(s)}</div>`).join('')}
               </div>
             </div>` : ''}
 
             ${safeLanguages.length > 0 ? `
             <div style="margin-bottom: 22px;">
-              <h3 style="font-size: 0.9rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Languages</h3>
-              <div style="font-size: 0.8rem; color: #334155; line-height: 1.7;">
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Languages</h3>
+              <div style="font-size: var(--text-sm); color: #334155; line-height: 1.7;">
                 ${safeLanguages.map(l => `<div>• ${escapeHtml(l)}</div>`).join('')}
               </div>
             </div>` : ''}
 
             ${safeAchievements.length > 0 ? `
             <div>
-              <h3 style="font-size: 0.9rem; font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Achievements</h3>
-              <ul style="margin: 0; padding-left: 16px; font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--resume-primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; border-bottom: 1.5px solid #CBD5E1; padding-bottom: 4px;">Achievements</h3>
+              <ul style="margin: 0; padding-left: 16px; font-size: var(--text-sm); color: #334155; line-height: 1.5;">
                 ${safeAchievements.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
               </ul>
             </div>` : ''}
@@ -1019,16 +1019,16 @@
       resumeContainer.innerHTML = `
         <div class="resume-left-pane">
           <div style="text-align: center; margin-bottom: 24px;">
-            <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--resume-accent); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 12px; border: 3px solid rgba(255,255,255,0.2);">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--resume-accent); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); font-weight: 800; margin: 0 auto 12px; border: 3px solid rgba(255,255,255,0.2);">
               ${escapeHtml(initial)}
             </div>
-            <h2 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin: 0 0 4px 0;">${escapeHtml(profile.fullName || 'Your Name')}</h2>
-            <div style="font-size: 0.78rem; color: var(--resume-accent); font-weight: 600;">${escapeHtml(profile.title || '')}</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; color: #FFFFFF; margin: 0 0 4px 0;">${escapeHtml(profile.fullName || 'Your Name')}</h2>
+            <div style="font-size: var(--text-sm); color: var(--resume-accent); font-weight: 600;">${escapeHtml(profile.title || '')}</div>
           </div>
 
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Contact</div>
-            <div style="font-size: 0.75rem; color: #E2E8F0; display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Contact</div>
+            <div style="font-size: var(--text-xs); color: #E2E8F0; display: flex; flex-direction: column; gap: 6px;">
               ${profile.phone ? `<div>📱 ${escapeHtml(profile.phone)}</div>` : ''}
               ${profile.email ? `<div>✉️ ${escapeHtml(profile.email)}</div>` : ''}
               ${profile.address ? `<div>📍 ${escapeHtml(profile.address)}</div>` : ''}
@@ -1039,11 +1039,11 @@
 
           ${safeSkills.length > 0 ? `
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Technical Stack</div>
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Technical Stack</div>
             <div style="display: flex; flex-direction: column; gap: 8px;">
               ${safeSkills.slice(0, 7).map(s => `
                 <div>
-                  <div style="font-size: 0.72rem; color: #FFFFFF; margin-bottom: 2px;">${escapeHtml(s)}</div>
+                  <div style="font-size: var(--text-xs); color: #FFFFFF; margin-bottom: 2px;">${escapeHtml(s)}</div>
                   <div style="height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden;">
                     <div style="width: 85%; height: 100%; background: var(--resume-accent);"></div>
                   </div>
@@ -1054,8 +1054,8 @@
 
           ${safeLanguages.length > 0 ? `
           <div>
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Languages</div>
-            <div style="font-size: 0.75rem; color: #E2E8F0; display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Languages</div>
+            <div style="font-size: var(--text-xs); color: #E2E8F0; display: flex; flex-direction: column; gap: 6px;">
               ${safeLanguages.map(l => `<div>• ${escapeHtml(l)}</div>`).join('')}
             </div>
           </div>` : ''}
@@ -1064,53 +1064,53 @@
         <div class="resume-right-pane">
           ${profile.objective ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">About Me</h3>
-            <p style="font-size: 0.85rem; color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
+            <h3 style="font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 6px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">About Me</h3>
+            <p style="font-size: var(--text-sm); color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
           </div>` : ''}
 
           ${safeProjects.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Featured Projects</h3>
+            <h3 style="font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Featured Projects</h3>
             ${safeProjects.map(p => `
               <div style="margin-bottom: 10px; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 14px;">
-                <div style="font-weight: 800; font-size: 0.88rem; color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: 0.75rem; color: var(--resume-accent); font-weight: 600;">| ' + escapeHtml(p.tech) + '</span>' : ''}</div>
-                <div style="font-size: 0.8rem; color: #475569; line-height: 1.5; margin-top: 2px;">${escapeHtml(p.desc || '')}</div>
+                <div style="font-weight: 800; font-size: var(--text-base); color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: var(--text-xs); color: var(--resume-accent); font-weight: 600;">| ' + escapeHtml(p.tech) + '</span>' : ''}</div>
+                <div style="font-size: var(--text-sm); color: #475569; line-height: 1.5; margin-top: 2px;">${escapeHtml(p.desc || '')}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeExperience.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Work &amp; Internships</h3>
+            <h3 style="font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Work &amp; Internships</h3>
             ${safeExperience.map(x => `
               <div style="margin-bottom: 8px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                   <span>${escapeHtml(x.role || '')}${x.company ? ' — ' + escapeHtml(x.company) : ''}</span>
                   <span style="color: #64748B; font-weight: 600;">${escapeHtml(x.duration || '')}</span>
                 </div>
-                <div style="font-size: 0.8rem; color: #475569;">${escapeHtml(x.desc || '')}</div>
+                <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(x.desc || '')}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeEducation.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Education</h3>
+            <h3 style="font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Education</h3>
             ${safeEducation.map(e => `
               <div style="margin-bottom: 10px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                   <span>${escapeHtml(e.degree || '')}</span>
                   <span style="color: #64748B; font-weight: 600;">${escapeHtml(e.year || '')}</span>
                 </div>
-                <div style="font-size: 0.8rem; color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <span style="color: var(--resume-accent); font-weight: 700;">' + escapeHtml(e.grade) + '</span>' : ''}</div>
+                <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <span style="color: var(--resume-accent); font-weight: 700;">' + escapeHtml(e.grade) + '</span>' : ''}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeAchievements.length > 0 ? `
           <div>
-            <h3 style="font-size: 1rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Certifications &amp; Achievements</h3>
-            <ul style="margin: 0; padding-left: 18px; font-size: 0.8rem; color: #334155; line-height: 1.6;">
+            <h3 style="font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 10px 0; border-bottom: 2px solid var(--resume-accent); padding-bottom: 4px;">Certifications &amp; Achievements</h3>
+            <ul style="margin: 0; padding-left: 18px; font-size: var(--text-sm); color: #334155; line-height: 1.6;">
               ${safeAchievements.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
             </ul>
           </div>` : ''}
@@ -1122,16 +1122,16 @@
       resumeContainer.innerHTML = `
         <div class="resume-left-pane">
           <div style="text-align: center; margin-bottom: 24px;">
-            <div style="width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,0.2); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin: 0 auto 12px; border: 2px solid #FFFFFF;">
+            <div style="width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,0.2); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); font-weight: 800; margin: 0 auto 12px; border: 2px solid #FFFFFF;">
               ${escapeHtml(initial)}
             </div>
-            <h2 style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF; margin: 0 0 4px 0;">${escapeHtml(profile.fullName || 'Your Name')}</h2>
-            <div style="font-size: 0.78rem; color: rgba(255,255,255,0.85);">${escapeHtml(profile.title || '')}</div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; color: #FFFFFF; margin: 0 0 4px 0;">${escapeHtml(profile.fullName || 'Your Name')}</h2>
+            <div style="font-size: var(--text-sm); color: rgba(255,255,255,0.85);">${escapeHtml(profile.title || '')}</div>
           </div>
 
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Contact</div>
-            <div style="font-size: 0.75rem; color: #FFFFFF; display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Contact</div>
+            <div style="font-size: var(--text-xs); color: #FFFFFF; display: flex; flex-direction: column; gap: 6px;">
               ${profile.phone ? `<div>📱 ${escapeHtml(profile.phone)}</div>` : ''}
               ${profile.email ? `<div>✉️ ${escapeHtml(profile.email)}</div>` : ''}
               ${profile.address ? `<div>📍 ${escapeHtml(profile.address)}</div>` : ''}
@@ -1142,11 +1142,11 @@
 
           ${safeSkills.length > 0 ? `
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Skills</div>
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Skills</div>
             <div style="display: flex; flex-direction: column; gap: 8px;">
               ${safeSkills.slice(0, 6).map(s => `
                 <div>
-                  <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #FFFFFF; margin-bottom: 2px;">
+                  <div style="display: flex; justify-content: space-between; font-size: var(--text-xs); color: #FFFFFF; margin-bottom: 2px;">
                     <span>${escapeHtml(s)}</span>
                     <span>85%</span>
                   </div>
@@ -1160,8 +1160,8 @@
 
           ${safeLanguages.length > 0 ? `
           <div>
-            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Languages</div>
-            <div style="font-size: 0.75rem; color: #FFFFFF; display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px;">Languages</div>
+            <div style="font-size: var(--text-xs); color: #FFFFFF; display: flex; flex-direction: column; gap: 6px;">
               ${safeLanguages.map(l => `<div>• ${escapeHtml(l)}</div>`).join('')}
             </div>
           </div>` : ''}
@@ -1170,53 +1170,53 @@
         <div class="resume-right-pane">
           ${profile.objective ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--resume-primary); margin: 0 0 6px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Career Objective</h3>
-            <p style="font-size: 0.85rem; color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--resume-primary); margin: 0 0 6px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Career Objective</h3>
+            <p style="font-size: var(--text-sm); color: #334155; line-height: 1.6; margin: 0;">${escapeHtml(profile.objective)}</p>
           </div>` : ''}
 
           ${safeEducation.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Education</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Education</h3>
             ${safeEducation.map(e => `
               <div style="margin-bottom: 10px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                   <span>${escapeHtml(e.degree || '')}</span>
                   <span style="color: #64748B; font-weight: 600;">${escapeHtml(e.year || '')}</span>
                 </div>
-                <div style="font-size: 0.8rem; color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <span style="color: var(--resume-primary); font-weight: 700;">' + escapeHtml(e.grade) + '</span>' : ''}</div>
+                <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(e.school || '')}${e.grade ? ' • <span style="color: var(--resume-primary); font-weight: 700;">' + escapeHtml(e.grade) + '</span>' : ''}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeProjects.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Projects</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Projects</h3>
             ${safeProjects.map(p => `
               <div style="margin-bottom: 10px;">
-                <div style="font-weight: 800; font-size: 0.88rem; color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: 0.75rem; color: #64748B; font-weight: 600;">| ' + escapeHtml(p.tech) + '</span>' : ''}</div>
-                <div style="font-size: 0.8rem; color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
+                <div style="font-weight: 800; font-size: var(--text-base); color: #0F172A;">${escapeHtml(p.title || '')}${p.tech ? ' <span style="font-size: var(--text-xs); color: #64748B; font-weight: 600;">| ' + escapeHtml(p.tech) + '</span>' : ''}</div>
+                <div style="font-size: var(--text-sm); color: #475569; line-height: 1.5;">${escapeHtml(p.desc || '')}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeExperience.length > 0 ? `
           <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Experience / Internship</h3>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Experience / Internship</h3>
             ${safeExperience.map(x => `
               <div style="margin-bottom: 8px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: #0F172A;">
+                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: var(--text-base); color: #0F172A;">
                   <span>${escapeHtml(x.role || '')}${x.company ? ' — ' + escapeHtml(x.company) : ''}</span>
                   <span style="color: #64748B; font-weight: 600;">${escapeHtml(x.duration || '')}</span>
                 </div>
-                <div style="font-size: 0.8rem; color: #475569;">${escapeHtml(x.desc || '')}</div>
+                <div style="font-size: var(--text-sm); color: #475569;">${escapeHtml(x.desc || '')}</div>
               </div>
             `).join('')}
           </div>` : ''}
 
           ${safeAchievements.length > 0 ? `
           <div>
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Certifications</h3>
-            <ul style="margin: 0; padding-left: 18px; font-size: 0.8rem; color: #334155; line-height: 1.6;">
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--resume-primary); margin: 0 0 10px 0; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 4px;">Certifications</h3>
+            <ul style="margin: 0; padding-left: 18px; font-size: var(--text-sm); color: #334155; line-height: 1.6;">
               ${safeAchievements.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
             </ul>
           </div>` : ''}

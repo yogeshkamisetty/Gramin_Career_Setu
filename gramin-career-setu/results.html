@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/saas.css" />
   <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="data/survey-data.js" defer></script>
@@ -136,36 +137,36 @@
   <!-- ============================================================
        MAIN CONTENT CONTAINER
        ============================================================ -->
-  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 64px;">
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
     
 
     <!-- Breadcrumb & Timeframe Selector -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-      <nav class="gcs-breadcrumb" style="margin-bottom: 0;" aria-label="Breadcrumb">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+      <nav class="gcs-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0">
         <a href="index.html" data-lang-key="nav-home">Home</a>
         <span class="gcs-breadcrumb-sep">&gt;</span>
         <span class="gcs-breadcrumb-current">Impact Dashboard</span>
       </nav>
 
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 6px 12px; font-size: 0.85rem;">
-          <span class="material-symbols-outlined" style="font-size: 16px;">print</span>
+      <div class="ui-icon-row">
+        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">print</span>
           <span>Print Report</span>
         </button>
       </div>
     </div>
 
     <!-- Hero Header Banner -->
-    <section class="gcs-page-hero" style="margin-bottom: 24px;">
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
       <div class="gcs-page-hero-content">
         <h1 class="gcs-page-hero-title" data-lang-key="heading-results">
-          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">insights</span>
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">insights</span>
           <span data-lang-text>Impact Dashboard</span>
         </h1>
         <p class="gcs-page-hero-desc">Before-and-after survey results from our career-guidance workshops.</p>
         <p class="gcs-page-hero-telugu">మా కెరీర్ మార్గదర్శక వర్క్‌షాప్ల ముందు-తర్వాత సర్వే ఫలితాలు.</p>
       </div>
-      <div class="gcs-page-hero-visual" style="max-width: 260px;">
+      <div class="gcs-page-hero-visual" style="max-width: 260px">
         <img src="assets/impact-hero-growth.svg" alt="Impact Dashboard Growth" loading="lazy" />
       </div>
     </section>
@@ -180,19 +181,19 @@
          ============================================================ -->
 
     <!-- Empty state — shown until a real survey is recorded -->
-    <section id="surveyPending" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 28px 24px; margin-bottom: 28px;">
-      <div style="display: flex; align-items: flex-start; gap: 14px;">
-        <span class="material-symbols-outlined" style="color: #D97706; font-size: 28px; flex-shrink: 0;">assignment_late</span>
+    <section id="surveyPending" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px 24px; margin-bottom: 24px">
+      <div style="display: flex; align-items: flex-start; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">assignment_late</span>
         <div>
-          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">No survey data recorded yet</h2>
-          <p style="font-size: 0.95rem; font-weight: 700; color: #92400E; margin: 0 0 10px 0;">సర్వే డేటా ఇంకా నమోదు కాలేదు</p>
-          <p style="font-size: 0.88rem; color: #475569; margin: 0 0 8px 0; max-width: 70ch;">
+          <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">No survey data recorded yet</h2>
+          <p style="font-size: var(--text-base); font-weight: 700; color: #92400E; margin: 0 0 8px 0">సర్వే డేటా ఇంకా నమోదు కాలేదు</p>
+          <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 8px 0; max-width: 70ch">
             This dashboard reports the change in students' career awareness measured before and
             after our workshops. It will stay empty until a workshop has actually been conducted
             and its paper survey responses have been entered into
-            <code style="background: #FEF3C7; padding: 1px 5px; border-radius: 4px;">data/survey-data.js</code>.
+            <code style="background: #FEF3C7; padding: 0 4px; border-radius: 4px">data/survey-data.js</code>.
           </p>
-          <p style="font-size: 0.85rem; color: #64748B; margin: 0; max-width: 70ch;">
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; max-width: 70ch">
             ఈ డాష్‌బోర్డ్ మా వర్క్‌షాప్‌లకు ముందు మరియు తర్వాత విద్యార్థుల కెరీర్ అవగాహనలో వచ్చిన మార్పును
             చూపుతుంది. నిజమైన వర్క్‌షాప్ నిర్వహించి, సర్వే సమాధానాలు నమోదు చేసే వరకు ఇది ఖాళీగా ఉంటుంది.
           </p>
@@ -201,30 +202,30 @@
     </section>
 
     <!-- Results — shown only when data/survey-data.js contains real responses -->
-    <section id="surveyResults" hidden style="margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
-        <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Awareness before vs. after the workshops</h2>
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 6px 0;">వర్క్‌షాప్‌లకు ముందు మరియు తర్వాత అవగాహన</p>
-        <p id="surveySummary" style="font-size: 0.85rem; color: #64748B; margin: 0;"></p>
+    <section id="surveyResults" hidden style="margin-bottom: 24px">
+      <div class="ui-card" style="margin-bottom: 20px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Awareness before vs. after the workshops</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px 0">వర్క్‌షాప్‌లకు ముందు మరియు తర్వాత అవగాహన</p>
+        <p id="surveySummary" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0"></p>
       </div>
 
       <!-- One card per metric, filled by renderSurvey() -->
-      <div id="surveyMetrics" style="display: grid; gap: 16px;"></div>
+      <div id="surveyMetrics" style="display: grid; gap: 16px"></div>
     </section>
 
     <!-- Workshops conducted — rendered from the same file -->
-    <section id="surveyWorkshops" hidden style="margin-bottom: 28px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Workshops conducted</h2>
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 14px 0;">నిర్వహించిన వర్క్‌షాప్‌లు</p>
-        <div style="overflow-x: auto;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+    <section id="surveyWorkshops" hidden style="margin-bottom: 24px">
+      <div class="ui-card">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Workshops conducted</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 12px 0">నిర్వహించిన వర్క్‌షాప్‌లు</p>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm); text-align: left">
             <thead>
-              <tr style="border-bottom: 1.5px solid #E2E8F0; color: #64748B;">
-                <th scope="col" style="padding: 8px 6px;">Date</th>
-                <th scope="col" style="padding: 8px 6px;">Village</th>
-                <th scope="col" style="padding: 8px 6px;">District</th>
-                <th scope="col" style="padding: 8px 6px; text-align: right;">Participants</th>
+              <tr style="border-bottom: 1.5px solid #E2E8F0; color: var(--color-text-muted)">
+                <th scope="col" style="padding: 8px 4px">Date</th>
+                <th scope="col" style="padding: 8px 4px">Village</th>
+                <th scope="col" style="padding: 8px 4px">District</th>
+                <th scope="col" style="padding: 8px 4px; text-align: right">Participants</th>
               </tr>
             </thead>
             <tbody id="surveyWorkshopRows"></tbody>
@@ -235,30 +236,30 @@
 
     <!-- Methodology & survey instrument — always visible, so the numbers above
          (or their absence) can always be checked against how they were gathered -->
-    <section style="margin-bottom: 28px;">
-      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
-        <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">How this is measured</h2>
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0;">ఇది ఎలా కొలుస్తారు</p>
+    <section style="margin-bottom: 24px">
+      <div style="background: var(--color-surface-sunken); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">How this is measured</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0">ఇది ఎలా కొలుస్తారు</p>
 
-        <h3 style="font-size: 0.95rem; font-weight: 800; color: #0F172A; margin: 0 0 8px 0;">The three survey questions</h3>
-        <ol id="surveyInstrument" style="margin: 0 0 18px 0; padding-left: 22px; font-size: 0.86rem; color: #475569; display: flex; flex-direction: column; gap: 10px;"></ol>
+        <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0">The three survey questions</h3>
+        <ol id="surveyInstrument" style="margin: 0 0 16px 0; padding-left: 20px; font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 8px"></ol>
 
-        <dl style="margin: 0; font-size: 0.85rem; color: #475569; display: flex; flex-direction: column; gap: 12px;">
+        <dl style="margin: 0; font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 12px">
           <div>
-            <dt style="font-weight: 800; color: #0F172A; margin-bottom: 2px;">Instrument</dt>
-            <dd id="methodInstrument" style="margin: 0;"></dd>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Instrument</dt>
+            <dd id="methodInstrument" style="margin: 0"></dd>
           </div>
           <div>
-            <dt style="font-weight: 800; color: #0F172A; margin-bottom: 2px;">Consent &amp; privacy</dt>
-            <dd id="methodConsent" style="margin: 0;"></dd>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Consent &amp; privacy</dt>
+            <dd id="methodConsent" style="margin: 0"></dd>
           </div>
           <div>
-            <dt style="font-weight: 800; color: #0F172A; margin-bottom: 2px;">Collected by</dt>
-            <dd id="methodCollectedBy" style="margin: 0;"></dd>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Collected by</dt>
+            <dd id="methodCollectedBy" style="margin: 0"></dd>
           </div>
           <div>
-            <dt style="font-weight: 800; color: #0F172A; margin-bottom: 2px;">Counting rule</dt>
-            <dd style="margin: 0;">
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Counting rule</dt>
+            <dd style="margin: 0">
               Only students who answered both the before and the after survey are counted.
               Percentages are of that matched group, not of total attendance.
             </dd>
@@ -316,8 +317,8 @@
         function renderInstrument() {
           if (!instrumentEl || !survey || !survey.metrics) return;
           instrumentEl.innerHTML = survey.metrics.map(function (m) {
-            return '<li><strong style="color:#0F172A;">' + esc(m.question_en) + '</strong>'
-              + '<br /><span style="color:#64748B;">' + esc(m.question_te) + '</span></li>';
+            return '<li><strong style="color: var(--color-text-primary)">' + esc(m.question_en) + '</strong>'
+              + '<br /><span style="color: var(--color-text-muted)">' + esc(m.question_te) + '</span></li>';
           }).join('');
         }
 
@@ -342,25 +343,25 @@
 
           function bar(label, value, count, color, bg) {
             return ''
-              + '<div style="margin-bottom: 10px;">'
-              +   '<div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#475569; margin-bottom:4px;">'
-              +     '<span style="font-weight:700;">' + label + '</span>'
-              +     '<span>' + value + '% <span style="color:#94A3B8;">(' + count + ' of ' + m.respondents + ')</span></span>'
+              + '<div style="margin-bottom: 8px">'
+              +   '<div style="display: flex; justify-content: space-between; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 4px">'
+              +     '<span style="font-weight: 700">' + label + '</span>'
+              +     '<span>' + value + '% <span style="color: #94A3B8">(' + count + ' of ' + m.respondents + ')</span></span>'
               +   '</div>'
               +   '<div role="img" aria-label="' + label + ': ' + value + ' percent" '
               +        'style="background:' + bg + '; border-radius:6px; height:14px; overflow:hidden;">'
-              +     '<div style="width:' + value + '%; height:100%; background:' + color + '; border-radius:6px;"></div>'
+              +     '<div style="width: ' + value + '%; height: 100%; background: ' + color + '; border-radius: 6px"></div>'
               +   '</div>'
               + '</div>';
           }
 
           return ''
-            + '<div style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:22px;">'
-            +   '<h3 style="font-size:0.98rem; font-weight:800; color:#0F172A; margin:0 0 2px 0;">' + esc(m.question_en) + '</h3>'
-            +   '<p style="font-size:0.85rem; color:#64748B; margin:0 0 16px 0;">' + esc(m.question_te) + '</p>'
+            + '<div class="ui-card">'
+            +   '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">' + esc(m.question_en) + '</h3>'
+            +   '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px 0">' + esc(m.question_te) + '</p>'
             +   bar('Before workshop', before, m.beforeYes, '#94A3B8', '#F1F5F9')
             +   bar('After workshop', after, m.afterYes, '#059669', '#ECFDF5')
-            +   '<p style="font-size:0.82rem; font-weight:700; color:' + (delta > 0 ? '#047857' : '#64748B') + '; margin:6px 0 0 0;">'
+            +   '<p style="font-size: var(--text-sm); font-weight: 700; color: ' + (delta > 0 ? '#047857' : '#64748B') + '; margin: 4px 0 0 0">'
             +     'Change: ' + deltaLabel
             +   '</p>'
             + '</div>';
@@ -371,11 +372,11 @@
           var rows = document.getElementById('surveyWorkshopRows');
           if (!rows) return;
           rows.innerHTML = survey.workshops.map(function (w) {
-            return '<tr style="border-bottom:1px solid #F1F5F9;">'
-              + '<td style="padding:10px 6px; color:#475569;">' + esc(w.date) + '</td>'
-              + '<td style="padding:10px 6px; font-weight:700; color:#0F172A;">' + esc(w.village) + '</td>'
-              + '<td style="padding:10px 6px; color:#64748B;">' + esc(w.district) + '</td>'
-              + '<td style="padding:10px 6px; text-align:right; font-weight:700; color:#0F172A;">' + esc(w.participants) + '</td>'
+            return '<tr style="border-bottom: 1px solid #F1F5F9">'
+              + '<td style="padding: 8px 4px; color: var(--color-text-secondary)">' + esc(w.date) + '</td>'
+              + '<td style="padding: 8px 4px; font-weight: 700; color: var(--color-text-primary)">' + esc(w.village) + '</td>'
+              + '<td style="padding: 8px 4px; color: var(--color-text-muted)">' + esc(w.district) + '</td>'
+              + '<td style="padding: 8px 4px; text-align: right; font-weight: 700; color: var(--color-text-primary)">' + esc(w.participants) + '</td>'
               + '</tr>';
           }).join('');
           workshopsEl.hidden = false;
@@ -442,7 +443,7 @@
           <h4 data-lang-key="footer-important">Important Links</h4>
           <ul class="gcs-footer-links">
             <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
-            <li><a href="https://pmkvyofficial.org" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
             <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
             <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
             <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
