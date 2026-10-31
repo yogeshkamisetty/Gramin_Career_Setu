@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
+    /* Pre-render Auth Guard: conceal page and redirect immediately if unauthenticated */
+    (function(){
+      try {
+        var u = localStorage.getItem('gcs_auth_user');
+        if (!u) {
+          document.documentElement.style.display = 'none';
+          var next = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.replace('login.html?next=' + next);
+        }
+      } catch(e) {}
+    })();
+
     /* Set the language before first paint so the page never flashes
        the wrong script. The full dictionary sweep runs in i18n.js. */
     (function(){try{var l=localStorage.getItem('gcs-lang');

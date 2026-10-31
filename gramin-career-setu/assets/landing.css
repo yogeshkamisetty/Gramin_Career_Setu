@@ -2489,7 +2489,8 @@
 /* ============================================================
    WORKSHOPS & EVENTS STYLES
    ============================================================ */
-.gcs-workshops-grid-4 {
+.gcs-workshops-grid-4,
+.gcs-scholarships-grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -2605,7 +2606,8 @@
   .gcs-templates-grid-5 {
     grid-template-columns: repeat(3, 1fr);
   }
-  .gcs-workshops-grid-4 {
+  .gcs-workshops-grid-4,
+  .gcs-scholarships-grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -2617,7 +2619,8 @@
   .gcs-templates-grid-5 {
     grid-template-columns: repeat(2, 1fr);
   }
-  .gcs-workshops-grid-4 {
+  .gcs-workshops-grid-4,
+  .gcs-scholarships-grid-4 {
     grid-template-columns: 1fr;
   }
 }
@@ -2906,24 +2909,35 @@
     gap: 8px;
   }
 
-  /* Brand yields space first and truncates. */
+  /* Brand preserves full visibility without crowding */
   .gcs-brand {
     min-width: 0;
     flex: 1 1 auto;
-    overflow: hidden;
+    overflow: visible;
+    gap: 6px;
+  }
+
+  .gcs-brand-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    border-radius: 8px;
+    flex-shrink: 0;
   }
 
   .gcs-brand-meta {
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .gcs-brand-title {
-    font-size: 0.92rem;
+    font-size: clamp(0.78rem, 3.4vw, 0.95rem);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
   /* Tagline is decorative — the logo and title already identify the site. */
@@ -3024,5 +3038,114 @@ body {
   .gcs-filter-grid > * {
     width: 100%;
     min-width: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .gcs-lang-group {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  .gcs-lang-pill:not(.active) {
+    display: none; /* Show active lang on 375px so Telugu brand title never truncates */
+  }
+}
+
+/* Cross-Device Aspect Ratio Perfection */
+.gcs-card img,
+.gcs-job-card img,
+.gcs-workshop-card img,
+.gcs-scheme-card img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.gcs-hero-illustration,
+.hero-svg-img {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+/* Responsive Roadmap Grids */
+.gcs-roadmap-input-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.gcs-roadmap-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.gcs-roadmap-badges-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  border-top: 1px solid #F1F5F9;
+  padding-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .gcs-roadmap-grid-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .gcs-roadmap-input-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gcs-roadmap-badges-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .gcs-roadmap-input-grid {
+    grid-template-columns: 1fr;
+  }
+  .gcs-roadmap-grid-6 {
+    grid-template-columns: 1fr;
+  }
+  .gcs-roadmap-badges-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Universal Cross-Device & Responsive Grid Reflow Safeguards */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 992px) {
+  [style*="grid-template-columns: repeat(6, 1fr)"],
+  [style*="grid-template-columns: repeat(5, 1fr)"],
+  [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [style*="grid-template-columns: repeat(6, 1fr)"],
+  [style*="grid-template-columns: repeat(5, 1fr)"],
+  [style*="grid-template-columns: repeat(4, 1fr)"],
+  [style*="grid-template-columns: repeat(3, 1fr)"],
+  [style*="grid-template-columns: 1fr 1fr"],
+  [style*="grid-template-columns: repeat(2, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gcs-container {
+    padding: 0 14px;
   }
 }

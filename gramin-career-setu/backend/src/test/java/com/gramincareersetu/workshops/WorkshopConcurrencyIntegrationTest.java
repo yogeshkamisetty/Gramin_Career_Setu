@@ -152,7 +152,7 @@ class WorkshopConcurrencyIntegrationTest {
         // Cancel 1st participant
         mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/cancel")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CancelWorkshopRequest(phone1))))
+                        .content(objectMapper.writeValueAsString(new CancelWorkshopRequest(phone1, "IDEMP-C1"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success", is(true)));
 

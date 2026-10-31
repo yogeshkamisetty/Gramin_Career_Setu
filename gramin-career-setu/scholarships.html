@@ -175,8 +175,8 @@
 
       <div class="gcs-filter-grid gcs-filter-grid--sch">
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Qualification</label>
-          <select id="schQual" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
+          <label for="schQual" style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Qualification</label>
+          <select id="schQual" aria-label="Select Qualification" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
             <option value="all">All Qualifications</option>
             <option value="10th" selected>10th Passed</option>
             <option value="inter">Intermediate / 12th</option>
@@ -185,8 +185,8 @@
         </div>
 
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Category</label>
-          <select id="schCat" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
+          <label for="schCat" style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Category</label>
+          <select id="schCat" aria-label="Select Category" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
             <option value="all">All Categories</option>
             <option value="obc" selected>OBC / BC</option>
             <option value="sc">SC</option>
@@ -196,8 +196,8 @@
         </div>
 
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Gender</label>
-          <select id="schGen" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
+          <label for="schGen" style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Gender</label>
+          <select id="schGen" aria-label="Select Gender" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
             <option value="all">All Genders</option>
             <option value="male" selected>Male</option>
             <option value="female">Female (Girl Child Schemes)</option>
@@ -205,8 +205,8 @@
         </div>
 
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Annual Family Income</label>
-          <select id="schInc" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
+          <label for="schInc" style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Annual Family Income</label>
+          <select id="schInc" aria-label="Select Annual Family Income" class="gcs-form-input" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;" onchange="filterScholarshipCards()">
             <option value="all">Any Income</option>
             <option value="2.5" selected>Below ₹2,50,000</option>
             <option value="5.0">Below ₹5,00,000</option>
@@ -226,8 +226,8 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
       <div style="font-size: 0.95rem; font-weight: 700; color: #0F172A;" id="schCount">Showing 12 scholarships</div>
       <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #64748B;">
-        <span data-lang-key="label-sort-by">Sort by:</span>
-        <select style="padding: 4px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 0.82rem;">
+        <label for="schSort" data-lang-key="label-sort-by">Sort by:</label>
+        <select id="schSort" aria-label="Sort scholarships" style="padding: 4px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 0.82rem;">
           <option>Deadline Soon</option>
           <option>Highest Amount</option>
           <option>Newest Added</option>
@@ -236,7 +236,7 @@
     </div>
 
     <!-- Scholarship Cards (4 Grid) -->
-    <div id="scholarshipsGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 36px;">
+    <div id="scholarshipsGrid" class="gcs-scholarships-grid-4">
       
       <!-- Card 1 -->
       <article class="scholarship-card-item" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">

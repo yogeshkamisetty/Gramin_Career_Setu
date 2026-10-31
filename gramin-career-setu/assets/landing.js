@@ -97,17 +97,6 @@
   };
 
   // Video Testimonial Modal
-  window.openStoryVideo = function (name, district, role, desc) {
-    const nameEl = document.getElementById('storyModalName');
-    const roleEl = document.getElementById('storyModalRole');
-    const descEl = document.getElementById('storyModalDesc');
-
-    if (nameEl) nameEl.textContent = `${name} (${district})`;
-    if (roleEl) roleEl.textContent = role;
-    if (descEl) descEl.textContent = `"${desc}"`;
-
-    window.openGcsModal('storyVideoModal');
-  };
 
   // 4A Framework Modal
   window.openFrameworkDetail = function (pillarKey) {

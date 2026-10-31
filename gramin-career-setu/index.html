@@ -285,8 +285,9 @@
               <span class="material-symbols-outlined">work</span>
             </div>
             <div>
-              <!-- Keep in step with JOBS_DATABASE in assets/app.js -->
-              <div class="gcs-metric-num">6</div>
+              <!-- Count of roles in data/jobs.csv; regenerate with
+                   node scripts/build-jobs-data.js after editing the CSV -->
+              <div class="gcs-metric-num">22</div>
               <div class="gcs-metric-label" data-lang-key="metric-jobs">Job Resources</div>
             </div>
           </div>
@@ -469,104 +470,41 @@
 
     <!-- ============================================================
          SUCCESS STORIES
+         ------------------------------------------------------------
+         Three named students with photographs and video-story buttons
+         (Ramesh / Lalitha / Suresh) used to sit here, introduced as "Real
+         youth from rural Andhra Pradesh & Telangana". They were written as
+         examples, not collected from real participants, so they have been
+         removed: this is the landing page of a Community Service Project and
+         it must not claim outcomes that did not happen.
+
+         Stories return here from stories.html once a real participant has
+         given written consent. See the checklist on that page.
          ============================================================ -->
     <section class="gcs-section" id="stories" aria-labelledby="stories-title">
       <div class="gcs-container">
         <div class="gcs-section-header">
           <div>
             <h2 class="gcs-section-title" id="stories-title" data-lang-key="stories-heading">Success Stories</h2>
-            <p class="gcs-section-sub" data-lang-key="stories-sub">Real youth from rural Andhra Pradesh & Telangana building their dreams.</p>
+            <p class="gcs-section-sub">Journeys of students from our workshops — published with their consent.</p>
           </div>
         </div>
 
-        <div class="gcs-stories-grid">
-          
-          <!-- Story 1: Ramesh -->
-          <div class="gcs-story-card">
-            <div class="gcs-story-photo-box">
-              <img src="assets/profile-ramesh.jpg" alt="Ramesh - Junior Engineer" class="gcs-story-photo" loading="lazy" />
-              <button
-                type="button"
-                class="gcs-story-play-btn"
-                aria-label="Play Ramesh's story video"
-                onclick="openStoryVideo('Ramesh', 'Palnadu District', 'Junior Engineer (AP Government)', 'How Gramin Career Setu guided me for the AP Government examination and document preparation.')"
-              >
-                <span class="material-symbols-outlined fill-1" style="font-size: 16px;">play_arrow</span>
-              </button>
-            </div>
-            <div class="gcs-story-content">
-              <div>
-                <div class="gcs-story-name" data-lang-key="story-ramesh-name">Ramesh</div>
-                <div class="gcs-story-district" data-lang-key="story-ramesh-district">Palnadu District</div>
-              </div>
-              <div class="gcs-story-role" data-lang-key="story-ramesh-role">Junior Engineer (AP Government)</div>
-              <p class="gcs-story-quote" data-lang-key="story-ramesh-quote">"The workshop changed my life. Now I have a government job."</p>
-            </div>
-          </div>
-
-          <!-- Story 2: Lalitha -->
-          <div class="gcs-story-card">
-            <div class="gcs-story-photo-box">
-              <img src="assets/profile-lalitha.jpg" alt="Lalitha - Staff Nurse" class="gcs-story-photo" loading="lazy" />
-              <button
-                type="button"
-                class="gcs-story-play-btn"
-                aria-label="Play Lalitha's story video"
-                onclick="openStoryVideo('Lalitha', 'Srikakulam District', 'Staff Nurse (Government Hospital)', 'From confusion after 12th to completing ANM training and serving in the Government Hospital.')"
-              >
-                <span class="material-symbols-outlined fill-1" style="font-size: 16px;">play_arrow</span>
-              </button>
-            </div>
-            <div class="gcs-story-content">
-              <div>
-                <div class="gcs-story-name" data-lang-key="story-lalitha-name">Lalitha</div>
-                <div class="gcs-story-district" data-lang-key="story-lalitha-district">Srikakulam District</div>
-              </div>
-              <div class="gcs-story-role" data-lang-key="story-lalitha-role">Staff Nurse (Government Hospital)</div>
-              <p class="gcs-story-quote" data-lang-key="story-lalitha-quote">"Skill training and guidance helped me become a nurse."</p>
-            </div>
-          </div>
-
-          <!-- Story 3: Suresh -->
-          <div class="gcs-story-card">
-            <div class="gcs-story-photo-box">
-              <img src="assets/profile-suresh.jpg" alt="Suresh - Entrepreneur" class="gcs-story-photo" loading="lazy" />
-              <button
-                type="button"
-                class="gcs-story-play-btn"
-                aria-label="Play Suresh's story video"
-                onclick="openStoryVideo('Suresh', 'Anantapur District', 'Entrepreneur (Agri Startup)', 'Starting a micro Agri-Tech drip service using Mudra Loan with 0 middlemen.')"
-              >
-                <span class="material-symbols-outlined fill-1" style="font-size: 16px;">play_arrow</span>
-              </button>
-            </div>
-            <div class="gcs-story-content">
-              <div>
-                <div class="gcs-story-name" data-lang-key="story-suresh-name">Suresh</div>
-                <div class="gcs-story-district" data-lang-key="story-suresh-district">Anantapur District</div>
-              </div>
-              <div class="gcs-story-role" data-lang-key="story-suresh-role">Entrepreneur (Agri Startup)</div>
-              <p class="gcs-story-quote" data-lang-key="story-suresh-quote">"I started my own business with Mudra Loan support."</p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Carousel Navigation Controls -->
-        <div class="gcs-carousel-nav" aria-hidden="true">
-          <button type="button" class="gcs-carousel-arrow" aria-label="Previous Story">
-            <span class="material-symbols-outlined">chevron_left</span>
-          </button>
-          <div class="gcs-carousel-dots">
-            <span class="gcs-dot active"></span>
-            <span class="gcs-dot"></span>
-            <span class="gcs-dot"></span>
-            <span class="gcs-dot"></span>
-            <span class="gcs-dot"></span>
-          </div>
-          <button type="button" class="gcs-carousel-arrow" aria-label="Next Story">
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
+        <div style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 16px; padding: 32px 24px; text-align: center;">
+          <span class="material-symbols-outlined" style="font-size: 40px; color: #94A3B8;">history_edu</span>
+          <h3 style="margin: 10px 0 6px; font-size: 1.05rem; font-weight: 800; color: #0F172A;">
+            Our first workshops are still ahead
+          </h3>
+          <p style="margin: 0 0 4px; font-size: 0.9rem; color: #475569;">
+            We will publish a student’s journey here only after they have taken part and
+            agreed to share it. Nothing on this page is an illustration.
+          </p>
+          <p style="margin: 0 0 16px; font-size: 0.86rem; color: #64748B;">
+            వర్క్‌షాప్‌లో పాల్గొని, అనుమతి ఇచ్చిన విద్యార్థుల కథలను మాత్రమే ప్రజురిస్తాము.
+          </p>
+          <a href="workshops.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 10px 22px;">
+            See upcoming workshops
+          </a>
         </div>
       </div>
     </section>

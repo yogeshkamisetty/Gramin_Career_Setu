@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/landing.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/jobs-data.js" defer></script>
   <script src="assets/i18n-dict.js" defer></script>
   <script src="assets/i18n.js" defer></script>
   <script src="assets/api.js" defer></script>
@@ -145,300 +146,92 @@
       </div>
     </section>
 
-    <!-- Search & Location Row -->
+    <!-- What this list is, stated before the list itself. These are role types
+         with official portals behind them, not live vacancies we have verified. -->
+    <section style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 16px 18px; margin-bottom: 20px;">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span class="material-symbols-outlined" style="color: #2563EB; font-size: 22px; flex-shrink: 0;">info</span>
+        <div>
+          <p style="font-size: 0.86rem; color: #1E3A8A; font-weight: 700; margin: 0 0 4px 0;">
+            These are job types you can aim for — not live vacancies.
+          </p>
+          <p style="font-size: 0.84rem; color: #1E40AF; margin: 0 0 4px 0;">
+            ఇవి మీరు లక్ష్యంగా పెట్టుకోగల ఉద్యోగ రకాలు — ప్రస్తుత ఖాళీలు కాదు.
+          </p>
+          <p style="font-size: 0.8rem; color: #475569; margin: 0;">
+            Each one links to the official government or company portal where real notifications
+            are published. Always check that site for current openings, dates and exact eligibility.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Row -->
     <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 18px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); margin-bottom: 20px;">
       <div class="gcs-filter-grid gcs-filter-grid--jobs">
         <div style="position: relative;">
-          <label for="jobSearchInput" class="sr-only">Search jobs by title, company or skills</label>
-          <input type="text" id="jobSearchInput" placeholder="Search jobs by title, company or skills..." data-lang-placeholder="jobs-search-placeholder" style="width: 100%; padding: 10px 14px 10px 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none;" oninput="filterJobList()" />
+          <label for="jobSearchInput" class="sr-only">Search job roles</label>
+          <input type="text" id="jobSearchInput" placeholder="Search job roles..." data-lang-placeholder="jobs-search-placeholder" style="width: 100%; padding: 10px 14px 10px 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none;" oninput="filterJobList()" />
           <span class="material-symbols-outlined" style="position: absolute; left: 10px; top: 10px; font-size: 20px; color: #94A3B8;">search</span>
         </div>
 
+        <!-- The filter that matters most: show only what this student can apply for -->
         <div>
-          <select id="jobLocSelect" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none; background: #fff;" onchange="filterJobList()">
-            <option value="all" data-lang-key="filter-all-locations">📍 All Locations</option>
-            <option value="Hyderabad">Hyderabad, Telangana</option>
-            <option value="Bengaluru">Bengaluru, Karnataka</option>
-            <option value="Amaravati">Amaravati, AP</option>
-            <option value="Chennai">Chennai, Tamil Nadu</option>
-            <option value="Remote" data-lang-key="jobtype-remote">Remote / Work From Home</option>
+          <label for="jobEduSelect" style="display:block; font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:4px;">
+            Your education / మీ విద్యార్హత
+          </label>
+          <select id="jobEduSelect" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none; background: #fff;" onchange="filterJobList()">
+            <option value="all">All levels / అన్ని స్థాయిలు</option>
+            <option value="below10">Below 10th / 10వ తరగతి కంటే తక్కువ</option>
+            <option value="10th">10th pass / 10వ తరగతి</option>
+            <option value="inter">Intermediate / ఇంటర్మీడియట్</option>
+            <option value="iti">ITI / Diploma</option>
+            <option value="degree">Degree / డిగ్రీ</option>
           </select>
         </div>
 
         <div>
+          <label for="jobCatSelect" style="display:block; font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:4px;">
+            Category / విభాగం
+          </label>
           <select id="jobCatSelect" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.9rem; outline: none; background: #fff;" onchange="filterJobList()">
-            <option value="all" data-lang-key="filter-all-categories">💼 All Categories</option>
-            <option value="Software">Software &amp; IT</option>
-            <option value="Government">Government PSUs</option>
-            <option value="Banking">Banking &amp; Finance</option>
-            <option value="Internship" data-lang-key="jobtype-internship">Internships</option>
+            <option value="all" data-lang-key="filter-all-categories">All categories</option>
+            <option value="government">Government / ప్రభుత్వ ఉద్యోగాలు</option>
+            <option value="iti">ITI &amp; Technical / ఐటీఐ, సాంకేతిక</option>
+            <option value="bpo">BPO &amp; Service / బీపీఓ, సేవा రంగం</option>
+            <option value="business">Self-employment / స్వయం ఉపాధి</option>
           </select>
         </div>
 
-        <button type="button" class="gcs-btn-cta-1" style="padding: 10px 24px; border: none; cursor: pointer; white-space: nowrap;" onclick="filterJobList()" data-lang-key="btn-search">Search</button>
+        <button type="button" class="gcs-btn-cta-2" style="padding: 10px 20px; cursor: pointer; white-space: nowrap;" onclick="clearJobFilters()" data-lang-key="btn-clear">Clear</button>
       </div>
     </div>
-
-    <!-- Filter Pills & Sorting Row -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button type="button" class="gcs-pill-tag active" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 6px 14px;" onclick="setPill('all', this)" data-lang-key="jobtype-all">All Jobs</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Full Time', this)" data-lang-key="jobtype-fulltime">Full Time</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Internship', this)" data-lang-key="jobtype-internship">Internship</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Part Time', this)" data-lang-key="jobtype-parttime">Part Time</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="setPill('Remote', this)" data-lang-key="jobtype-remote">Work From Home</button>
-      </div>
-
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #64748B;">
-        <span data-lang-key="label-sort-by">Sort by:</span>
-        <select style="padding: 6px 10px; border-radius: 8px; border: 1px solid #CBD5E1; outline: none; font-weight: 600;">
-          <option data-lang-key="sort-newest">Newest</option>
-          <option data-lang-key="sort-salary">Highest Salary</option>
-          <option data-lang-key="sort-closing">Closing Soon</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Get Job Alerts Banner -->
-    <section class="gcs-banner-callout" style="background: #F8FAFC; border-color: #E2E8F0; margin-bottom: 24px; padding: 14px 20px;">
-      <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #F1F5F9; color: var(--gcs-green-primary); width: 40px; height: 40px;">
-          <span class="material-symbols-outlined" style="font-size: 20px;">notifications_active</span>
-        </div>
-        <div>
-          <h3 class="gcs-banner-callout-title" style="font-size: 0.95rem; color: #0F172A;">Get job alerts</h3>
-          <p class="gcs-banner-callout-sub" style="font-size: 0.82rem; color: #64748B;">Subscribe to get notified about new job openings that match your profile.</p>
-        </div>
-      </div>
-      <button type="button" class="gcs-btn-cta-2" data-subscribe-topic="jobs" style="padding: 6px 16px; font-size: 0.85rem;" data-lang-key="btn-subscribe">Subscribe</button>
-    </section>
 
     <!-- Live result count, driven by filterJobList() -->
     <div style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 16px;" id="jobsTotalCount">
-      <span id="jobsCountNum">0</span> <span data-lang-key="jobs-results-count">jobs found</span>
+      <span id="jobsCountNum">0</span> <span data-lang-key="jobs-results-count">job roles found</span>
     </div>
 
-    <!-- Job Cards List (Detailed Cards) -->
     <div id="jobsEmptyState" hidden style="text-align:center; padding:48px 20px; background:#F8FAFC; border:1px dashed #CBD5E1; border-radius:16px; margin-bottom:32px;">
       <span class="material-symbols-outlined" style="font-size:44px; color:#94A3B8;">search_off</span>
       <h3 style="margin:12px 0 6px; font-size:1.1rem; font-weight:800; color:#0F172A;" data-lang-key="jobs-empty-title">No results</h3>
-      <p style="margin:0 0 18px; font-size:0.9rem; color:#64748B;" data-lang-key="jobs-empty-desc">No jobs match this filter. Try a different filter or search term.</p>
+      <p style="margin:0 0 18px; font-size:0.9rem; color:#64748B;" data-lang-key="jobs-empty-desc">No job roles match this filter. Try a different filter or search term.</p>
       <button type="button" class="gcs-btn-cta-1" style="border:none; cursor:pointer;" onclick="clearJobFilters()" data-lang-key="btn-clear">Clear Filters</button>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;" id="jobsFeed">
-      
-      <!-- Card 1: TCS Software Developer -->
-      <article class="job-item-card" data-loc="Hyderabad" data-category="Software" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div style="display: flex; gap: 16px; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; border: 1px solid #FECDD3;">
-              tcs
-            </div>
-            <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Software Developer</h3>
-              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Tata Consultancy Services <span style="color: #059669;">✔</span></div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.78rem; color: #94A3B8;">2h ago</span>
-            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" data-bookmark-type="jobs" data-bookmark-id="tcs-software-developer" aria-label="Bookmark Job"><span class="material-symbols-outlined">bookmark_border</span></button>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;" data-lang-key="jobtype-fulltime">Full Time</span>
-          <span class="gcs-pill-tag" style="background: #F1F5F9; color: #475569; font-size: 0.75rem;">On-site</span>
-        </div>
-
-        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
-          <span>0–2 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Hyderabad, Telangana</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
-          Work on cutting-edge technologies and build scalable software solutions with our enterprise team.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Java</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Spring Boot</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">React</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
-          </div>
-          <a href="job-detail.html?job=tcs-software-developer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;" data-lang-key="btn-view-details">View Details</a>
-        </div>
-      </article>
-
-      <!-- Card 2: Infosys System Engineer -->
-      <article class="job-item-card" data-loc="Remote" data-category="Software" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div style="display: flex; gap: 16px; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; border: 1px solid #BFDBFE;">
-              Infosys
-            </div>
-            <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">System Engineer</h3>
-              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Infosys Limited</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.78rem; color: #94A3B8;">4h ago</span>
-            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" data-bookmark-type="jobs" data-bookmark-id="infosys-system-engineer" aria-label="Bookmark Job"><span class="material-symbols-outlined">bookmark_border</span></button>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;" data-lang-key="jobtype-fulltime">Full Time</span>
-          <span class="gcs-pill-tag" style="background: #FAF5FF; color: #7C3AED; font-size: 0.75rem;" data-lang-key="jobtype-remote">Work From Home</span>
-        </div>
-
-        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
-          <span>0–3 Yrs Exp</span> • <span>B.E / B.Tech</span> • <span>Pune / Remote</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
-          Join our global team and work on innovative cloud and enterprise technology projects.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Java</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">C++</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
-          </div>
-          <a href="job-detail.html?job=infosys-system-engineer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;" data-lang-key="btn-view-details">View Details</a>
-        </div>
-      </article>
-
-      <!-- Card 3: Wipro Associate Software Engineer -->
-      <article class="job-item-card" data-loc="Bengaluru" data-category="Software" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div style="display: flex; gap: 16px; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 10px; background: #F0FDF4; color: #166534; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; border: 1px solid #BBF7D0;">
-              Wipro
-            </div>
-            <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Associate Software Engineer</h3>
-              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Wipro Limited</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.78rem; color: #94A3B8;">6h ago</span>
-            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" data-bookmark-type="jobs" data-bookmark-id="wipro-associate-engineer" aria-label="Bookmark Job"><span class="material-symbols-outlined">bookmark_border</span></button>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;" data-lang-key="jobtype-fulltime">Full Time</span>
-          <span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706; font-size: 0.75rem;">Hybrid</span>
-        </div>
-
-        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
-          <span>0–2 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Bengaluru, Karnataka</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
-          Opportunity to work on real-world projects with global clients across modern tech stacks.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Django</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">HTML</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">CSS</span>
-          </div>
-          <a href="job-detail.html?job=wipro-associate-engineer" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;" data-lang-key="btn-view-details">View Details</a>
-        </div>
-      </article>
-
-      <!-- Card 4: Accenture Software Analyst -->
-      <article class="job-item-card" data-loc="Chennai" data-category="Software" data-type="Full Time" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div style="display: flex; gap: 16px; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FAF5FF; color: #7E22CE; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; border: 1px solid #E9D5FF;">
-              &gt;
-            </div>
-            <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Software Engineering Analyst</h3>
-              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Accenture</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.78rem; color: #94A3B8;">1d ago</span>
-            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" data-bookmark-type="jobs" data-bookmark-id="accenture-software-analyst" aria-label="Bookmark Job"><span class="material-symbols-outlined">bookmark_border</span></button>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-size: 0.75rem;" data-lang-key="jobtype-fulltime">Full Time</span>
-          <span class="gcs-pill-tag" style="background: #F1F5F9; color: #475569; font-size: 0.75rem;">On-site</span>
-        </div>
-
-        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
-          <span>0–3 Yrs Exp</span> • <span>B.Tech / BE</span> • <span>Chennai, Tamil Nadu</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
-          Collaborate with cross-functional teams to deliver best-in-class digital solutions.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Python</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">SQL</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">AWS</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Communication</span>
-          </div>
-          <a href="job-detail.html?job=accenture-software-analyst" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;" data-lang-key="btn-view-details">View Details</a>
-        </div>
-      </article>
-
-      <!-- Card 5: Zoho Product Intern -->
-      <article class="job-item-card" data-loc="Remote" data-category="Internship" data-type="Internship" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div style="display: flex; gap: 16px; align-items: center;">
-            <div style="width: 48px; height: 48px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; border: 1px solid #FDE68A;">
-              Zoho
-            </div>
-            <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Product Intern</h3>
-              <div style="font-size: 0.88rem; color: #475569; font-weight: 600;">Zoho Corporation</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.78rem; color: #94A3B8;">1d ago</span>
-            <button type="button" style="background: none; border: none; cursor: pointer; color: #64748B;" data-bookmark-type="jobs" data-bookmark-id="zoho-product-intern" aria-label="Bookmark Job"><span class="material-symbols-outlined">bookmark_border</span></button>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <span class="gcs-pill-tag" style="background: #FFFBEB; color: #D97706; font-size: 0.75rem;" data-lang-key="jobtype-internship">Internship</span>
-          <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB; font-size: 0.75rem;">Remote</span>
-        </div>
-
-        <div style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
-          <span>0–1 Yrs Exp</span> • <span>Any Graduate</span> • <span>Remote</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 14px 0;">
-          Learn and contribute to our product development team while mastering software lifecycles.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 14px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Product Management</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Analytics</span>
-            <span class="gcs-pill-tag" style="font-size: 0.75rem;">Communication</span>
-          </div>
-          <a href="job-detail.html?job=zoho-product-intern" class="gcs-btn-cta-2" style="text-decoration: none; font-size: 0.85rem; padding: 6px 16px;" data-lang-key="btn-view-details">View Details</a>
-        </div>
-      </article>
+    <!-- Shown only if data/jobs-data.js failed to load. We say so rather than
+         falling back to invented listings. -->
+    <div id="jobsLoadError" hidden style="text-align:center; padding:40px 20px; background:#FEF2F2; border:1px solid #FECACA; border-radius:16px; margin-bottom:32px;">
+      <span class="material-symbols-outlined" style="font-size:40px; color:#DC2626;">cloud_off</span>
+      <h3 style="margin:12px 0 6px; font-size:1.05rem; font-weight:800; color:#0F172A;">Job list could not be loaded</h3>
+      <p style="margin:0; font-size:0.88rem; color:#64748B;">
+        Please reload the page. ఈ పేజీని మళ్లీ లోడ్ చేయండి.
+      </p>
     </div>
 
-    <!-- Pagination Row -->
+    <!-- Job role cards, rendered from window.GCS_JOBS -->
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;" id="jobsFeed"></div>
+
     <div id="jobsPagination" aria-label="Jobs pagination" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 40px;"></div>
   </main>
 
@@ -556,62 +349,173 @@
     </a>
   </nav>
 
-  <!-- Interactive Search & Filtering Scripts -->
+  <!-- Job list rendering, search and filtering -->
   <script>
-    let activePill = 'all';
+    /**
+     * Renders the job list from window.GCS_JOBS (data/jobs-data.js, generated
+     * from data/jobs.csv).
+     *
+     * There is no hardcoded listing in this page and no invented fallback: if
+     * the data file is missing, the page says so. The previous version of this
+     * page carried six fabricated listings attributed to real companies, which
+     * a rural student could not have applied for in any case.
+     */
     let currentPage = 1;
-    const jobsPerPage = 5;
+    const jobsPerPage = 8;
 
-    function setPill(type, btn) {
-      activePill = type;
-      document.querySelectorAll('.gcs-pill-tag').forEach(b => {
-        if (b.tagName === 'BUTTON') {
-          b.classList.remove('active');
-          b.style.background = '#fff';
-          b.style.color = '#334155';
-        }
+    const CATEGORY_LABELS = {
+      government: { en: 'Government', te: 'ప్రభుత్వం', color: '#047857', bg: '#ECFDF5' },
+      iti:        { en: 'ITI / Technical', te: 'ఐటీఐ / సాంకేతిక', color: '#B45309', bg: '#FFFBEB' },
+      bpo:        { en: 'BPO / Service', te: 'బీపీఓ / సేవా', color: '#1D4ED8', bg: '#EFF6FF' },
+      business:   { en: 'Self-employment', te: 'స్వయం ఉపాధి', color: '#6D28D9', bg: '#F5F3FF' }
+    };
+
+    function esc(str) {
+      return (window.GCS_APP && window.GCS_APP.escapeHtml)
+        ? window.GCS_APP.escapeHtml(str)
+        : String(str == null ? '' : str)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    /** Remembers the student's level so other pages can use it too. */
+    function saveEducation(level) {
+      const store = window.GCS_APP && window.GCS_APP.storage;
+      if (!store) return;
+      const student = store.get('student', {}) || {};
+      if (level === 'all') delete student.education;
+      else student.education = level;
+      store.set('student', student);
+    }
+
+    function readEducation() {
+      const store = window.GCS_APP && window.GCS_APP.storage;
+      const student = (store && store.get('student', {})) || {};
+      return student.education || 'all';
+    }
+
+    function allJobs() {
+      return Array.isArray(window.GCS_JOBS) ? window.GCS_JOBS : null;
+    }
+
+    function matchingJobs() {
+      const jobs = allJobs() || [];
+      const q = (document.getElementById('jobSearchInput').value || '').toLowerCase().trim();
+      const edu = document.getElementById('jobEduSelect').value;
+      const category = document.getElementById('jobCatSelect').value;
+
+      return jobs.filter(job => {
+        const haystack = [job.titleEn, job.titleTe, job.qualification, job.examName, job.category]
+          .join(' ').toLowerCase();
+        const matchesQ = !q || haystack.includes(q);
+        const matchesEdu = (edu === 'all') || (job.eligibleLevels || []).includes(edu);
+        const matchesCategory = (category === 'all') || job.category === category;
+        return matchesQ && matchesEdu && matchesCategory;
       });
-      btn.classList.add('active');
-      btn.style.background = 'var(--gcs-green-primary)';
-      btn.style.color = '#fff';
-      filterJobList();
+    }
+
+    function jobCard(job) {
+      const cat = CATEGORY_LABELS[job.category] || { en: job.category, te: '', color: '#475569', bg: '#F1F5F9' };
+      const saved = (window.GCS_APP && window.GCS_APP.storage)
+        ? window.GCS_APP.storage.isBookmarked('jobs', job.id) : false;
+
+      function fact(icon, label, value) {
+        if (!value) return '';
+        return ''
+          + '<div style="display:flex; align-items:flex-start; gap:8px;">'
+          +   '<span class="material-symbols-outlined" style="font-size:18px; color:#94A3B8; flex-shrink:0;">' + icon + '</span>'
+          +   '<div>'
+          +     '<div style="font-size:0.72rem; color:#94A3B8; font-weight:700; text-transform:uppercase; letter-spacing:0.02em;">' + label + '</div>'
+          +     '<div style="font-size:0.86rem; color:#0F172A; font-weight:600;">' + esc(value) + '</div>'
+          +   '</div>'
+          + '</div>';
+      }
+
+      const studyLink = job.freeResourceUrl
+        ? '<a class="gcs-btn-cta-2" href="' + esc(job.freeResourceUrl) + '" target="_blank" rel="noopener noreferrer" '
+          + 'style="text-decoration:none; padding:9px 18px; display:inline-flex; align-items:center; gap:6px;">'
+          + '<span class="material-symbols-outlined" style="font-size:18px;">menu_book</span>'
+          + '<span>Free study material</span>'
+          + '</a>'
+        : '';
+
+      return ''
+        + '<article class="job-item-card" data-category="' + esc(job.category) + '" '
+        +   'style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.02);">'
+
+        +   '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">'
+        +     '<div>'
+        +       '<h3 style="font-size:1.12rem; font-weight:800; color:#0F172A; margin:0 0 2px 0;">' + esc(job.titleTe) + '</h3>'
+        +       '<p style="font-size:0.88rem; color:#64748B; margin:0 0 8px 0;">' + esc(job.titleEn) + '</p>'
+        +       '<span class="gcs-pill-tag" style="background:' + cat.bg + '; color:' + cat.color + '; font-size:0.74rem;">'
+        +         esc(cat.en) + (cat.te ? ' · ' + esc(cat.te) : '')
+        +       '</span>'
+        +     '</div>'
+        +     '<button type="button" aria-label="Save this role" '
+        +       'data-bookmark-type="jobs" data-bookmark-id="' + esc(job.id) + '" '
+        +       'style="background:none; border:none; cursor:pointer; padding:4px; color:' + (saved ? '#059669' : '#64748B') + ';">'
+        +       '<span class="material-symbols-outlined">' + (saved ? 'bookmark' : 'bookmark_border') + '</span>'
+        +     '</button>'
+        +   '</div>'
+
+        +   '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:14px; padding:14px 0; border-top:1px solid #F1F5F9; border-bottom:1px solid #F1F5F9; margin-bottom:14px;">'
+        +     fact('school', 'Who can apply', job.qualification)
+        +     fact('assignment', 'Selection', job.examName)
+        +     fact('payments', 'Typical pay', job.salaryRange)
+        +     fact('schedule', 'Preparation', job.prepTime)
+        +   '</div>'
+
+        +   '<div style="display:flex; flex-wrap:wrap; gap:10px;">'
+        +     '<a class="gcs-btn-cta-1" href="' + esc(job.applyUrl) + '" target="_blank" rel="noopener noreferrer" '
+        +       'style="text-decoration:none; padding:9px 18px; display:inline-flex; align-items:center; gap:6px;">'
+        +       '<span class="material-symbols-outlined" style="font-size:18px;">open_in_new</span>'
+        +       '<span>Official site / అధికారిక సైట్</span>'
+        +     '</a>'
+        +     studyLink
+        +   '</div>'
+        + '</article>';
     }
 
     function filterJobList() {
-      const q = (document.getElementById('jobSearchInput').value || '').toLowerCase();
-      const loc = document.getElementById('jobLocSelect').value;
+      const feed = document.getElementById('jobsFeed');
+      const errorEl = document.getElementById('jobsLoadError');
+
+      if (!allJobs()) {
+        if (errorEl) errorEl.hidden = false;
+        feed.replaceChildren();
+        document.getElementById('jobsCountNum').textContent = '0';
+        return;
+      }
+      if (errorEl) errorEl.hidden = true;
+
       const category = document.getElementById('jobCatSelect').value;
-      const cards = document.querySelectorAll('.job-item-card');
-      const matchingCards = [];
+      const matching = matchingJobs();
 
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        const cardLoc = card.getAttribute('data-loc') || '';
-        const cardCategory = card.getAttribute('data-category') || '';
-        const cardType = card.getAttribute('data-type') || '';
-
-        const matchesQ = !q || text.includes(q);
-        const matchesLoc = (loc === 'all') || cardLoc.includes(loc);
-        const matchesCategory = (category === 'all') || cardCategory.includes(category);
-        const matchesPill = (activePill === 'all') || cardType.includes(activePill);
-
-        if (matchesQ && matchesLoc && matchesCategory && matchesPill) matchingCards.push(card);
-      });
-
-      const pageCount = Math.max(1, Math.ceil(matchingCards.length / jobsPerPage));
+      const pageCount = Math.max(1, Math.ceil(matching.length / jobsPerPage));
       currentPage = Math.min(currentPage, pageCount);
-      cards.forEach(card => { card.style.display = 'none'; });
-      matchingCards.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage)
-        .forEach(card => { card.style.display = 'block'; });
 
-      // Update the count without destroying the translated label span.
-      document.getElementById('jobsCountNum').textContent = matchingCards.length;
+      feed.innerHTML = matching
+        .slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage)
+        .map(jobCard)
+        .join('');
 
-      // Empty state: tell the user what to do next instead of showing
-      // a bare "0 jobs found" with no way forward.
+      document.getElementById('jobsCountNum').textContent = matching.length;
+
       const empty = document.getElementById('jobsEmptyState');
-      if (empty) empty.hidden = matchingCards.length !== 0;
+      if (empty) empty.hidden = matching.length !== 0;
+
       renderPagination(pageCount);
+
+      // Re-bind bookmark buttons on the freshly rendered cards.
+      if (window.GCS_APP && window.GCS_APP.toggleBookmark) {
+        feed.querySelectorAll('[data-bookmark-type][data-bookmark-id]').forEach(btn => {
+          btn.onclick = e => {
+            e.preventDefault();
+            window.GCS_APP.toggleBookmark(btn.getAttribute('data-bookmark-type'),
+                                          btn.getAttribute('data-bookmark-id'), btn);
+          };
+        });
+      }
     }
 
     function renderPagination(pageCount) {
@@ -638,25 +542,28 @@
 
     function clearJobFilters() {
       document.getElementById('jobSearchInput').value = '';
-      document.getElementById('jobLocSelect').value = 'all';
-      const cat = document.getElementById('jobCatSelect');
-      if (cat) cat.selectedIndex = 0;
-      activePill = 'all';
+      document.getElementById('jobEduSelect').value = 'all';
+      document.getElementById('jobCatSelect').value = 'all';
+      saveEducation('all');
       currentPage = 1;
-      document.querySelectorAll('.gcs-pill-tag').forEach((p, i) => {
-        p.classList.toggle('active', i === 0);
-      });
       filterJobList();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       document.getElementById('jobSearchInput').value = params.get('q') || '';
-      const requestedFilter = params.get('filter') || '';
+
+      // Education comes from the URL, else from what the student told us earlier.
+      const eduSelect = document.getElementById('jobEduSelect');
+      const requestedEdu = params.get('edu') || readEducation();
+      if ([...eduSelect.options].some(o => o.value === requestedEdu)) eduSelect.value = requestedEdu;
+      eduSelect.addEventListener('change', () => { saveEducation(eduSelect.value); currentPage = 1; });
+
+      // ?filter= / ?track= let the quiz result link straight into its own category.
       const category = document.getElementById('jobCatSelect');
-      if (requestedFilter === 'government') category.value = 'Government';
-      if (requestedFilter === 'private') category.value = 'Software';
-      if (requestedFilter === 'apprentice') category.value = 'Internship';
+      const requestedFilter = params.get('filter') || params.get('track') || '';
+      if ([...category.options].some(o => o.value === requestedFilter)) category.value = requestedFilter;
+
       filterJobList();
     });
   </script>

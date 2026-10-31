@@ -158,7 +158,7 @@
 
       <div style="display: flex; align-items: center; gap: 8px;">
         <div style="position: relative;">
-          <input type="text" id="workshopSearchInput" placeholder="Search workshops..." style="padding: 6px 12px 6px 32px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 0.85rem; outline: none;" oninput="searchWorkshops()" />
+          <input type="text" id="workshopSearchInput" aria-label="Search workshops" placeholder="Search workshops..." style="padding: 6px 12px 6px 32px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 0.85rem; outline: none;" oninput="searchWorkshops()" />
           <span class="material-symbols-outlined" style="position: absolute; left: 8px; top: 7px; font-size: 18px; color: #94A3B8;">search</span>
         </div>
         <button type="button" class="gcs-btn-cta-2" style="padding: 6px 12px; font-size: 0.85rem;">
@@ -193,7 +193,7 @@
               <span>👤 Ravi Kiran</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Python for Beginners')" data-lang-key="btn-register-now">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Python for Beginners', this)" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 
@@ -214,7 +214,7 @@
               <span>👤 Anusha Reddy</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Resume Building Masterclass')" data-lang-key="btn-register-now">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Resume Building Masterclass', this)" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 
@@ -235,7 +235,7 @@
               <span>👤 Suresh Babu</span>
               <span>🌐 Online Zoom</span>
             </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Interview Preparation')" data-lang-key="btn-register-now">Register Now</button>
+            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Interview Preparation', this)" data-lang-key="btn-register-now">Register Now</button>
           </div>
         </article>
 

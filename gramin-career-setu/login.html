@@ -235,7 +235,7 @@
         </div>
 
         <div style="text-align: right; margin-bottom: 18px;">
-          <a href="javascript:void(0)" onclick="GCS_ACTIONS.notAvailable('Password reset')" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">Forgot Password?</a>
+          <a href="javascript:void(0)" onclick="openForgotPassModal()" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">Forgot Password?</a>
         </div>
 
         <!-- Sign In Button -->
@@ -618,11 +618,8 @@
         const params = new URLSearchParams(window.location.search);
         const next = params.get('next');
         setTimeout(() => {
-          if (next) {
-            window.location.href = decodeURIComponent(next);
-          } else {
-            window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
-          }
+          const defaultTarget = (res.user.role === 'volunteer' || res.user.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
+          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
         }, 400);
       } else {
         if (errEl) {
@@ -681,13 +678,13 @@
       }
     }
 
-    function submitOtpCode() {
+    async function submitOtpCode() {
       let code = '';
       for (let i = 1; i <= 6; i++) {
         code += (document.getElementById('otp' + i).value || '');
       }
 
-      const res = window.GCS_AUTH.verifyOTP(code);
+      const res = await window.GCS_AUTH.verifyOTP(code);
       if (res.success) {
         if (window.GCS_APP && window.GCS_APP.toast) {
           window.GCS_APP.toast.show(`🎉 Mobile Verified! Welcome, ${res.user.name}`);
@@ -695,11 +692,8 @@
         const params = new URLSearchParams(window.location.search);
         const next = params.get('next');
         setTimeout(() => {
-          if (next) {
-            window.location.href = decodeURIComponent(next);
-          } else {
-            window.location.href = res.user.role === 'volunteer' || res.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html';
-          }
+          const defaultTarget = (res.user.role === 'volunteer' || res.user.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
+          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
         }, 400);
       } else {
         alert(res.message || 'Invalid OTP code.');
@@ -729,7 +723,135 @@
       const el = document.getElementById('otpCountdown');
       if (el) el.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
     }, 1000);
+
+    // Password Reset Modal Logic
+    function openForgotPassModal() {
+      const modal = document.getElementById('forgotPassModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('forgotStep1').style.display = 'block';
+        document.getElementById('forgotStep2').style.display = 'none';
+        const msg = document.getElementById('forgotModalMsg');
+        if (msg) msg.style.display = 'none';
+        document.getElementById('forgotPhone').value = document.getElementById('loginPhone').value || '';
+        document.getElementById('forgotPhone').focus();
+      }
+    }
+
+    function closeForgotPassModal() {
+      const modal = document.getElementById('forgotPassModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function handleSendResetOtp() {
+      const phone = document.getElementById('forgotPhone').value.trim();
+      const msg = document.getElementById('forgotModalMsg');
+      const check = window.GCS_AUTH.validateMobile(phone);
+      if (!check.valid) {
+        msg.textContent = check.message;
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      msg.textContent = 'Sending 6-digit verification code...';
+      msg.style.display = 'block';
+      msg.style.background = '#EFF6FF';
+      msg.style.color = '#1D4ED8';
+
+      const res = await window.GCS_AUTH.sendPasswordResetOtp(phone);
+      if (res.success) {
+        msg.textContent = `OTP sent! Demo code is: ${res.otpCode || '123456'}`;
+        msg.style.background = '#ECFDF5';
+        msg.style.color = '#065F46';
+        document.getElementById('forgotStep1').style.display = 'none';
+        document.getElementById('forgotStep2').style.display = 'block';
+        document.getElementById('forgotOtp').focus();
+      } else {
+        msg.textContent = res.message || 'Failed to send OTP.';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+      }
+    }
+
+    async function handleConfirmResetPass() {
+      const phone = document.getElementById('forgotPhone').value.trim();
+      const otp = document.getElementById('forgotOtp').value.trim();
+      const newPass = document.getElementById('forgotNewPass').value;
+      const msg = document.getElementById('forgotModalMsg');
+
+      if (!otp || otp.length !== 6) {
+        msg.textContent = 'Please enter the 6-digit OTP code.';
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      if (!newPass || newPass.length < 6) {
+        msg.textContent = 'New password must be at least 6 characters.';
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      msg.textContent = 'Updating password...';
+      msg.style.display = 'block';
+      msg.style.background = '#EFF6FF';
+      msg.style.color = '#1D4ED8';
+
+      const res = await window.GCS_AUTH.resetPassword(phone, otp, newPass);
+      if (res.success) {
+        msg.textContent = res.message;
+        msg.style.background = '#ECFDF5';
+        msg.style.color = '#065F46';
+        setTimeout(() => {
+          closeForgotPassModal();
+          document.getElementById('loginPhone').value = phone;
+          document.getElementById('loginPassword').value = newPass;
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show('✅ Password updated. You can now sign in.');
+          }
+        }, 1200);
+      } else {
+        msg.textContent = res.message;
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+      }
+    }
   </script>
+
+  <!-- Password Reset Modal -->
+  <div id="forgotPassModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #ffffff; border-radius: 16px; max-width: 420px; width: 100%; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); position: relative; font-family: inherit;">
+      <button type="button" onclick="closeForgotPassModal()" aria-label="Close modal" style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #64748B;">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 26px; color: #059669;">lock_reset</span>
+        <h3 style="margin: 0; font-size: 1.15rem; color: #0F172A; font-weight: 700;">Reset Password</h3>
+      </div>
+      <p style="font-size: 0.85rem; color: #64748B; margin-top: 0; margin-bottom: 16px;">Enter your registered 10-digit mobile number to verify your identity.</p>
+      
+      <div id="forgotStep1">
+        <label for="forgotPhone" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number</label>
+        <input type="tel" id="forgotPhone" class="gcs-form-input" style="width: 100%; margin-bottom: 14px; box-sizing: border-box;" placeholder="10-digit mobile number" maxlength="10" />
+        <button type="button" onclick="handleSendResetOtp()" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">Send OTP</button>
+      </div>
+
+      <div id="forgotStep2" style="display: none;">
+        <label for="forgotOtp" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Enter 6-Digit OTP</label>
+        <input type="text" id="forgotOtp" class="gcs-form-input" style="width: 100%; margin-bottom: 12px; letter-spacing: 4px; font-weight: 700; box-sizing: border-box;" placeholder="123456" maxlength="6" />
+        
+        <label for="forgotNewPass" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">New Password</label>
+        <input type="password" id="forgotNewPass" class="gcs-form-input" style="width: 100%; margin-bottom: 16px; box-sizing: border-box;" placeholder="Minimum 6 characters" />
+        
+        <button type="button" onclick="handleConfirmResetPass()" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">Update Password</button>
+      </div>
+      
+      <div id="forgotModalMsg" style="display: none; margin-top: 12px; font-size: 0.82rem; border-radius: 6px; padding: 8px 12px; font-weight: 600;"></div>
+    </div>
+  </div>
 
   <!-- Core Scripts -->
 </body>

@@ -125,11 +125,36 @@ Google Antigravity served as an autonomous, end-to-end software engineering part
 
 ## 📊 Results & Outcomes
 
-* **21 Fully Synchronized Pages**: Every page in the portal seamlessly shares the same navigation, bilingual toggle, offline state, and authenticated user session.
-* **100% Automated Test Pass Rate**:
-  * **35/35** Spring Boot backend integration tests passing (covering concurrency, rate limiting, and RBAC).
-  * **18/18** Node.js gateway and contract tests passing (covering security headers, path traversal defense, and API payloads).
-* **Production-Grade Infrastructure**: Fully containerized stack orchestrated via Docker Compose (PostgreSQL 16, Redis 7, Keycloak 24, Spring Boot 3.3.5, and Node.js Gateway).
+**What is built and working**
+
+* **21 pages** sharing one navigation, bilingual toggle and offline shell.
+* **22 real job roles** for rural students, from `data/jobs.csv`, filterable by the
+  student's own qualification — from "no formal qualification" and 10th pass up to
+  degree — each linking to the official government or company portal.
+* **Career aptitude quiz**: 5 bilingual questions, weighted scoring across four
+  tracks (government / ITI / BPO / self-employment).
+* **Browser-side PDF resume builder**, no account and no server needed.
+* **Offline-capable PWA**: service worker precache plus `localStorage`.
+* **24/24 Node.js tests passing** (`npm test`) — these cover the static server's
+  path-traversal defence and security headers, the API client's shape, and content
+  integrity (that no invented job listing, impact figure or testimonial can return).
+  They are not end-to-end browser tests.
+
+**What is not yet true — stated plainly, because this is a Community Service Project**
+
+* **No impact data yet.** The impact dashboard reports a real before/after workshop
+  survey and ships empty until one has been conducted. See `data/survey-data.js`.
+* **No participant success stories yet.** They are published only with a student's
+  written consent; `stories.html` carries the checklist.
+* **Job roles are signposts, not live vacancies.** We do not verify or host
+  openings; the official portal is always the authority.
+* **The Telugu resume PDF is not working yet.** jsPDF has no Telugu font registered,
+  so exported resumes are English-only.
+* **Backend is a Phase 2 prototype, not the deployed product.** The Spring Boot /
+  PostgreSQL / Redis / Keycloak stack in `backend/` and `docker-compose.yml` works
+  locally, but the product students use is the static PWA, which deploys free to
+  GitHub Pages. The backend has no free hosting target and is not required by any
+  student-facing feature.
 
 ---
 

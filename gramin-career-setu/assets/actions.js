@@ -62,20 +62,27 @@
     const i = indexOfRegistration(list, id);
     const registering = i === -1;
 
+    // The registration is always kept locally. It is only sent to the backend
+    // when we have the student's real name and phone from their session — the
+    // previous version substituted 'Registered Scholar' / '9876543210' when
+    // nobody was signed in, which wrote invented rows into the registrations
+    // table and made the real count unusable as workshop evidence.
+    const user = (window.GCS_AUTH && window.GCS_AUTH.getUser) ? window.GCS_AUTH.getUser() : null;
+    const name = user && (user.name || user.fullName);
+    const phone = user && user.phone;
+    const canSync = Boolean(name && phone && window.GCS_API && window.GCS_API.workshops);
+
     if (registering) {
       list.push({ id, workshop: title || id, registeredAt: new Date().toISOString() });
-      const user = (window.GCS_AUTH && window.GCS_AUTH.getUser) ? window.GCS_AUTH.getUser() : null;
-      const name = (user && (user.name || user.fullName)) || 'Registered Scholar';
-      const phone = (user && user.phone) || '9876543210';
-      if (window.GCS_API && window.GCS_API.workshops) {
-        window.GCS_API.workshops.register(id, { name, phone }).catch(e => console.warn('[GCS_ACTIONS] workshop api:', e));
+      if (canSync) {
+        window.GCS_API.workshops.register(id, { name, phone })
+          .catch(e => console.warn('[GCS_ACTIONS] workshop api:', e));
       }
     } else {
       list.splice(i, 1);
-      const user = (window.GCS_AUTH && window.GCS_AUTH.getUser) ? window.GCS_AUTH.getUser() : null;
-      const phone = (user && user.phone) || '9876543210';
-      if (window.GCS_API && window.GCS_API.workshops && window.GCS_API.workshops.cancel) {
-        window.GCS_API.workshops.cancel(id, { phone }).catch(e => console.warn('[GCS_ACTIONS] workshop cancel api:', e));
+      if (canSync && window.GCS_API.workshops.cancel) {
+        window.GCS_API.workshops.cancel(id, { phone })
+          .catch(e => console.warn('[GCS_ACTIONS] workshop cancel api:', e));
       }
     }
     s.set(WORKSHOP_KEY, list);

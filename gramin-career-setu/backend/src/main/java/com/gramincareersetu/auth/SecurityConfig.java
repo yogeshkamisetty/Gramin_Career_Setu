@@ -28,14 +28,21 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtAuthConverter jwtAuthConverter;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ObjectMapper objectMapper;
 
     @Value("${spring.h2.console.enabled:false}")
     private boolean h2ConsoleEnabled;
 
     @Autowired
-    public SecurityConfig(JwtAuthConverter jwtAuthConverter) {
+    public SecurityConfig(
+            JwtAuthConverter jwtAuthConverter,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            ObjectMapper objectMapper
+    ) {
         this.jwtAuthConverter = jwtAuthConverter;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
@@ -45,6 +52,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -69,6 +77,10 @@ public class SecurityConfig {
                         auth.requestMatchers("/h2-console/**").permitAll();
                     }
 
+                    // Native Authentication endpoints
+                    auth.requestMatchers("/api/v1", "/api/v1/").permitAll();
+                    auth.requestMatchers("/api/v1/auth/**").permitAll();
+
                     // OpenAPI / Swagger UI
                     auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/jobs/**").permitAll();
@@ -82,8 +94,8 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/schemes/**").permitAll();
                     auth.requestMatchers("/api/v1/public/**").permitAll();
 
-                    // Admin endpoints
-                    auth.requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN");
+                    // Admin endpoints (including Volunteer dashboard stats)
+                    auth.requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN", "VOLUNTEER");
 
                     // Any other endpoint requires authentication
                     auth.anyRequest().authenticated();
@@ -124,5 +136,19 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public org.springframework.security.oauth2.server.resource.web.BearerTokenResolver bearerTokenResolver(JwtTokenService jwtTokenService) {
+        org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver resolver =
+                new org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver();
+        return request -> {
+            String token = resolver.resolve(request);
+            if (token != null && jwtTokenService.validateToken(token)) {
+                // Handled natively by JwtAuthenticationFilter; skip Keycloak Resource Server filter
+                return null;
+            }
+            return token;
+        };
     }
 }

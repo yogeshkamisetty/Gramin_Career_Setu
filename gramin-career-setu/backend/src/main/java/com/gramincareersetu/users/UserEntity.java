@@ -38,6 +38,9 @@ public class UserEntity implements Serializable {
     @Column(name = "phone", length = 20, unique = true)
     private String phone;
 
+    @Column(name = "password_hash", length = 255)
+    private String passwordHash;
+
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
@@ -113,6 +116,14 @@ public class UserEntity implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getFullName() {

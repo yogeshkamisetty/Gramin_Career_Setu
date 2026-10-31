@@ -19,8 +19,12 @@ public final class SecurityUtils {
     public static Optional<String> getCurrentUserId() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            return Optional.ofNullable(jwt.getSubject());
+        if (authentication != null) {
+            if (authentication.getPrincipal() instanceof Jwt jwt) {
+                return Optional.ofNullable(jwt.getSubject());
+            } else if (authentication.getName() != null && !authentication.getName().isBlank()) {
+                return Optional.of(authentication.getName());
+            }
         }
         return Optional.empty();
     }

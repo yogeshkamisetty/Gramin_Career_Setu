@@ -2,7 +2,10 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 5000;
+// NODE_PORT first so a sourced .env (where PORT is the Spring Boot port) does
+// not move the static server onto the backend's port. PORT is honoured as a
+// fallback because the test harness and the EADDRINUSE hint below both use it.
+const PORT = process.env.NODE_PORT || process.env.PORT || 5000;
 const ROOT_DIR = __dirname;
 const ROOT_PREFIX = ROOT_DIR.endsWith(path.sep) ? ROOT_DIR : ROOT_DIR + path.sep;
 
@@ -70,8 +73,8 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-// Reverse proxy /api/v1/ requests to Spring Boot backend (port 8085)
-  if (safePath.startsWith('/api/v1/')) {
+// Reverse proxy /api/v1 requests to Spring Boot backend (port 8085)
+  if (safePath === '/api/v1' || safePath.startsWith('/api/v1/')) {
     const backendPort = process.env.BACKEND_PORT || 8085;
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
     const backendReq = http.request({

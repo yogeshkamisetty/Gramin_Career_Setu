@@ -213,7 +213,7 @@
           </div>
           <div>
             <h3 id="topMatchTitle" style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Software Engineer</h3>
-            <div id="topMatchScore" style="font-size: 0.95rem; font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px;">Match Score: 92%</div>
+            <div id="topMatchScore" style="font-size: 0.95rem; font-weight: 700; color: var(--gcs-green-medium); margin-bottom: 8px;"></div>
             <div id="topMatchPills" style="display: flex; gap: 6px; flex-wrap: wrap;">
               <span class="gcs-pill-tag">High Demand</span>
               <span class="gcs-pill-tag">Great Salary</span>
@@ -237,35 +237,17 @@
 
         <div style="display: flex; align-items: center; gap: 24px;">
           <div style="width: 140px; height: 140px; position: relative; flex-shrink: 0;">
-            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-              <circle cx="18" cy="18" r="14" fill="none" stroke="#22C55E" stroke-width="4" stroke-dasharray="30 70" stroke-dashoffset="0" />
-              <circle cx="18" cy="18" r="14" fill="none" stroke="#3B82F6" stroke-width="4" stroke-dasharray="25 75" stroke-dashoffset="-30" />
-              <circle cx="18" cy="18" r="14" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="20 80" stroke-dashoffset="-55" />
-              <circle cx="18" cy="18" r="14" fill="none" stroke="#EF4444" stroke-width="4" stroke-dasharray="15 85" stroke-dashoffset="-75" />
-              <circle cx="18" cy="18" r="14" fill="none" stroke="#8B5CF6" stroke-width="4" stroke-dasharray="10 90" stroke-dashoffset="-90" />
-            </svg>
+            <!-- Arcs are drawn by JS from the student's own quiz scores. -->
+            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;" id="matchWheelSvg" role="img" aria-label="Your score across the four career tracks"></svg>
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 0.85rem; font-weight: 800; color: #1E293B;">
               You
             </div>
           </div>
 
           <div id="matchWheelLegend" style="flex: 1;">
-            <div class="gcs-wheel-legend-item">
-              <span><span class="gcs-wheel-dot" style="background: #22C55E;"></span> IT &amp; Software</span>
-              <strong style="color: #1E293B;">92%</strong>
-            </div>
-            <div class="gcs-wheel-legend-item">
-              <span><span class="gcs-wheel-dot" style="background: #3B82F6;"></span> Engineering</span>
-              <strong style="color: #1E293B;">85%</strong>
-            </div>
-            <div class="gcs-wheel-legend-item">
-              <span><span class="gcs-wheel-dot" style="background: #F59E0B;"></span> Data Science</span>
-              <strong style="color: #1E293B;">75%</strong>
-            </div>
-            <div class="gcs-wheel-legend-item">
-              <span><span class="gcs-wheel-dot" style="background: #EF4444;"></span> Cyber Security</span>
-              <strong style="color: #1E293B;">70%</strong>
-            </div>
+            <!-- Filled by JS from the stored quiz scores. Empty until then, so
+                 a reader never sees a percentage the quiz did not produce. -->
+          </div>
             <div class="gcs-wheel-legend-item">
               <span><span class="gcs-wheel-dot" style="background: #8B5CF6;"></span> Design &amp; Media</span>
               <strong style="color: #1E293B;">60%</strong>
@@ -278,107 +260,32 @@
         </div>
       </div>
 
-      <!-- Card 4: Top 5 Career Recommendations -->
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 12px 0;">Top 5 Career Recommendations</h2>
+      <!-- Card 4: Where to go next.
+           This used to list five IT careers with hardcoded "92% Match" style
+           figures that no part of the quiz produced. The quiz has four tracks,
+           so the honest next step is the roadmap for the track you scored
+           highest on. -->
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 14px;">
+        <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0;">What to do next</h2>
+        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0;">తర్వాత ఏమి చేయాలి</p>
 
-        <div id="topRecsList" style="display: flex; flex-direction: column; gap: 8px;">
-          <a href="career-detail.html?career=software-engineer" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: #059669; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">1</span>
-              <span>Software Engineer</span>
-            </span>
-            <span style="color: #059669; font-weight: 700; font-size: 0.88rem;">92% Match &gt;</span>
+        <p style="font-size: 0.88rem; color: #475569; margin: 0;">
+          Your answers point towards <strong id="resultTrackName">this track</strong>. The roadmap
+          below is built for your own education level, and shows what to do at each step.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
+          <a id="resultRoadmapLink" href="roadmap.html" class="gcs-btn-cta-1" style="text-decoration:none; padding:12px 20px; justify-content:center; display:inline-flex; align-items:center; gap:8px;">
+            <span class="material-symbols-outlined" style="font-size:20px;">route</span>
+            <span>See my step-by-step roadmap</span>
           </a>
-
-          <a href="career-detail.html?career=data-scientist" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: #2563EB; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">2</span>
-              <span>Data Scientist</span>
-            </span>
-            <span style="color: #2563EB; font-weight: 700; font-size: 0.88rem;">85% Match &gt;</span>
-          </a>
-
-          <a href="career-detail.html?career=cyber-security" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: #D97706; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">3</span>
-              <span>Cyber Security Analyst</span>
-            </span>
-            <span style="color: #D97706; font-weight: 700; font-size: 0.88rem;">75% Match &gt;</span>
-          </a>
-
-          <a href="career-detail.html?career=web-developer" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: #0284C7; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">4</span>
-              <span>Web Developer</span>
-            </span>
-            <span style="color: #0284C7; font-weight: 700; font-size: 0.88rem;">72% Match &gt;</span>
-          </a>
-
-          <a href="career-detail.html?career=db-admin" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: #9333EA; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">5</span>
-              <span>Database Administrator</span>
-            </span>
-            <span style="color: #9333EA; font-weight: 700; font-size: 0.88rem;">68% Match &gt;</span>
+          <a id="resultJobsLink" href="jobs.html" class="gcs-btn-cta-2" style="text-decoration:none; padding:12px 20px; justify-content:center; display:inline-flex; align-items:center; gap:8px;">
+            <span class="material-symbols-outlined" style="font-size:20px;">work</span>
+            <span>Jobs I can apply for now</span>
           </a>
         </div>
-
-        <a href="careers.html" style="text-align: center; margin-top: 14px; font-size: 0.88rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View All Career Matches &rarr;</a>
       </div>
     </div>
-
-    <!-- Recommended Learning Roadmap Section -->
-    <section class="gcs-roadmap-flow-card" id="resultsRoadmapCard">
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-        <span class="material-symbols-outlined" style="color: var(--gcs-green-primary);">timeline</span>
-        <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0;">Recommended Learning Roadmap</h2>
-      </div>
-
-      <div id="resultsRoadmapSteps" class="gcs-roadmap-steps-row">
-        <div class="gcs-roadmap-step-item">
-          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">account_balance</span></div>
-          <div class="gcs-roadmap-step-title">10th Class</div>
-          <div class="gcs-roadmap-step-desc">Focus on Maths &amp; Science</div>
-        </div>
-
-        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
-
-        <div class="gcs-roadmap-step-item">
-          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">menu_book</span></div>
-          <div class="gcs-roadmap-step-title">Intermediate</div>
-          <div class="gcs-roadmap-step-desc">MPC / BiPC / MEC</div>
-        </div>
-
-        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
-
-        <div class="gcs-roadmap-step-item">
-          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">school</span></div>
-          <div class="gcs-roadmap-step-title">Degree</div>
-          <div class="gcs-roadmap-step-desc">B.E / B.Tech in CSE / IT</div>
-        </div>
-
-        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
-
-        <div class="gcs-roadmap-step-item">
-          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">code</span></div>
-          <div class="gcs-roadmap-step-title">Skills</div>
-          <div class="gcs-roadmap-step-desc">Programming, DBMS, DSA, Web Dev</div>
-        </div>
-
-        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
-
-        <div class="gcs-roadmap-step-item">
-          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">work</span></div>
-          <div class="gcs-roadmap-step-title">Job</div>
-          <div class="gcs-roadmap-step-desc">Get Placed as Software Engineer</div>
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #F1F5F9; font-size: 0.9rem; color: #475569;">
-        Stay consistent, keep learning and your dream career is waiting for you! 🌿
-      </div>
-    </section>
 
     <!-- 4 Resource Cards: Skills, Courses, Scholarships, Jobs -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 32px;">
@@ -591,20 +498,6 @@
           { en: 'Discipline & General Studies', te: 'క్రమశిక్షణ & అధ్యయనం', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Stability', 'Government Pension', 'Social Respect'],
-        recs: [
-          { name: 'Sub Inspector (SI)', score: '94%', slug: 'sub-inspector' },
-          { name: 'Village Secretariat Executive', score: '88%', slug: 'sub-inspector' },
-          { name: 'Bank Officer (PO/Clerk)', score: '82%', slug: 'bank-officer' },
-          { name: 'School Teacher (DSC)', score: '79%', slug: 'school-teacher' },
-          { name: 'Agricultural Extension Officer', score: '74%', slug: 'agricultural-officer' }
-        ],
-        roadmap: [
-          { icon: 'account_balance', title: '10th Class', desc: 'Focus on Maths & Social Studies' },
-          { icon: 'menu_book', title: 'Intermediate', desc: 'MPC / BiPC / MEC with high percentage' },
-          { icon: 'school', title: 'Graduation', desc: 'Any Bachelor Degree (BA / BSc / BCom / BTech)' },
-          { icon: 'edit_note', title: 'Exam Prep', desc: 'Daily current affairs, GK, APPSC/SSC mocks' },
-          { icon: 'military_tech', title: 'Selection', desc: 'Pass Prelims, Mains & Document Verification' }
-        ]
       },
       iti: {
         topCareer: 'Civil & Technical Technician',
@@ -617,20 +510,6 @@
           { en: 'Technical Safety', te: 'సాంకేతిక భద్రత', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Demand', 'Early Earnings', 'Self-Employment Ready'],
-        recs: [
-          { name: 'Civil Infrastructure Supervisor', score: '93%', slug: 'civil-engineer' },
-          { name: 'Industrial Electrician', score: '87%', slug: 'civil-engineer' },
-          { name: 'Solar Technician & Installer', score: '83%', slug: 'civil-engineer' },
-          { name: 'Automobile & Machine Fitter', score: '78%', slug: 'civil-engineer' },
-          { name: 'Electronics Technician', score: '72%', slug: 'civil-engineer' }
-        ],
-        roadmap: [
-          { icon: 'account_balance', title: '10th Class', desc: 'Pass with Science & Maths credits' },
-          { icon: 'build', title: 'ITI / Diploma', desc: '2-year Trade Diploma (NCVT / State Board)' },
-          { icon: 'engineering', title: 'Apprenticeship', desc: 'National Apprenticeship Training (NATS)' },
-          { icon: 'verified', title: 'Certifications', desc: 'Safety protocols & equipment handling' },
-          { icon: 'handyman', title: 'Job / Workshop', desc: 'Join engineering firm or start workshop' }
-        ]
       },
       bpo: {
         topCareer: 'Software & Digital Services Associate',
@@ -643,20 +522,6 @@
           { en: 'Verbal & Digital Communication', te: 'కమ్యూనికేషన్ స్కిల్స్', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Demand', 'Great Salary', 'Bright Future'],
-        recs: [
-          { name: 'Software Engineer', score: '92%', slug: 'software-engineer' },
-          { name: 'Web Developer', score: '85%', slug: 'software-engineer' },
-          { name: 'Customer Support Lead', score: '81%', slug: 'software-engineer' },
-          { name: 'Data Management Associate', score: '76%', slug: 'software-engineer' },
-          { name: 'IT Helpdesk Specialist', score: '70%', slug: 'software-engineer' }
-        ],
-        roadmap: [
-          { icon: 'account_balance', title: '10th Class', desc: 'English & Basic Computer literacy' },
-          { icon: 'menu_book', title: 'Intermediate', desc: 'MPC / MEC / Commerce' },
-          { icon: 'school', title: 'Degree / B.Tech', desc: 'B.E / B.Tech / B.Sc / Degree' },
-          { icon: 'code', title: 'Skills', desc: 'Programming, Typing >40 WPM, DBMS' },
-          { icon: 'work', title: 'Job', desc: 'Placement in IT Services or BPO Centre' }
-        ]
       },
       business: {
         topCareer: 'Rural Agri-Business & Enterprise Founder',
@@ -669,20 +534,6 @@
           { en: 'Local Market Networking', te: 'స్థానిక మార్కెట్ సంబంధాలు', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['Unlimited Growth', 'Be Your Own Boss', 'Local Job Creator'],
-        recs: [
-          { name: 'Agri-Business & Enterprise Founder', score: '95%', slug: 'entrepreneur' },
-          { name: 'Agricultural Extension Officer', score: '86%', slug: 'agricultural-officer' },
-          { name: 'Digital Seva Centre Owner', score: '81%', slug: 'entrepreneur' },
-          { name: 'Dairy & Poultry Farm Manager', score: '75%', slug: 'entrepreneur' },
-          { name: 'Rural Logistics Operator', score: '71%', slug: 'entrepreneur' }
-        ],
-        roadmap: [
-          { icon: 'search', title: 'Market Study', desc: 'Identify unmet village/mandal service demand' },
-          { icon: 'description', title: 'Business Plan', desc: 'Calculate setup costs, margins & break-even' },
-          { icon: 'payments', title: 'Mudra Loan', desc: 'Apply for PMMY (Tarun/Kishore) financing' },
-          { icon: 'storefront', title: 'Setup & Pilot', desc: 'Procure equipment and launch local services' },
-          { icon: 'trending_up', title: 'Scale & Hire', desc: 'Grow customer base and mentor youth' }
-        ]
       }
     };
 
@@ -768,11 +619,28 @@
           bpo: 'Digital & Customer Services',
           business: 'Business & Entrepreneurship'
         };
-        const entries = Object.keys(pathNames).map(k => {
-          const rawScore = saved.scores[k] || 1;
-          const pct = Math.min(96, Math.max(30, Math.round((rawScore / 12) * 100)));
+        const keys = Object.keys(pathNames);
+        const total = keys.reduce((sum, k) => sum + (saved.scores[k] || 0), 0);
+        const entries = keys.map(k => {
+          const raw = saved.scores[k] || 0;
+          // Share of the student's total score, so the four add up to 100%
+          // and a track they scored nothing on honestly reads 0%.
+          const pct = total > 0 ? Math.round((raw / total) * 100) : 0;
           return { key: k, name: pathNames[k], color: pathColors[k], pct: pct };
         }).sort((a, b) => b.pct - a.pct);
+
+        // Draw the donut from the same numbers as the legend.
+        const svg = document.getElementById('matchWheelSvg');
+        if (svg) {
+          let offset = 0;
+          svg.innerHTML = entries.filter(e => e.pct > 0).map(e => {
+            const arc = `<circle cx="18" cy="18" r="14" fill="none" stroke="${e.color}" `
+              + `stroke-width="4" stroke-dasharray="${e.pct} ${100 - e.pct}" `
+              + `stroke-dashoffset="${-offset}" />`;
+            offset += e.pct;
+            return arc;
+          }).join('');
+        }
 
         wheelLegend.innerHTML = entries.map(e => `
           <div class="gcs-wheel-legend-item">
@@ -782,32 +650,29 @@
         `).join('');
       }
 
-      // 5. Top 5 Recommendations
-      const recsList = document.getElementById('topRecsList');
-      if (recsList && currentConfig.recs) {
-        const rankColors = ['#059669', '#2563EB', '#D97706', '#0284C7', '#9333EA'];
-        recsList.innerHTML = currentConfig.recs.map((r, i) => `
-          <a href="career-detail.html?career=${r.slug}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s;">
-            <span style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.92rem; color: #0F172A;">
-              <span style="width: 24px; height: 24px; border-radius: 50%; background: ${rankColors[i] || '#059669'}; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">${i + 1}</span>
-              <span>${r.name}</span>
-            </span>
-            <span style="color: ${rankColors[i] || '#059669'}; font-weight: 700; font-size: 0.88rem;">${r.score} Match &gt;</span>
-          </a>
-        `).join('');
+      // Next steps: the roadmap for this track, and jobs at this level.
+      // Both carry the student's own context, so the pages open already
+      // filtered instead of asking them the same questions again.
+      const student = (window.GCS_APP && window.GCS_APP.storage)
+        ? (window.GCS_APP.storage.get('student', {}) || {}) : {};
+      const track = (currentQuizData && currentQuizData.topPath) || 'government';
+      const edu = student.education;
+
+      // Remember the track so roadmap.html can preselect a matching goal.
+      if (window.GCS_APP && window.GCS_APP.storage) {
+        window.GCS_APP.storage.set('student', Object.assign({}, student, { quizTrack: track }));
       }
 
-      // 6. Roadmap Steps
-      const roadmapSteps = document.getElementById('resultsRoadmapSteps');
-      if (roadmapSteps && currentConfig.roadmap) {
-        roadmapSteps.innerHTML = currentConfig.roadmap.map((s, idx) => `
-          <div class="gcs-roadmap-step-item">
-            <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">${s.icon}</span></div>
-            <div class="gcs-roadmap-step-title">${s.title}</div>
-            <div class="gcs-roadmap-step-desc">${s.desc}</div>
-          </div>
-          ${idx < currentConfig.roadmap.length - 1 ? '<span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>' : ''}
-        `).join('');
+      const qs = p => 'track=' + encodeURIComponent(track) + (edu ? '&edu=' + encodeURIComponent(edu) : '');
+      const roadmapLink = document.getElementById('resultRoadmapLink');
+      const jobsLink = document.getElementById('resultJobsLink');
+      if (roadmapLink) roadmapLink.href = 'roadmap.html?' + qs();
+      if (jobsLink) jobsLink.href = 'jobs.html?' + qs();
+
+      const trackName = document.getElementById('resultTrackName');
+      if (trackName) {
+        trackName.textContent = (currentQuizData && currentQuizData.pathNameEn)
+          || currentConfig.topCareer || 'this track';
       }
     }
 

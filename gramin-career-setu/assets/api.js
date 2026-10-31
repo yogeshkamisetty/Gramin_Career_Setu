@@ -38,9 +38,9 @@
         ...(options.headers || {})
       };
 
-      // Attach token if user is logged in with real verified session
+      // Attach token if user is logged in with a valid session
       const currentUser = (window.GCS_AUTH && window.GCS_AUTH.getUser) ? window.GCS_AUTH.getUser() : null;
-      if (currentUser && currentUser.token && !currentUser.isDemoSession) {
+      if (currentUser && currentUser.token) {
         headers['Authorization'] = `Bearer ${currentUser.token}`;
       }
 

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/admin")
-@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'VOLUNTEER')")
 public class AdminController {
 
     private final AdminService adminService;
@@ -52,6 +52,7 @@ public class AdminController {
     }
 
     @PatchMapping("/applications/{id}/status")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<JobApplicationDto>> updateApplicationStatus(
             @PathVariable String id,
             @Valid @RequestBody UpdateApplicationStatusRequest request
@@ -62,6 +63,7 @@ public class AdminController {
     }
 
     @GetMapping("/audit-logs")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<PagedResponse<AuditLogEntity>>> getAuditLogs(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
