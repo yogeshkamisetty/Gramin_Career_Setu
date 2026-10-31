@@ -34,6 +34,7 @@
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/quiz.js" defer></script>
   <script src="assets/pdf-loader.js" defer></script>
+  <script src="data/jobs-data.js" defer></script>
   <script src="assets/i18n-dict.js" defer></script>
   <script src="assets/i18n.js" defer></script>
   <script src="assets/app.js" defer></script>
@@ -76,6 +77,10 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
             <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
               <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
                 <span data-lang-key="nav-profile">My Profile</span>
@@ -157,7 +162,7 @@
         <p class="gcs-page-hero-telugu">అద్భుతం! ఇవే మీ వ్యక్తిగత కెరీర్ సూచనలు.</p>
       </div>
       <div class="gcs-page-hero-visual">
-        <img src="assets/quiz-results-student.jpg" alt="Student celebrating career score" loading="lazy" />
+        <img src="assets/quiz-results-student.webp" alt="Student celebrating career score" loading="lazy" />
       </div>
     </section>
 
@@ -209,7 +214,7 @@
 
         <div style="display: flex; align-items: center; gap: 18px;">
           <div style="width: 100px; height: 100px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #E2E8F0;">
-            <img id="topMatchImg" src="assets/career-software.jpg" alt="Career Match" style="width: 100%; height: 100%; object-fit: cover;" />
+            <img id="topMatchImg" src="assets/career-software.webp" alt="Career Match" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
           <div>
             <h3 id="topMatchTitle" style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Software Engineer</h3>
@@ -287,68 +292,50 @@
       </div>
     </div>
 
-    <!-- 4 Resource Cards: Skills, Courses, Scholarships, Jobs -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 32px;">
-      <!-- Card 1 -->
+    <!-- 4 Resource Cards.
+         These used to be fixed lists — "Programming (Python, Java)",
+         "Google IT Support Prof.", "500+ Active Openings", "Top MNC
+         Companies" — shown to every student regardless of their result, and
+         the job figures were invented. They are now filled from the student's
+         own track, and the job count is counted from data/jobs.csv. -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 28px;">
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span class="material-symbols-outlined" style="color: #7E22CE; font-size: 20px;">handyman</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Skills You Need</h3>
+          <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 20px;">psychology</span>
+          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Skills you need</h3>
         </div>
-        <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;">
-          <li>Programming (Python, Java)</li>
-          <li>Data Structures &amp; Algorithms</li>
-          <li>Database Management</li>
-          <li>Web Development</li>
-          <li>Version Control (Git)</li>
-        </ul>
-        <a href="careers.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View All Skills &rarr;</a>
+        <ul id="cardSkills" style="margin: 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
       </div>
 
-      <!-- Card 2 -->
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
           <span class="material-symbols-outlined" style="color: #2563EB; font-size: 20px;">school</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Top Courses</h3>
+          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Free training</h3>
         </div>
-        <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;">
-          <li>NPTEL Free Computer Science</li>
-          <li>Google IT Support Prof.</li>
-          <li>Python for Everybody</li>
-          <li>Web Development Bootcamp</li>
-          <li>Data Science Fundamentals</li>
-        </ul>
-        <a href="careers.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View All Courses &rarr;</a>
+        <ul id="cardCourses" style="margin: 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
       </div>
 
-      <!-- Card 3 -->
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
           <span class="material-symbols-outlined" style="color: #D97706; font-size: 20px;">card_membership</span>
           <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Scholarships</h3>
         </div>
         <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;">
-          <li>AP EAPCET Fee Reimbursement</li>
-          <li>National Scholarship Portal (NSP)</li>
-          <li>Merit-cum-Means Scholarship</li>
-          <li>Private Trust Fellowships</li>
+          <li><a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style="color:#475569;">National Scholarship Portal</a></li>
+          <li><a href="https://jnanabhumi.ap.gov.in" target="_blank" rel="noopener noreferrer" style="color:#475569;">AP Jnanabhumi (fee reimbursement)</a></li>
+          <li>Post-matric scholarships for SC / ST / BC / minority students</li>
         </ul>
-        <a href="careers.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View Scholarships &rarr;</a>
+        <a href="scholarships.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">See scholarships &rarr;</a>
       </div>
 
-      <!-- Card 4 -->
       <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
           <span class="material-symbols-outlined" style="color: #059669; font-size: 20px;">work</span>
-          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Jobs Available</h3>
+          <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: #0F172A;">Roles in this track</h3>
         </div>
-        <ul style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;">
-          <li>500+ Active Openings</li>
-          <li>Top MNC Companies</li>
-          <li>High Salary Packages</li>
-          <li>Remote Job Options</li>
-        </ul>
-        <a href="jobs.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">Explore Jobs &rarr;</a>
+        <p id="cardJobsCount" style="font-size: 0.82rem; color: #475569; margin: 0 0 10px 0;"></p>
+        <ul id="cardJobs" style="margin: 0 0 12px 0; padding-left: 16px; font-size: 0.82rem; color: #475569; line-height: 1.6;"></ul>
+        <a id="cardJobsLink" href="jobs.html" style="font-size: 0.8rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">See all roles &rarr;</a>
       </div>
     </div>
 
@@ -387,15 +374,6 @@
           <div class="gcs-social-row">
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
-              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
-              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
-              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
         </div>
@@ -448,7 +426,7 @@
       </div>
 
       <div class="gcs-footer-bottom">
-        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
         <div class="gcs-offline-status">
           <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
           <span>Works Offline</span>
@@ -491,49 +469,97 @@
         topCareer: 'Village Secretariat / Sub Inspector',
         topCareerTe: 'గ్రామ సచివాలయం / సబ్ ఇన్‌స్పెక్టర్',
         slug: 'sub-inspector',
-        img: 'assets/career-police.jpg',
+        img: 'assets/career-police.webp',
         strengths: [
           { en: 'Analytical Thinking', te: 'విశ్లేషణాత్మక ఆలోచన', bg: '#EFF6FF', color: '#2563EB' },
           { en: 'Public Administration', te: 'ప్రజా పరిపాలన', bg: '#F0FDF4', color: '#059669' },
           { en: 'Discipline & General Studies', te: 'క్రమశిక్షణ & అధ్యయనం', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Stability', 'Government Pension', 'Social Respect'],
+        skills: [
+          { en: 'Arithmetic & reasoning', te: 'అంకగణితం & రీజనింగ్' },
+          { en: 'General studies and current affairs', te: 'జనరల్ స్టడీస్, కరెంట్ అఫైర్స్' },
+          { en: 'Telugu and English comprehension', te: 'తెలుగు, ఇంగ్లీష్ పఠన సామర్థ్యం' },
+          { en: 'Physical fitness (for uniformed posts)', te: 'శారీరక దారుఢ్యం (యూనిఫాం పోస్టులకు)' }
+        ],
+        courses: [
+          { name: 'NCERT books, classes 6–10 (free)', url: 'https://ncert.nic.in/textbook.php' },
+          { name: 'SWAYAM free online courses', url: 'https://swayam.gov.in' },
+          { name: 'Previous papers — SSC', url: 'https://ssc.gov.in' },
+          { name: 'Previous papers — AP Police', url: 'https://slprb.ap.gov.in' }
+        ],
       },
       iti: {
         topCareer: 'Civil & Technical Technician',
         topCareerTe: 'సివిల్ & సాంకేతిక నిపుణుడు',
         slug: 'civil-engineer',
-        img: 'assets/career-civil.jpg',
+        img: 'assets/career-civil.webp',
         strengths: [
           { en: 'Hands-on Problem Solving', te: 'ప్రాక్టికల్ పరిష్కారాలు', bg: '#F0FDF4', color: '#059669' },
           { en: 'Mechanical & Tool Aptitude', te: 'మెకానికల్ నైపుణ్యం', bg: '#EFF6FF', color: '#2563EB' },
           { en: 'Technical Safety', te: 'సాంకేతిక భద్రత', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Demand', 'Early Earnings', 'Self-Employment Ready'],
+        skills: [
+          { en: 'Your trade skill (electrician, fitter, welder)', te: 'మీ ట్రేడ్ నైపుణ్యం (ఎలక్ట్రీషియన్, ఫిట్టర్, వెల్డర్)' },
+          { en: 'Reading technical drawings', te: 'సాంకేతిక డ్రాయింగ్‌లు చదవడం' },
+          { en: 'Workplace safety practices', te: 'పని ప్రదేశ భద్రతా పద్ధతులు' },
+          { en: 'Basic measurement and tools', te: 'ప్రాథమిక కొలతలు, పనిముట్లు' }
+        ],
+        courses: [
+          { name: 'ITI trades — NCVT MIS', url: 'https://ncvtmis.gov.in' },
+          { name: 'Free short skill courses — PMKVY', url: 'https://www.pmkvyofficial.org' },
+          { name: 'Apprenticeship with stipend — NAPS', url: 'https://www.apprenticeshipindia.gov.in' },
+          { name: 'APSSDC skill training', url: 'https://apssdc.in' }
+        ],
       },
       bpo: {
         topCareer: 'Software & Digital Services Associate',
         topCareerTe: 'సాఫ్ట్‌వేర్ & డిజిటల్ సర్వీసెస్ అసోసియేట్',
         slug: 'software-engineer',
-        img: 'assets/career-software.jpg',
+        img: 'assets/career-software.webp',
         strengths: [
           { en: 'Problem Solving', te: 'సమస్య పరిష్కారం', bg: '#F0FDF4', color: '#059669' },
           { en: 'Analytical Thinking', te: 'విశ్లేషణాత్మక ఆలోచన', bg: '#EFF6FF', color: '#2563EB' },
           { en: 'Verbal & Digital Communication', te: 'కమ్యూనికేషన్ స్కిల్స్', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['High Demand', 'Great Salary', 'Bright Future'],
+        skills: [
+          { en: 'Clear speaking in Telugu and some English', te: 'తెలుగులో, కొంత ఇంగ్లీష్‌లో స్పష్టంగా మాట్లాడటం' },
+          { en: 'Typing speed and accuracy', te: 'టైపింగ్ వేగం, కచ్చితత్వం' },
+          { en: 'Patience with customers', te: 'వినియోగదారులతో ఓర్పు' },
+          { en: 'Basic computer use', te: 'ప్రాథమిక కంప్యూటర్ వినియోగం' }
+        ],
+        courses: [
+          { name: 'Free typing practice — TypingClub', url: 'https://www.typingclub.com' },
+          { name: 'Free training and jobs — National Career Service', url: 'https://www.ncs.gov.in' },
+          { name: 'Digital literacy — PMGDISHA', url: 'https://www.pmgdisha.in' },
+          { name: 'Short skill courses — PMKVY', url: 'https://www.pmkvyofficial.org' }
+        ],
       },
       business: {
         topCareer: 'Rural Agri-Business & Enterprise Founder',
         topCareerTe: 'రూరల్ అగ్రి-బిజినెస్ & ఎంటర్‌ప్రెన్యూర్',
         slug: 'entrepreneur',
-        img: 'assets/profile-suresh.jpg',
+        img: 'assets/profile-suresh.webp',
         strengths: [
           { en: 'Commercial Acumen', te: 'వ్యాపార దృష్టి', bg: '#F0FDF4', color: '#059669' },
           { en: 'Leadership & Initiative', te: 'నాయకత్వం & చొరవ', bg: '#EFF6FF', color: '#2563EB' },
           { en: 'Local Market Networking', te: 'స్థానిక మార్కెట్ సంబంధాలు', bg: '#FAF5FF', color: '#9333EA' }
         ],
         pills: ['Unlimited Growth', 'Be Your Own Boss', 'Local Job Creator'],
+        skills: [
+          { en: 'Knowing what your village actually needs', te: 'మీ గ్రామానికి నిజంగా ఏమి అవసరమో తెలుసుకోవడం' },
+          { en: 'Daily record keeping', te: 'రోజువారీ లెక్కలు రాయడం' },
+          { en: 'Pricing and buying stock', te: 'ధర నిర్ణయం, సరుకు కొనుగోలు' },
+          { en: 'Dealing with a bank', te: 'బ్యాంకుతో వ్యవహరించడం' }
+        ],
+        courses: [
+          { name: 'Free entrepreneurship training — RSETI / NABARD', url: 'https://www.nabard.org' },
+          { name: 'MUDRA loan guidance', url: 'https://www.mudra.org.in' },
+          { name: 'PMEGP subsidy scheme', url: 'https://www.kviconline.gov.in/pmegpeportal' },
+          { name: 'Food enterprise scheme — PMFME', url: 'https://pmfme.mofpi.gov.in' }
+        ],
       }
     };
 
@@ -668,6 +694,43 @@
       const jobsLink = document.getElementById('resultJobsLink');
       if (roadmapLink) roadmapLink.href = 'roadmap.html?' + qs();
       if (jobsLink) jobsLink.href = 'jobs.html?' + qs();
+
+      // Fill the four resource cards from this student's track.
+      const skillsEl = document.getElementById('cardSkills');
+      if (skillsEl && currentConfig.skills) {
+        skillsEl.innerHTML = currentConfig.skills
+          .map(s => '<li>' + s.en + '<br><span style="color:#94A3B8;">' + s.te + '</span></li>')
+          .join('');
+      }
+
+      const coursesEl = document.getElementById('cardCourses');
+      if (coursesEl && currentConfig.courses) {
+        coursesEl.innerHTML = currentConfig.courses
+          .map(c => '<li><a href="' + c.url + '" target="_blank" rel="noopener noreferrer" style="color:#475569;">'
+            + c.name + '</a></li>')
+          .join('');
+      }
+
+      // Counted from data/jobs.csv, not asserted. Empty if the data file is
+      // missing, rather than showing a number we cannot stand behind.
+      const jobsEl = document.getElementById('cardJobs');
+      const jobsCountEl = document.getElementById('cardJobsCount');
+      const allRoles = Array.isArray(window.GCS_JOBS) ? window.GCS_JOBS : [];
+      const trackRoles = allRoles.filter(j => j.category === track
+        && (!edu || (j.eligibleLevels || []).includes(edu)));
+      if (jobsCountEl) {
+        jobsCountEl.textContent = trackRoles.length
+          ? trackRoles.length + ' role' + (trackRoles.length === 1 ? '' : 's') + ' you can aim for'
+            + (edu ? ' at your level' : '') + ':'
+          : 'Open the job list to see roles in this track.';
+      }
+      if (jobsEl) {
+        jobsEl.innerHTML = trackRoles.slice(0, 4)
+          .map(j => '<li>' + j.titleEn + '<br><span style="color:#94A3B8;">' + j.titleTe + '</span></li>')
+          .join('');
+      }
+      const cardJobsLink = document.getElementById('cardJobsLink');
+      if (cardJobsLink) cardJobsLink.href = 'jobs.html?' + qs();
 
       const trackName = document.getElementById('resultTrackName');
       if (trackName) {

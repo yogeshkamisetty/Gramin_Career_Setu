@@ -3,89 +3,66 @@
  * Offline caching for PWA support
  */
 
-const CACHE_NAME = 'gcs-cache-v14';
+const CACHE_NAME = 'gcs-cache-v15';
 const ASSETS_TO_CACHE = [
+  // ── App shell ───────────────────────────────────────────────────────────
+  // Only what a student needs on a first offline visit. Everything else —
+  // careers, schemes, scholarships, stories, the admin pages and their
+  // images — is cached by the fetch handler below the first time it is
+  // opened, so it costs nothing until it is actually wanted.
+  //
+  // This list used to hold all 81 files, about 3.7 MB, fetched before the
+  // student had read a single page. On a village 2G connection that is the
+  // opposite of offline-friendly.
   './',
   './index.html',
   './404.html',
-  './login.html',
-  './dashboard.html',
-  './careers.html',
-  './career-detail.html',
-  './jobs.html',
-  './quiz.html',
-  './quiz-results.html',
-  './resume.html',
-  './resume-preview.html',
-  './workshops.html',
-  './resources.html',
-  './scholarships.html',
-  './schemes.html',
-  './roadmap.html',
-  './stories.html',
-  './about.html',
-  './profile.html',
-  './results.html',
-  './admin/index.html',
+
+  // Styles and scripts every page loads
+  './assets/fonts/text.css',
   './assets/tokens.css',
   './assets/style.css',
+  './assets/saas.css',
   './assets/landing.css',
-  './assets/landing.js',
-  './assets/i18n.js',
-  './assets/fonts/text.css',
-  './assets/fonts/files/2f8d8ec7d7a4.woff2',
-  './assets/fonts/files/395290514d97.woff2',
-  './assets/fonts/files/4ee8fc9834b2.woff2',
-  './assets/fonts/files/567244088c9c.woff2',
-  './assets/fonts/files/8e11d0a3a21c.woff2',
-  './assets/fonts/files/983e90946228.woff2',
-  './assets/fonts/files/a6d20149358d.woff2',
-  './assets/fonts/files/ec84a3760fbd.woff2',
-  './assets/fonts/files/eef1e4977282.woff2',
-  './assets/fonts/files/f55b8d3974cf.woff2',
-  './assets/pdf-loader.js',
-  './assets/actions.js',
-  './assets/api.js',
   './assets/i18n-dict.js',
+  './assets/i18n.js',
+  './assets/api.js',
+  './assets/app.js',
+  './assets/actions.js',
+  './assets/auth.js',
+  './assets/landing.js',
+  './assets/pdf-loader.js',
+
+  // Content data
   './data/jobs-data.js',
   './data/roadmaps.js',
   './data/survey-data.js',
-  './assets/app.js',
-  './assets/auth.js',
-  './assets/resume-builder-engine.js',
-  './assets/auth-village-hero.svg',
-  './assets/auth-students-success.svg',
-  './assets/auth-otp-phone.svg',
-  './assets/dashboard-student-laptop.svg',
-  './assets/hero-crossroads.jpg',
-  './assets/career-explorer-hero.jpg',
-  './assets/quiz-hero-student.jpg',
-  './assets/quiz-results-student.jpg',
-  './assets/jobs-hero-student.jpg',
-  './assets/resume-hero-clipboard.jpg',
-  './assets/resume-avatar-ravi.jpg',
-  './assets/workshops-hero-class.jpg',
-  './assets/resources-hero-folder.svg',
-  './assets/stories-hero-trophy.svg',
-  './assets/impact-hero-growth.svg',
-  './assets/about-hero-students.svg',
-  './assets/scholarships-hero-cap.svg',
-  './assets/schemes-hero-citizens.svg',
+  './data/workshops.js',
+
+  // Fonts: Latin and Telugu subsets only. The Cyrillic, Greek and
+  // Vietnamese subsets can never match a character on this site, so they
+  // were 81 KB of guaranteed waste.
+  './assets/fonts/files/567244088c9c.woff2',
+  './assets/fonts/files/8e11d0a3a21c.woff2',
+  './assets/fonts/files/2f8d8ec7d7a4.woff2',
+
+  // The pages a student is most likely to want without a connection
+  './jobs.html',
+  './quiz.html',
+  './quiz-results.html',
+  './roadmap.html',
+  './resume.html',
+  './resume-preview.html',
+  './apply-online.html',
+
+  // Light illustrations used by those pages (SVGs are 2-5 KB each)
+  './assets/hero-crossroads.webp',
+  './assets/jobs-hero-student.webp',
+  './assets/quiz-hero-student.webp',
+  './assets/resume-hero-clipboard.webp',
   './assets/roadmap-hero-explorer.svg',
-  './assets/career-software.jpg',
-  './assets/career-civil.jpg',
-  './assets/career-teacher.jpg',
-  './assets/career-police.jpg',
-  './assets/career-bank.jpg',
-  './assets/career-agriculture.jpg',
-  './assets/profile-ramesh.jpg',
-  './assets/profile-lalitha.jpg',
-  './assets/profile-suresh.jpg',
-  './assets/quiz.js',
-  './assets/saas.css',
-  './assets/career-data.js',
-  './assets/profile.js',
-  './data/jobs.csv',
+  './assets/resources-hero-folder.svg',
+  './manifest.json'
 ];
 
 // ── Install Event: Pre-cache static assets and external CDNs ──

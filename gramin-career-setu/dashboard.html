@@ -147,6 +147,7 @@
   </style>
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/jobs-data.js" defer></script>
   <script src="assets/i18n-dict.js" defer></script>
   <script src="assets/i18n.js" defer></script>
   <script src="assets/api.js" defer></script>
@@ -260,17 +261,13 @@
           </div>
 
           <!-- Notification Bell with Badge 3 -->
-          <button type="button" onclick="GCS_ACTIONS.notAvailable('Notifications')" style="position: relative; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
-            <span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
-            <span style="position: absolute; top: -2px; right: -2px; background: #EF4444; color: #ffffff; font-size: 0.65rem; font-weight: 800; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff;">3</span>
-          </button>
 
           <!-- User Profile Dropdown Pill -->
           <div style="position: relative; display: inline-block;">
             <button type="button" onclick="toggleHeaderUserMenu(event)" style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #E2E8F0; border-radius: 28px; padding: 4px 14px 4px 6px; cursor: pointer; font-family: inherit;">
-              <img src="assets/resume-avatar-ravi.jpg" id="dashUserAvatar" alt="User Avatar" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;" />
+              <img src="assets/resume-avatar-ravi.webp" id="dashUserAvatar" alt="User Avatar" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;" />
               <div style="text-align: left;">
-                <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A;" id="dashUserName">Ravi Kumar</div>
+                <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A;" id="dashUserName" id="dashUserNameStatic">&nbsp;</div>
                 <div style="font-size: 0.7rem; color: #64748B;">View Profile ▾</div>
               </div>
             </button>
@@ -328,7 +325,7 @@
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Skills Tested</div>
             <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSkillsCount">0</div>
-            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Quizzes Completed</div>
+            <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;" data-lang-key="dash-quizzes-done">Quizzes Completed</div>
             <a href="quiz-results.html" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">View Results &rarr;</a>
           </div>
         </div>
@@ -339,7 +336,7 @@
             <span class="material-symbols-outlined" style="font-size: 24px;">description</span>
           </div>
           <div>
-            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Resumes Created</div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;" data-lang-key="dash-resumes-created">Resumes Created</div>
             <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashResumesCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Resume Created</div>
             <a href="resume-preview.html" style="font-size: 0.78rem; font-weight: 700; color: #2563EB; text-decoration: none;">View Resume &rarr;</a>
@@ -352,7 +349,7 @@
             <span class="material-symbols-outlined" style="font-size: 24px;">bookmark</span>
           </div>
           <div>
-            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Jobs Saved</div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;" data-lang-key="dash-jobs-saved">Jobs Saved</div>
             <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashSavedJobsCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Jobs Saved</div>
             <a href="jobs.html" style="font-size: 0.78rem; font-weight: 700; color: #D97706; text-decoration: none;">View Jobs &rarr;</a>
@@ -365,7 +362,7 @@
             <span class="material-symbols-outlined" style="font-size: 24px;">groups</span>
           </div>
           <div>
-            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;">Workshops Joined</div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #64748B;" data-lang-key="dash-workshops-joined">Workshops Joined</div>
             <div style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 2px 0;" id="dashWorkshopsCount">0</div>
             <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 8px;">Workshop Joined</div>
             <a href="workshops.html" style="font-size: 0.78rem; font-weight: 700; color: #7C3AED; text-decoration: none;">View Workshops &rarr;</a>
@@ -380,14 +377,14 @@
         
         <!-- Column 1: Continue Your Journey -->
         <div class="dash-card">
-          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Continue Your Journey</h2>
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;" data-lang-key="dash-continue">Continue Your Journey</h2>
           <div style="display: flex; flex-direction: column; gap: 14px;">
             
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="material-symbols-outlined" style="color: #059669; font-size: 22px;">school</span>
                 <div>
-                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Explore Career Paths</div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;" data-lang-key="dash-explore-careers">Explore Career Paths</div>
                   <div style="font-size: 0.72rem; color: #64748B;">Discover the best career options for you</div>
                 </div>
               </div>
@@ -398,7 +395,7 @@
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="material-symbols-outlined" style="color: #2563EB; font-size: 22px;">work</span>
                 <div>
-                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Find Jobs</div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;" data-lang-key="dash-find-jobs">Find Jobs</div>
                   <div style="font-size: 0.72rem; color: #64748B;">Search latest government &amp; private jobs</div>
                 </div>
               </div>
@@ -409,7 +406,7 @@
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 22px;">assignment</span>
                 <div>
-                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Test Your Skills</div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;" data-lang-key="dash-test-skills">Test Your Skills</div>
                   <div style="font-size: 0.72rem; color: #64748B;">Take a quiz and know your strengths</div>
                 </div>
               </div>
@@ -420,7 +417,7 @@
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="material-symbols-outlined" style="color: #EA580C; font-size: 22px;">description</span>
                 <div>
-                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;">Build Your Resume</div>
+                  <div style="font-size: 0.84rem; font-weight: 700; color: #0F172A;" data-lang-key="dash-build-resume">Build Your Resume</div>
                   <div style="font-size: 0.72rem; color: #64748B;">Create a professional resume in minutes</div>
                 </div>
               </div>
@@ -435,43 +432,14 @@
 
         <!-- Column 2: Recommended for You & Daily Inspiration -->
         <div class="dash-card" style="display: flex; flex-direction: column;">
-          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 16px 0;">Recommended for You</h2>
-          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="material-symbols-outlined" style="color: #7C3AED;">laptop_mac</span>
-                <div>
-                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">Software Developer</div>
-                  <div style="font-size: 0.7rem; color: #64748B;">High Demand • Good Salary</div>
-                </div>
-              </div>
-              <a href="career-detail.html?career=software-engineer" style="font-size: 0.75rem; font-weight: 700; color: #059669; text-decoration: none;">View Career &rarr;</a>
-            </div>
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;" data-lang-key="dash-recommended">Recommended for you</h2>
+          <p style="font-size: 0.78rem; color: #64748B; margin: 0 0 14px 0;" id="dashRecoBasis"></p>
 
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="material-symbols-outlined" style="color: #2563EB;">badge</span>
-                <div>
-                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">APPSC Group 2</div>
-                  <div style="font-size: 0.7rem; color: #64748B;">Government Job • Graduates</div>
-                </div>
-              </div>
-              <a href="jobs.html?cat=government" style="font-size: 0.75rem; font-weight: 700; color: #2563EB; text-decoration: none;">View Jobs &rarr;</a>
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; border-radius: 10px; padding: 10px 12px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="material-symbols-outlined" style="color: #D97706;">school</span>
-                <div>
-                  <div style="font-size: 0.82rem; font-weight: 700; color: #0F172A;">Free Workshop</div>
-                  <div style="font-size: 0.7rem; color: #64748B;">Resume Building Workshop</div>
-                </div>
-              </div>
-              <a href="workshops.html" style="font-size: 0.75rem; font-weight: 700; color: #D97706; text-decoration: none;">Join Now &rarr;</a>
-            </div>
-
-          </div>
+          <!-- Filled from the student's saved level and quiz track. This used
+               to be three fixed cards pushing "Software Developer" and APPSC
+               Group 2 (graduates only) at every student, whatever they had
+               studied or answered. -->
+          <div id="dashReco" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;"></div>
 
           <!-- Daily Inspiration Quote Box -->
           <div style="margin-top: auto; background: #FFFBEB; border: 1px dashed #FDE68A; border-radius: 12px; padding: 14px;">
@@ -623,6 +591,85 @@
         console.warn('Dashboard stat computation error', e);
       }
     });
+  </script>
+
+  <script>
+    /**
+     * Recommendations on the dashboard come from what we actually know about
+     * this student: the education level they picked and the track their quiz
+     * pointed to. If we know neither, we ask rather than guess.
+     */
+    (function () {
+      'use strict';
+      var TRACK_LABELS = {
+        government: 'Government', iti: 'ITI / Technical',
+        bpo: 'BPO / Service', business: 'Self-employment'
+      };
+
+      function render() {
+        var wrap = document.getElementById('dashReco');
+        var basis = document.getElementById('dashRecoBasis');
+        if (!wrap) return;
+
+        var store = window.GCS_APP && window.GCS_APP.storage;
+        var student = (store && store.get('student', {})) || {};
+        var roles = Array.isArray(window.GCS_JOBS) ? window.GCS_JOBS : [];
+        var esc = (window.GCS_APP && window.GCS_APP.escapeHtml) || function (x) { return x; };
+
+        if (!student.education) {
+          basis.textContent = '';
+          wrap.innerHTML = '<div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:10px; padding:14px;">'
+            + '<p style="margin:0 0 10px; font-size:0.82rem; color:#92400E;">'
+            + 'Tell us what you have studied and we can suggest roles you are actually eligible for.</p>'
+            + '<a href="index.html#personalise" class="gcs-btn-cta-1" style="text-decoration:none; padding:7px 14px; font-size:0.78rem;">Choose my level</a>'
+            + '</div>';
+          return;
+        }
+
+        var track = student.quizTrack;
+        var eligible = roles.filter(function (r) {
+          return (r.eligibleLevels || []).indexOf(student.education) !== -1;
+        });
+        var picked = track ? eligible.filter(function (r) { return r.category === track; }) : [];
+        if (picked.length < 2) picked = picked.concat(eligible.filter(function (r) { return picked.indexOf(r) === -1; }));
+        picked = picked.slice(0, 2);
+
+        basis.textContent = track
+          ? 'Based on your level and your quiz result (' + (TRACK_LABELS[track] || track) + ').'
+          : 'Based on your level. Take the quiz for a sharper match.';
+
+        var cards = picked.map(function (r) {
+          return '<div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; border-radius:10px; padding:10px 12px; gap:10px;">'
+            + '<div style="display:flex; align-items:center; gap:10px;">'
+            +   '<span class="material-symbols-outlined" style="color:#059669;">work</span>'
+            +   '<div>'
+            +     '<div style="font-size:0.82rem; font-weight:700; color:#0F172A;">' + esc(r.titleEn) + '</div>'
+            +     '<div style="font-size:0.7rem; color:#64748B;">' + esc(r.titleTe) + '</div>'
+            +   '</div>'
+            + '</div>'
+            + '<a href="jobs.html?edu=' + encodeURIComponent(student.education) + '" style="font-size:0.75rem; font-weight:700; color:#059669; text-decoration:none; white-space:nowrap;">View &rarr;</a>'
+            + '</div>';
+        });
+
+        cards.push('<div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; border-radius:10px; padding:10px 12px; gap:10px;">'
+          + '<div style="display:flex; align-items:center; gap:10px;">'
+          +   '<span class="material-symbols-outlined" style="color:#2563EB;">route</span>'
+          +   '<div>'
+          +     '<div style="font-size:0.82rem; font-weight:700; color:#0F172A;">Your step-by-step roadmap</div>'
+          +     '<div style="font-size:0.7rem; color:#64748B;">మీ దశలవారీ రోడ్‌మ్యాప్</div>'
+          +   '</div>'
+          + '</div>'
+          + '<a href="roadmap.html?edu=' + encodeURIComponent(student.education)
+          + (track ? '&track=' + encodeURIComponent(track) : '')
+          + '" style="font-size:0.75rem; font-weight:700; color:#2563EB; text-decoration:none; white-space:nowrap;">Open &rarr;</a>'
+          + '</div>');
+
+        wrap.innerHTML = cards.join('');
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+      else render();
+    })();
   </script>
 </body>
 </html>

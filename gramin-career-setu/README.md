@@ -101,13 +101,13 @@ Google Antigravity served as an autonomous, end-to-end software engineering part
 1. **Bilingual Telugu ↔ English Engine with Voice Narration**:
    Allows instant, flicker-free toggling between Telugu and English across all 21 pages. Integrated with the Web Speech API to provide voice narration for rural youth with varying reading proficiencies.
 2. **Offline-First Progressive Web App (PWA)**:
-   Designed specifically for low-bandwidth and intermittent 2G/3G networks. Caches critical career resources, application forms, and workshop details locally, queueing offline submissions until network availability returns.
+   Designed specifically for low-bandwidth and intermittent 2G/3G networks. Precaches a small app shell (about 1.1 MB) and caches everything else the first time it is opened, so a first visit on 2G is not spent downloading pages the student has not asked for.
 3. **Role-Based Authentication & Personalized Dashboards**:
-   Features a 4-step responsive authentication flow (Mobile + Password, 6-digit OTP verification, and password strength scoring). Supports three distinct roles (**Student / Job Seeker**, **Village Coordinator / Volunteer**, and **District Admin**) with tailored dashboards and route protection.
+   A 4-step sign-up flow (mobile + password, a 6-digit confirmation code, password strength scoring) across three roles (**Student / Job Seeker**, **Village Coordinator / Volunteer**, **District Admin**) with route protection. The project has no SMS gateway, so the confirmation code is generated in the browser and shown on screen; the sign-up page says so rather than claiming a message was sent.
 4. **Rural ATS Resume Builder**:
    A streamlined, mobile-friendly resume builder that scores resumes against Applicant Tracking System (ATS) standards, offering actionable suggestions to help rural candidates present their skills effectively to formal employers.
 5. **Unified Opportunity & Scheme Bridge**:
-   A centralized repository for discovering verified local private and government job openings, state/central scholarships (e.g., Jagananna Vidya Deevena, AICTE Pragati), and welfare schemes (e.g., PM MUDRA, PM Vishwakarma).
+   A single place to discover the kinds of role a student is eligible for, plus state and central scholarships and welfare schemes (e.g. PM MUDRA, PM Vishwakarma). Job entries are role types pointing at the official portal — we neither verify nor host live vacancies, and every card says so.
 
 ---
 
@@ -168,14 +168,23 @@ Gramin_Career_Setu/
     ├── login.html                 # 4-Step role-based authentication portal
     ├── dashboard.html             # Authenticated student dashboard
     ├── careers.html               # Career pathways catalog
-    ├── jobs.html                  # Job search & filtering engine
+    ├── jobs.html                  # Job roles filtered by the student's qualification
+    ├── roadmap.html               # Step-by-step career roadmaps per education level
+    ├── apply-online.html          # How to apply online, 8 steps, Telugu and English
     ├── resume.html                # ATS resume builder & evaluator
-    ├── quiz.html                  # RIASEC aptitude assessment quiz
+    ├── quiz.html                  # 5-question career aptitude quiz (4 tracks)
     ├── scholarships.html          # State & central scholarship directory
     ├── schemes.html               # Government welfare schemes portal
-    ├── workshops.html             # Live skill development workshops
+    ├── workshops.html             # Workshop curriculum and scheduled sessions
     ├── server.js                  # Edge Node.js gateway & reverse proxy
     ├── docker-compose.yml         # Container orchestration (Postgres, Redis, Keycloak, Backend)
+    │
+    ├── data/                      # The content the site renders. Edit these, not the pages.
+    │   ├── jobs.csv               # Source of truth for job roles
+    │   ├── jobs-data.js           # Generated from jobs.csv (scripts/build-jobs-data.js)
+    │   ├── roadmaps.js            # Career roadmaps: steps, costs, official links
+    │   ├── workshops.js           # Curriculum, scheduled sessions, sessions held
+    │   └── survey-data.js         # Before/after workshop survey responses
     │
     ├── assets/                    # Core frontend scripts, styles, and vector artwork
     │   ├── api.js                 # Unified REST client with offline sync engine
@@ -186,7 +195,7 @@ Gramin_Career_Setu/
     ├── backend/                   # Spring Boot 3.3.5 / Java 21 Modular Monolith
     │   ├── pom.xml                # Maven project definition & dependencies
     │   ├── src/main/java/         # Domain packages (jobs, workshops, resumes, quiz, etc.)
-    │   └── src/main/resources/    # Configs and Flyway database migrations (V1–V5)
+    │   └── src/main/resources/    # Configs and Flyway migrations (V1-V6)
     │
     └── tests/                     # Automated test suites
         └── project.test.js        # Node.js gateway and contract tests

@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -84,6 +85,7 @@ class WorkshopConcurrencyIntegrationTest {
                     );
 
                     MvcResult result = mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/register")
+                        .with(user("student_user").roles("STUDENT"))
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(request)))
                             .andReturn();
@@ -139,18 +141,21 @@ class WorkshopConcurrencyIntegrationTest {
 
         // Register 1st participant
         mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/register")
+                        .with(user("student_user").roles("STUDENT"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new RegisterWorkshopRequest("User 1", phone1, "IDEMP-C1"))))
                 .andExpect(status().isCreated());
 
         // 2nd participant rejected (capacity full)
         mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/register")
+                        .with(user("student_user").roles("STUDENT"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new RegisterWorkshopRequest("User 2", phone2, "IDEMP-C2"))))
                 .andExpect(status().isBadRequest());
 
         // Cancel 1st participant
         mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/cancel")
+                        .with(user("student_user").roles("STUDENT"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CancelWorkshopRequest(phone1, "IDEMP-C1"))))
                 .andExpect(status().isOk())
@@ -158,6 +163,7 @@ class WorkshopConcurrencyIntegrationTest {
 
         // 2nd participant can now successfully register
         mockMvc.perform(post("/api/v1/workshops/" + workshopId + "/register")
+                        .with(user("student_user").roles("STUDENT"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new RegisterWorkshopRequest("User 2", phone2, "IDEMP-C2-RETRY"))))
                 .andExpect(status().isCreated());

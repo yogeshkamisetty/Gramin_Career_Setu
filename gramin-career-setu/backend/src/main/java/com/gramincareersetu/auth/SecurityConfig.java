@@ -83,13 +83,25 @@ public class SecurityConfig {
 
                     // OpenAPI / Swagger UI
                     auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
+                    // Reading public career information needs no account.
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/jobs/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/jobs/*/apply").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/workshops/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/workshops/*/register").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/workshops/*/cancel").permitAll();
+
+                    // These two store nothing that identifies a person, so they
+                    // stay open; the rate limiter bounds abuse.
                     auth.requestMatchers(HttpMethod.POST, "/api/v1/resumes/calculate-ats").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/v1/quiz/submit").permitAll();
+
+                    // Anything that WRITES a person's name, phone or village now
+                    // requires a signed-in user.
+                    //
+                    // These three were permitAll. /jobs/*/apply accepted a name,
+                    // phone and village from anyone, and /workshops/*/cancel
+                    // identified the registrant by phone number alone — so
+                    // guessing a number cancelled a real student's place.
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/jobs/*/apply").authenticated();
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/workshops/*/register").authenticated();
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/workshops/*/cancel").authenticated();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/scholarships/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/schemes/**").permitAll();
                     auth.requestMatchers("/api/v1/public/**").permitAll();

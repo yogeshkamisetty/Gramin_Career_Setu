@@ -31,7 +31,7 @@
       village: 'Gudur, Tirupati District',
       role: 'student',
       roleLabel: 'Student / Job Seeker',
-      avatar: 'assets/resume-avatar-ravi.jpg',
+      avatar: 'assets/resume-avatar-ravi.webp',
       initials: 'RK',
       joinedDate: 'May 2024',
       isDemoSession: true,
@@ -46,7 +46,7 @@
       village: 'Penumaka, Guntur District',
       role: 'volunteer',
       roleLabel: 'Village Coordinator',
-      avatar: 'assets/profile-suresh.jpg',
+      avatar: 'assets/profile-suresh.webp',
       initials: 'SB',
       joinedDate: 'Jan 2024',
       isDemoSession: true,
@@ -61,7 +61,7 @@
       village: 'District Collectorate Office',
       role: 'admin',
       roleLabel: 'District Admin',
-      avatar: 'assets/profile-ramesh.jpg',
+      avatar: 'assets/profile-ramesh.webp',
       initials: 'KR',
       joinedDate: 'Nov 2023',
       isDemoSession: true,
@@ -488,7 +488,7 @@
             email: u.email || '',
             role: roleNormalized,
             roleLabel: roleNormalized === 'admin' ? 'District Admin' : roleNormalized === 'volunteer' ? 'Village Coordinator' : 'Student / Job Seeker',
-            avatar: 'assets/resume-avatar-ravi.jpg',
+            avatar: 'assets/resume-avatar-ravi.webp',
             initials: (u.fullName || 'U').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase(),
             district: u.district || '',
             village: u.village || '',
@@ -530,15 +530,18 @@
 
     if (!user) {
       recordLockoutFailure(mobileCheck.clean);
-      return { 
-        success: false, 
-        message: 'Account not found. For demo accounts use 9876543210 (Student), 9440123456 (Volunteer), or 9848012345 (Admin) with password: password123' 
-      };
+      // Deliberately the same wording as a wrong password: saying which of
+      // the two was wrong tells an attacker which numbers are registered,
+      // and the old message simply listed working credentials.
+      return { success: false, message: 'Incorrect mobile number or password.' };
     }
 
-    if (expectedHash && inputHash !== expectedHash && password !== 'password123' && password !== 'demo123') {
+    // The hash must match. There is deliberately no literal that opens any
+    // account: 'password123' and 'demo123' used to do exactly that, so a
+    // student's account was readable by anyone who had seen the login page.
+    if (!expectedHash || inputHash !== expectedHash) {
       recordLockoutFailure(mobileCheck.clean);
-      return { success: false, message: 'Incorrect password. (Demo password: password123)' };
+      return { success: false, message: 'Incorrect mobile number or password.' };
     }
 
     sessionStorage.removeItem(lockoutKey);
@@ -561,12 +564,23 @@
   /**
    * One-Click Demo Login
    */
+  /**
+   * One-click demo session, kept because the project has to be demonstrated
+   * at a workshop and in a viva without real accounts.
+   *
+   * It is explicitly a demo: no backend token is issued, so every API call
+   * stays unauthenticated and the admin screens show nothing real. The toast
+   * says "demo" so nobody mistakes it for having signed in as that person.
+   */
   function loginDemo(roleKey) {
-    const user = DEMO_USERS[roleKey] || DEMO_USERS.student;
+    const user = Object.assign({}, DEMO_USERS[roleKey] || DEMO_USERS.student, {
+      isDemoSession: true,
+      token: null
+    });
     setCurrentUser(user);
 
     if (window.GCS_APP && window.GCS_APP.toast) {
-      window.GCS_APP.toast.show(`👋 Logged in as ${user.name} (${user.roleLabel})`);
+      window.GCS_APP.toast.show(`🧪 Demo session as ${user.roleLabel} — no real account, no saved data.`);
     }
 
     setTimeout(() => {
@@ -635,7 +649,7 @@
       email: (data.email || '').trim(),
       role: data.role === 'volunteer' ? 'volunteer' : 'student',
       roleLabel: data.role === 'volunteer' ? 'Village Coordinator' : 'Student / Job Seeker',
-      avatar: 'assets/resume-avatar-ravi.jpg',
+      avatar: 'assets/resume-avatar-ravi.webp',
       initials: data.name.trim().split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U',
       joinedDate: 'Just now',
       rawPassword: data.password, // temporary for backend registration upon verification
@@ -686,14 +700,21 @@
       return { success: false, message: 'Too many incorrect attempts. Please sign up again.' };
     }
 
-    // Check code against generated OTP, or demo master code '123456'
-    if (code !== pending.otpCode && code !== '123456') {
+    // Only the generated code is accepted. '123456' used to verify any
+    // signup, and the failure message printed the correct code, so this
+    // step confirmed nothing.
+    //
+    // The code is generated in the browser and shown on screen, because this
+    // project has no SMS gateway. The sign-up screen says so plainly rather
+    // than claiming a message was sent. It still catches a mistyped number
+    // and a user who cannot complete the step, which is what it is for here.
+    if (code !== pending.otpCode) {
       try {
         localStorage.setItem(PENDING_SIGNUP_KEY, JSON.stringify(pending));
       } catch (e) {}
-      return { 
-        success: false, 
-        message: `Incorrect verification code (${5 - pending.otpAttempts} attempts remaining). Demo code is: ${pending.otpCode} or 123456.` 
+      return {
+        success: false,
+        message: `Incorrect code. ${5 - pending.otpAttempts} attempt(s) remaining.`
       };
     }
 
@@ -701,6 +722,11 @@
     let realToken = null;
     let realId = pending.id;
     try {
+      if (!pending.rawPassword) {
+        // Without the password the student chose there is nothing to create
+        // a server account with; keep it local rather than inventing one.
+        throw new Error('no password captured for signup');
+      }
       const apiBase = (window.GCS_API && window.GCS_API.baseUrl) ? window.GCS_API.baseUrl : '/api/v1';
       const res = await fetch(`${apiBase}/auth/signup`, {
         method: 'POST',
@@ -708,7 +734,7 @@
         body: JSON.stringify({
           fullName: pending.name,
           phone: pending.phone,
-          password: pending.rawPassword || 'password123',
+          password: pending.rawPassword,
           role: (pending.role || 'student').toUpperCase(),
           district: 'Andhra Pradesh',
           village: 'Rural'
@@ -806,7 +832,11 @@
       resetInfo = JSON.parse(sessionStorage.getItem('gcs_reset_' + mobileCheck.clean) || 'null');
     } catch (_) {}
 
-    if (resetInfo && (otp === resetInfo.code || otp === '123456') && Date.now() < resetInfo.expiresAt) {
+    // Only the code issued for this number resets it. '123456' used to work
+    // here too, which meant any account's password could be reset by anyone
+    // who knew the mobile number — worse than the signup bypass, because it
+    // took the account over rather than just creating one.
+    if (resetInfo && otp === resetInfo.code && Date.now() < resetInfo.expiresAt) {
       let registeredUsers = [];
       try {
         registeredUsers = JSON.parse(localStorage.getItem(REGISTERED_USERS_KEY) || '[]');
@@ -869,7 +899,7 @@
         const safeName = escapeHtml(user.name || 'User');
         const safeFirstName = escapeHtml((user.name || 'User').trim().split(' ')[0]);
         const safeRoleLabel = escapeHtml(user.roleLabel || (user.role === 'admin' ? 'District Admin' : user.role === 'volunteer' ? 'Village Coordinator' : 'Student / Job Seeker'));
-        const safeAvatar = escapeHtml(pfx + (user.avatar || 'assets/resume-avatar-ravi.jpg'));
+        const safeAvatar = escapeHtml(pfx + (user.avatar || 'assets/resume-avatar-ravi.webp'));
         const dashLink = pfx + 'dashboard.html';
         const profileLink = pfx + 'profile.html';
         const adminLink = isSubdir ? 'index.html' : 'admin/index.html';
@@ -877,7 +907,7 @@
         authBtn.innerHTML = `
           <div class="gcs-user-pill-dropdown" style="position: relative; display: inline-block;">
             <button type="button" onclick="toggleHeaderUserMenu(event)" style="display: flex; align-items: center; gap: 8px; background: #ECFDF5; border: 1.5px solid #86EFAC; border-radius: 24px; padding: 4px 12px 4px 4px; cursor: pointer; font-family: inherit;">
-              <img src="${safeAvatar}" alt="${safeName}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;" onerror="this.src='${pfx}assets/resume-avatar-ravi.jpg'" />
+              <img src="${safeAvatar}" alt="${safeName}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;" onerror="this.src='${pfx}assets/resume-avatar-ravi.webp'" />
               <span style="font-size: 0.82rem; font-weight: 700; color: #064E3B; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${safeFirstName}</span>
               <span class="material-symbols-outlined" style="font-size: 16px; color: #059669;">expand_more</span>
             </button>

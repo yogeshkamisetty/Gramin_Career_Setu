@@ -75,6 +75,10 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
             <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
               <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
                 <span data-lang-key="nav-profile">My Profile</span>
@@ -155,7 +159,7 @@
     <!-- Career Detail Hero Banner -->
     <section class="gcs-detail-hero">
       <div class="gcs-detail-hero-img">
-        <img id="detailImg" src="assets/career-software.jpg" alt="Software Engineer coding on laptop" />
+        <img id="detailImg" src="assets/career-software.webp" alt="Software Engineer coding on laptop" />
         <span class="gcs-demand-badge-floating"># High Demand</span>
       </div>
 
@@ -168,7 +172,7 @@
         <div class="gcs-detail-metrics-row">
           <div class="gcs-detail-metric-item">
             <span class="gcs-detail-metric-val" style="color: var(--gcs-green-medium);" id="detailSalary">₹ 3.5L – ₹ 15L / year</span>
-            <span class="gcs-detail-metric-lbl">Average Salary</span>
+            <span class="gcs-detail-metric-lbl">Typical pay (indicative)</span>
           </div>
           <div style="width: 1px; height: 32px; background: #E2E8F0;"></div>
           <div class="gcs-detail-metric-item">
@@ -241,13 +245,19 @@
             <div style="width: 36px; height: 36px; border-radius: 10px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center;">
               <span class="material-symbols-outlined">payments</span>
             </div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #0F172A;">Average Salary</h3>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #0F172A;">Typical pay by experience</h3>
           </div>
           <div id="salaryBreakdown" style="font-size: 0.88rem; color: #475569; line-height: 1.8;">
             <div>• <strong>Fresher:</strong> ₹ 3.5L – ₹ 6L / year</div>
             <div>• <strong>1–3 Years:</strong> ₹ 6L – ₹ 10L / year</div>
             <div>• <strong>5+ Years:</strong> ₹ 10L – ₹ 15L+ / year</div>
           </div>
+          <p style="font-size: 0.78rem; color: #94A3B8; margin: 12px 0 0; line-height: 1.5;">
+            Indicative ranges to give you a sense of scale, not measured averages.
+            Actual pay depends on the employer, the district and the year — a government
+            post pays what its notification states.
+            <br /><span style="color:#A3B0C2;">ఇవి ఒక అంచనా మాత్రమే, కచ్చితమైన సగటు కాదు.</span>
+          </p>
         </div>
       </div>
     </section>
@@ -404,15 +414,6 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
-              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
-              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
-              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
-            </a>
           </div>
         </div>
 
@@ -464,7 +465,7 @@
       </div>
 
       <div class="gcs-footer-bottom">
-        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
         <div class="gcs-offline-status">
           <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
           <span>Works Offline</span>
@@ -511,7 +512,7 @@
         salary: '₹ 3.5L – ₹ 15L / year',
         demand: 'Very High',
         rating: '★ 4.6 / 5',
-        img: 'assets/career-software.jpg',
+        img: 'assets/career-software.webp',
         tags: ['✦ IT & Software', '✦ Future Ready', '✦ Remote Work Possible', '✦ APSSDC Free Training'],
         overviewText: 'Software Engineers design, develop and maintain software applications. They work with programming languages, databases, cloud tools and modern frameworks to solve real-world problems.',
         eligibility: [
@@ -563,10 +564,10 @@
           { icon: 'menu_book', name: 'APSSDC Portal', desc: 'State-certified job skilling tracks & materials' }
         ],
         related: [
-          { slug: 'web-developer', title: 'Web Developer', salary: '₹3L – ₹10L / yr', qual: 'Any Degree / Skills', img: 'assets/career-software.jpg' },
-          { slug: 'data-scientist', title: 'Data Scientist', salary: '₹6L – ₹18L / yr', qual: 'B.Tech / Statistics', img: 'assets/career-civil.jpg' },
-          { slug: 'app-developer', title: 'Mobile App Developer', salary: '₹3.5L – ₹12L / yr', qual: 'B.Tech / MCA', img: 'assets/career-software.jpg' },
-          { slug: 'system-analyst', title: 'System Analyst', salary: '₹4L – ₹14L / yr', qual: 'Degree in CS / IT', img: 'assets/career-bank.jpg' }
+          { slug: 'web-developer', title: 'Web Developer', salary: '₹3L – ₹10L / yr', qual: 'Any Degree / Skills', img: 'assets/career-software.webp' },
+          { slug: 'data-scientist', title: 'Data Scientist', salary: '₹6L – ₹18L / yr', qual: 'B.Tech / Statistics', img: 'assets/career-civil.webp' },
+          { slug: 'app-developer', title: 'Mobile App Developer', salary: '₹3.5L – ₹12L / yr', qual: 'B.Tech / MCA', img: 'assets/career-software.webp' },
+          { slug: 'system-analyst', title: 'System Analyst', salary: '₹4L – ₹14L / yr', qual: 'Degree in CS / IT', img: 'assets/career-bank.webp' }
         ]
       },
       'civil-engineer': {
@@ -577,7 +578,7 @@
         salary: '₹ 3.5L – ₹ 8L / year',
         demand: 'High Demand',
         rating: '★ 4.5 / 5',
-        img: 'assets/career-civil.jpg',
+        img: 'assets/career-civil.webp',
         tags: ['✦ Infrastructure', '✦ Govt & Private', '✦ Site Engineering', '✦ AP R&B Department'],
         overviewText: 'Civil Engineers build the physical foundation of our villages and cities. They plan irrigation canals, rural roads, panchayat buildings, and large infrastructure projects with precision and safety.',
         eligibility: [
@@ -629,10 +630,10 @@
           { icon: 'menu_book', name: 'National Building Code', desc: 'Safety regulations and structural manuals' }
         ],
         related: [
-          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.jpg' },
-          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.jpg' },
-          { slug: 'entrepreneur', title: 'Civil Contractor / Builder', salary: 'High Returns', qual: 'Diploma / Experience', img: 'assets/profile-suresh.jpg' },
-          { slug: 'bank-officer', title: 'Govt Technical Officer', salary: '₹4L – ₹8L / yr', qual: 'Degree / B.Tech', img: 'assets/career-bank.jpg' }
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'entrepreneur', title: 'Civil Contractor / Builder', salary: 'High Returns', qual: 'Diploma / Experience', img: 'assets/profile-suresh.webp' },
+          { slug: 'bank-officer', title: 'Govt Technical Officer', salary: '₹4L – ₹8L / yr', qual: 'Degree / B.Tech', img: 'assets/career-bank.webp' }
         ]
       },
       'school-teacher': {
@@ -643,7 +644,7 @@
         salary: '₹ 2.5L – ₹ 6L / year',
         demand: 'High Demand',
         rating: '★ 4.8 / 5',
-        img: 'assets/career-teacher.jpg',
+        img: 'assets/career-teacher.webp',
         tags: ['✦ Noble Profession', '✦ Govt DSC Jobs', '✦ Job Security', '✦ Village Community Impact'],
         overviewText: 'Teachers guide and educate rural children, building literacy, math skills, and moral character. Government teachers in Andhra Pradesh enjoy high social respect, stable pensions, and fixed holidays.',
         eligibility: [
@@ -695,10 +696,10 @@
           { icon: 'menu_book', name: 'Samagra Shiksha Resources', desc: 'Foundational learning and numeracy materials' }
         ],
         related: [
-          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.jpg' },
-          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.jpg' },
-          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.jpg' },
-          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.jpg' }
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
         ]
       },
       'sub-inspector': {
@@ -709,7 +710,7 @@
         salary: '₹ 4L – ₹ 9L / year',
         demand: 'High Demand',
         rating: '★ 4.9 / 5',
-        img: 'assets/career-police.jpg',
+        img: 'assets/career-police.webp',
         tags: ['✦ Uniformed Service', '✦ Prestigious Role', '✦ AP SLPRB', '✦ Public Safety & Law'],
         overviewText: 'Sub Inspectors maintain law, investigate offenses, manage police stations, and protect vulnerable citizens in rural talukas and urban districts. It provides enormous community respect, authority, and government stability.',
         eligibility: [
@@ -761,10 +762,10 @@
           { icon: 'menu_book', name: 'Police Physical Training Guide', desc: '1600m run timing strategy & diet plans' }
         ],
         related: [
-          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.jpg' },
-          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.jpg' },
-          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.jpg' },
-          { slug: 'civil-engineer', title: 'Civil Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech / Diploma', img: 'assets/career-civil.jpg' }
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'civil-engineer', title: 'Civil Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech / Diploma', img: 'assets/career-civil.webp' }
         ]
       },
       'staff-nurse': {
@@ -775,7 +776,7 @@
         salary: '₹ 3L – ₹ 7L / year',
         demand: 'Very High',
         rating: '★ 4.7 / 5',
-        img: 'assets/profile-lalitha.jpg',
+        img: 'assets/profile-lalitha.webp',
         tags: ['✦ Healthcare', '✦ High Global Demand', '✦ Govt PHCs & Hospitals', '✦ Compassionate Service'],
         overviewText: 'Staff Nurses form the life-saving backbone of hospitals and primary health centres (PHC). From rural deliveries to intensive care in multi-speciality hospitals, nurses enjoy 100% employment demand in India and overseas.',
         eligibility: [
@@ -827,10 +828,10 @@
           { icon: 'menu_book', name: 'WHO Nursing Manuals', desc: 'Maternal care, immunization & hygiene guidelines' }
         ],
         related: [
-          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.jpg' },
-          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.jpg' },
-          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.jpg' },
-          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.jpg' }
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
         ]
       },
       'bank-officer': {
@@ -841,7 +842,7 @@
         salary: '₹ 3L – ₹ 7L / year',
         demand: 'High Demand',
         rating: '★ 4.6 / 5',
-        img: 'assets/career-bank.jpg',
+        img: 'assets/career-bank.webp',
         tags: ['✦ Banking & Finance', '✦ IBPS & SBI', '✦ Rural Regional Banks', '✦ Fast Promotions'],
         overviewText: 'Bank Officers assess crop loans, Mudra micro-loans, retail deposits, and corporate finances. With hundreds of Andhra Pragathi Grameena Bank and SBI branches across villages, banking offers a fast-track professional career.',
         eligibility: [
@@ -893,10 +894,10 @@
           { icon: 'menu_book', name: 'Banking Awareness PDFs', desc: 'Monthly economy and priority sector lending notes' }
         ],
         related: [
-          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.jpg' },
-          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.jpg' },
-          { slug: 'entrepreneur', title: 'Digital Seva Centre / FinTech', salary: '₹3L – ₹8L / yr', qual: 'Intermediate / Skills', img: 'assets/profile-suresh.jpg' },
-          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.jpg' }
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'entrepreneur', title: 'Digital Seva Centre / FinTech', salary: '₹3L – ₹8L / yr', qual: 'Intermediate / Skills', img: 'assets/profile-suresh.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
         ]
       },
       'agricultural-officer': {
@@ -907,7 +908,7 @@
         salary: '₹ 3L – ₹ 6L / year',
         demand: 'High Demand',
         rating: '★ 4.7 / 5',
-        img: 'assets/career-agriculture.jpg',
+        img: 'assets/career-agriculture.webp',
         tags: ['✦ Agriculture & Rural Tech', '✦ Govt Rythu Bharosa Kendras', '✦ APPSC Recruitment', '✦ Soil Health & Seeds'],
         overviewText: 'Agricultural Officers guide rural farmers in Rythu Bharosa Kendras (RBKs). They test soil, certify seed quality, prevent crop pest outbreaks, and distribute fertilizer subsidies to boost farmer earnings.',
         eligibility: [
@@ -959,10 +960,10 @@
           { icon: 'menu_book', name: 'Vyavasaya Panchangam PDF', desc: 'Yearly official AP agricultural almanac & seasonal guide' }
         ],
         related: [
-          { slug: 'entrepreneur', title: 'Agri-Entrepreneur / Cold Storage', salary: 'Variable / High', qual: 'Any Degree / Experience', img: 'assets/profile-suresh.jpg' },
-          { slug: 'civil-engineer', title: 'Irrigation Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech Civil', img: 'assets/career-civil.jpg' },
-          { slug: 'bank-officer', title: 'Rural Bank Credit Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.jpg' },
-          { slug: 'school-teacher', title: 'School Teacher (Biology)', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.jpg' }
+          { slug: 'entrepreneur', title: 'Agri-Entrepreneur / Cold Storage', salary: 'Variable / High', qual: 'Any Degree / Experience', img: 'assets/profile-suresh.webp' },
+          { slug: 'civil-engineer', title: 'Irrigation Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech Civil', img: 'assets/career-civil.webp' },
+          { slug: 'bank-officer', title: 'Rural Bank Credit Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'school-teacher', title: 'School Teacher (Biology)', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' }
         ]
       },
       'entrepreneur': {
@@ -973,7 +974,7 @@
         salary: 'Variable / High Growth',
         demand: 'High Growth',
         rating: '★ 4.8 / 5',
-        img: 'assets/profile-suresh.jpg',
+        img: 'assets/profile-suresh.webp',
         tags: ['✦ Self Employment', '✦ Mudra & Stand-Up India', '✦ Local Value Creation', '✦ Job Creator'],
         overviewText: 'Rural Entrepreneurs transform local resources into thriving businesses: cold press oil mills, poultry & dairy farming, drone spraying services, packaging local produce, and Digital Seva centres. You become an employer rather than a job seeker.',
         eligibility: [
@@ -1025,10 +1026,10 @@
           { icon: 'menu_book', name: 'Mudra Scheme Guidebook', desc: 'Shishu, Kishore and Tarun loan application rules' }
         ],
         related: [
-          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.jpg' },
-          { slug: 'bank-officer', title: 'Bank Officer (PO)', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.jpg' },
-          { slug: 'civil-engineer', title: 'Civil Contractor', salary: 'High Growth', qual: 'Diploma / B.Tech', img: 'assets/career-civil.jpg' },
-          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.jpg' }
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer (PO)', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'civil-engineer', title: 'Civil Contractor', salary: 'High Growth', qual: 'Diploma / B.Tech', img: 'assets/career-civil.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
         ]
       }
     };

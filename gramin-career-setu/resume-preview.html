@@ -77,6 +77,10 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
             <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
               <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
                 <span data-lang-key="nav-profile">My Profile</span>
@@ -232,12 +236,8 @@
         <!-- Quick Actions List -->
         <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
           <div style="font-size: 0.85rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Quick Actions</div>
-          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="GCS_ACTIONS.notAvailable('ATS deep check')">
-            <span style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">target</span> Check ATS Score</span>
-            <span>&gt;</span>
-          </button>
-          <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="GCS_ACTIONS.notAvailable('Spell check')">
-            <span style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">spellcheck</span> Spell Check</span>
+          <button type="button" id="btnCheckATS" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;">
+            <span style="display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">target</span> Check ATS score</span>
             <span>&gt;</span>
           </button>
           <button type="button" class="gcs-btn-cta-2" style="justify-content: space-between; padding: 8px 12px; font-size: 0.82rem;" onclick="downloadResumePDF()">
@@ -301,21 +301,6 @@
     </section>
 
     <!-- Expert Feedback Callout Banner -->
-    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC;">
-      <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: var(--gcs-green-tint); color: var(--gcs-green-primary);">
-          <span class="material-symbols-outlined">support_agent</span>
-        </div>
-        <div>
-          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Get expert feedback on your resume</h3>
-          <p class="gcs-banner-callout-sub" style="color: #047857;">Share your resume with our volunteer mentors and get personalized tips within 24 hours.</p>
-        </div>
-      </div>
-      <button type="button" class="gcs-btn-cta-1" onclick="GCS_ACTIONS.notAvailable('Mentor review')" style="border: none; cursor: pointer; white-space: nowrap;">
-        <span>Get Feedback</span>
-        <span class="material-symbols-outlined">send</span>
-      </button>
-    </section>
   </main>
 
   <!-- ============================================================
@@ -335,15 +320,6 @@
           <div class="gcs-social-row">
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
-              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
-              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
-              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
         </div>
@@ -396,7 +372,7 @@
       </div>
 
       <div class="gcs-footer-bottom">
-        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
         <div class="gcs-offline-status">
           <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
           <span>Works Offline</span>

@@ -6,24 +6,51 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtTokenService {
 
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenService.class);
+
+    /** HS256 needs at least 256 bits of key material. */
+    private static final int MIN_SECRET_BYTES = 32;
+
     private final SecretKey key;
     private final long validityInMilliseconds;
 
     public JwtTokenService(
-            @Value("${app.jwt.secret:GraminCareerSetuSecureJwtSecretKeyMustBeAtLeast256BitsLongForHS256Security2026!}") String secret,
+            @Value("${app.jwt.secret:}") String secret,
             @Value("${app.jwt.expiration-ms:86400000}") long validityInMilliseconds // 24 hours
     ) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        // There used to be a literal signing secret as the default value here,
+        // committed to the repository. Anyone who could read the source could
+        // mint a valid token for any user, including an admin.
+        //
+        // With no secret configured we now generate a random one at startup.
+        // Tokens then stop working across restarts, which is a visible nuisance
+        // in development and exactly the prompt an operator needs to set
+        // app.jwt.secret (or APP_JWT_SECRET) before deploying anything real.
+        byte[] keyBytes;
+        if (secret == null || secret.trim().length() < MIN_SECRET_BYTES) {
+            keyBytes = new byte[MIN_SECRET_BYTES];
+            new SecureRandom().nextBytes(keyBytes);
+            log.warn("app.jwt.secret is not set (or is shorter than {} characters). "
+                    + "Generated a random signing key for this run: sessions will not survive a "
+                    + "restart. Set app.jwt.secret before deploying.", MIN_SECRET_BYTES);
+        } else {
+            keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        }
+
+        this.key = Keys.hmacShaKeyFor(keyBytes);
         this.validityInMilliseconds = validityInMilliseconds;
     }
 

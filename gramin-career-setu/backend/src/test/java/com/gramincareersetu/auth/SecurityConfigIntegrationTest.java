@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -78,5 +79,41 @@ class SecurityConfigIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.openapi", notNullValue()))
                 .andExpect(jsonPath("$.info.title", is("Gramin Career Setu REST API")));
+    }
+
+    @Test
+    @DisplayName("Endpoints that store personal data must reject anonymous callers")
+    void testPersonalDataEndpointsRequireAuthentication() throws Exception {
+        // These three were permitAll. /jobs/{id}/apply accepted a name, phone
+        // and village from anyone on the internet, and /workshops/{id}/cancel
+        // identified the registrant by phone number alone, so guessing a
+        // number cancelled a real student's place.
+        String applicant = "{\"applicantName\":\"Test\",\"phone\":\"9876543210\",\"village\":\"Testpalli\"}";
+
+        mockMvc.perform(post("/api/v1/jobs/J01/apply")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(applicant))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/v1/workshops/W01/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"Test\",\"phone\":\"9876543210\"}"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/v1/workshops/W01/cancel")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"phone\":\"9876543210\"}"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Reading public career information stays open to everyone")
+    void testPublicReadsRemainOpen() throws Exception {
+        // The point of the site is that a student can browse without an
+        // account; the lockdown above must not have closed that off.
+        mockMvc.perform(get("/api/v1/jobs")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/workshops")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/schemes")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/scholarships")).andExpect(status().isOk());
     }
 }

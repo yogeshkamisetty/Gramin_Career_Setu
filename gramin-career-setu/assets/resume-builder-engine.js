@@ -113,6 +113,58 @@
         'District Level Telugu Elocution Competition Winner'
       ]
     },
+    ramesh: {
+      fullName: 'Ramesh Naidu',
+      title: 'ITI Electrician',
+      phone: '+91 90000 00000',
+      email: 'ramesh.naidu@example.com',
+      address: 'Bukkarayasamudram, Anantapur District, Andhra Pradesh',
+      dob: '', gender: 'Male', linkedIn: '', github: '',
+      objective: 'ITI-certified electrician with one year of apprenticeship experience in industrial wiring and motor maintenance. Looking for a technician role where I can keep learning on the job.',
+      education: [
+        { degree: 'ITI — Electrician Trade (NCVT)', school: 'Government ITI, Anantapur', year: '2022 – 2024', grade: 'First Class' },
+        { degree: 'SSC (10th Class)', school: 'Zilla Parishad High School, Bukkarayasamudram', year: '2022', grade: 'GPA: 8.2 / 10' }
+      ],
+      skills: ['Industrial wiring', 'Motor winding & repair', 'Panel board fitting', 'Multimeter testing', 'Electrical safety', 'Blueprint reading'],
+      softSkills: ['Punctuality', 'Teamwork', 'Careful work', 'Willing to travel'],
+      languages: [ { lang: 'Telugu', level: 5 }, { lang: 'English', level: 2 }, { lang: 'Hindi', level: 2 } ],
+      projects: [],
+      experience: [
+        {
+          role: 'Apprentice Electrician (NAPS)',
+          company: 'Local engineering workshop, Anantapur',
+          duration: '2024 – 2025',
+          desc: 'Assisted with motor rewinding, panel wiring and routine maintenance under a senior electrician. Maintained the daily job register.'
+        }
+      ],
+      achievements: ['NCVT Electrician trade certificate', 'Completed one-year apprenticeship under NAPS']
+    },
+    padma: {
+      fullName: 'Padmavathi G',
+      title: 'Intermediate pass — preparing for government exams',
+      phone: '+91 90000 00000',
+      email: 'padmavathi.g@example.com',
+      address: 'Nuzvid, Eluru District, Andhra Pradesh',
+      dob: '', gender: 'Female', linkedIn: '', github: '',
+      objective: 'Intermediate graduate preparing for Railway and SSC examinations, with good typing speed and basic computer skills. Seeking a data entry or office assistant role while continuing exam preparation.',
+      education: [
+        { degree: 'Intermediate (CEC)', school: 'Government Junior College, Nuzvid', year: '2023 – 2025', grade: 'Percentage: 78%' },
+        { degree: 'SSC (10th Class)', school: 'ZP High School, Nuzvid', year: '2023', grade: 'GPA: 8.8 / 10' }
+      ],
+      skills: ['Telugu & English typing', 'MS Word and Excel basics', 'Data entry', 'Record keeping', 'Customer handling'],
+      softSkills: ['Punctuality', 'Patience', 'Clear speaking', 'Learning quickly'],
+      languages: [ { lang: 'Telugu', level: 5 }, { lang: 'English', level: 3 } ],
+      projects: [],
+      experience: [
+        {
+          role: 'Help desk volunteer',
+          company: 'Village Digital Seva centre, Nuzvid',
+          duration: '2025',
+          desc: 'Helped residents fill online applications for certificates and scholarships, and explained the documents each one needed.'
+        }
+      ],
+      achievements: ['PMGDISHA digital literacy certificate']
+    },
     blank: {
       fullName: '',
       title: '',
@@ -142,7 +194,10 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    return DEFAULT_PROFILE;
+    // Start empty: the builder used to open on a filled sample resume,
+    // which left students editing someone else's details. Deep-copied so a
+    // later edit cannot mutate the shared preset object.
+    return JSON.parse(JSON.stringify(PRESETS.blank));
   }
 
   /**
@@ -1204,8 +1259,10 @@
         const profile = loadProfileData();
         const { score, ats } = computeScores(profile);
         const report = `📊 ATS Analysis Report:\n• ATS Compatibility: ${ats}%\n• Resume Score: ${score}/100\n• Keywords: ${profile.skills ? profile.skills.length : 0} skills listed\n• Format: Standard A4 single/dual-column layout compatible with major ATS parsers.`;
-        if (window.GCS_ACTIONS && window.GCS_ACTIONS.openInfoDialog) {
-          window.GCS_ACTIONS.openInfoDialog('ATS Analysis Report', report);
+        if (window.GCS_ACTIONS && window.GCS_ACTIONS.showSteps) {
+          // showSteps is what actions.js actually exposes; openInfoDialog
+          // never existed, so this always fell through to a one-line toast.
+          window.GCS_ACTIONS.showSteps('ATS Analysis Report', report.split('\n\u2022 ').slice(1));
         } else if (window.GCS_APP && window.GCS_APP.toast) {
           window.GCS_APP.toast.show(`ATS: ${ats}% • Score: ${score}/100`);
         } else {
@@ -1224,7 +1281,49 @@
     });
   }
 
+  /**
+   * True when the resume contains Telugu (or any other Indic) text.
+   *
+   * This matters because jsPDF has no text-shaping engine. Measured against
+   * this project's own bundle: for the cluster "గ్ర" (ga + virama + ra),
+   * jsPDF reports a width exactly equal to the three parts added together,
+   * while the browser reports roughly a third of that because it forms the
+   * conjunct ligature. jsPDF reads only `cmap` and `glyf` — there is no
+   * GSUB/GPOS handling in it at all.
+   *
+   * So embedding a Telugu font in jsPDF does not fix Telugu: it produces
+   * disconnected base glyphs with vowel signs in the wrong places. A student
+   * could send that resume to an employer without realising it is mangled,
+   * which is worse than not offering Telugu export at all.
+   *
+   * The browser's own print-to-PDF shapes correctly, keeps the text
+   * selectable (which matters for employer keyword searches), needs no extra
+   * download, and works offline — so Telugu resumes go through printing.
+   */
+  function hasComplexScript(profile) {
+    // Telugu U+0C00–U+0C7F, plus the other Indic blocks a user might paste in.
+    const INDIC = /[ऀ-ൿ]/;
+    return INDIC.test(JSON.stringify(profile || {}));
+  }
+
   window.downloadResumePDF = async function () {
+    const profileForCheck = loadProfileData();
+
+    if (hasComplexScript(profileForCheck)) {
+      const isTe = document.documentElement.lang === 'te';
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(
+          isTe
+            ? 'ℹ️ తెలుగు రెజ్యూమె కోసం ప్రింట్ విండో తెరుచుకుంటుంది — "Save as PDF" ఎంచుకోండి. ఇలా చేస్తేనే తెలుగు అక్షరాలు సరిగ్గా వస్తాయి.'
+            : 'ℹ️ Opening the print window — choose "Save as PDF". This is the only way Telugu letters come out correctly.',
+          'info'
+        );
+      }
+      // Give the toast a moment to be read before the print dialog blocks.
+      setTimeout(() => window.print(), 1200);
+      return;
+    }
+
     let jsPDF = window.jspdf && window.jspdf.jsPDF;
     if (!jsPDF && window.GCS_PDF && window.GCS_PDF.load) {
       try {

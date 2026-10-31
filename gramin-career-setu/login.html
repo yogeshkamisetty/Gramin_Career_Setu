@@ -188,7 +188,7 @@
     <div style="max-width: 520px; margin: 0 auto 24px auto; background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
       <div style="font-size: 0.8rem; font-weight: 800; color: #064E3B; display: flex; align-items: center; gap: 6px;">
         <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">bolt</span>
-        <span>Quick Login:</span>
+        <span>Demo session (no real account):</span>
       </div>
       <div style="display: flex; gap: 6px; flex-wrap: wrap;">
         <button type="button" class="gcs-pill-tag" onclick="window.GCS_AUTH.loginDemo('student')" style="cursor: pointer; background: #ffffff; border: 1px solid #86EFAC; color: #064E3B; font-weight: 700;">👨‍🎓 Student</button>
@@ -202,8 +202,8 @@
          ============================================================ -->
     <section class="auth-view-card active" id="viewSignIn">
       <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Welcome Back!</h2>
-        <p style="font-size: 0.85rem; color: #64748B; margin: 0;">Sign in to continue your journey</p>
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;" data-lang-key="login-welcome-back">Welcome Back!</h2>
+        <p style="font-size: 0.85rem; color: #64748B; margin: 0;" data-lang-key="login-sub">Sign in to continue your journey</p>
       </div>
 
       <!-- Quaint Village Banner Illustration -->
@@ -214,7 +214,7 @@
       <form id="signInForm" onsubmit="handleSignInSubmit(event)">
         <!-- Mobile Number -->
         <div style="margin-bottom: 14px;">
-          <label for="loginPhone" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number</label>
+          <label for="loginPhone" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;" data-lang-key="login-mobile">Mobile Number</label>
           <div style="position: relative;">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: 18px; color: #94A3B8;">call</span>
             <input type="tel" id="loginPhone" class="gcs-form-input" style="width: 100%; padding-left: 38px;" placeholder="10-digit mobile number" value="9876543210" required />
@@ -235,7 +235,7 @@
         </div>
 
         <div style="text-align: right; margin-bottom: 18px;">
-          <a href="javascript:void(0)" onclick="openForgotPassModal()" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;">Forgot Password?</a>
+          <a href="javascript:void(0)" onclick="openForgotPassModal()" style="font-size: 0.78rem; font-weight: 700; color: #059669; text-decoration: none;" data-lang-key="login-forgot">Forgot Password?</a>
         </div>
 
         <!-- Sign In Button -->
@@ -266,7 +266,7 @@
 
         <!-- New to Gramin Career Setu -->
         <div style="text-align: center; font-size: 0.84rem; color: #475569; margin-bottom: 20px;">
-          <span>New to Gramin Career Setu?</span>
+          <span data-lang-key="login-new-here">New to Gramin Career Setu?</span>
           <a href="javascript:void(0)" onclick="switchAuthView('signup')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign Up</a>
         </div>
 
@@ -301,7 +301,7 @@
       </div>
 
       <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Create Your Account</h2>
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;" data-lang-key="login-create-account">Create Your Account</h2>
         <p style="font-size: 0.85rem; color: #64748B; margin: 0;">Join thousands of rural youth building their future</p>
       </div>
 
@@ -329,8 +329,8 @@
         <div style="margin-bottom: 12px;">
           <label for="regRole" style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">I am registering as: *</label>
           <select id="regRole" class="gcs-form-input" style="width: 100%;">
-            <option value="student" selected>Student / Job Seeker</option>
-            <option value="volunteer">Village Coordinator / Volunteer</option>
+            <option value="student" selected data-lang-key="login-role-student">Student / Job Seeker</option>
+            <option value="volunteer" data-lang-key="login-role-volunteer">Village Coordinator / Volunteer</option>
             <option value="admin">District Coordinator</option>
           </select>
         </div>
@@ -380,8 +380,8 @@
         <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
           <span class="material-symbols-outlined" style="color: #059669; font-size: 20px;">verified_user</span>
           <div>
-            <div style="font-size: 0.8rem; font-weight: 800; color: #064E3B;">Your data is safe with us</div>
-            <div style="font-size: 0.72rem; color: #047857;">We never share your information with anyone.</div>
+            <div style="font-size: 0.8rem; font-weight: 800; color: #064E3B;" data-lang-key="login-data-safe">Your data is safe with us</div>
+            <div style="font-size: 0.72rem; color: #047857;" data-lang-key="login-no-share">We never share your information with anyone.</div>
           </div>
         </div>
 
@@ -390,7 +390,7 @@
         </button>
 
         <div style="text-align: center; font-size: 0.84rem; color: #475569; margin-bottom: 12px;">
-          <span>Already have an account?</span>
+          <span data-lang-key="login-already">Already have an account?</span>
           <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px;">Sign In</a>
         </div>
 
@@ -420,8 +420,8 @@
 
       <!-- Action Box -->
       <div style="background: #F0FDF4; border: 1.5px dashed #86EFAC; border-radius: 14px; padding: 16px; margin-bottom: 20px;">
-        <div style="font-size: 0.88rem; font-weight: 800; color: #064E3B; margin-bottom: 4px;">Verify your mobile number to start</div>
-        <div style="font-size: 0.78rem; color: #047857;">We've sent a 6-digit OTP to your registered phone number.</div>
+        <div style="font-size: 0.88rem; font-weight: 800; color: #064E3B; margin-bottom: 4px;" data-lang-key="login-verify-mobile">Verify your mobile number to start</div>
+        <div style="font-size: 0.78rem; color: #047857;">We cannot send SMS yet, so your code is shown on screen below. Enter it to confirm your number is typed correctly.</div>
       </div>
 
       <button type="button" class="gcs-btn-cta-1" onclick="switchAuthView('otp')" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem; border: none; cursor: pointer; border-radius: 10px; margin-bottom: 12px;">
@@ -448,7 +448,7 @@
       <div style="text-align: center; margin-bottom: 16px;">
         <h2 style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Verify Your Mobile Number</h2>
         <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
-          Enter the 6-digit OTP sent to <strong id="otpTargetPhone">+91 98765 43210</strong>
+          Enter the 6-digit code shown below to confirm <strong id="otpTargetPhone">+91 98765 43210</strong>
         </p>
       </div>
 
@@ -486,7 +486,7 @@
         <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">Why verify mobile number?</div>
         <div style="font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 6px;">
           <div>✔ Secure your account from unauthorized access</div>
-          <div>✔ Get important SMS alerts for job applications &amp; exams</div>
+          <div>✔ Keep your saved jobs, quiz result and resume in one place</div>
           <div>✔ Reset password easily anytime offline</div>
           <div>✔ Personalized village career recommendations</div>
         </div>
@@ -653,7 +653,7 @@
       if (res.success) {
         document.getElementById('otpTargetPhone').textContent = '+91 ' + phone;
         if (res.demoOtpCode && window.GCS_APP && window.GCS_APP.toast) {
-          window.GCS_APP.toast.show(`📱 Generated OTP: ${res.demoOtpCode}`);
+          window.GCS_APP.toast.show(`🔑 Your code is ${res.demoOtpCode} — we cannot send SMS yet.`);
         }
         switchAuthView('success');
       } else {
@@ -705,11 +705,12 @@
       try {
         pending = JSON.parse(localStorage.getItem('gcs_pending_signup') || 'null');
       } catch (e) {}
-      const code = pending ? pending.otpCode : '123456';
+      const code = pending ? pending.otpCode : null;
+      if (!code) { return; }  // nothing pending: there is no code to resend
       if (window.GCS_APP && window.GCS_APP.toast) {
-        window.GCS_APP.toast.show(`📱 Fresh OTP sent via SMS: ${code}`);
+        window.GCS_APP.toast.show(`🔑 Your new code is ${code} — we cannot send SMS yet.`);
       } else {
-        alert(`A fresh 6-digit OTP has been sent via SMS: ${code}`);
+        alert(`We cannot send SMS yet. Your code is: ${code}`);
       }
     }
 
@@ -762,7 +763,9 @@
 
       const res = await window.GCS_AUTH.sendPasswordResetOtp(phone);
       if (res.success) {
-        msg.textContent = `OTP sent! Demo code is: ${res.otpCode || '123456'}`;
+        msg.textContent = res.otpCode
+          ? `We cannot send SMS yet — your code is ${res.otpCode}`
+          : 'Could not start the reset. Please try again.';
         msg.style.background = '#ECFDF5';
         msg.style.color = '#065F46';
         document.getElementById('forgotStep1').style.display = 'none';

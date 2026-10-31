@@ -88,6 +88,10 @@
                 <span>Sign In / Register</span>
               </a>
               <hr style="border: none; border-top: 1px solid #F1F5F9; margin: 4px 0;" />
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
               <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
                 <span data-lang-key="nav-profile">My Profile</span>
@@ -145,7 +149,7 @@
       <!-- Full-bleed background landscape with left fade gradient -->
       <div class="gcs-hero-landscape-layer" aria-hidden="true">
         <img
-          src="assets/hero-crossroads.jpg"
+          src="assets/hero-crossroads.webp"
           alt="Rural youth at crossroads"
           class="gcs-hero-landscape-img"
         />
@@ -232,7 +236,7 @@
         <!-- Mobile-Only Dedicated Illustration Box -->
         <div class="gcs-hero-mobile-visual">
           <img
-            src="assets/hero-crossroads.jpg"
+            src="assets/hero-crossroads.webp"
             alt="Rural youth at crossroads with 5 career directions"
             class="gcs-mobile-hero-img"
           />
@@ -265,6 +269,110 @@
     <!-- ============================================================
          METRICS / TRUST BAR
          ============================================================ -->
+
+    <!-- ============================================================
+         TELL US YOUR LEVEL
+         ------------------------------------------------------------
+         One question, asked once. Everything downstream is filtered by it:
+         the job list shows only roles this student is eligible for, and the
+         roadmap starts at their stage instead of assuming a degree.
+
+         Only education is asked. District would be the obvious second
+         question, but nothing on the site filters by district yet, and
+         collecting an answer we cannot use is how forms get long enough
+         that people abandon them.
+         ============================================================ -->
+    <section class="gcs-section" id="personalise" style="padding-top: 0;" aria-labelledby="personalise-title">
+      <div class="gcs-container">
+        <div id="eduPrompt" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <h2 id="personalise-title" style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">
+            What have you studied?
+          </h2>
+          <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px;">మీరు ఎంత వరకు చదివారు?</p>
+          <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 14px; max-width: 65ch;">
+            Tell us once and we will only show you jobs you can actually apply for.
+            <span style="color:#94A3B8;">ఒక్కసారి చెప్పండి — మీరు దరఖాస్తు చేయగలిగిన ఉద్యోగాలను మాత్రమే చూపుతాము.</span>
+          </p>
+          <div id="eduChoices" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <div id="eduChosen" hidden style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <p style="margin: 0; font-size: 0.9rem; color: #065F46;">
+            Showing what suits <strong id="eduChosenLabel"></strong>.
+          </p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a id="eduChosenJobs" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 18px; font-size: 0.85rem;">See my jobs</a>
+            <button type="button" id="eduChange" class="gcs-btn-cta-2" style="padding: 8px 18px; font-size: 0.85rem; cursor: pointer;">Change</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /**
+       * The one question the whole site keys off. Stored in the shared
+       * `gcs_student` record that jobs.html, roadmap.html and quiz-results
+       * all read, so the student is never asked twice.
+       */
+      (function () {
+        'use strict';
+        var LEVELS = [
+          { id: 'below10', en: 'Still in school', te: 'ఇంకా బడిలో' },
+          { id: '10th',    en: '10th pass',       te: '10వ తరగతి' },
+          { id: 'inter',   en: 'Intermediate',    te: 'ఇంటర్' },
+          { id: 'iti',     en: 'ITI / Diploma',   te: 'ఐటీఐ / డిప్లొమా' },
+          { id: 'degree',  en: 'Degree',          te: 'డిగ్రీ' }
+        ];
+
+        function store() { return (window.GCS_APP && window.GCS_APP.storage) || null; }
+        function student() { var s = store(); return (s && s.get('student', {})) || {}; }
+
+        function show(level) {
+          var prompt = document.getElementById('eduPrompt');
+          var chosen = document.getElementById('eduChosen');
+          var match = LEVELS.filter(function (l) { return l.id === level; })[0];
+          if (!match) { prompt.hidden = false; chosen.hidden = true; return; }
+          document.getElementById('eduChosenLabel').textContent = match.en + ' / ' + match.te;
+          document.getElementById('eduChosenJobs').href = 'jobs.html?edu=' + encodeURIComponent(level);
+          prompt.hidden = true;
+          chosen.hidden = false;
+        }
+
+        function init() {
+          var wrap = document.getElementById('eduChoices');
+          if (!wrap) return;
+
+          LEVELS.forEach(function (l) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'gcs-pill-tag';
+            btn.style.cssText = 'cursor:pointer; background:#fff; border:1.5px solid #CBD5E1; padding:9px 16px; font-weight:700;';
+            btn.innerHTML = l.en + ' <span style="color:#94A3B8; font-weight:600;">' + l.te + '</span>';
+            btn.addEventListener('click', function () {
+              var s = store();
+              if (s) {
+                var cur = student();
+                cur.education = l.id;
+                s.set('student', cur);
+              }
+              show(l.id);
+            });
+            wrap.appendChild(btn);
+          });
+
+          document.getElementById('eduChange').addEventListener('click', function () {
+            document.getElementById('eduPrompt').hidden = false;
+            document.getElementById('eduChosen').hidden = true;
+          });
+
+          show(student().education);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+      })();
+    </script>
+
     <section class="gcs-metrics-section" aria-label="Key Metrics">
       <div class="gcs-container">
         <div class="gcs-metrics-grid">
@@ -651,15 +759,6 @@
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
             </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
-              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
-              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
-              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
-            </a>
           </div>
         </div>
 
@@ -716,7 +815,7 @@
       </div>
 
       <div class="gcs-footer-bottom">
-        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
         <div class="gcs-offline-status">
           <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
           <span>Works Offline</span>

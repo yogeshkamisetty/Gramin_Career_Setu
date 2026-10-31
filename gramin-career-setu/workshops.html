@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#1B4D3E" />
   <meta name="gcs-title-key" content="page-title-workshops" />
   <title>వర్క్‌షాప్‌లు — Workshops & Events | Gramin Career Setu</title>
-  <meta name="description" content="Learn new skills, attend live sessions and build your career." />
+  <meta name="description" content="Free career-guidance workshops held in villages, in Telugu." />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/landing.css" />
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/workshops.js" defer></script>
   <script src="assets/i18n-dict.js" defer></script>
   <script src="assets/i18n.js" defer></script>
   <script src="assets/api.js" defer></script>
@@ -73,6 +74,10 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
             </a>
             <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
               <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
                 <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
                 <span data-lang-key="nav-profile">My Profile</span>
@@ -138,313 +143,210 @@
           <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: 34px;">event</span>
           <span data-lang-text>Workshops &amp; Events</span>
         </h1>
-        <p class="gcs-page-hero-desc">Learn new skills, attend live sessions and build your career.</p>
-        <p class="gcs-page-hero-telugu">కొత్త నైపుణ్యాలు నేర్చుకోండి, లైవ్ సెషన్లలో పాల్గొనండి, మీ కెరీర్‌ను ముందుకు తీసుకెళ్ళండి.</p>
+        <p class="gcs-page-hero-desc">Free sessions held in your village, in Telugu. Here is what we cover and when we are next out.</p>
+        <p class="gcs-page-hero-telugu">మీ గ్రామంలోనే ఉచిత సెషన్లు, తెలుగులో. మేము ఏమి నేర్పుతామో, ఎప్పుడు వస్తామో ఇక్కడ చూడండి.</p>
       </div>
       <div class="gcs-page-hero-visual" style="max-width: 280px;">
-        <img src="assets/workshops-hero-class.jpg" alt="Workshops and Events Classroom Illustration" loading="lazy" />
+        <img src="assets/workshops-hero-class.webp" alt="Workshops and Events Classroom Illustration" loading="lazy" />
       </div>
     </section>
 
-    <!-- Filter Bar with Category Pills & Search -->
-    <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 14px;">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button type="button" class="gcs-pill-tag active" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 6px 14px;" onclick="filterWorkshops('all', this)">All Workshops</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="filterWorkshops('upcoming', this)">Upcoming</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="filterWorkshops('live', this)">🔴 Live Now</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="filterWorkshops('recorded', this)">Recorded</button>
-        <button type="button" class="gcs-pill-tag" style="background: #fff; border: 1px solid #CBD5E1; cursor: pointer; padding: 6px 14px;" onclick="filterWorkshops('my', this)">My Registrations</button>
-      </div>
+    <!-- ============================================================
+         WORKSHOPS
+         ------------------------------------------------------------
+         Rendered entirely from data/workshops.js. Sessions appear here only
+         once they have actually been arranged; until then the page shows
+         what we are set up to teach and says plainly that nothing is booked.
 
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <div style="position: relative;">
-          <input type="text" id="workshopSearchInput" aria-label="Search workshops" placeholder="Search workshops..." style="padding: 6px 12px 6px 32px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 0.85rem; outline: none;" oninput="searchWorkshops()" />
-          <span class="material-symbols-outlined" style="position: absolute; left: 8px; top: 7px; font-size: 18px; color: #94A3B8;">search</span>
-        </div>
-        <button type="button" class="gcs-btn-cta-2" style="padding: 6px 12px; font-size: 0.85rem;">
-          <span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span>
-          <span>Filter</span>
-        </button>
-      </div>
-    </div>
+         The previous version listed six sessions dated May 2024 under an
+         "Upcoming" heading, each with a working Register button.
+         ============================================================ -->
 
-    <!-- Upcoming Workshops Section -->
+    <!-- Scheduled sessions, or an honest empty state -->
     <section style="margin-bottom: 36px;">
-      <div class="gcs-section-header-row">
-        <h2 class="gcs-section-header-title">Upcoming Workshops</h2>
-        <a href="#all" class="gcs-section-view-all-btn">View All &rarr;</a>
-      </div>
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">Next sessions</h2>
+      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px;">తదుపరి వర్క్‌షాప్‌లు</p>
 
-      <div class="gcs-workshops-grid-4">
-        <!-- Workshop 1: Python for Beginners -->
-        <article class="gcs-workshop-card" data-cat="upcoming">
-          <div class="gcs-workshop-thumb-wrap" style="background: linear-gradient(135deg, #1E293B, #0F172A);">
-            <span class="material-symbols-outlined" style="font-size: 64px; color: #38BDF8;">code</span>
-            <span class="gcs-workshop-badge-top gcs-badge-upcoming">Upcoming</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Python for Beginners</h3>
-            <p class="gcs-workshop-desc">Start your coding journey with practical Python exercises.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>📅 25 May 2024</span>
-              <span>⏰ 10:00 AM</span>
+      <div id="wsNone" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px;">
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <span class="material-symbols-outlined" style="color: #D97706; font-size: 26px; flex-shrink: 0;">event_busy</span>
+          <div>
+            <h3 style="font-size: 1.02rem; font-weight: 800; color: #0F172A; margin: 0 0 6px;">No sessions are booked right now</h3>
+            <p style="font-size: 0.93rem; font-weight: 700; color: #92400E; margin: 0 0 10px;">ప్రస్తుతం ఎటువంటి సెషన్లు నిర్ణయించబడలేదు</p>
+            <p style="font-size: 0.88rem; color: #475569; margin: 0 0 6px; max-width: 70ch;">
+              We run these workshops in villages, in person. When a date is fixed it appears here with
+              the village and venue. Ask your village volunteer to request one, or use the guides on
+              this site in the meantime — they cover the same ground.
+            </p>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 14px; max-width: 70ch;">
+              మేము ఈ వర్క్‌షాప్‌లను గ్రామాల్లో ప్రత్యక్షంగా నిర్వహిస్తాము. తేదీ నిర్ణయమైన వెంటనే
+              గ్రామం, వేదికతో సహా ఇక్కడ కనిపిస్తుంది.
+            </p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="apply-online.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 9px 18px; font-size: 0.86rem;">Read the apply-online guide</a>
+              <a href="roadmap.html" class="gcs-btn-cta-2" style="text-decoration: none; padding: 9px 18px; font-size: 0.86rem;">See your roadmap</a>
             </div>
-            <div class="gcs-workshop-meta-row" style="margin-bottom: 14px;">
-              <span>👤 Ravi Kiran</span>
-              <span>🌐 Online Zoom</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Python for Beginners', this)" data-lang-key="btn-register-now">Register Now</button>
           </div>
-        </article>
-
-        <!-- Workshop 2: Resume Building Masterclass -->
-        <article class="gcs-workshop-card" data-cat="upcoming">
-          <div class="gcs-workshop-thumb-wrap" style="background: linear-gradient(135deg, #065F46, #064E3B);">
-            <span class="material-symbols-outlined" style="font-size: 64px; color: #34D399;">description</span>
-            <span class="gcs-workshop-badge-top gcs-badge-upcoming">Upcoming</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Resume Building Masterclass</h3>
-            <p class="gcs-workshop-desc">Build a professional ATS-friendly resume that stands out.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>📅 28 May 2024</span>
-              <span>⏰ 11:00 AM</span>
-            </div>
-            <div class="gcs-workshop-meta-row" style="margin-bottom: 14px;">
-              <span>👤 Anusha Reddy</span>
-              <span>🌐 Online Zoom</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Resume Building Masterclass', this)" data-lang-key="btn-register-now">Register Now</button>
-          </div>
-        </article>
-
-        <!-- Workshop 3: Interview Preparation -->
-        <article class="gcs-workshop-card" data-cat="upcoming">
-          <div class="gcs-workshop-thumb-wrap" style="background: linear-gradient(135deg, #7C2D12, #451A03);">
-            <span class="material-symbols-outlined" style="font-size: 64px; color: #FB923C;">record_voice_over</span>
-            <span class="gcs-workshop-badge-top gcs-badge-upcoming">Upcoming</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Interview Preparation</h3>
-            <p class="gcs-workshop-desc">Ace your corporate and government interviews with confidence.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>📅 30 May 2024</span>
-              <span>⏰ 04:00 PM</span>
-            </div>
-            <div class="gcs-workshop-meta-row" style="margin-bottom: 14px;">
-              <span>👤 Suresh Babu</span>
-              <span>🌐 Online Zoom</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; border: none; cursor: pointer;" onclick="registerWorkshop('Interview Preparation', this)" data-lang-key="btn-register-now">Register Now</button>
-          </div>
-        </article>
-
-        <!-- Workshop 4: Introduction to AI (Live Now) -->
-        <article class="gcs-workshop-card" data-cat="live">
-          <div class="gcs-workshop-thumb-wrap" style="background: linear-gradient(135deg, #4C1D95, #2E1065);">
-            <span class="material-symbols-outlined" style="font-size: 64px; color: #C084FC;">psychology</span>
-            <span class="gcs-workshop-badge-top gcs-badge-live">🔴 Live Now</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Introduction to AI</h3>
-            <p class="gcs-workshop-desc">Basics of Artificial Intelligence and generative tools.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>📅 Today (22 May)</span>
-              <span>⏰ 03:00 PM</span>
-            </div>
-            <div class="gcs-workshop-meta-row" style="margin-bottom: 14px;">
-              <span>👤 Deepika Sharma</span>
-              <span style="color: #DC2626; font-weight: 700;">Live on YouTube</span>
-            </div>
-            <a href="https://youtube.com" target="_blank" rel="noopener" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; background: #DC2626; text-decoration: none;">Join Live 📹</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Can't Attend Live Notice Callout -->
-    <section class="gcs-banner-callout" style="background: #EFF6FF; border-color: #BFDBFE; margin-bottom: 36px;">
-      <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #DBEAFE; color: #1D4ED8;">
-          <span class="material-symbols-outlined">headset_mic</span>
-        </div>
-        <div>
-          <h3 class="gcs-banner-callout-title" style="color: #1E3A8A;">Can't attend live? No worries!</h3>
-          <p class="gcs-banner-callout-sub" style="color: #1D4ED8;">Register anyway and get 100% free lifetime access to the recorded session and certificate.</p>
         </div>
       </div>
-      <button type="button" class="gcs-btn-cta-2" style="background: #ffffff; white-space: nowrap;" onclick="GCS_ACTIONS.notAvailable('Recording links')">Know More</button>
+
+      <div id="wsScheduled" hidden style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;"></div>
     </section>
 
-    <!-- Recorded Workshops Section -->
+    <!-- What we teach. Descriptions, not events — no dates, no registration. -->
     <section style="margin-bottom: 36px;">
-      <div class="gcs-section-header-row">
-        <h2 class="gcs-section-header-title">Recorded Workshops</h2>
-        <a href="#recorded" class="gcs-section-view-all-btn">View All &rarr;</a>
-      </div>
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">What we cover</h2>
+      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px;">మేము ఏమి నేర్పుతాము</p>
+      <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 18px; max-width: 72ch;">
+        These are the sessions this project is set up to run. They are free, held in the village,
+        and taught in Telugu.
+      </p>
+      <div id="wsCurriculum" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;"></div>
+    </section>
 
-      <div class="gcs-workshops-grid-4">
-        <!-- Rec 1 -->
-        <article class="gcs-workshop-card" data-cat="recorded">
-          <div class="gcs-workshop-thumb-wrap" style="background: #1E293B;">
-            <span class="material-symbols-outlined" style="font-size: 54px; color: #F59E0B;">laptop_mac</span>
-            <span class="gcs-workshop-badge-top gcs-badge-recorded">Recorded</span>
-            <span class="gcs-recorded-duration">1:45:30</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Web Development Basics</h3>
-            <p class="gcs-workshop-desc">HTML, CSS, JavaScript fundamentals from scratch.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>👤 Sai Charan</span>
-              <span>📅 15 May 2024</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Web Development Basics recording')">▶ Watch Now</button>
-          </div>
-        </article>
-
-        <!-- Rec 2 -->
-        <article class="gcs-workshop-card" data-cat="recorded">
-          <div class="gcs-workshop-thumb-wrap" style="background: #0F766E;">
-            <span class="material-symbols-outlined" style="font-size: 54px; color: #5EEAD4;">pie_chart</span>
-            <span class="gcs-workshop-badge-top gcs-badge-recorded">Recorded</span>
-            <span class="gcs-recorded-duration">2:10:45</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Data Science Overview</h3>
-            <p class="gcs-workshop-desc">Explore the world of data science and analytics.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>👤 Priya Nair</span>
-              <span>📅 12 May 2024</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Data Science Overview recording')">▶ Watch Now</button>
-          </div>
-        </article>
-
-        <!-- Rec 3 -->
-        <article class="gcs-workshop-card" data-cat="recorded">
-          <div class="gcs-workshop-thumb-wrap" style="background: #9D174D;">
-            <span class="material-symbols-outlined" style="font-size: 54px; color: #F472B6;">campaign</span>
-            <span class="gcs-workshop-badge-top gcs-badge-recorded">Recorded</span>
-            <span class="gcs-recorded-duration">1:30:20</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Digital Marketing 101</h3>
-            <p class="gcs-workshop-desc">Basics of digital marketing, SEO, and social media.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>👤 Karthik P</span>
-              <span>📅 10 May 2024</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Digital Marketing 101 recording')">▶ Watch Now</button>
-          </div>
-        </article>
-
-        <!-- Rec 4 -->
-        <article class="gcs-workshop-card" data-cat="recorded">
-          <div class="gcs-workshop-thumb-wrap" style="background: #14532D;">
-            <span class="material-symbols-outlined" style="font-size: 54px; color: #4ADE80;">table_chart</span>
-            <span class="gcs-workshop-badge-top gcs-badge-recorded">Recorded</span>
-            <span class="gcs-recorded-duration">1:20:10</span>
-          </div>
-          <div class="gcs-workshop-body">
-            <h3 class="gcs-workshop-title">Excel for Everyone</h3>
-            <p class="gcs-workshop-desc">Learn spreadsheet formulas, charts, and pivot tables.</p>
-            <div class="gcs-workshop-meta-row">
-              <span>👤 Lakshmi Devi</span>
-              <span>📅 08 May 2024</span>
-            </div>
-            <button type="button" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="GCS_ACTIONS.notAvailable('Excel for Everyone recording')">▶ Watch Now</button>
-          </div>
-        </article>
+    <!-- The record of sessions actually held -->
+    <section id="wsHeldSection" hidden style="margin-bottom: 36px;">
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 2px;">Sessions we have held</h2>
+      <p style="font-size: 0.92rem; font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px;">మేము నిర్వహించిన సెషన్లు</p>
+      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1.5px solid #E2E8F0; color: #64748B;">
+              <th scope="col" style="padding: 8px 6px;">Date</th>
+              <th scope="col" style="padding: 8px 6px;">Session</th>
+              <th scope="col" style="padding: 8px 6px;">Village</th>
+              <th scope="col" style="padding: 8px 6px; text-align: right;">Attended</th>
+            </tr>
+          </thead>
+          <tbody id="wsHeldRows"></tbody>
+        </table>
+        <p style="font-size: 0.8rem; color: #94A3B8; margin: 12px 0 0;">
+          Survey results from these sessions are on the
+          <a href="results.html" style="color: var(--gcs-green-primary); font-weight: 700;">impact dashboard</a>.
+        </p>
       </div>
     </section>
 
-    <!-- Certificate & Benefits 2-Card Row -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px;">
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 20px;">
-        <div style="width: 72px; height: 72px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0;">
-          🏆
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Earn a Certificate</h3>
-          <p style="font-size: 0.82rem; color: #64748B; margin: 0 0 10px 0;">Attend workshops and earn verifiable digital certificates to boost your resume.</p>
-          <a href="profile.html" class="gcs-btn-cta-2" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none;">View My Certificates</a>
-        </div>
-      </div>
-
-      <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px;">
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 10px 0;">Why Attend Workshops?</h3>
-        <div style="font-size: 0.82rem; color: #475569; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div>✔ Learn from industry experts</div>
-          <div>✔ Improve your practical skills</div>
-          <div>✔ Get live career guidance</div>
-          <div>✔ Earn verified certificates</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Top Categories (6 Grid) -->
-    <section style="margin-bottom: 36px;">
-      <div class="gcs-section-header-row">
-        <h2 class="gcs-section-header-title">Top Categories</h2>
-        <a href="#categories" class="gcs-section-view-all-btn">View All &rarr;</a>
-      </div>
-
-      <div class="gcs-filter-grid gcs-filter-grid--ws">
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #2563EB; font-size: 26px;">code</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Programming</div>
-          <div style="font-size: 0.72rem; color: #64748B;">12 Workshops</div>
-        </div>
-
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #059669; font-size: 26px;">psychology</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Career Skills</div>
-          <div style="font-size: 0.72rem; color: #64748B;">18 Workshops</div>
-        </div>
-
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #D97706; font-size: 26px;">analytics</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Data Science</div>
-          <div style="font-size: 0.72rem; color: #64748B;">10 Workshops</div>
-        </div>
-
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 26px;">storefront</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;" data-lang-key="filter-business">Business</div>
-          <div style="font-size: 0.72rem; color: #64748B;">8 Workshops</div>
-        </div>
-
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #DC2626; font-size: 26px;">palette</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Design</div>
-          <div style="font-size: 0.72rem; color: #64748B;">6 Workshops</div>
-        </div>
-
-        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center;">
-          <span class="material-symbols-outlined" style="color: #0284C7; font-size: 26px;">campaign</span>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-top: 4px;">Digital Marketing</div>
-          <div style="font-size: 0.72rem; color: #64748B;">9 Workshops</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Never Miss An Update Banner -->
+    <!-- Request a workshop -->
     <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC;">
       <div class="gcs-banner-callout-left">
-        <div class="gcs-banner-callout-icon" style="background: #25D366; color: #ffffff;">
-          <span class="material-symbols-outlined">mark_email_unread</span>
+        <div class="gcs-banner-callout-icon" style="background: #ffffff; color: var(--gcs-green-primary);">
+          <span class="material-symbols-outlined">groups</span>
         </div>
         <div>
-          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Never miss an update!</h3>
-          <p class="gcs-banner-callout-sub" style="color: #047857;">Subscribe to get notified about upcoming workshops, free training sessions, and job fairs.</p>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Want a workshop in your village?</h3>
+          <p class="gcs-banner-callout-sub">మీ గ్రామంలో వర్క్‌షాప్ కావాలా? మీ గ్రామ వాలంటీర్ లేదా సచివాలయాన్ని సంప్రదించండి.</p>
         </div>
       </div>
-      <div style="display: flex; gap: 8px;">
-        <label for="workshopAlertEmail" class="sr-only">Email for workshop alerts</label>
-        <input id="workshopAlertEmail" type="email" placeholder="Enter your email" style="padding: 8px 14px; border-radius: 8px; border: 1.5px solid #86EFAC; font-size: 0.88rem; outline: none;" />
-        <button type="button" class="gcs-btn-cta-1" data-subscribe-topic="workshops" style="border: none; cursor: pointer; white-space: nowrap;" data-lang-key="btn-subscribe">Subscribe</button>
-      </div>
+      <a href="about.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 10px 20px;">Contact the team</a>
     </section>
+
+    <script>
+      /**
+       * Renders workshops from data/workshops.js.
+       *
+       * Registration is offered only for a session that exists in `scheduled`
+       * with a real date and village. There is deliberately no way to register
+       * for a curriculum topic: a topic is not an event, and the previous page
+       * let students sign up for sessions that were never going to happen.
+       */
+      (function () {
+        'use strict';
+
+        function esc(s) {
+          return (window.GCS_APP && window.GCS_APP.escapeHtml)
+            ? window.GCS_APP.escapeHtml(s)
+            : String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function formatDate(iso) {
+          var d = new Date(iso + 'T00:00:00');
+          if (isNaN(d)) return esc(iso);
+          return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function render() {
+          var data = window.GCS_WORKSHOPS;
+          if (!data) return;
+
+          var topicById = {};
+          data.curriculum.forEach(function (c) { topicById[c.id] = c; });
+
+          // ── What we cover ──────────────────────────────────────────────
+          document.getElementById('wsCurriculum').innerHTML = data.curriculum.map(function (c) {
+            return '<article style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:20px;">'
+              + '<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">'
+              +   '<span class="material-symbols-outlined" style="color:var(--gcs-green-primary); font-size:24px;">' + esc(c.icon) + '</span>'
+              +   '<span class="gcs-pill-tag" style="background:#F1F5F9; color:#475569; font-size:0.72rem;">' + esc(c.durationEn) + '</span>'
+              + '</div>'
+              + '<h3 style="font-size:1rem; font-weight:800; color:#0F172A; margin:0 0 2px;">' + esc(c.titleEn) + '</h3>'
+              + '<p style="font-size:0.86rem; color:#64748B; margin:0 0 10px;">' + esc(c.titleTe) + '</p>'
+              + '<p style="font-size:0.85rem; color:#475569; margin:0 0 6px;">' + esc(c.descEn) + '</p>'
+              + '<p style="font-size:0.82rem; color:#94A3B8; margin:0;">' + esc(c.descTe) + '</p>'
+              + '</article>';
+          }).join('');
+
+          // ── Scheduled sessions ─────────────────────────────────────────
+          var scheduled = Array.isArray(data.scheduled) ? data.scheduled : [];
+          if (!scheduled.length) {
+            document.getElementById('wsNone').hidden = false;
+          } else {
+            var wrap = document.getElementById('wsScheduled');
+            wrap.innerHTML = scheduled.map(function (s) {
+              var topic = topicById[s.curriculumId] || {};
+              return '<article style="background:#ffffff; border:1px solid #E2E8F0; border-radius:16px; padding:20px;">'
+                + '<span class="gcs-pill-tag" style="background:#ECFDF5; color:#047857; font-size:0.72rem;">' + formatDate(s.date) + (s.time ? ' · ' + esc(s.time) : '') + '</span>'
+                + '<h3 style="font-size:1rem; font-weight:800; color:#0F172A; margin:10px 0 2px;">' + esc(topic.titleEn || s.curriculumId) + '</h3>'
+                + '<p style="font-size:0.86rem; color:#64748B; margin:0 0 10px;">' + esc(topic.titleTe || '') + '</p>'
+                + '<p style="font-size:0.84rem; color:#475569; margin:0 0 4px;"><strong>' + esc(s.village) + '</strong>, ' + esc(s.district) + '</p>'
+                + (s.venue ? '<p style="font-size:0.82rem; color:#94A3B8; margin:0 0 12px;">' + esc(s.venue) + '</p>' : '<div style="height:12px;"></div>')
+                + '<button type="button" class="gcs-btn-cta-1" style="width:100%; justify-content:center; border:none; cursor:pointer;"'
+                +   ' data-workshop-id="' + esc(s.id) + '" data-workshop-title="' + esc(topic.titleEn || s.curriculumId) + '">'
+                +   '<span data-action-label>Register</span>'
+                + '</button>'
+                + '</article>';
+            }).join('');
+            wrap.hidden = false;
+
+            // Hand the buttons to the shared registration handler, which
+            // stores locally and only reaches the backend with real details.
+            if (window.GCS_ACTIONS && window.GCS_ACTIONS.toggleWorkshop) {
+              wrap.querySelectorAll('[data-workshop-id]').forEach(function (btn) {
+                var id = btn.getAttribute('data-workshop-id');
+                if (window.GCS_ACTIONS.isRegistered(id)) {
+                  btn.querySelector('[data-action-label]').textContent = 'Registered ✓';
+                  btn.setAttribute('aria-pressed', 'true');
+                }
+                btn.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  window.GCS_ACTIONS.toggleWorkshop(id, btn.getAttribute('data-workshop-title'), btn);
+                });
+              });
+            }
+          }
+
+          // ── Sessions held ──────────────────────────────────────────────
+          var held = Array.isArray(data.held) ? data.held : [];
+          if (held.length) {
+            document.getElementById('wsHeldRows').innerHTML = held.map(function (h) {
+              var topic = topicById[h.curriculumId] || {};
+              return '<tr style="border-bottom:1px solid #F1F5F9;">'
+                + '<td style="padding:10px 6px; color:#475569;">' + formatDate(h.date) + '</td>'
+                + '<td style="padding:10px 6px; font-weight:700; color:#0F172A;">' + esc(topic.titleEn || h.curriculumId) + '</td>'
+                + '<td style="padding:10px 6px; color:#64748B;">' + esc(h.village) + ', ' + esc(h.district) + '</td>'
+                + '<td style="padding:10px 6px; text-align:right; font-weight:700;">' + esc(h.attended) + '</td>'
+                + '</tr>';
+            }).join('');
+            document.getElementById('wsHeldSection').hidden = false;
+          }
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+        else render();
+      })();
+    </script>
   </main>
 
   <!-- ============================================================
@@ -464,15 +366,6 @@
           <div class="gcs-social-row">
             <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
               <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Facebook')" class="gcs-social-link" title="Facebook">
-              <span class="material-symbols-outlined" style="font-size: 18px;">public</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('YouTube')" class="gcs-social-link" title="YouTube">
-              <span class="material-symbols-outlined" style="font-size: 18px;">smart_display</span>
-            </a>
-            <a href="javascript:void(0)" onclick="if(window.GCS_ACTIONS)window.GCS_ACTIONS.notAvailable('Instagram')" class="gcs-social-link" title="Instagram">
-              <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
             </a>
           </div>
         </div>
@@ -525,7 +418,7 @@
       </div>
 
       <div class="gcs-footer-bottom">
-        <span>© 2024 Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
         <div class="gcs-offline-status">
           <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
           <span>Works Offline</span>
@@ -561,62 +454,5 @@
     </a>
   </nav>
 
-  <!-- Interactive Scripts -->
-  <script>
-    // Delegates to GCS_ACTIONS so registration has ONE implementation and
-    // ONE stored shape. This page previously wrote bare title strings while
-    // actions.js and landing.js wrote objects under the same key.
-    function registerWorkshop(title, btn) {
-      const target = btn || (typeof event !== 'undefined' && event ? event.currentTarget || event.target : null);
-      const id = 'ws-' + String(title).toLowerCase().replace(/\s+/g, '-');
-      GCS_ACTIONS.toggleWorkshop(id, title, target);
-    }
-
-    // Restore registered state on load, including entries saved as bare
-    // title strings by the previous implementation.
-    window.addEventListener('DOMContentLoaded', () => {
-      try {
-        const raw = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]');
-        const ids = raw.map(e => (e && typeof e === 'object') ? e.id : 'ws-' + String(e).toLowerCase().replace(/\s+/g, '-'));
-        document.querySelectorAll('.gcs-workshop-card').forEach(card => {
-          const title = card.querySelector('.gcs-workshop-title')?.textContent?.trim();
-          const btn = card.querySelector('button[onclick^="registerWorkshop"]');
-          if (!title || !btn) return;
-          const id = 'ws-' + title.toLowerCase().replace(/\s+/g, '-');
-          if (ids.includes(id)) {
-            btn.textContent = window.GCS_I18N ? GCS_I18N.t('btn-registered') : 'Registered ✓';
-            btn.classList.add('is-registered');
-          }
-        });
-      } catch (e) {}
-    });
-
-    function filterWorkshops(cat, btn) {
-      document.querySelectorAll('.gcs-pill-tag').forEach(b => {
-        b.classList.remove('active');
-        b.style.background = '#fff';
-        b.style.color = '#334155';
-      });
-      btn.classList.add('active');
-      btn.style.background = 'var(--gcs-green-primary)';
-      btn.style.color = '#fff';
-
-      const cards = document.querySelectorAll('.gcs-workshop-card');
-      cards.forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function searchWorkshops() {
-      const q = (document.getElementById('workshopSearchInput').value || '').toLowerCase();
-      document.querySelectorAll('.gcs-workshop-card').forEach(card => {
-        card.style.display = (!q || card.textContent.toLowerCase().includes(q)) ? 'flex' : 'none';
-      });
-    }
-  </script>
 </body>
 </html>

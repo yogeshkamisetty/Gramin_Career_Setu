@@ -51,6 +51,11 @@ logging:
     org.springframework.security: INFO
 
 app:
+  jwt:
+    # Left empty on purpose: the service generates a random key and warns when
+    # this is unset, rather than falling back to a secret committed to the repo.
+    secret: ${APP_JWT_SECRET:}
+    expiration-ms: ${APP_JWT_EXPIRATION_MS:86400000}
   rate-limiting:
     enabled: ${RATE_LIMITING_ENABLED:true}
     max-requests-per-minute: ${RATE_LIMIT_MAX_PER_MINUTE:30}
