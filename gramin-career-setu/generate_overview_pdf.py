@@ -313,7 +313,7 @@ def build_pdf(filename="Gramin_Career_Setu_Project_Overview.pdf"):
         ("Absence of Professional Resumes",
          "Rural youth lack computer literacy and guidance to format resumes. Consequently, candidate applications are rejected outright by employer Applicant Tracking Systems (ATS)."),
         ("Fragmented Awareness of Schemes",
-         "Government welfare, fee reimbursements, and skill training programs (Jagananna Vidya Deevena, PMKVY, TS ePASS) are dispersed across complex official gazettes, preventing deserving candidates from claiming their entitlements.")
+         "Government welfare, fee reimbursements, and skill training programs (Post-Matric RTF & MTF Fee Reimbursement, PMKVY, ePASS) are dispersed across complex official gazettes, preventing deserving candidates from claiming their entitlements.")
     ]
     for title, desc in problems:
         story.append(Paragraph(f"• <b>{title}:</b> {desc}", style_bullet))
@@ -378,7 +378,7 @@ def build_pdf(filename="Gramin_Career_Setu_Project_Overview.pdf"):
          "and Logistics. Incorporates multi-criteria search, category filters, and pagination without full-page reloads. Displays transparent "
          "qualification prerequisites, wage ranges, and direct recruiter application channels."),
         ("Pillar 5: Central &amp; State Welfare Schemes &amp; Scholarships Portal",
-         "Consolidates leading Andhra Pradesh and Telangana government youth empowerment programs (Jagananna Vidya Deevena, Vasathi Deevena, "
+         "Consolidates leading Andhra Pradesh and central government youth empowerment programs (Post-Matric Fee Reimbursement RTF, Maintenance Allowance MTF, "
          "Ambedkar Overseas Vidya Nidhi, TS ePASS, PMKVY skill vouchers). Provides clean eligibility checklists, deadlines, and direct "
          "application links, demystifying bureaucratic procedures."),
         ("Pillar 6: Visual Educational Roadmaps &amp; Career Detail Catalog",

@@ -41,16 +41,28 @@ function eligibleLevels(qualification) {
     return ALL_LEVELS.slice();
   }
 
-  // A specific ITI trade certificate is required.
-  if (/\biti\b/.test(q)) return ['iti'];
+  // A specific ITI trade certificate is required (and not general diploma/degree/10th)
+  if (/\biti\b/.test(q) && !/diploma|degree|10th|10\+2|12th|intermediate|b\.tech|bca|b\.sc/.test(q)) {
+    return ['iti'];
+  }
 
-  const has10 = /10th/.test(q);
-  const hasInter = /intermediate|12th/.test(q);
-  const hasDegree = /degree/.test(q);
+  // 10th pass level roles (also open to inter, iti, degree holders)
+  const has10th = /\b10th\b/.test(q) && !/10\+2/.test(q);
+  if (has10th) {
+    return ['10th', 'inter', 'iti', 'degree'];
+  }
 
-  if (has10) return ['10th', 'inter', 'iti', 'degree'];
-  if (hasInter) return ['inter', 'iti', 'degree'];
-  if (hasDegree) return ['degree'];
+  // 10+2, Intermediate, or Technical/Nursing Diploma (open to inter, iti, degree holders)
+  const hasInterOrDiploma = /10\+2|12th|intermediate|\binter\b|diploma|d\.ed|d\.pharm|gnm/.test(q);
+  if (hasInterOrDiploma) {
+    return ['inter', 'iti', 'degree'];
+  }
+
+  // Degree / Graduate level roles
+  const hasDegree = /\bdegree\b|graduate|b\.tech|bca|b\.sc|mbbs|b\.pharm|b\.ed/.test(q);
+  if (hasDegree) {
+    return ['degree'];
+  }
 
   // Unrecognised wording: show it to everyone rather than silently hiding it.
   return ALL_LEVELS.slice();

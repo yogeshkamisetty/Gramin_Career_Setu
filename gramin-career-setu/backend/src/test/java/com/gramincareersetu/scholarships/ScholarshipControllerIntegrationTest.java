@@ -51,6 +51,6 @@ class ScholarshipControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.data.id", is("SCH-01")))
-                .andExpect(jsonPath("$.data.titleEn", containsString("Jagananna Vidya Deevena")));
+                .andExpect(jsonPath("$.data.titleEn", containsString("Post-Matric Fee Reimbursement")));
     }
 }
