@@ -672,13 +672,15 @@ dialog::backdrop { background: rgba(15, 23, 42, 0.45); }
 .gcs-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
-  display: flex;
+  z-index: 500;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: var(--ui-16);
   background: rgba(15, 23, 42, 0.45);
 }
+
+.gcs-modal-overlay.open { display: flex; }
 
 .gcs-modal-close {
   display: inline-flex;
@@ -829,3 +831,9 @@ dialog > *, .gcs-modal-box { max-height: 85vh; overflow-y: auto; }
   justify-content: space-between;
   gap: var(--ui-12);
 }
+
+/* Header brand and sign-in must not wrap: a wrapped brand grows taller than the
+   70px bar and its first line is clipped off the top of the page. */
+.gcs-brand { flex-shrink: 0; }
+.gcs-brand-title, .gcs-brand-sub { white-space: nowrap; line-height: 1.25; }
+.gcs-header .gcs-btn, .gcs-header a[href*="login"] { white-space: nowrap; }
