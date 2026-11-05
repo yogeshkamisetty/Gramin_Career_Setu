@@ -101,13 +101,13 @@ Google Antigravity served as an autonomous, end-to-end software engineering part
 1. **Bilingual Telugu ↔ English Engine with Voice Narration**:
    Allows instant, flicker-free toggling between Telugu and English across all 21 pages. Integrated with the Web Speech API to provide voice narration for rural youth with varying reading proficiencies.
 2. **Offline-First Progressive Web App (PWA)**:
-   Designed specifically for low-bandwidth and intermittent 2G/3G networks. Caches critical career resources, application forms, and workshop details locally, queueing offline submissions until network availability returns.
+   Designed specifically for low-bandwidth and intermittent 2G/3G networks. Precaches a small app shell (about 1.1 MB) and caches everything else the first time it is opened, so a first visit on 2G is not spent downloading pages the student has not asked for.
 3. **Role-Based Authentication & Personalized Dashboards**:
-   Features a 4-step responsive authentication flow (Mobile + Password, 6-digit OTP verification, and password strength scoring). Supports three distinct roles (**Student / Job Seeker**, **Village Coordinator / Volunteer**, and **District Admin**) with tailored dashboards and route protection.
+   A 4-step sign-up flow (mobile + password, a 6-digit confirmation code, password strength scoring) across three roles (**Student / Job Seeker**, **Village Coordinator / Volunteer**, **District Admin**) with route protection. The project has no SMS gateway, so the confirmation code is generated in the browser and shown on screen; the sign-up page says so rather than claiming a message was sent.
 4. **Rural ATS Resume Builder**:
    A streamlined, mobile-friendly resume builder that scores resumes against Applicant Tracking System (ATS) standards, offering actionable suggestions to help rural candidates present their skills effectively to formal employers.
 5. **Unified Opportunity & Scheme Bridge**:
-   A centralized repository for discovering verified local private and government job openings, state/central scholarships (e.g., Jagananna Vidya Deevena, AICTE Pragati), and welfare schemes (e.g., PM MUDRA, PM Vishwakarma).
+   A single place to discover the kinds of role a student is eligible for, plus state and central scholarships and welfare schemes (e.g. PM MUDRA, PM Vishwakarma). Job entries are role types pointing at the official portal — we neither verify nor host live vacancies, and every card says so.
 
 ---
 
@@ -125,11 +125,36 @@ Google Antigravity served as an autonomous, end-to-end software engineering part
 
 ## 📊 Results & Outcomes
 
-* **21 Fully Synchronized Pages**: Every page in the portal seamlessly shares the same navigation, bilingual toggle, offline state, and authenticated user session.
-* **100% Automated Test Pass Rate**:
-  * **35/35** Spring Boot backend integration tests passing (covering concurrency, rate limiting, and RBAC).
-  * **18/18** Node.js gateway and contract tests passing (covering security headers, path traversal defense, and API payloads).
-* **Production-Grade Infrastructure**: Fully containerized stack orchestrated via Docker Compose (PostgreSQL 16, Redis 7, Keycloak 24, Spring Boot 3.3.5, and Node.js Gateway).
+**What is built and working**
+
+* **21 pages** sharing one navigation, bilingual toggle and offline shell.
+* **35 real job roles** for rural students, from `data/jobs.csv`, filterable by the
+  student's own qualification — from "no formal qualification" and 10th pass up to
+  degree — each linking to the official government or company portal.
+* **Career aptitude quiz**: 5 bilingual questions, weighted scoring across four
+  tracks (government / ITI / BPO / self-employment).
+* **Browser-side PDF resume builder**, no account and no server needed.
+* **Offline-capable PWA**: service worker precache plus `localStorage`.
+* **44/44 Node.js tests passing** (`npm test`) — these cover the static server's
+  path-traversal defence and security headers, the API client's shape, and content
+  integrity (that no invented job listing, impact figure or testimonial can return).
+  They are not end-to-end browser tests.
+
+**What is not yet true — stated plainly, because this is a Community Service Project**
+
+* **No impact data yet.** The impact dashboard reports a real before/after workshop
+  survey and ships empty until one has been conducted. See `data/survey-data.js`.
+* **No participant success stories yet.** They are published only with a student's
+  written consent; `stories.html` carries the checklist.
+* **Job roles are signposts, not live vacancies.** We do not verify or host
+  openings; the official portal is always the authority.
+* **The Telugu resume PDF is not working yet.** jsPDF has no Telugu font registered,
+  so exported resumes are English-only.
+* **Backend is a Phase 2 prototype, not the deployed product.** The Spring Boot /
+  PostgreSQL / Redis / Keycloak stack in `backend/` and `docker-compose.yml` works
+  locally, but the product students use is the static PWA, which deploys free to
+  GitHub Pages. The backend has no free hosting target and is not required by any
+  student-facing feature.
 
 ---
 
@@ -143,14 +168,23 @@ Gramin_Career_Setu/
     ├── login.html                 # 4-Step role-based authentication portal
     ├── dashboard.html             # Authenticated student dashboard
     ├── careers.html               # Career pathways catalog
-    ├── jobs.html                  # Job search & filtering engine
+    ├── jobs.html                  # Job roles filtered by the student's qualification
+    ├── roadmap.html               # Step-by-step career roadmaps per education level
+    ├── apply-online.html          # How to apply online, 8 steps, Telugu and English
     ├── resume.html                # ATS resume builder & evaluator
-    ├── quiz.html                  # RIASEC aptitude assessment quiz
+    ├── quiz.html                  # 5-question career aptitude quiz (4 tracks)
     ├── scholarships.html          # State & central scholarship directory
     ├── schemes.html               # Government welfare schemes portal
-    ├── workshops.html             # Live skill development workshops
+    ├── workshops.html             # Workshop curriculum and scheduled sessions
     ├── server.js                  # Edge Node.js gateway & reverse proxy
     ├── docker-compose.yml         # Container orchestration (Postgres, Redis, Keycloak, Backend)
+    │
+    ├── data/                      # The content the site renders. Edit these, not the pages.
+    │   ├── jobs.csv               # Source of truth for job roles
+    │   ├── jobs-data.js           # Generated from jobs.csv (scripts/build-jobs-data.js)
+    │   ├── roadmaps.js            # Career roadmaps: steps, costs, official links
+    │   ├── workshops.js           # Curriculum, scheduled sessions, sessions held
+    │   └── survey-data.js         # Before/after workshop survey responses
     │
     ├── assets/                    # Core frontend scripts, styles, and vector artwork
     │   ├── api.js                 # Unified REST client with offline sync engine
@@ -161,7 +195,7 @@ Gramin_Career_Setu/
     ├── backend/                   # Spring Boot 3.3.5 / Java 21 Modular Monolith
     │   ├── pom.xml                # Maven project definition & dependencies
     │   ├── src/main/java/         # Domain packages (jobs, workshops, resumes, quiz, etc.)
-    │   └── src/main/resources/    # Configs and Flyway database migrations (V1–V5)
+    │   └── src/main/resources/    # Configs and Flyway migrations (V1-V8)
     │
     └── tests/                     # Automated test suites
         └── project.test.js        # Node.js gateway and contract tests
@@ -178,14 +212,12 @@ Gramin_Career_Setu/
 
 ### Quick Start (Local Web Server)
 ```bash
-cd gramin-career-setu
 node server.js
 ```
 Open **[http://localhost:5000](http://localhost:5000)** in your browser.
 
 ### Full Stack Startup (Docker Compose)
 ```bash
-cd gramin-career-setu
 docker compose up -d
 ```
 This launches:
@@ -196,7 +228,6 @@ This launches:
 
 ### Running Automated Tests
 ```bash
-cd gramin-career-setu
 node --test tests/project.test.js
 ```
 
