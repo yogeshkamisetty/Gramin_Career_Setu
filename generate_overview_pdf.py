@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Gramin Career Setu — Comprehensive Project Documentation Generator
-Produces an executive-grade, beautifully formatted PDF overview.
+Gramin Career Setu — Formal Academic Project Specification Document Generator
+Conforms exactly to the standardized College/University Academic Project Document
+specification format demonstrated in benchmark reference documents:
+Cover Page -> Declaration -> Abstract -> Table of Contents -> Chapters 1-8 -> Appendix A.
 """
 
 import os
@@ -20,8 +22,8 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
 # High-Contrast Brand Palette
 COLOR_PRIMARY = HexColor("#1B4D3E")       # Signature Forest Green
 COLOR_PRIMARY_LIGHT = HexColor("#ECFDF5") # Mint / Emerald Wash
-COLOR_SECONDARY = HexColor("#059669")     # Emerald Accent
-COLOR_AMBER = HexColor("#D97706")         # Warm Amber Accent
+COLOR_SECONDARY = HexColor("#047857")     # Emerald Accent
+COLOR_AMBER = HexColor("#B45309")         # Warm Amber Accent
 COLOR_AMBER_LIGHT = HexColor("#FFFBEB")   # Amber Callout Tint
 COLOR_DARK = HexColor("#0F172A")          # Slate 900
 COLOR_MUTED = HexColor("#334155")         # Slate 700 (High contrast)
@@ -59,7 +61,7 @@ class NumberedCanvas(canvas.Canvas):
 
     def draw_page_decorations(self, total_pages):
         page_w, page_h = letter
-        margin = 44
+        margin = 40
 
         # Page 1 (Cover Page)
         if self._pageNumber == 1:
@@ -73,14 +75,14 @@ class NumberedCanvas(canvas.Canvas):
             # Bottom footer line
             self.setFont("Helvetica-Bold", 8)
             self.setFillColor(COLOR_PRIMARY)
-            self.drawString(margin, 28, "GRAMIN CAREER SETU")
+            self.drawString(margin, 24, "GRAMIN CAREER SETU")
             self.setFont("Helvetica", 8)
             self.setFillColor(COLOR_LIGHT_MUTED)
-            self.drawString(margin + 105, 28, "— College Community Service Project (CSP) | Documentation & Architecture")
-            self.drawRightString(page_w - margin, 28, f"Page 1 of {total_pages}")
+            self.drawString(margin + 105, 24, "- Formal Academic Project Specification Document | Community Service Project")
+            self.drawRightString(page_w - margin, 24, f"Page 1 of {total_pages}")
             self.setStrokeColor(COLOR_BORDER_LIGHT)
             self.setLineWidth(0.6)
-            self.line(margin, 38, page_w - margin, 38)
+            self.line(margin, 34, page_w - margin, 34)
             self.restoreState()
             return
 
@@ -88,500 +90,1021 @@ class NumberedCanvas(canvas.Canvas):
         self.saveState()
         self.setFont("Helvetica-Bold", 8)
         self.setFillColor(COLOR_PRIMARY)
-        self.drawString(margin, page_h - 30, "GRAMIN CAREER SETU (గ్రామీణ కెరీర్ సేతు)")
+        self.drawString(margin, page_h - 26, "GRAMIN CAREER SETU (Gramina Career Setu)")
         self.setFont("Helvetica", 8)
         self.setFillColor(COLOR_LIGHT_MUTED)
-        self.drawString(margin + 180, page_h - 30, "|  Complete Technical & Functional Architecture")
-        self.drawRightString(page_w - margin, page_h - 30, "Community Service Project")
+        self.drawString(margin + 195, page_h - 26, "|  Project Specification Document")
+        self.drawRightString(page_w - margin, page_h - 26, "Academic Year 2026-2027")
         
         self.setStrokeColor(COLOR_BORDER_LIGHT)
         self.setLineWidth(0.6)
-        self.line(margin, page_h - 35, page_w - margin, page_h - 35)
+        self.line(margin, page_h - 30, page_w - margin, page_h - 30)
         self.restoreState()
 
         # Running Footer on Pages 2+
         self.saveState()
         self.setFont("Helvetica", 8)
         self.setFillColor(COLOR_MUTED)
-        self.drawString(margin, 28, "Offline-First Bilingual Career Ecosystem • Andhra Pradesh & Telangana")
-        self.drawRightString(page_w - margin, 28, f"Page {self._pageNumber} of {total_pages}")
+        self.drawString(margin, 24, "Offline-First Bilingual Career Advancement & Employment Bridge Platform")
+        self.drawRightString(page_w - margin, 24, f"Page {self._pageNumber} of {total_pages}")
         
         self.setStrokeColor(COLOR_BORDER_LIGHT)
         self.setLineWidth(0.6)
-        self.line(margin, 38, page_w - margin, 38)
+        self.line(margin, 34, page_w - margin, 34)
         self.restoreState()
 
 
+def make_para(text, style):
+    return Paragraph(text, style)
+
+
 def build_pdf(filename="Gramin_Career_Setu_Project_Overview.pdf"):
-    margin = 44
+    margin = 40
     doc = SimpleDocTemplate(
         filename,
         pagesize=letter,
         leftMargin=margin,
         rightMargin=margin,
-        topMargin=46,
-        bottomMargin=46
+        topMargin=38,
+        bottomMargin=38
     )
 
     base_styles = getSampleStyleSheet()
 
     # Custom Typographic Hierarchy
-    style_cover_badge = ParagraphStyle(
-        "CoverBadge",
+    style_cover_tag = ParagraphStyle(
+        "CoverTag",
         fontName="Helvetica-Bold",
-        fontSize=8.5,
-        leading=11,
+        fontSize=11,
+        leading=14,
         textColor=COLOR_PRIMARY,
-        alignment=TA_LEFT
+        alignment=TA_CENTER,
+        spaceAfter=8
     )
     style_cover_title = ParagraphStyle(
         "CoverTitle",
         fontName="Helvetica-Bold",
-        fontSize=22,
-        leading=26,
+        fontSize=24,
+        leading=28,
         textColor=COLOR_PRIMARY,
-        spaceAfter=4
+        alignment=TA_CENTER,
+        spaceAfter=6
     )
     style_cover_subtitle = ParagraphStyle(
         "CoverSubtitle",
         fontName="Helvetica",
+        fontSize=12,
+        leading=16,
+        textColor=COLOR_SECONDARY,
+        alignment=TA_CENTER,
+        spaceAfter=12
+    )
+    style_cover_tech = ParagraphStyle(
+        "CoverTech",
+        fontName="Helvetica-Bold",
+        fontSize=9,
+        leading=13,
+        textColor=COLOR_MUTED,
+        alignment=TA_CENTER,
+        spaceAfter=18
+    )
+    style_chapter_title = ParagraphStyle(
+        "ChapterTitle",
+        fontName="Helvetica-Bold",
+        fontSize=14,
+        leading=18,
+        textColor=COLOR_PRIMARY,
+        spaceBefore=14,
+        spaceAfter=8,
+        keepWithNext=True
+    )
+    style_section_title = ParagraphStyle(
+        "SectionTitle",
+        fontName="Helvetica-Bold",
         fontSize=11,
         leading=15,
         textColor=COLOR_SECONDARY,
-        spaceAfter=10
-    )
-    style_h1 = ParagraphStyle(
-        "Heading1_Custom",
-        fontName="Helvetica-Bold",
-        fontSize=13,
-        leading=16,
-        textColor=COLOR_PRIMARY,
         spaceBefore=10,
-        spaceAfter=6,
+        spaceAfter=5,
         keepWithNext=True
     )
-    style_h2 = ParagraphStyle(
-        "Heading2_Custom",
+    style_sub_section_title = ParagraphStyle(
+        "SubSectionTitle",
         fontName="Helvetica-Bold",
-        fontSize=10,
+        fontSize=9.5,
         leading=13,
-        textColor=COLOR_SECONDARY,
+        textColor=COLOR_DARK,
         spaceBefore=7,
-        spaceAfter=4,
+        spaceAfter=3,
         keepWithNext=True
     )
     style_body = ParagraphStyle(
-        "Body_Custom",
+        "CustomBody",
         fontName="Helvetica",
-        fontSize=8.6,
-        leading=12.2,
+        fontSize=8.5,
+        leading=12,
         textColor=COLOR_DARK,
-        spaceAfter=4.5
+        spaceAfter=5,
+        alignment=TA_JUSTIFY
     )
     style_bullet = ParagraphStyle(
-        "Bullet_Custom",
+        "CustomBullet",
         fontName="Helvetica",
-        fontSize=8.4,
-        leading=11.8,
-        textColor=COLOR_DARK,
-        leftIndent=12,
-        firstLineIndent=-8,
-        spaceAfter=3
+        fontSize=8.5,
+        leading=12,
+        textColor=COLOR_MUTED,
+        leftIndent=14,
+        firstLineIndent=-10,
+        spaceAfter=3,
+        alignment=TA_JUSTIFY
     )
-    style_card_title = ParagraphStyle(
-        "CardTitle",
-        fontName="Helvetica-Bold",
-        fontSize=8.8,
-        leading=11.8,
+    style_callout = ParagraphStyle(
+        "CalloutText",
+        fontName="Helvetica-Oblique",
+        fontSize=8.5,
+        leading=12,
         textColor=COLOR_PRIMARY,
-        spaceAfter=2
+        spaceAfter=4
     )
-    style_card_text = ParagraphStyle(
-        "CardText",
-        fontName="Helvetica",
-        fontSize=8.1,
-        leading=11.1,
-        textColor=COLOR_DARK
-    )
-    style_table_header = ParagraphStyle(
+
+    # Table styles
+    style_th = ParagraphStyle(
         "TableHeader",
         fontName="Helvetica-Bold",
         fontSize=8,
         leading=10,
-        textColor=COLOR_WHITE
+        textColor=COLOR_WHITE,
+        alignment=TA_LEFT
     )
-    style_table_cell = ParagraphStyle(
+    style_td = ParagraphStyle(
         "TableCell",
         fontName="Helvetica",
-        fontSize=7.6,
-        leading=9.8,
-        textColor=COLOR_DARK
+        fontSize=7.5,
+        leading=10,
+        textColor=COLOR_DARK,
+        alignment=TA_LEFT
     )
-    style_table_cell_bold = ParagraphStyle(
+    style_td_bold = ParagraphStyle(
         "TableCellBold",
         fontName="Helvetica-Bold",
-        fontSize=7.6,
-        leading=9.8,
-        textColor=COLOR_PRIMARY
+        fontSize=7.5,
+        leading=10,
+        textColor=COLOR_DARK,
+        alignment=TA_LEFT
     )
+
+    printable_w = 612 - 2 * margin  # 532 pt
 
     story = []
-    content_width = letter[0] - 2 * margin
 
     # =========================================================================
-    # PAGE 1: COVER, EXECUTIVE SUMMARY, PROBLEM STATEMENT, TECH STACK
+    # COVER PAGE
     # =========================================================================
-    
-    meta_html = (
-        "<b>COMMUNITY SERVICE PROJECT (CSP)</b> &nbsp;|&nbsp; "
-        "<b>ACADEMIC YEAR 2024–2026</b> &nbsp;|&nbsp; "
-        "<b>ANDHRA PRADESH &amp; TELANGANA</b>"
-    )
-    t_pill = Table([[Paragraph(meta_html, style_cover_badge)]], colWidths=[content_width])
-    t_pill.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), COLOR_PRIMARY_LIGHT),
-        ('BOX', (0,0), (-1,-1), 0.8, COLOR_SECONDARY),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-        ('LEFTPADDING', (0,0), (-1,-1), 8),
-        ('RIGHTPADDING', (0,0), (-1,-1), 8),
-    ]))
-    story.append(t_pill)
-    story.append(Spacer(1, 6))
+    story.append(Spacer(1, 24))
+    story.append(Paragraph("PROJECT DOCUMENT", style_cover_tag))
+    story.append(Spacer(1, 8))
+    story.append(Paragraph("GRAMIN CAREER SETU", style_cover_title))
+    story.append(Paragraph("A Centralized Offline-First, Bilingual Career Empowerment &amp; Employment Bridge Platform for Rural Youth", style_cover_subtitle))
+    story.append(Paragraph("<b>Suggested Technology Stack:</b> Semantic HTML5 &bull; Vanilla ES6+ JavaScript &bull; CSS3 Design Tokens &bull; Node.js Native HTTP Gateway &bull; Java 21 / Spring Boot 3.3.5 &bull; PostgreSQL 16 &bull; Keycloak 24.0.5 &bull; Redis 7", style_cover_tech))
+    story.append(Spacer(1, 14))
 
-    story.append(Paragraph("Gramin Career Setu (గ్రామీణ కెరీర్ సేతు)", style_cover_title))
-    story.append(Paragraph("A Bilingual, Offline-First Career Exploration, Vocational Counseling &amp; ATS Resume Platform for Rural Youth", style_cover_subtitle))
-    
-    # Metadata Table
-    meta_summary = [
-        [
-            Paragraph("<b>Project Category:</b> Community Service Project (CSP)", style_table_cell),
-            Paragraph("<b>Target Audience:</b> Rural Students, ITI / Polytechnic &amp; Job Seekers", style_table_cell),
-        ],
-        [
-            Paragraph("<b>Target Geography:</b> Rural AP &amp; Telangana (Villages &amp; Mandals)", style_table_cell),
-            Paragraph("<b>Supported Languages:</b> Telugu (తెలుగు) &amp; English (Dual-Mode)", style_table_cell),
-        ],
-        [
-            Paragraph("<b>Architecture:</b> Offline-First PWA + Pure Node HTTP Server", style_table_cell),
-            Paragraph("<b>Quality Assurance:</b> 6/6 Automated Security &amp; Functional Tests Passing", style_table_cell),
-        ]
+    # Cover Meta Box
+    meta_data = [
+        [Paragraph("<b>Submitted by</b>", style_td_bold), Paragraph("Yogesh Kamisetty (and Student Project Team)", style_td)],
+        [Paragraph("<b>Project Guide / Mentor</b>", style_td_bold), Paragraph("Department of Computer Science &amp; Engineering Faculty", style_td)],
+        [Paragraph("<b>Department</b>", style_td_bold), Paragraph("Department of Computer Science and Engineering", style_td)],
+        [Paragraph("<b>Institution / Organization</b>", style_td_bold), Paragraph("Affiliated Engineering College / University", style_td)],
+        [Paragraph("<b>Academic Year</b>", style_td_bold), Paragraph("2026 &ndash; 2027", style_td)],
+        [Paragraph("<b>Project Type</b>", style_td_bold), Paragraph("Community Service Project (CSP) / Capstone Engineering Project", style_td)]
     ]
-    t_meta = Table(meta_summary, colWidths=[content_width * 0.5, content_width * 0.5])
+    t_meta = Table(meta_data, colWidths=[150, printable_w - 150])
     t_meta.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), COLOR_BG_CARD),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER_LIGHT),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
-        ('LEFTPADDING', (0,0), (-1,-1), 8),
-        ('RIGHTPADDING', (0,0), (-1,-1), 8),
+        ('BACKGROUND', (0, 0), (-1, -1), COLOR_BG_CARD),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t_meta)
-    story.append(Spacer(1, 7))
+    story.append(Spacer(1, 18))
 
-    # Executive Summary Highlight Box
-    exec_summary_text = (
-        "<b>Executive Summary:</b> Gramin Career Setu is an end-to-end, zero-cost digital career empowerment platform "
-        "engineered to overcome the informational, linguistic, and technological barriers that rural students face across "
-        "Andhra Pradesh and Telangana. Mainstream job and counseling websites assume high-speed internet, modern laptops, and English "
-        "fluency—leaving rural youth unaware of emerging sectors, vocational trades, government scholarships, and competitive examinations. "
-        "Gramin Career Setu delivers an <b>offline-first, 100% vernacular-accessible web application</b> featuring real-time Telugu-English "
-        "translation, a scientifically validated RIASEC career aptitude quiz, an algorithmic ATS resume builder with instant PDF generation, "
-        "curated rural job listings, government welfare directories, educational roadmaps, and volunteer administration tools."
+    # =========================================================================
+    # DECLARATION
+    # =========================================================================
+    story.append(Paragraph("DECLARATION", style_section_title))
+    dec_text = (
+        "The undersigned declare that this project document, titled <b>\"Gramin Career Setu\"</b>, describes the proposed "
+        "design, technical architecture, and implementation plan for an offline-first, bilingual career empowerment and employment "
+        "bridge platform for rural youth. Sources used during implementation, data compilation, and report preparation "
+        "have been duly acknowledged."
     )
-    t_exec = Table([[Paragraph(exec_summary_text, style_body)]], colWidths=[content_width])
-    t_exec.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), COLOR_PRIMARY_LIGHT),
-        ('LINELEFT', (0,0), (0,0), 3.5, COLOR_PRIMARY),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
-        ('LEFTPADDING', (0,0), (-1,-1), 8),
-        ('RIGHTPADDING', (0,0), (-1,-1), 8),
-    ]))
-    story.append(t_exec)
+    story.append(Paragraph(dec_text, style_body))
     story.append(Spacer(1, 8))
 
-    # Section 1: The Core Problem Statement
-    story.append(Paragraph("1. The Rural Career Crisis &amp; Problem Statement", style_h1))
-    problems = [
-        ("The Vernacular Divide",
-         "Over 85% of rural secondary school students in AP and Telangana study in Telugu-medium institutions. Mainstream career platforms are exclusively in English, creating severe anxiety and excluding rural talent from discovering opportunities."),
-        ("Bandwidth &amp; Hardware Constraints",
-         "Rural areas encounter power outages and spotty 2G/3G connectivity. Low-spec budget smartphones struggle with bloated 10MB+ JavaScript frameworks. A lightweight, offline-capable architecture is non-negotiable."),
-        ("Absence of Professional Resumes",
-         "Rural youth lack computer literacy and guidance to format resumes. Consequently, candidate applications are rejected outright by employer Applicant Tracking Systems (ATS)."),
-        ("Fragmented Awareness of Schemes",
-         "Government welfare, fee reimbursements, and skill training programs (Post-Matric RTF & MTF Fee Reimbursement, PMKVY, ePASS) are dispersed across complex official gazettes, preventing deserving candidates from claiming their entitlements.")
+    dec_table_data = [
+        [Paragraph("<b>No.</b>", style_th), Paragraph("<b>Name</b>", style_th), Paragraph("<b>Signature</b>", style_th), Paragraph("<b>Date</b>", style_th)],
+        [Paragraph("1", style_td), Paragraph("Yogesh Kamisetty", style_td), Paragraph("___________________", style_td), Paragraph("05-11-2026", style_td)],
+        [Paragraph("2", style_td), Paragraph("Student Contributor 2", style_td), Paragraph("___________________", style_td), Paragraph("05-11-2026", style_td)],
+        [Paragraph("3", style_td), Paragraph("Student Contributor 3", style_td), Paragraph("___________________", style_td), Paragraph("05-11-2026", style_td)],
     ]
-    for title, desc in problems:
-        story.append(Paragraph(f"• <b>{title}:</b> {desc}", style_bullet))
+    t_dec = Table(dec_table_data, colWidths=[35, 210, 160, printable_w - 405])
+    t_dec.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_dec)
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("<b>Place:</b> Andhra Pradesh, India", style_body))
 
-    story.append(Spacer(1, 7))
+    story.append(PageBreak())
 
-    # Section 2: Technology Stack & Architectural Specifications
-    story.append(Paragraph("2. Technical Specifications &amp; Architectural Stack", style_h1))
-    tech_table_data = [
-        [Paragraph("Layer", style_table_header), Paragraph("Technology / Component", style_table_header), Paragraph("Engineering Rationale &amp; Architectural Role", style_table_header)],
-        [Paragraph("Frontend Runtime", style_table_cell_bold), Paragraph("Pure HTML5 + Vanilla ECMAScript (ES6+)", style_table_cell), Paragraph("Zero framework dependencies; loads under 120ms on low-spec Android phones.", style_table_cell)],
-        [Paragraph("Design System", style_table_cell_bold), Paragraph("CSS3 Custom Properties (tokens.css, saas.css)", style_table_cell), Paragraph("Unified 8pt grid, WCAG 2.1 AA compliant contrast, dark/light theme support.", style_table_cell)],
-        [Paragraph("Offline PWA", style_table_cell_bold), Paragraph("Service Worker API + CacheStorage (sw.js)", style_table_cell), Paragraph("Pre-caches all 21 views, fonts, images &amp; scripts for 100% offline operation.", style_table_cell)],
-        [Paragraph("i18n Engine", style_table_cell_bold), Paragraph("Atomic Dictionary (i18n-dict.js, 248+ keys)", style_table_cell), Paragraph("Zero-FOUC inline pre-paint; child-safe DOM node text replacement.", style_table_cell)],
-        [Paragraph("PDF Generation", style_table_cell_bold), Paragraph("Lazy-Loaded jsPDF (pdf-loader.js)", style_table_cell), Paragraph("Dynamically loads 364 KB jsPDF only when user clicks export (0 KB initial cost).", style_table_cell)],
-        [Paragraph("Local Server", style_table_cell_bold), Paragraph("Hardened Node.js HTTP Server (server.js)", style_table_cell), Paragraph("Protected against path traversal &amp; malformed URIs; zero external npm deps.", style_table_cell)],
-        [Paragraph("Test Automation", style_table_cell_bold), Paragraph("Node.js Native Test Runner (node:test)", style_table_cell), Paragraph("6 automated specs checking security, 404s, pagination, and form limits.", style_table_cell)]
+    # =========================================================================
+    # ABSTRACT
+    # =========================================================================
+    story.append(Paragraph("ABSTRACT", style_chapter_title))
+    abs_p1 = (
+        "Rural youth across India face severe information divides, language barriers, and intermittent internet connectivity, "
+        "severely restricting their awareness of and access to viable economic and educational opportunities. Mainstream job and "
+        "career portals are predominantly English-only, require high-bandwidth connections, present unverified or commercially "
+        "sponsored listings, and lack contextual guidance tailored to candidates with non-traditional or entry-level educational qualifications. "
+        "Furthermore, rural students are often unaware of state and central government welfare schemes, scholarship entitlements, "
+        "vocational training programs, and the critical importance of Applicant Tracking System (ATS) compliant resume design."
+    )
+    story.append(Paragraph(abs_p1, style_body))
+
+    abs_p2 = (
+        "<b>Gramin Career Setu</b> is a proposed web-based, offline-first, bilingual (Telugu &amp; English) platform engineered to "
+        "bridge the divide between rural talent and formal economic opportunities. The platform unifies: (1) an opportunity exploration "
+        "portal offering 35 curated job roles across 10 vital sectors with verified official application links; (2) a comprehensive directory of "
+        "active government welfare schemes and updated scholarships; (3) a 5-question RIASEC-informed career aptitude assessment mapping "
+        "candidates to distinct career tracks; (4) structured, step-by-step career roadmaps starting from 10th pass, Intermediate, ITI, Diploma, "
+        "and Degree qualifications; (5) an 8-step bilingual online application guide; (6) a client-side ATS resume builder with real-time scoring; "
+        "and (7) community skill workshop management."
+    )
+    story.append(Paragraph(abs_p2, style_body))
+
+    abs_p3 = (
+        "The architecture implements a dual-tier model: a lightweight, zero-dependency client powered by Semantic HTML5, CSS3 design tokens, "
+        "vanilla ES6+ JavaScript, a custom dictionary-driven translation engine (`i18n.js`), and Service Worker caching (~1.1 MB app shell); "
+        "coupled with an enterprise backend powered by Java 21, Spring Boot 3.3.5, Keycloak 24.0.5 OAuth2/OIDC role-based access control, "
+        "PostgreSQL 16 relational storage with Flyway migrations (V1&ndash;V8), and Redis distributed rate-limiting. The prototype is validated "
+        "through 44 automated Node.js security and contract tests, 43 Spring Boot integration tests, cross-browser/cross-device verification, and "
+        "strict adherence to Community Service Project (CSP) honest disclosure guidelines. Expected benefits include eliminating informational asymmetry, "
+        "empowering rural job seekers with verified pathways, and providing village coordinators with robust digital tools."
+    )
+    story.append(Paragraph(abs_p3, style_body))
+    story.append(Spacer(1, 4))
+    story.append(Paragraph("<b>Keywords:</b> rural career empowerment, bilingual education, offline-first PWA, ATS resume builder, scholarship discovery, Spring Boot 3.3.5, Keycloak OIDC, PostgreSQL Flyway, Community Service Project.", style_callout))
+
+    story.append(Spacer(1, 10))
+
+    # =========================================================================
+    # TABLE OF CONTENTS
+    # =========================================================================
+    story.append(Paragraph("TABLE OF CONTENTS", style_chapter_title))
+    toc_data = [
+        [Paragraph("<b>No.</b>", style_th), Paragraph("<b>Main Section</b>", style_th), Paragraph("<b>Sub-sections</b>", style_th), Paragraph("<b>Page</b>", style_th)],
+        [Paragraph("1", style_td), Paragraph("Introduction", style_td_bold), Paragraph("1.1 Purpose, 1.2 Problem Statement, 1.3 Vision &amp; Mission, 1.4 Existing &amp; Proposed Systems, 1.5 Project Charter", style_td), Paragraph("3", style_td)],
+        [Paragraph("2", style_td), Paragraph("Scope &amp; Stakeholders", style_td_bold), Paragraph("2.1 Core Functional Scope, 2.2 Advanced / Phase 2 Features, 2.3 Project Boundaries, 2.4 Target Users &amp; Stakeholders, 2.5 Design Principles", style_td), Paragraph("5", style_td)],
+        [Paragraph("3", style_td), Paragraph("Methodology &amp; Workflow", style_td_bold), Paragraph("3.1 Methodology Overview, 3.2 Opportunity Types &amp; Sectors, 3.3 End-to-End Workflow, 3.4 Bilingual &amp; Offline Matching, 3.5 Validation Rules, 3.6 Automated Quality &amp; Security, 3.7 Verification Rules, 3.8 Generation Logic", style_td), Paragraph("7", style_td)],
+        [Paragraph("4", style_td), Paragraph("System Design &amp; Architecture", style_td_bold), Paragraph("4.1 User Roles &amp; Responsibilities, 4.2 User Workflow, 4.3 Technical Architecture, 4.4 Data Flow, 4.5 Main Modules, 4.6 Enrollment Enforcement, 4.7 Security Considerations", style_td), Paragraph("9", style_td)],
+        [Paragraph("5", style_td), Paragraph("Technology Stack", style_td_bold), Paragraph("5.1 Technology Choices &amp; Responsibilities, 5.2 Proposed Data Model, 5.3 Example API Outline", style_td), Paragraph("11", style_td)],
+        [Paragraph("6", style_td), Paragraph("Implementation Plan", style_td_bold), Paragraph("6.1 Phases &amp; Deliverables, 6.2 Indicative Costs, 6.3 Deployment Plan", style_td), Paragraph("13", style_td)],
+        [Paragraph("7", style_td), Paragraph("Expected Outcomes &amp; Evaluation", style_td_bold), Paragraph("7.1 Expected Outcomes, 7.2 Success Measures, 7.3 Social &amp; Organizational Use, 7.4 Future Enhancements", style_td), Paragraph("14", style_td)],
+        [Paragraph("8", style_td), Paragraph("Risks &amp; Validation", style_td_bold), Paragraph("8.1 Risk Assessment, 8.2 Testing Plan, 8.3 Limitations, 8.4 Conclusion", style_td), Paragraph("15", style_td)],
+        [Paragraph("App A", style_td), Paragraph("References &amp; Benchmark Projects", style_td_bold), Paragraph("Government Portals, Academic Literature, and Benchmark Comparative Systems", style_td), Paragraph("16", style_td)]
     ]
-    t_tech = Table(tech_table_data, colWidths=[content_width * 0.20, content_width * 0.38, content_width * 0.42])
+    t_toc = Table(toc_data, colWidths=[35, 120, 335, printable_w - 490])
+    t_toc.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_toc)
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # CHAPTER 1: INTRODUCTION
+    # =========================================================================
+    story.append(Paragraph("1. Introduction", style_chapter_title))
+    story.append(Paragraph(
+        "This chapter introduces Gramin Career Setu, the critical societal and informational problems it addresses, "
+        "its core objectives, and the governance foundation articulated in the Project Charter.",
+        style_body
+    ))
+
+    story.append(Paragraph("1.1 Purpose", style_section_title))
+    story.append(Paragraph(
+        "The purpose of Gramin Career Setu is to provide a reliable, bilingual, and offline-capable career navigation and "
+        "employment empowerment portal for rural candidates in India. By integrating verified job role discovery, government "
+        "welfare schemes, scholarship tracking, career aptitude assessments, educational roadmaps, and an ATS resume evaluator "
+        "into a unified portal, the platform eliminates structural barriers that prevent rural job seekers from participating "
+        "in the formal economy.",
+        style_body
+    ))
+
+    story.append(Paragraph("1.2 Problem Statement", style_section_title))
+    story.append(Paragraph(
+        "Rural youth across Andhra Pradesh, Telangana, and rural India face systematic hurdles when attempting to transition from "
+        "education into sustainable employment. These problems include: (1) <i>Language Barriers</i>: existing national portals (such as NCS) "
+        "are heavily English-centric or have fragmented regional translations; (2) <i>Intermittent Connectivity</i>: high-bandwidth web apps "
+        "fail on 2G/3G networks; (3) <i>Information Asymmetry</i>: government schemes and scholarships are dispersed across uncoordinated department websites; "
+        "(4) <i>Predatory Job Boards</i>: rural job seekers frequently encounter outdated, ghost, or pay-to-apply job postings; and "
+        "(5) <i>Resume Disadvantage</i>: lack of familiarity with Applicant Tracking System (ATS) parsing rules leads to immediate algorithmic rejection.",
+        style_body
+    ))
+
+    story.append(Paragraph("1.3 Vision, Mission &amp; Objectives", style_section_title))
+    story.append(Paragraph(
+        "<b>Vision:</b> Empower every rural candidate with equal, transparent, and bilingual access to viable career opportunities, "
+        "scholarships, and professional job readiness tools regardless of geographical location or economic standing.",
+        style_body
+    ))
+    story.append(Paragraph(
+        "<b>Mission:</b> Deliver an offline-first, high-performance web ecosystem that guides rural candidates from career self-discovery "
+        "to structured educational roadmaps, verified opportunities, and professional application preparation with human-in-the-loop village coordinator support.",
+        style_body
+    ))
+    story.append(Paragraph("<b>Core Objectives:</b>", style_sub_section_title))
+    objs = [
+        "Provide 35 curated job roles across 10 sectors (Aviation, Healthcare, Civil Services, Banking, IT, Police, Agriculture, etc.) with direct links to official recruiting bodies.",
+        "Curate active state and central scholarships (RTF, MTF, PM-USP CSSS, PM-YASASVI, AICTE Pragati, Saksham, NMMSS, INSPIRE) with verified eligibility criteria.",
+        "Deliver seamless real-time bilingual toggling (Telugu &harr; English) across all pages with zero layout flicker and Web Speech voice narration.",
+        "Provide a client-side ATS resume builder with real-time scoring, actionable keyword suggestions, and clean print/PDF export.",
+        "Implement a 5-question RIASEC-informed aptitude quiz mapping students to 4 distinct career tracks without fabricating match percentages.",
+        "Offer step-by-step career roadmaps starting from 10th pass, Intermediate, ITI, Diploma, and Degree qualifications.",
+        "Enforce role-based access control (Student, Village Coordinator, District Admin) via Keycloak OIDC and Spring Boot REST security.",
+        "Maintain dual verification: 100% automated test pass rate across Node.js gateway tests (44/44) and Spring Boot integration tests (43/43)."
+    ]
+    for obj in objs:
+        story.append(Paragraph(f"&bull; {obj}", style_bullet))
+
+    story.append(Paragraph("1.4 Existing and Proposed Systems", style_section_title))
+    story.append(Paragraph(
+        "Table 1.1 contrasts conventional career platforms against Gramin Career Setu's offline-first rural architecture.",
+        style_body
+    ))
+
+    comp_data = [
+        [Paragraph("<b>Aspect</b>", style_th), Paragraph("<b>Existing Commercial / Govt Approach</b>", style_th), Paragraph("<b>Proposed Gramin Career Setu Approach</b>", style_th)],
+        [Paragraph("Connectivity", style_td_bold), Paragraph("Requires constant 4G/5G; fails or hangs on intermittent 2G/3G connections.", style_td), Paragraph("Offline-first PWA with Service Worker precaching (~1.1 MB shell) and localStorage sync.", style_td)],
+        [Paragraph("Language Support", style_td_bold), Paragraph("Predominantly English; machine translations break technical and regional nuances.", style_td), Paragraph("Bilingual Telugu &harr; English dictionary engine (`i18n.js`) with Web Speech voice synthesis.", style_td)],
+        [Paragraph("Job Listings", style_td_bold), Paragraph("Aggregated unverified postings, ghost vacancies, and sponsored commercial listings.", style_td), Paragraph("35 curated job roles acting as signposts directly linking to official verified recruiting portals.", style_td)],
+        [Paragraph("Welfare &amp; Scholarships", style_td_bold), Paragraph("Scattered across dozens of department portals; cumbersome search criteria.", style_td), Paragraph("Centralized directory of current working state and central scholarships and welfare schemes.", style_td)],
+        [Paragraph("Resume Preparation", style_td_bold), Paragraph("Paid subscription templates; server-dependent rendering; non-ATS compliant designs.", style_td), Paragraph("Free client-side ATS resume builder with real-time scoring and native print formatting.", style_td)],
+        [Paragraph("Integrity &amp; Honesty", style_td_bold), Paragraph("Fabricated placement claims and exaggerated participant success testimonials.", style_td), Paragraph("Strict CSP disclosure: empty survey kit awaiting field rollout; no invented metrics.", style_td)]
+    ]
+    t_comp = Table(comp_data, colWidths=[95, 218, printable_w - 313])
+    t_comp.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_comp)
+
+    story.append(Spacer(1, 6))
+
+    # Competitive positioning table
+    story.append(Paragraph("<b>Table 1.2: Competitive Positioning Matrix</b>", style_sub_section_title))
+    pos_data = [
+        [Paragraph("<b>Existing Platform</b>", style_th), Paragraph("<b>Key Capabilities</b>", style_th), Paragraph("<b>Observed Positioning</b>", style_th), Paragraph("<b>Our Differentiation</b>", style_th)],
+        [Paragraph("National Career Service (NCS)", style_td_bold), Paragraph("Government job listings, counselor directory, state exchange linkage.", style_td), Paragraph("Broad national repository; complex interface, heavy pages, frequent downtime.", style_td), Paragraph("Offline-first PWA, zero dependencies, instant Telugu toggling, qualification filters.", style_td)],
+        [Paragraph("Naukri / Indeed", style_td_bold), Paragraph("Commercial private jobs, corporate recruiting, paid resume highlights.", style_td), Paragraph("Optimized for urban white-collar workers; unsuited for 10th/ITI rural candidates.", style_td), Paragraph("Curates entry-level rural roles, direct links, free ATS resume builder, zero commercial ads.", style_td)],
+        [Paragraph("State Welfare Portals", style_td_bold), Paragraph("Welfare scheme applications, DBT disbursement tracking.", style_td), Paragraph("Single-department focus; complex bureaucratic terminology and form structures.", style_td), Paragraph("Consolidates multi-department scholarships/schemes with plain-language Telugu guides.", style_td)]
+    ]
+    t_pos = Table(pos_data, colWidths=[85, 140, 145, printable_w - 370])
+    t_pos.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_pos)
+
+    story.append(Paragraph("1.5 Project Charter", style_section_title))
+    story.append(Paragraph(
+        "<b>Business Case:</b> Millions of rural students complete secondary or technical education without clear guidance on formal employment "
+        "channels, competitive entrance exams, or welfare entitlements. By eliminating commercial exploitation and providing a zero-cost, "
+        "bilingual portal, Gramin Career Setu reduces unemployment cycle latency and increases welfare scheme uptake.<br/>"
+        "<b>Business Model:</b> Designed as a public-good Community Service Project (CSP). Deployed at zero recurring cost via GitHub Pages "
+        "for the static client, with open-source containerized backend architecture capable of deployment on state or university cloud servers.<br/>"
+        "<b>Charter Objectives:</b> Produce a fully functional, bilingual, offline-first production prototype, verified with automated end-to-end "
+        "tests (44 frontend tests, 43 backend integration tests), accompanied by field survey kits and full academic documentation.<br/>"
+        "<b>Scope Summary:</b> Covers opportunity catalogs, aptitude testing, roadmaps, scholarship directories, resume creation, workshop tracking, "
+        "and administrative telemetry. Excludes automated third-party form filling and direct job guarantee promises.<br/>"
+        "<b>Success Criteria:</b> 100% test pass rate, offline availability, sub-1-second client rendering on low-tier mobile devices, and zero security vulnerabilities.",
+        style_body
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # CHAPTER 2: SCOPE AND STAKEHOLDERS
+    # =========================================================================
+    story.append(Paragraph("2. Scope and Stakeholders", style_chapter_title))
+    story.append(Paragraph(
+        "This chapter defines the functional boundaries of the current production prototype, outlines planned Phase 2 extensions, "
+        "identifies key user groups, and establishes fundamental engineering design principles.",
+        style_body
+    ))
+
+    story.append(Paragraph("2.1 Core Functional Scope (Current Prototype)", style_section_title))
+    core_features = [
+        "<b>Bilingual Core Experience:</b> Instant, flicker-free toggling between Telugu and English across all 21 synchronized pages with Web Speech API audio narration.",
+        "<b>Role-Based Authentication:</b> 4-step responsive authentication (Mobile + Password, 6-digit confirmation code, and password strength scoring) with role mapping for Students, Volunteers, and District Admins.",
+        "<b>35 Curated Job Roles:</b> Verified opportunity catalog spanning Aviation, Healthcare, Civil Services, Banking, IT, Police, Agriculture, and Logistics, filterable by candidate qualification (from 10th pass to Degree).",
+        "<b>Direct Official Application Links:</b> Every job role links directly to official recruiting portals (UPSC, SSC, AIIMS, DGCA, Air India, IBPS, State PSCs); no ghost or pay-to-apply links.",
+        "<b>Updated Scholarships Directory:</b> State and central schemes with current working names (RTF, MTF, PM-USP CSSS, PM-YASASVI, AICTE Pragati, AICTE Saksham, NMMSS, INSPIRE).",
+        "<b>Government Welfare Schemes:</b> Comprehensive guide to key central and state schemes (PM MUDRA, PM Vishwakarma, PMKVY 4.0, AP YSR Cheyutha) with eligibility criteria.",
+        "<b>RIASEC Career Aptitude Quiz:</b> 5-question bilingual diagnostic assessment computing weighted fit scores across 4 career tracks (Government, Technical/ITI, BPO/Services, Self-Employment).",
+        "<b>Step-by-Step Educational Roadmaps:</b> Multi-stage career pathways starting from 10th pass, Intermediate, ITI, Diploma, and Degree levels with timeline and fee transparency.",
+        "<b>8-Step 'Apply Online' Guide:</b> Bilingual, visual step-by-step instructional walkthrough explaining document preparation, fee payment, and portal navigation.",
+        "<b>Rural ATS Resume Builder:</b> Client-side resume creation with 5 responsive templates, real-time ATS keyword scoring (0-100%), and print-ready output.",
+        "<b>Community Skill Workshops:</b> Curriculum and scheduling engine with capacity controls and participant registration tracking.",
+        "<b>Offline-First PWA Shell:</b> Service Worker cache-first architecture precaching core assets (~1.1 MB) for instantaneous loading on 2G/3G networks."
+    ]
+    for feat in core_features:
+        story.append(Paragraph(f"&bull; {feat}", style_bullet))
+
+    story.append(Paragraph("2.2 Advanced / Phase 2 Features (Future Roadmap)", style_section_title))
+    phase2_features = [
+        "<b>Biometric CSC Center Authentication:</b> Integration with Common Service Center (CSC) Aadhaar fingerprint readers for rural youth lacking mobile OTP capability.",
+        "<b>Automated Telugu Unicode Resume PDF Engine:</b> Registering custom Telugu Unicode font glyphs within jsPDF/canvas for direct Telugu PDF binary generation.",
+        "<b>SMS / WhatsApp Notification Gateway:</b> Automated push notifications alerting rural candidates when official application windows open for their qualified roles.",
+        "<b>AI-Driven Vernacular Mock Interview Agent:</b> Voice-interactive interview coaching providing real-time feedback in spoken Telugu and English.",
+        "<b>Live Employment Exchange Webhook Sync:</b> Bi-directional data exchange with District Employment Exchanges for real-time local apprentice quota updates."
+    ]
+    for feat in phase2_features:
+        story.append(Paragraph(f"&bull; {feat}", style_bullet))
+
+    story.append(Paragraph("2.3 Project Boundaries", style_section_title))
+    story.append(Paragraph(
+        "<b>Prototype Boundaries:</b> The current prototype focuses on verified career discovery, offline guidance, and client-side ATS resume generation. "
+        "The system acts as a signpost directly linking candidates to official recruitment bodies; it neither hosts live vacancy databases nor processes "
+        "government application fees directly. In accordance with CSP ethical guidelines, all survey analytics and impact figures remain empty until real field rollout.<br/>"
+        "<b>Future Expansion Boundaries:</b> Direct API integration with State Public Service Commissions and corporate applicant tracking systems will require formal "
+        "institutional partnerships and secure government data gateways.",
+        style_body
+    ))
+
+    story.append(Paragraph("2.4 Target Users and Stakeholders", style_section_title))
+    stakeholders = [
+        [Paragraph("<b>Stakeholder Group</b>", style_th), Paragraph("<b>Key Responsibilities / Benefits</b>", style_th)],
+        [Paragraph("Rural Students &amp; Job Seekers", style_td_bold), Paragraph("Primary beneficiaries. Access bilingual job roles matching their specific qualification, discover scholarships, evaluate aptitude, and generate ATS-compliant resumes for free.", style_td)],
+        [Paragraph("Village Coordinators &amp; Volunteers", style_td_bold), Paragraph("Local community facilitators. Assist low-literacy candidates at Gram Panchayat desks, organize workshops, and conduct field career counseling sessions.", style_td)],
+        [Paragraph("District Administrators &amp; Counselors", style_td_bold), Paragraph("Manage localized workshop curricula, monitor regional qualification trends, and review community service project survey feedback.", style_td)],
+        [Paragraph("Gram Panchayats &amp; CSC Centers", style_td_bold), Paragraph("Institutional partners. Host offline kiosk access points and display verified opportunity notices.", style_td)],
+        [Paragraph("Academic Project Mentors &amp; Institutions", style_td_bold), Paragraph("Evaluate technical and societal impact, ensure rigorous engineering standards, and supervise community deployment.", style_td)],
+        [Paragraph("Development &amp; QA Engineering Team", style_td_bold), Paragraph("Maintain architecture, security hardening, automated test suites, and data accuracy across all 35 job roles and welfare programs.", style_td)]
+    ]
+    t_sh = Table(stakeholders, colWidths=[160, printable_w - 160])
+    t_sh.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_sh)
+
+    story.append(Paragraph("2.5 Design Principles", style_section_title))
+    principles = [
+        "<b>Accuracy &amp; Transparency First:</b> Only verified official recruitment portals (UPSC, SSC, DGCA, AIIMS, etc.) are linked; zero fabricated employer listings or phantom statistics.",
+        "<b>Offline-First Reliability:</b> All core application pages, dictionaries, and resume tools must load and function seamlessly without network access.",
+        "<b>Bilingual Equity:</b> Telugu is treated as a primary, first-class citizen alongside English; all navigation, controls, roadmaps, and guides provide complete translation.",
+        "<b>Privacy by Design &amp; Least Privilege:</b> No unnecessary personal identifiers collected; sensitive student contact data is masked on the server and protected by strict RBAC.",
+        "<b>Traceability &amp; Auditability:</b> Every administrative action, status update, and workshop enrollment is immutably logged for audit verification.",
+        "<b>Zero Dependency Overhead:</b> The client avoids bulky third-party frontend frameworks, ensuring blazing-fast execution on sub-US$100 mobile devices."
+    ]
+    for pr in principles:
+        story.append(Paragraph(f"&bull; {pr}", style_bullet))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # CHAPTER 3: METHODOLOGY AND WORKFLOW
+    # =========================================================================
+    story.append(Paragraph("3. Methodology and Workflow", style_chapter_title))
+    story.append(Paragraph(
+        "This chapter details the evidence-informed methodology underlying Gramin Career Setu, the end-to-end user pipeline, "
+        "bilingual matching algorithms, validation rules, and automated quality verification.",
+        style_body
+    ))
+
+    story.append(Paragraph("3.1 Methodology Overview", style_section_title))
+    story.append(Paragraph(
+        "Gramin Career Setu operates as a structured, phased advancement pipeline: <b>Discover &rarr; Assess &rarr; Navigate &rarr; Prepare &rarr; Apply</b>. "
+        "Unlike commercial job boards that inundate users with unranked, sponsored listings, Gramin Career Setu anchors the user journey in the candidate's "
+        "verified current educational qualification and self-assessed aptitude track.",
+        style_body
+    ))
+
+    story.append(Paragraph("3.2 Opportunity Types and Sector Batches", style_section_title))
+    story.append(Paragraph(
+        "The catalog maintains 35 carefully curated job roles organized across 10 vital employment sectors. Each role is tied to minimum qualification "
+        "prerequisites, starting salary benchmarks, official portal authorities, and bilingual career summaries.",
+        style_body
+    ))
+
+    sectors_data = [
+        [Paragraph("<b>Employment Sector</b>", style_th), Paragraph("<b>Sample Roles &amp; Minimum Qualification</b>", style_th), Paragraph("<b>Official Recruiting Authority &amp; Portal</b>", style_th)],
+        [Paragraph("Aviation &amp; Aerospace", style_td_bold), Paragraph("Commercial Airline Pilot (10+2 PCM), Cabin Crew / Air Hostess (10+2)", style_td), Paragraph("DGCA (dgca.gov.in), Air India Careers (airindia.com)", style_td)],
+        [Paragraph("Healthcare &amp; Medicine", style_td_bold), Paragraph("Medical Officer / Doctor (MBBS), Staff Nurse (B.Sc / GNM Nursing)", style_td), Paragraph("NBE (natboard.edu.in), AIIMS Exams (aiimsexams.ac.in)", style_td)],
+        [Paragraph("Civil Services &amp; Govt", style_td_bold), Paragraph("IAS / Civil Servant (Graduation), Village Revenue Officer (Intermediate)", style_td), Paragraph("UPSC (upsc.gov.in), APPSC / TSPSC (psc.ap.gov.in)", style_td)],
+        [Paragraph("Banking &amp; Financial Services", style_td_bold), Paragraph("Bank Probationary Officer (Graduation), Rural Bank Assistant (Degree)", style_td), Paragraph("IBPS (ibps.in), State Bank of India (sbi.co.in)", style_td)],
+        [Paragraph("IT &amp; Digital Services", style_td_bold), Paragraph("Junior Software Engineer (B.Tech / MCA), Web Developer (Diploma / Any Degree)", style_td), Paragraph("NASSCOM FutureSkills Prime, Direct Employer Portals", style_td)],
+        [Paragraph("Police &amp; Defence", style_td_bold), Paragraph("Police Constable (Intermediate), Indian Army Soldier (10th Pass)", style_td), Paragraph("State Police Recruitment Board, Join Indian Army (joinindianarmy.nic.in)", style_td)],
+        [Paragraph("Agriculture &amp; Rural Tech", style_td_bold), Paragraph("Agricultural Extension Officer (B.Sc Agri), Kisan Dron Pilot (10th Pass + ITI)", style_td), Paragraph("ICAR (icar.org.in), State Agriculture Department", style_td)],
+        [Paragraph("Logistics &amp; Transport", style_td_bold), Paragraph("Railway Assistant Loco Pilot (10th + ITI), Commercial Transport Driver (10th + HMV)", style_td), Paragraph("Railway Recruitment Board (rrbcdg.gov.in), State RTC", style_td)],
+        [Paragraph("Self-Employment &amp; MSME", style_td_bold), Paragraph("Solar Technician (ITI Electrical), Village CSC Entrepreneur (10th / 12th)", style_td), Paragraph("PM Vishwakarma (pmvishwakarma.gov.in), PM MUDRA Portal", style_td)]
+    ]
+    t_sec = Table(sectors_data, colWidths=[110, 210, printable_w - 320])
+    t_sec.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_sec)
+
+    story.append(Paragraph("3.3 End-to-End User Workflow", style_section_title))
+    wf_steps = [
+        "<b>Step 1 &ndash; Portal Discovery:</b> The candidate lands on the PWA. Service Worker caches the app shell. The user toggles between English and Telugu as preferred.",
+        "<b>Step 2 &ndash; Career Aptitude Self-Assessment:</b> The candidate completes the 5-question RIASEC aptitude quiz (`quiz.html`), evaluating behavioral and work style preferences.",
+        "<b>Step 3 &ndash; Track Mapping &amp; Roadmaps:</b> Quiz scores map candidates to one of 4 career tracks (Government, ITI/Technical, BPO/Services, Self-Employment), directly leading into the educational roadmap (`roadmap.html`).",
+        "<b>Step 4 &ndash; Role &amp; Opportunity Filtering:</b> Candidate filters 35 job roles (`jobs.html`) by their specific education level (10th pass, Intermediate, ITI, Degree, etc.), preventing premature or invalid aspirations.",
+        "<b>Step 5 &ndash; Scheme &amp; Scholarship Discovery:</b> The student identifies entitlements (`scholarships.html` and `schemes.html`) to fund examinations or vocational training.",
+        "<b>Step 6 &ndash; Skill Workshop Registration:</b> The candidate enrolls in practical offline workshops (`workshops.html`) conducted by village coordinators.",
+        "<b>Step 7 &ndash; ATS Resume Building:</b> The candidate opens the resume builder (`resume.html`), selects from 5 professional templates, achieves an optimal ATS score, and exports a print-ready document.",
+        "<b>Step 8 &ndash; Official Online Application:</b> The candidate follows the 8-step guide (`apply-online.html`) to submit their application on the official recruitment authority's website."
+    ]
+    for st in wf_steps:
+        story.append(Paragraph(st, style_bullet))
+
+    story.append(Paragraph("3.4 Bilingual &amp; Offline Matching Engine", style_section_title))
+    story.append(Paragraph(
+        "Gramin Career Setu eliminates runtime translation latency by utilizing a synchronous client-side dictionary architecture (`assets/i18n.js` and `assets/i18n-dict.js`). "
+        "DOM elements declare `data-i18n` attributes corresponding to dictionary keys. When toggled, the engine traverses the DOM tree and replaces text content instantaneously "
+        "without triggering external network calls. Web Speech API synthesis (`window.speechSynthesis`) is bound to card narration buttons to speak Telugu and English text aloud.",
+        style_body
+    ))
+
+    story.append(Paragraph("3.5 Validation and Eligibility Rules", style_section_title))
+    valid_data = [
+        [Paragraph("<b>Form / Field</b>", style_th), Paragraph("<b>Validation Rule</b>", style_th), Paragraph("<b>Expected System Action on Violation</b>", style_th)],
+        [Paragraph("Mobile Number", style_td_bold), Paragraph("Must be exactly 10 numeric digits conforming to Indian numbering plan (`^[6-9]\\d{9}$`).", style_td), Paragraph("Display inline error; block OTP generation; prevent form submission.", style_td)],
+        [Paragraph("Password Strength", style_td_bold), Paragraph("Minimum 8 characters with at least 1 uppercase, 1 lowercase, 1 digit, and 1 symbol.", style_td), Paragraph("Visual strength meter updates in real-time; submit disabled until 'Strong'.", style_td)],
+        [Paragraph("Confirmation OTP", style_td_bold), Paragraph("Must match 6-digit client-generated verification token.", style_td), Paragraph("Show error message; allow resend after 30-second cooldown.", style_td)],
+        [Paragraph("Job Filtering", style_td_bold), Paragraph("Candidate qualification must match or exceed role prerequisite.", style_td), Paragraph("Highlight qualification gap; display prerequisite roadmap steps.", style_td)],
+        [Paragraph("Workshop Registration", style_td_bold), Paragraph("Workshop capacity must not be exceeded; candidate must not be duplicate.", style_td), Paragraph("Backend concurrency lock rejects oversubscription; returns HTTP 400 with capacity warning.", style_td)],
+        [Paragraph("Resume ATS Objective", style_td_bold), Paragraph("Length capped at 300 characters to prevent ATS parser truncation.", style_td), Paragraph("Enforce `maxlength=\"300\"` in markup; live character counter warns at 280.", style_td)]
+    ]
+    t_valid = Table(valid_data, colWidths=[100, 210, printable_w - 310])
+    t_valid.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_valid)
+
+    story.append(Paragraph("3.6 Automated Quality and Security Checking", style_section_title))
+    story.append(Paragraph(
+        "Quality assurance is continuously executed across every layer: (1) <i>Static File Server</i> rejects URL-encoded path traversal attacks (`../`); "
+        "(2) <i>HTTP Security Headers</i> enforce strict Content Security Policy (CSP), HSTS, and X-Content-Type-Options; (3) <i>API Gateway</i> enforces "
+        "distributed rate-limiting (100 req/min per IP); and (4) <i>PII Protection</i> masks sensitive mobile numbers (`98******10`) in logs and JSON responses.",
+        style_body
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # CHAPTER 4: SYSTEM DESIGN AND ARCHITECTURE
+    # =========================================================================
+    story.append(Paragraph("4. System Design and Architecture", style_chapter_title))
+    story.append(Paragraph(
+        "This chapter outlines the four-tiered technical architecture of Gramin Career Setu, detailed user workflows, module interactions, "
+        "and security enforcement mechanisms.",
+        style_body
+    ))
+
+    story.append(Paragraph("4.1 User Roles and Responsibilities", style_section_title))
+    roles_data = [
+        [Paragraph("<b>User Role</b>", style_th), Paragraph("<b>Access Privileges</b>", style_th), Paragraph("<b>Core Operational Responsibilities</b>", style_th)],
+        [Paragraph("Student / Job Seeker", style_td_bold), Paragraph("Public pages, personalized dashboard, quiz, resume builder, workshop registration.", style_td), Paragraph("Self-assess career aptitude, explore qualified jobs and scholarships, build ATS resumes, and register for local training.", style_td)],
+        [Paragraph("Village Coordinator / Volunteer", style_td_bold), Paragraph("Student assistance mode, offline kiosk operation, workshop participant check-in.", style_td), Paragraph("Facilitate registration for low-literacy candidates, verify village documentation, and manage workshop venues.", style_td)],
+        [Paragraph("District Administrator", style_td_bold), Paragraph("Full administrative dashboard (`/admin`), user status management, workshop scheduling, audit log inspection.", style_td), Paragraph("Publish local workshop schedules, review community survey trends, audit system security, and configure regional opportunity parameters.", style_td)]
+    ]
+    t_roles = Table(roles_data, colWidths=[110, 160, printable_w - 270])
+    t_roles.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_roles)
+
+    story.append(Paragraph("4.2 User Workflow Stages", style_section_title))
+    wf_stages = [
+        [Paragraph("<b>Stage</b>", style_th), Paragraph("<b>User Action</b>", style_th), Paragraph("<b>System Response &amp; Enforcement</b>", style_th)],
+        [Paragraph("Discovery", style_td_bold), Paragraph("Visits site on mobile browser.", style_td), Paragraph("Service worker activates; precaches app shell; loads in &lt;1.1 seconds.", style_td)],
+        [Paragraph("Language Select", style_td_bold), Paragraph("Clicks Telugu / English toggle.", style_td), Paragraph("Synchronous DOM attribute translation; persists choice in `localStorage`.", style_td)],
+        [Paragraph("Authentication", style_td_bold), Paragraph("Enters mobile, sets password, inputs verification code.", style_td), Paragraph("Bcrypt/Argon2 password hash; returns JWT token; sets user role session.", style_td)],
+        [Paragraph("Aptitude Quiz", style_td_bold), Paragraph("Answers 5 RIASEC assessment questions.", style_td), Paragraph("Calculates weighted track affinity; unlocks corresponding career roadmap.", style_td)],
+        [Paragraph("Role Filtering", style_td_bold), Paragraph("Selects qualification (e.g., '10th Pass').", style_td), Paragraph("Filters 35 roles to exact eligible subset; shows official application URLs.", style_td)],
+        [Paragraph("Resume Building", style_td_bold), Paragraph("Inputs education, skills, and summary.", style_td), Paragraph("Computes real-time ATS score (0-100%); formats responsive resume preview.", style_td)],
+        [Paragraph("Resume Export", style_td_bold), Paragraph("Clicks 'Download PDF' or 'Print'.", style_td), Paragraph("Triggers client-side PDF/print dialog; applies clean, pagination-safe CSS.", style_td)],
+        [Paragraph("Workshop Enrollment", style_td_bold), Paragraph("Enrolls in upcoming village workshop.", style_td), Paragraph("Verifies capacity; records registration; generates unique confirmation ID.", style_td)],
+        [Paragraph("Admin Telemetry", style_td_bold), Paragraph("Admin inspects system health.", style_td), Paragraph("Displays real-time metrics, audit logs, and empty CSP survey kit.", style_td)]
+    ]
+    t_wfs = Table(wf_stages, colWidths=[80, 180, printable_w - 260])
+    t_wfs.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_wfs)
+
+    story.append(Paragraph("4.3 Technical Architecture", style_section_title))
+    arch_data = [
+        [Paragraph("<b>Architectural Layer</b>", style_th), Paragraph("<b>Technologies &amp; Components</b>", style_th), Paragraph("<b>Core Responsibilities</b>", style_th)],
+        [Paragraph("1. Presentation Layer (PWA Client)", style_td_bold), Paragraph("Semantic HTML5, CSS3 Tokens, Vanilla ES6+ JS, Service Worker (`sw.js`).", style_td), Paragraph("Responsive client rendering, offline resource caching, zero-runtime-dependency execution on mobile browsers.", style_td)],
+        [Paragraph("2. Edge Gateway Layer", style_td_bold), Paragraph("Node.js native HTTP server (`server.js`).", style_td), Paragraph("Reverse proxy for `/api/v1/*`, path-traversal sanitization, static asset streaming, strict HTTP security headers (CSP, HSTS).", style_td)],
+        [Paragraph("3. Application &amp; Security Layer", style_td_bold), Paragraph("Java 21, Spring Boot 3.3.5, Keycloak 24.0.5, Spring Security 6.", style_td), Paragraph("OAuth2/OIDC JWT validation, RBAC enforcement, business domain services (Jobs, Quiz, Workshops, Resumes, Admin).", style_td)],
+        [Paragraph("4. Data Persistence &amp; Cache Layer", style_td_bold), Paragraph("PostgreSQL 16 Alpine, Redis 7 Alpine, Flyway Migration Engine.", style_td), Paragraph("Relational ACID storage, composite index query optimization, Flyway schema versioning (V1&ndash;V8), distributed rate-limiting.", style_td)]
+    ]
+    t_arch = Table(arch_data, colWidths=[120, 160, printable_w - 280])
+    t_arch.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_arch)
+
+    story.append(Paragraph("4.4 Data Flow Between Modules", style_section_title))
+    story.append(Paragraph(
+        "Candidate interactions follow a secure, unidirectional data flow: user inputs are validated on the client, passed through the Node.js reverse proxy, "
+        "authenticated via Keycloak JWT claims, processed by transactional Spring Boot services, persisted to PostgreSQL, and audited in immutable event logs. "
+        "Offline submissions are queued in browser `localStorage` and synchronized automatically upon reconnection.",
+        style_body
+    ))
+
+    story.append(Paragraph("4.5 Main Application Modules", style_section_title))
+    modules = [
+        "<b>Auth &amp; Role Management:</b> Handles login, registration, Keycloak OIDC integration, session state, and route protection.",
+        "<b>Opportunity &amp; Job Catalog:</b> Serves 35 curated job roles generated from `data/jobs.csv`, filterable by qualification prerequisites.",
+        "<b>Career Aptitude Quiz Engine:</b> Computes weighted scoring across RIASEC tracks and generates recommendations.",
+        "<b>Educational Roadmap Navigator:</b> Outlines milestone-driven career journeys from 10th pass through technical degrees.",
+        "<b>ATS Resume Builder Engine:</b> Evaluates resume keyword density, section formatting, and generates print-ready artifacts.",
+        "<b>Government Schemes &amp; Scholarships Directory:</b> Catalogs central and state welfare entitlements with current working names.",
+        "<b>Workshop Management Engine:</b> Manages offline community training schedules, capacity locks, and registration records.",
+        "<b>Admin Telemetry &amp; Survey Module:</b> Aggregates operational health metrics and provides the standardized field survey kit."
+    ]
+    for m in modules:
+        story.append(Paragraph(f"&bull; {m}", style_bullet))
+
+    story.append(Paragraph("4.6 Issuance and Enrollment Enforcement", style_section_title))
+    enf_data = [
+        [Paragraph("<b>Condition</b>", style_th), Paragraph("<b>Server-Side Enforcement Mechanism</b>", style_th)],
+        [Paragraph("Data Validity", style_td_bold), Paragraph("Hibernate Validator (`@Valid`) checks all request DTO fields before controller execution.", style_td)],
+        [Paragraph("Active Authorization", style_td_bold), Paragraph("Spring Security validates JWT token expiration, signature against Keycloak JWKS, and RBAC roles.", style_td)],
+        [Paragraph("Distributed Rate Limiting", style_td_bold), Paragraph("Redis token bucket filter restricts requests to 100 req/min per IP address, preventing DoS abuse.", style_td)],
+        [Paragraph("Capacity Concurrency", style_td_bold), Paragraph("Pessimistic database locking (`@Lock(LockModeType.PESSIMISTIC_WRITE)`) prevents workshop oversubscription.", style_td)],
+        [Paragraph("PII Masking", style_td_bold), Paragraph("Server sanitizes and masks candidate phone numbers (`98******10`) in logs and external responses.", style_td)]
+    ]
+    t_enf = Table(enf_data, colWidths=[130, printable_w - 130])
+    t_enf.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    story.append(t_enf)
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # CHAPTER 5: TECHNOLOGY STACK
+    # =========================================================================
+    story.append(Paragraph("5. Technology Stack", style_chapter_title))
+    story.append(Paragraph(
+        "This chapter enumerates the engineering technology selections for each subsystem, the relational data model, "
+        "and the standardized REST API surface.",
+        style_body
+    ))
+
+    story.append(Paragraph("5.1 Technology Choices and Responsibilities", style_section_title))
+    tech_data = [
+        [Paragraph("<b>Subsystem</b>", style_th), Paragraph("<b>Technology Choice</b>", style_th), Paragraph("<b>Engineering Responsibility</b>", style_th)],
+        [Paragraph("Frontend Client", style_td_bold), Paragraph("Semantic HTML5, CSS3 Tokens, Vanilla ES6+ JavaScript", style_td), Paragraph("Zero-dependency responsive UI; low-RAM mobile execution; fast DOM hydration.", style_td)],
+        [Paragraph("Bilingual Translation", style_td_bold), Paragraph("Custom `i18n.js` &amp; Web Speech API", style_td), Paragraph("Flicker-free Telugu/English translation; synthesized vernacular voice narration.", style_td)],
+        [Paragraph("Edge Server &amp; Gateway", style_td_bold), Paragraph("Node.js Native HTTP Server (`server.js`)", style_td), Paragraph("Static asset streaming, API reverse proxying, path-traversal blocking, security headers.", style_td)],
+        [Paragraph("Backend Framework", style_td_bold), Paragraph("Java 21, Spring Boot 3.3.5 (Spring MVC, Data JPA)", style_td), Paragraph("Modular monolith REST API; transactional domain logic; enterprise robustness.", style_td)],
+        [Paragraph("Identity &amp; RBAC", style_td_bold), Paragraph("Keycloak 24.0.5 (OAuth2 / OIDC)", style_td), Paragraph("Stateless JWT issuance and verification; Student, Volunteer, Admin role enforcement.", style_td)],
+        [Paragraph("Relational Database", style_td_bold), Paragraph("PostgreSQL 16 Alpine + Flyway Migration", style_td), Paragraph("ACID-compliant storage; Flyway automated schema migrations (V1&ndash;V8).", style_td)],
+        [Paragraph("Distributed Cache &amp; Rate", style_td_bold), Paragraph("Redis 7 Alpine (`StringRedisTemplate`)", style_td), Paragraph("Distributed atomic request rate limiting (100 req/min) with in-memory fallback.", style_td)],
+        [Paragraph("Containerization &amp; DevOps", style_td_bold), Paragraph("Docker Compose v3.8, GitHub Actions CI", style_td), Paragraph("Multi-container orchestration; automated build and test pipeline on every push.", style_td)]
+    ]
+    t_tech = Table(tech_data, colWidths=[110, 160, printable_w - 270])
     t_tech.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), COLOR_PRIMARY),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER_LIGHT),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [COLOR_WHITE, COLOR_BG_CARD]),
-        ('TOPPADDING', (0,0), (-1,-1), 2.8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 2.8),
-        ('LEFTPADDING', (0,0), (-1,-1), 5),
-        ('RIGHTPADDING', (0,0), (-1,-1), 5),
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
     ]))
     story.append(t_tech)
 
-    # =========================================================================
-    # PAGE 2: CORE FUNCTIONAL INNOVATIONS & PILLARS
-    # =========================================================================
+    story.append(Paragraph("5.2 Proposed Data Model", style_section_title))
+    model_data = [
+        [Paragraph("<b>Entity / Table</b>", style_th), Paragraph("<b>Key Attributes &amp; Schema Fields</b>", style_th), Paragraph("<b>Description &amp; Relationship</b>", style_th)],
+        [Paragraph("`users`", style_td_bold), Paragraph("`id, username, password_hash, role, phone_masked, active, created_at`", style_td), Paragraph("Stores core user credentials, role assignment, and account status.", style_td)],
+        [Paragraph("`jobs`", style_td_bold), Paragraph("`id, title_en, title_te, sector, min_qualification, official_url, salary`", style_td), Paragraph("Maintains 35 curated job roles with bilingual titles and verified URLs.", style_td)],
+        [Paragraph("`scholarships`", style_td_bold), Paragraph("`id, name, level, category, current_working_name, official_url`", style_td), Paragraph("Catalogs national and state scholarships with current official names.", style_td)],
+        [Paragraph("`schemes`", style_td_bold), Paragraph("`id, name_en, name_te, ministry, eligibility, benefit, apply_url`", style_td), Paragraph("Stores central and state welfare entitlements for rural youth and MSMEs.", style_td)],
+        [Paragraph("`workshops`", style_td_bold), Paragraph("`id, title, date, venue, max_capacity, enrolled_count, status`", style_td), Paragraph("Tracks offline community training sessions and enforce capacity locks.", style_td)],
+        [Paragraph("`workshop_registrations`", style_td_bold), Paragraph("`id, workshop_id, student_name, student_phone_masked, registered_at`", style_td), Paragraph("Records participant enrollments with PII masking and uniqueness constraints.", style_td)],
+        [Paragraph("`quiz_attempts`", style_td_bold), Paragraph("`id, user_id, answers_hash, recommended_track, score, completed_at`", style_td), Paragraph("Stores diagnostic aptitude responses and mapped career track recommendations.", style_td)],
+        [Paragraph("`audit_logs`", style_td_bold), Paragraph("`id, actor_id, action, target_resource, client_ip, timestamp`", style_td), Paragraph("Immutable security audit log recording administrative and operational events.", style_td)]
+    ]
+    t_model = Table(model_data, colWidths=[110, 200, printable_w - 310])
+    t_model.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_model)
+
+    story.append(Paragraph("5.3 Example API Outline", style_section_title))
+    api_data = [
+        [Paragraph("<b>HTTP Method &amp; Endpoint</b>", style_th), Paragraph("<b>Function &amp; Payload Summary</b>", style_th), Paragraph("<b>Access Control</b>", style_th)],
+        [Paragraph("`POST /api/v1/auth/login`", style_td_bold), Paragraph("Authenticate user via mobile + password; issues signed JWT.", style_td), Paragraph("Public", style_td)],
+        [Paragraph("`GET /api/v1/jobs`", style_td_bold), Paragraph("Retrieve qualified job roles; supports `qualification` and `sector` filters.", style_td), Paragraph("Public / Student", style_td)],
+        [Paragraph("`GET /api/v1/scholarships`", style_td_bold), Paragraph("Fetch verified state and central scholarships with active portal URLs.", style_td), Paragraph("Public / Student", style_td)],
+        [Paragraph("`POST /api/v1/quiz/submit`", style_td_bold), Paragraph("Submit 5-question RIASEC responses; computes weighted career track.", style_td), Paragraph("Authenticated", style_td)],
+        [Paragraph("`GET /api/v1/workshops`", style_td_bold), Paragraph("List upcoming community skill workshops with real-time capacity counts.", style_td), Paragraph("Public / Student", style_td)],
+        [Paragraph("`POST /api/v1/workshops/register`", style_td_bold), Paragraph("Register for workshop; acquires pessimistic database lock against capacity.", style_td), Paragraph("Authenticated", style_td)],
+        [Paragraph("`POST /api/v1/resumes/calculate-ats`", style_td_bold), Paragraph("Evaluate resume JSON structure against ATS standards; returns score &amp; advice.", style_td), Paragraph("Authenticated", style_td)],
+        [Paragraph("`GET /api/v1/admin/stats`", style_td_bold), Paragraph("Aggregate system telemetry: users, enrollments, quiz attempts, audit metrics.", style_td), Paragraph("ROLE_ADMIN", style_td)]
+    ]
+    t_api = Table(api_data, colWidths=[150, 250, printable_w - 400])
+    t_api.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_api)
+
     story.append(PageBreak())
-    story.append(Paragraph("3. Core Functional Innovations &amp; Solution Pillars", style_h1))
+
+    # =========================================================================
+    # CHAPTER 6: IMPLEMENTATION PLAN
+    # =========================================================================
+    story.append(Paragraph("6. Implementation Plan", style_chapter_title))
     story.append(Paragraph(
-        "Gramin Career Setu is structured around 7 foundational pillars designed specifically to resolve "
-        "grassroots rural employment and counseling hurdles:",
+        "This chapter presents the sequential implementation timeline, operational cost considerations, and deployment architecture.",
         style_body
     ))
 
-    modules = [
-        ("Pillar 1: Dual-Mode Bilingual i18n Translation Engine",
-         "A high-speed, client-side translation framework supporting real-time toggling between Telugu (తెలుగు) and English across all 21 pages. "
-         "Features an atomic dictionary (assets/i18n-dict.js) with 248+ culturally vetted terms. Employs child-safe DOM text replacement "
-         "that preserves icons, styles, and structural nodes while updating dynamic attributes (placeholder, aria-label, title). "
-         "An inline pre-paint script checks localStorage on document initialization, completely eliminating Flash of Unstyled Content (FOUC)."),
-        ("Pillar 2: Scientifically Grounded RIASEC Career Aptitude Quiz",
-         "A 12-question psychometric assessment adapted from John Holland's RIASEC framework (Realistic, Investigative, Artistic, Social, "
-         "Enterprising, Conventional). Presents rural youth with practical situational scenarios (e.g., repairing machinery vs. organizing a village "
-         "health camp vs. analyzing farm crop yields). The mathematical engine computes weighted dimensional scores, renders an interactive "
-         "radar/spider chart, and highlights tailored career archetypes with concrete next steps."),
-        ("Pillar 3: Algorithmic ATS Resume Builder &amp; Live A4 Canvas",
-         "A guided 7-step wizard: Personal Details, Education, Skills, Projects, Experience, Certifications, and Review. Provides "
-         "live dynamic synchronization with a virtual A4 sheet, auto-saving drafts into localStorage. Computes a real-time ATS Compatibility "
-         "Score (0–100%) checking keyword density and structured sections. Seamless client-side PDF export is powered by lazy-loaded jsPDF "
-         "(assets/pdf-loader.js), ensuring zero network overhead until explicitly invoked."),
-        ("Pillar 4: Verified Rural &amp; Regional Job Opportunities Board",
-         "Curated job catalog focusing on entry-level, semi-skilled, and technical openings in Agriculture, IT Services, Banking, Healthcare, "
-         "and Logistics. Incorporates multi-criteria search, category filters, and pagination without full-page reloads. Displays transparent "
-         "qualification prerequisites, wage ranges, and direct recruiter application channels."),
-        ("Pillar 5: Central &amp; State Welfare Schemes &amp; Scholarships Portal",
-         "Consolidates leading Andhra Pradesh and central government youth empowerment programs (Post-Matric Fee Reimbursement RTF, Maintenance Allowance MTF, "
-         "Ambedkar Overseas Vidya Nidhi, TS ePASS, PMKVY skill vouchers). Provides clean eligibility checklists, deadlines, and direct "
-         "application links, demystifying bureaucratic procedures."),
-        ("Pillar 6: Visual Educational Roadmaps &amp; Career Detail Catalog",
-         "Milestone-based educational trajectory maps guiding students from 10th Standard / Intermediate to competitive professions "
-         "(Software Engineering, Civil Services, Banking, Police &amp; Armed Forces, Modern Agriculture, and Nursing). Breaks down mandatory "
-         "entrance tests (EAPCET, POLYCET, UPSC, APPSC), training duration, cost estimates, and salary ladders."),
-        ("Pillar 7: Community Field Management &amp; Impact Analytics",
-         "A volunteer administration portal (admin/index.html) enabling village coordinators to manage registrations, track quiz completion "
-         "statistics, and synchronize records with Google Sheets for central college reporting and offline survey backup.")
+    story.append(Paragraph("6.1 Phases and Deliverables", style_section_title))
+    plan_data = [
+        [Paragraph("<b>Phase</b>", style_th), Paragraph("<b>Main Work &amp; Engineering Focus</b>", style_th), Paragraph("<b>Key Deliverables</b>", style_th), Paragraph("<b>Duration</b>", style_th)],
+        [Paragraph("Phase 1: Requirements &amp; Field Survey", style_td_bold), Paragraph("Analyze rural career divide, gather user needs, draft bilingual wireframes.", style_td), Paragraph("Functional specs, survey kit, wireframes.", style_td), Paragraph("2 Weeks", style_td)],
+        [Paragraph("Phase 2: Core Frontend &amp; PWA Shell", style_td_bold), Paragraph("Build 21 HTML5 pages, CSS3 design tokens, `i18n.js` bilingual engine, Service Worker.", style_td), Paragraph("Bilingual responsive PWA shell (~1.1 MB).", style_td)],
+        [Paragraph("Phase 3: Opportunity &amp; Resume Engines", style_td_bold), Paragraph("Curate 35 job roles (`jobs.csv`), roadmaps, scholarships, ATS resume builder.", style_td), Paragraph("Opportunity catalog, ATS engine, quiz module.", style_td)],
+        [Paragraph("Phase 4: Backend &amp; Security Architecture", style_td_bold), Paragraph("Develop Spring Boot 3.3.5 REST API, Keycloak OIDC RBAC, PostgreSQL Flyway migrations.", style_td), Paragraph("Containerized monolith, Flyway V1&ndash;V8.", style_td)],
+        [Paragraph("Phase 5: Automated Testing &amp; Hardening", style_td_bold), Paragraph("Author Node.js gateway tests (44/44), Spring Boot integration tests (43/43), rate limiting.", style_td), Paragraph("Dual-suite test coverage, CI pipeline.", style_td)],
+        [Paragraph("Phase 6: Field Rollout &amp; Evaluation", style_td_bold), Paragraph("Deploy static PWA to GitHub Pages, conduct village workshop pilot, administer survey.", style_td), Paragraph("Live public portal, field impact report.", style_td)]
     ]
+    t_plan = Table(plan_data, colWidths=[100, 190, 172, printable_w - 462])
+    t_plan.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_plan)
 
-    for title, text in modules:
-        t_box = Table([
-            [Paragraph(f"<b>{title}</b>", style_card_title)],
-            [Paragraph(text, style_card_text)]
-        ], colWidths=[content_width])
-        t_box.setStyle(TableStyle([
-            ('BACKGROUND', (0,0), (-1,-1), COLOR_BG_CARD),
-            ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-            ('LINELEFT', (0,0), (0,-1), 3, COLOR_SECONDARY),
-            ('TOPPADDING', (0,0), (-1,-1), 3),
-            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-            ('LEFTPADDING', (0,0), (-1,-1), 8),
-            ('RIGHTPADDING', (0,0), (-1,-1), 8),
-        ]))
-        story.append(t_box)
-        story.append(Spacer(1, 3.5))
+    story.append(Paragraph("6.2 Indicative Costs", style_section_title))
+    story.append(Paragraph(
+        "<b>Zero-Cost Public Deployment:</b> The static Progressive Web App client deploys completely free of charge to GitHub Pages, "
+        "allowing unlimited bandwidth and zero server hosting charges for rural job seekers.<br/>"
+        "<b>Backend Cloud Infrastructure (Optional Phase 2):</b> For hosting the Spring Boot REST API, Keycloak, PostgreSQL, and Redis in production, "
+        "the system can be orchestrated on a modest Linux VPS (2 vCPU, 4GB RAM) at an indicative cost of US$10&ndash;15/month, or hosted on existing "
+        "university/government server infrastructure with zero additional software licensing fees.",
+        style_body
+    ))
 
-    # =========================================================================
-    # PAGE 3: COMPLETE 21-PAGE PLATFORM CATALOG
-    # =========================================================================
+    story.append(Paragraph("6.3 Deployment Plan", style_section_title))
+    story.append(Paragraph(
+        "Continuous Integration and Deployment (CI/CD) is automated via GitHub Actions (`.github/workflows/ci.yml`). Every push to `main` "
+        "automatically triggers: (1) Java 21 JDK setup and `mvn clean test` across all 43 backend integration tests; (2) Node.js test execution "
+        "running all 44 security and gateway tests (`npm test`); (3) Dependency vulnerability auditing; and (4) Docker image build verification.",
+        style_body
+    ))
+
     story.append(PageBreak())
-    story.append(Paragraph("4. Comprehensive 21-Page Application Catalog", style_h1))
+    story.append(Paragraph("7. Expected Outcomes and Evaluation", style_chapter_title))
     story.append(Paragraph(
-        "The Gramin Career Setu platform comprises 21 fully functional, accessible, and offline-cached pages:",
+        "This chapter outlines the measurable social and organizational outcomes achieved by the platform, evaluation benchmarks, and future enhancements.",
         style_body
     ))
 
-    page_data = [
-        [Paragraph("Route / Filename", style_table_header), Paragraph("Page Title", style_table_header), Paragraph("Functional Description &amp; Technical Capabilities", style_table_header)],
-        [Paragraph("index.html", style_table_cell_bold), Paragraph("Portal Gateway", style_table_cell), Paragraph("Hero banner, key career pillars, bilingual switcher, offline cache status indicator.", style_table_cell)],
-        [Paragraph("about.html", style_table_cell_bold), Paragraph("About Project", style_table_cell), Paragraph("Mission statement, student team details, Community Service Project objectives.", style_table_cell)],
-        [Paragraph("careers.html", style_table_cell_bold), Paragraph("Career Explorer", style_table_cell), Paragraph("Multi-sector career catalog with filterable domain tags and average pay metrics.", style_table_cell)],
-        [Paragraph("career-detail.html", style_table_cell_bold), Paragraph("Career Deep-Dive", style_table_cell), Paragraph("Detailed guides for specific professions, entrance exams, and required qualifications.", style_table_cell)],
-        [Paragraph("jobs.html", style_table_cell_bold), Paragraph("Job Opportunities", style_table_cell), Paragraph("Searchable job listings, category filters, responsive pagination, direct apply buttons.", style_table_cell)],
-        [Paragraph("job-detail.html", style_table_cell_bold), Paragraph("Job Specification", style_table_cell), Paragraph("Comprehensive role overview, eligibility criteria, hiring company profile, and application.", style_table_cell)],
-        [Paragraph("quiz.html", style_table_cell_bold), Paragraph("Aptitude Quiz", style_table_cell), Paragraph("12-question RIASEC psychometric quiz with bilingual text-to-speech audio read-aloud.", style_table_cell)],
-        [Paragraph("quiz-results.html", style_table_cell_bold), Paragraph("Aptitude Analysis", style_table_cell), Paragraph("Interactive RIASEC radar chart, dimensional score breakdown, matched career cards.", style_table_cell)],
-        [Paragraph("resume.html", style_table_cell_bold), Paragraph("Resume Builder", style_table_cell), Paragraph("7-step dynamic wizard, live preview sidebar, 200-character objective counter, auto-save.", style_table_cell)],
-        [Paragraph("resume-preview.html", style_table_cell_bold), Paragraph("Resume Preview", style_table_cell), Paragraph("Full A4 printable sheet rendering, dynamic ATS compatibility scoring, instant PDF export.", style_table_cell)],
-        [Paragraph("roadmap.html", style_table_cell_bold), Paragraph("Career Roadmaps", style_table_cell), Paragraph("Visual education timelines from 10th standard to senior professional positions.", style_table_cell)],
-        [Paragraph("scholarships.html", style_table_cell_bold), Paragraph("Scholarships Hub", style_table_cell), Paragraph("Directory of National and State merit/need scholarships with application deadlines.", style_table_cell)],
-        [Paragraph("schemes.html", style_table_cell_bold), Paragraph("Govt Schemes", style_table_cell), Paragraph("Catalog of AP &amp; Telangana welfare and youth skill schemes with documentation steps.", style_table_cell)],
-        [Paragraph("workshops.html", style_table_cell_bold), Paragraph("Skill Workshops", style_table_cell), Paragraph("Hands-on vocational training schedules, ITI workshops, and online registration.", style_table_cell)],
-        [Paragraph("resources.html", style_table_cell_bold), Paragraph("Study Resources", style_table_cell), Paragraph("Curated educational PDFs, entrance exam syllabi, and downloadable practice papers.", style_table_cell)],
-        [Paragraph("stories.html", style_table_cell_bold), Paragraph("Success Stories", style_table_cell), Paragraph("Real-life inspirational journeys of rural students securing professional employment.", style_table_cell)],
-        [Paragraph("profile.html", style_table_cell_bold), Paragraph("Student Portfolio", style_table_cell), Paragraph("Candidate personal profile, saved jobs, completed quiz history, and account data.", style_table_cell)],
-        [Paragraph("dashboard.html", style_table_cell_bold), Paragraph("User Dashboard", style_table_cell), Paragraph("Active job applications, registered workshops, personalized recommendations hub.", style_table_cell)],
-        [Paragraph("results.html", style_table_cell_bold), Paragraph("Impact Dashboard", style_table_cell), Paragraph("Platform deployment KPIs: students counseled, resumes built, partner villages reached.", style_table_cell)],
-        [Paragraph("login.html", style_table_cell_bold), Paragraph("Authentication", style_table_cell), Paragraph("Bilingual login, role switcher (Student / Volunteer / Admin), phone OTP demo flow.", style_table_cell)],
-        [Paragraph("admin/index.html", style_table_cell_bold), Paragraph("Admin Console", style_table_cell), Paragraph("Volunteer management, survey telemetry, two-way Google Sheets sync, storage meter.", style_table_cell)],
-        [Paragraph("404.html", style_table_cell_bold), Paragraph("404 Error Handler", style_table_cell), Paragraph("Bilingual fallback page with search box and direct navigation recovery links.", style_table_cell)]
+    story.append(Paragraph("7.1 Expected Outcomes", style_section_title))
+    outcomes = [
+        "<b>Elimination of Informational Asymmetry:</b> Rural candidates obtain instant, bilingual awareness of 35 verified job roles and 8+ national/state scholarships.",
+        "<b>Qualification-Aligned Career Exploration:</b> Prevents misguided applications by filtering roles strictly to what a student is currently qualified for.",
+        "<b>Algorithmic ATS Advantage:</b> Equips rural job seekers with free ATS-optimized resumes that avoid instant rejection by automated hiring systems.",
+        "<b>Offline Accessibility:</b> Candidates in low-connectivity rural pockets can navigate opportunities and prepare resumes without requiring continuous mobile data.",
+        "<b>Community Service Empowerment:</b> Village coordinators and volunteers are equipped with standardized digital tools to assist their local communities."
     ]
+    for o in outcomes:
+        story.append(Paragraph(f"&bull; {o}", style_bullet))
 
-    t_pages = Table(page_data, colWidths=[content_width * 0.20, content_width * 0.22, content_width * 0.58])
-    t_pages.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), COLOR_PRIMARY),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER_LIGHT),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [COLOR_WHITE, COLOR_BG_CARD]),
-        ('TOPPADDING', (0,0), (-1,-1), 2.2),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 2.2),
-        ('LEFTPADDING', (0,0), (-1,-1), 5),
-        ('RIGHTPADDING', (0,0), (-1,-1), 5),
+    story.append(Paragraph("7.2 Success Measures and Evaluation Methods", style_section_title))
+    metrics_data = [
+        [Paragraph("<b>Evaluation Dimension</b>", style_th), Paragraph("<b>Target Acceptance Benchmark</b>", style_th), Paragraph("<b>Evaluation &amp; Verification Method</b>", style_th)],
+        [Paragraph("Gateway &amp; Client Tests", style_td_bold), Paragraph("100% pass rate (44/44 tests)", style_td), Paragraph("Automated Node.js test suite (`npm test`) in CI pipeline.", style_td)],
+        [Paragraph("Backend Integration Tests", style_td_bold), Paragraph("100% pass rate (43/43 tests)", style_td), Paragraph("Automated Maven Surefire suite (`mvn test`) covering RBAC &amp; locking.", style_td)],
+        [Paragraph("Initial Load Time", style_td_bold), Paragraph("&lt; 1.5 seconds on simulated 3G", style_td), Paragraph("Lighthouse PWA audit; zero external CDN dependencies.", style_td)],
+        [Paragraph("Offline Availability", style_td_bold), Paragraph("100% of core pages load offline", style_td), Paragraph("Network disconnect simulation in Chrome DevTools.", style_td)],
+        [Paragraph("Bilingual Coverage", style_td_bold), Paragraph("100% coverage across 21 pages", style_td), Paragraph("Comprehensive DOM translation dictionary audit.", style_td)],
+        [Paragraph("Job URL Validity", style_td_bold), Paragraph("100% live verified official URLs", style_td), Paragraph("HTTP link verification scan against recruiting authorities.", style_td)],
+        [Paragraph("Security Compliance", style_td_bold), Paragraph("Zero high-severity vulnerabilities", style_td), Paragraph("`npm audit --audit-level=high` and OWASP Top 10 header scan.", style_td)],
+        [Paragraph("Field Survey Engagement", style_td_bold), Paragraph("100+ rural student responses", style_td), Paragraph("Administer standardized pre/post workshop survey kit.", style_td)]
+    ]
+    t_met = Table(metrics_data, colWidths=[120, 150, printable_w - 270])
+    t_met.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
     ]))
-    story.append(t_pages)
+    story.append(t_met)
 
-    # =========================================================================
-    # PAGE 4: QUALITY ASSURANCE, COMMUNITY IMPACT & FUTURE ROADMAP
-    # =========================================================================
     story.append(PageBreak())
-    story.append(Paragraph("5. Quality Assurance, Security Hardening &amp; Test Suite", style_h1))
+
+    # =========================================================================
+    # CHAPTER 8: RISKS AND VALIDATION
+    # =========================================================================
+    story.append(Paragraph("8. Risks and Validation", style_chapter_title))
     story.append(Paragraph(
-        "The project has undergone rigorous automated testing, security validation, and performance tuning "
-        "to ensure bulletproof execution under field conditions:",
+        "This chapter identifies critical technical and operational risks, establishes comprehensive mitigation strategies, "
+        "details the testing plan, defines operational limitations, and concludes the specification.",
         style_body
     ))
 
-    qa_points = [
-        ("Automated Test Suite (tests/project.test.js)",
-         "Executed via Node's native test runner (node --test tests/*.test.js). Verifies: "
-         "1) Entry-point delivery (HTTP 200); "
-         "2) Custom 404 handler for missing routes; "
-         "3) Encoded path traversal rejection (HTTP 403); "
-         "4) Malformed URI tolerance (HTTP 400 without crashing); "
-         "5) Jobs query parameter, category filtering, and pagination logic; "
-         "6) Resume objective 200-character boundary enforcement in both markup and JS engine."),
-        ("Security Hardening (server.js)",
-         "Protected against path traversal attacks (/%2e%2e/, /..%2f) via strict normalized root jail enforcement. "
-         "Malformed URI strings (%E0%A4%A) are handled safely with try/catch blocks without crashing the event loop."),
-        ("Performance &amp; Asset Optimization",
-         "Media payload compressed by 84% (from 11.7 MB to 1.9 MB). Google Fonts replaced by self-hosted, subsetted WOFF2 "
-         "fonts for Inter and Noto Sans Telugu (395 KB total), eliminating render-blocking external DNS queries."),
-        ("Accessibility Compliance",
-         "Engineered to WCAG 2.1 AA contrast standards. Features visible 2px focus rings, screen reader landmarks (main, nav, aside), "
-         "and responsive touch targets (minimum 44x44px) for mobile usability.")
+    story.append(Paragraph("8.1 Risk Assessment and Mitigation", style_section_title))
+    risk_data = [
+        [Paragraph("<b>Identified Risk</b>", style_th), Paragraph("<b>Impact Severity</b>", style_th), Paragraph("<b>Mitigation &amp; Validation Approach</b>", style_th)],
+        [Paragraph("External Official URL Staling", style_td_bold), Paragraph("Medium", style_td), Paragraph("Job links point to canonical recruiting domains (e.g., `upsc.gov.in`); automated CI check alerts on broken links.", style_td)],
+        [Paragraph("Intermittent Network Failure", style_td_bold), Paragraph("High", style_td), Paragraph("Offline-first Service Worker caching ensures core app shell and resume tools function without connectivity.", style_td)],
+        [Paragraph("Workshop Capacity Race Conditions", style_td_bold), Paragraph("High", style_td), Paragraph("Pessimistic database locking (`@Lock`) in Spring Data JPA prevents oversubscription across concurrent sessions.", style_td)],
+        [Paragraph("PII Data Exposure in Logs", style_td_bold), Paragraph("Critical", style_td), Paragraph("`PiiUtils` sanitization masks phone numbers and personal identifiers prior to logging or client serialization.", style_td)],
+        [Paragraph("Path Traversal &amp; Injection Attacks", style_td_bold), Paragraph("Critical", style_td), Paragraph("Native Node gateway normalizes and validates URI paths; Spring JPA utilizes parameterized queries.", style_td)],
+        [Paragraph("Misleading Community Metrics", style_td_bold), Paragraph("High", style_td), Paragraph("Strict CSP disclosure: impact dashboard displays empty survey kit until live workshop data is gathered.", style_td)]
     ]
+    t_risk = Table(risk_data, colWidths=[130, 80, printable_w - 210])
+    t_risk.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_SECONDARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+    ]))
+    story.append(t_risk)
 
-    for title, desc in qa_points:
-        story.append(Paragraph(f"• <b>{title}:</b> {desc}", style_bullet))
-
-    story.append(Spacer(1, 8))
-
-    story.append(Paragraph("6. Community Service Project Impact &amp; Field Methodology", style_h1))
+    story.append(Paragraph("8.2 Testing Plan and Dual-Verification Methodology", style_section_title))
     story.append(Paragraph(
-        "<b>Grassroots Implementation Workflow:</b> Gramin Career Setu was piloted in rural mandals as part of an active "
-        "Community Service Project. Student volunteers organized weekend guidance camps at Zilla Parishad High Schools and "
-        "Gram Panchayat offices. Using portable offline USB drives and local Wi-Fi hotspots, volunteers assisted 10th and 12th "
-        "graders in identifying aptitude profiles, formatting ATS-compliant resumes, and applying for state welfare scholarships.",
+        "The project applies a dual-verification testing strategy: (1) <i>Frontend &amp; Gateway Testing</i>: 44 Node.js tests (`tests/project.test.js`) "
+        "validating path traversal defense, HTTP security headers, CORS isolation, API reverse proxying, and content integrity; and (2) <i>Backend Integration Testing</i>: "
+        "43 Spring Boot tests (`mvn test`) validating Flyway migrations V1&ndash;V8, concurrency locks, Redis distributed rate-limiting, and Keycloak RBAC.",
         style_body
     ))
-    story.append(Spacer(1, 6))
 
-    # Impact Metrics Table
-    impact_data = [
-        [Paragraph("Metric / KPI", style_table_header), Paragraph("Pilot Milestone", style_table_header), Paragraph("Observed Community Impact", style_table_header)],
-        [Paragraph("Students Guided", style_table_cell_bold), Paragraph("1,200+ Rural Youth", style_table_cell), Paragraph("Completed RIASEC aptitude assessment and received tailored counseling.", style_table_cell)],
-        [Paragraph("Resumes Compiled", style_table_cell_bold), Paragraph("450+ Formatted Resumes", style_table_cell), Paragraph("Generated professional ATS-friendly PDF resumes for local jobs.", style_table_cell)],
-        [Paragraph("Workshops Conducted", style_table_cell_bold), Paragraph("24 Field Sessions", style_table_cell), Paragraph("Hands-on digital literacy and competitive examination workshops.", style_table_cell)],
-        [Paragraph("Partner Villages", style_table_cell_bold), Paragraph("18 Gram Panchayats", style_table_cell), Paragraph("Direct coordination with village sarpanches and youth clubs.", style_table_cell)],
+    story.append(Paragraph("8.3 System Limitations", style_section_title))
+    story.append(Paragraph(
+        "<b>Live Vacancy Scraping:</b> To avoid fragility caused by government portal layout changes, the platform curates verified role categories "
+        "and links to official boards rather than running brittle screen scrapers.<br/>"
+        "<b>Telugu PDF Generation:</b> Client-side jsPDF lacks an embedded Telugu Unicode font; Telugu resumes are therefore printed or exported via the browser's "
+        "native high-fidelity print engine.",
+        style_body
+    ))
+
+    story.append(Paragraph("8.4 Conclusion", style_section_title))
+    story.append(Paragraph(
+        "Gramin Career Setu provides a robust, evidence-backed, and technologically modern solution to India's rural employment and career awareness divide. "
+        "By synthesizing bilingual accessibility, offline-first reliability, verified opportunity navigation, and ATS resume engineering into an accessible platform, "
+        "the project exemplifies how rigorous software engineering can deliver tangible social impact for rural communities.",
+        style_body
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # APPENDIX A: BASE PAPERS, GOVERNMENT PORTALS & BENCHMARKS
+    # =========================================================================
+    story.append(Paragraph("Appendix A: References &amp; Benchmark Projects", style_chapter_title))
+    story.append(Paragraph(
+        "This appendix documents official government portals, foundational literature on rural education and skilling in India, "
+        "and benchmark systems reviewed during project development.",
+        style_body
+    ))
+
+    ref_data = [
+        [Paragraph("<b>No.</b>", style_th), Paragraph("<b>Source / System Title</b>", style_th), Paragraph("<b>Publishing Authority / Authors</b>", style_th), Paragraph("<b>Key Idea &amp; Relevance to Project</b>", style_th)],
+        [Paragraph("1", style_td), Paragraph("National Career Service (NCS) Portal", style_td_bold), Paragraph("Ministry of Labour &amp; Employment, Govt of India (2024)", style_td), Paragraph("National employment portal benchmark; highlighted the necessity for offline-first rural caching and native regional languages.", style_td)],
+        [Paragraph("2", style_td), Paragraph("National Education Policy (NEP 2020)", style_td_bold), Paragraph("Ministry of Education, Government of India (2020)", style_td), Paragraph("Emphasizes vocational integration, experiential learning, and regional language instruction across higher education.", style_td)],
+        [Paragraph("3", style_td), Paragraph("PM Vishwakarma Scheme Guidelines", style_td_bold), Paragraph("Ministry of MSME, Government of India (2023)", style_td), Paragraph("Provides foundational framework for traditional artisans and rural self-employment opportunities cataloged in the portal.", style_td)],
+        [Paragraph("4", style_td), Paragraph("Jagananna Vidya Deevena &amp; Vasathi Deevena", style_td_bold), Paragraph("Government of Andhra Pradesh (2024)", style_td), Paragraph("Benchmark state scholarship programs informing fee reimbursement eligibility modeling in the scholarships directory.", style_td)],
+        [Paragraph("5", style_td), Paragraph("RIASEC Model of Vocational Personalities", style_td_bold), Paragraph("John L. Holland (American Psychological Association)", style_td), Paragraph("Theoretical framework informing the 5-question bilingual career aptitude self-assessment algorithm.", style_td)],
+        [Paragraph("6", style_td), Paragraph("WCAG 2.1 Accessibility Guidelines", style_td_bold), Paragraph("World Wide Web Consortium (W3C)", style_td), Paragraph("Standards ensuring accessible color contrast, keyboard navigability, and screen-reader readiness for rural users.", style_td)]
     ]
-    t_impact = Table(impact_data, colWidths=[content_width * 0.25, content_width * 0.30, content_width * 0.45])
-    t_impact.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), COLOR_PRIMARY),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER_LIGHT),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [COLOR_WHITE, COLOR_BG_CARD]),
-        ('TOPPADDING', (0,0), (-1,-1), 2.8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 2.8),
-        ('LEFTPADDING', (0,0), (-1,-1), 5),
-        ('RIGHTPADDING', (0,0), (-1,-1), 5),
+    t_ref = Table(ref_data, colWidths=[25, 135, 145, printable_w - 305])
+    t_ref.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), COLOR_PRIMARY),
+        ('GRID', (0, 0), (-1, -1), 0.5, COLOR_BORDER),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [COLOR_WHITE, COLOR_BG_CARD]),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
     ]))
-    story.append(t_impact)
-    story.append(Spacer(1, 8))
+    story.append(t_ref)
 
-    # Future Roadmap
-    story.append(Paragraph("7. Strategic Roadmap for Scalable Deployment", style_h1))
-    roadmap_data = [
-        [Paragraph("Phase", style_table_header), Paragraph("Milestone", style_table_header), Paragraph("Key Technical Deliverables", style_table_header)],
-        [Paragraph("Phase 1 (Complete)", style_table_cell_bold), Paragraph("Bilingual Core &amp; PWA Engine", style_table_cell), Paragraph("Full 21-page suite, Telugu translation, RIASEC quiz, resume builder.", style_table_cell)],
-        [Paragraph("Phase 2 (Current)", style_table_cell_bold), Paragraph("Field Testing &amp; Pilot Camps", style_table_cell), Paragraph("Pilot counseling drives in 5 mandals; gathering student usability feedback.", style_table_cell)],
-        [Paragraph("Phase 3 (Next)", style_table_cell_bold), Paragraph("Cloud API &amp; Database Sync", style_table_cell), Paragraph("PostgreSQL / Supabase backend, real-time employer postings, SMS OTP.", style_table_cell)],
-        [Paragraph("Phase 4 (Future)", style_table_cell_bold), Paragraph("Vernacular Voice AI Guidance", style_table_cell), Paragraph("Offline AI audio counseling in colloquial Telugu dialects for low-literacy youth.", style_table_cell)]
-    ]
-    t_road = Table(roadmap_data, colWidths=[content_width * 0.20, content_width * 0.30, content_width * 0.50])
-    t_road.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), COLOR_PRIMARY),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, COLOR_BORDER_LIGHT),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [COLOR_WHITE, COLOR_BG_CARD]),
-        ('TOPPADDING', (0,0), (-1,-1), 2.8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 2.8),
-        ('LEFTPADDING', (0,0), (-1,-1), 5),
-        ('RIGHTPADDING', (0,0), (-1,-1), 5),
-    ]))
-    story.append(t_road)
-    story.append(Spacer(1, 8))
-
-    # Concluding Box
-    conclusion_text = (
-        "<b>Conclusion:</b> Gramin Career Setu exemplifies the transformative power of purposeful technology in community service. "
-        "By fusing modern web standards—offline PWA caching, atomic bilingual localization, psychometric aptitude modeling, and "
-        "client-side document compilation—into an ultra-fast, zero-cost digital portal, the project empowers thousands of rural youth "
-        "to overcome structural barriers and pursue their professional aspirations with dignity, clarity, and confidence."
-    )
-    t_conc = Table([[Paragraph(conclusion_text, style_body)]], colWidths=[content_width])
-    t_conc.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), COLOR_PRIMARY_LIGHT),
-        ('LINELEFT', (0,0), (0,0), 3.5, COLOR_SECONDARY),
-        ('BOX', (0,0), (-1,-1), 0.5, COLOR_BORDER),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
-        ('LEFTPADDING', (0,0), (-1,-1), 8),
-        ('RIGHTPADDING', (0,0), (-1,-1), 8),
-    ]))
-    story.append(t_conc)
-
-    # Build Document
+    # Build the document using the two-pass NumberedCanvas
     doc.build(story, canvasmaker=NumberedCanvas)
-    print(f"PDF successfully built: {filename} ({os.path.getsize(filename)} bytes)")
-
-    # Also copy to artifacts directory for direct user access
-    artifact_dir = r"C:\Users\kamis\.gemini\antigravity\brain\6372c83f-9056-4d5b-8220-bad59975009e"
-    if os.path.exists(artifact_dir):
-        dest = os.path.join(artifact_dir, filename)
+    
+    # Copy to docs/Final_doc/reference_docs/ as well
+    ref_dir = os.path.join(os.path.dirname(__file__), "docs", "Final_doc", "reference_docs")
+    if os.path.exists(ref_dir):
+        dest = os.path.join(ref_dir, os.path.basename(filename))
         shutil.copyfile(filename, dest)
-        print(f"Copied to artifact directory: {dest}")
+        print(f"Copied to reference docs: {dest}")
+
+    print(f"Project Document PDF successfully built: {filename}")
+
 
 if __name__ == "__main__":
-    out_file = "Gramin_Career_Setu_Project_Overview.pdf"
+    out_pdf = "Gramin_Career_Setu_Project_Overview.pdf"
     if len(sys.argv) > 1:
-        out_file = sys.argv[1]
-    build_pdf(out_file)
+        out_pdf = sys.argv[1]
+    build_pdf(out_pdf)
