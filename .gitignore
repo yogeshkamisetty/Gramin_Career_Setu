@@ -37,3 +37,6 @@ target/
 *.jar
 *.war
 
+# Local CSP Final Documentation (kept locally only)
+docs/Final_doc/
+
