@@ -40,3 +40,8 @@ target/
 # Local CSP Final Documentation (kept locally only)
 docs/Final_doc/
 
+# Firebase & Deployment Caches
+.firebase/
+.claude/
+gramin-career-setu/
+

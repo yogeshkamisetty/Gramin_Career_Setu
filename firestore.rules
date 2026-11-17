@@ -1,0 +1,60 @@
+rules_version = '2';
+// Gramin Career Setu — Cloud Firestore security rules.
+// Deploy with: npx firebase-tools deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isOwner(userId) { return signedIn() && request.auth.uid == userId; }
+    // Records filed as 'anonymous' or under the writer's own uid, never
+    // under somebody else's.
+    function ownOrAnonymous() {
+      return request.resource.data.userId == 'anonymous'
+        || (signedIn() && request.resource.data.userId == request.auth.uid);
+    }
+    // A user may never promote themselves: the only role a client can write
+    // is 'student'. Coordinator/admin roles are set from the Console.
+    function roleUnchanged() {
+      return !('role' in request.resource.data) || request.resource.data.role == 'student';
+    }
+
+    // Profile: only the signed-in owner can read or write it.
+    match /users/{userId} {
+      allow read, delete: if isOwner(userId);
+      allow create, update: if isOwner(userId) && roleUnchanged();
+
+      // Login/activity log under the profile: owner may append and read.
+      match /activities/{activityId} {
+        allow read, create: if isOwner(userId);
+      }
+    }
+
+    // Resume: one document per signed-in user, keyed by uid.
+    match /resumes/{userId} {
+      allow read, write: if isOwner(userId)
+        && (request.method == 'delete' || request.resource.data.userId == userId);
+    }
+
+    // Quiz attempts: anyone may submit (guests included); only the signed-in
+    // owner may read theirs back. Nobody may edit or delete.
+    match /quiz_attempts/{attemptId} {
+      allow create: if request.resource.size() < 50 && ownOrAnonymous();
+      allow read: if signedIn() && request.auth.uid == resource.data.userId;
+    }
+
+    // Telemetry: append-only, never readable from the client.
+    match /telemetry_logs/{logId} {
+      allow create: if request.resource.size() < 20 && ownOrAnonymous();
+    }
+
+    // Workshop listings are public to read; written only from the Console.
+    match /workshops/{workshopId} {
+      allow read: if true;
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

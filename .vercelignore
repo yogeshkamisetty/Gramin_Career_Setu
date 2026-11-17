@@ -1,0 +1,16 @@
+server.js
+backend
+tests
+scripts
+docs
+.firebase
+.firebaserc
+firebase.json
+firestore.rules
+keycloak
+gramin-career-setu
+docker-compose.yml
+package.json
+package-lock.json
+*.md
+*.py

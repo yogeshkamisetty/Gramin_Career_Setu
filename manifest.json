@@ -1,11 +1,57 @@
 {
-  "name": "Gramin Career Setu",
+  "name": "Gramin Career Setu — గ్రామీణ కెరీర్ సేతు",
   "short_name": "Career Setu",
-  "description": "Career guidance portal for rural youth — గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం",
-  "start_url": "./index.html",
+  "description": "Career guidance, skill roadmaps, offline resume builder, and job opportunities for rural youth.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1b5e20",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1B4D3E",
   "lang": "te",
-  "categories": ["education", "social"]
+  "dir": "ltr",
+  "categories": ["education", "productivity", "government"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explore Careers",
+      "short_name": "Careers",
+      "description": "Explore 24+ rural careers and guides",
+      "url": "./careers",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Find Jobs",
+      "short_name": "Jobs",
+      "description": "Browse verified job listings",
+      "url": "./jobs",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Resume Builder",
+      "short_name": "Resume",
+      "description": "Build and print your resume offline",
+      "url": "./resume",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }

@@ -122,14 +122,17 @@
   --font-body:   'Inter', 'Noto Sans Telugu', 'Nirmala UI', system-ui, sans-serif;
   --font-mono:   'Cascadia Code', 'Consolas', monospace;
 
-  /* 6-step scale */
-  --text-xs:   0.75rem;   /* 12px */
-  --text-sm:   0.875rem;  /* 14px */
-  --text-base: 1rem;      /* 16px */
-  --text-lg:   1.125rem;  /* 18px */
-  --text-xl:   1.375rem;  /* 22px */
-  --text-2xl:  1.75rem;   /* 28px */
-  --text-3xl:  2.25rem;   /* 36px */
+  /* Universal Mobile Text Scaling Multiplier (0.875 to 1.30) */
+  --mobile-font-scale: 1;
+
+  /* 6-step scale with dynamic user accessibility scaling */
+  --text-xs:   calc(0.75rem * var(--mobile-font-scale, 1));   /* 12px */
+  --text-sm:   calc(0.875rem * var(--mobile-font-scale, 1));  /* 14px */
+  --text-base: calc(1rem * var(--mobile-font-scale, 1));      /* 16px */
+  --text-lg:   calc(1.125rem * var(--mobile-font-scale, 1));  /* 18px */
+  --text-xl:   calc(1.375rem * var(--mobile-font-scale, 1));  /* 22px */
+  --text-2xl:  calc(1.75rem * var(--mobile-font-scale, 1));   /* 28px */
+  --text-3xl:  calc(2.25rem * var(--mobile-font-scale, 1));   /* 36px */
 
   --weight-normal:   400;
   --weight-medium:   500;

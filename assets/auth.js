@@ -406,7 +406,9 @@
    * Validate 10-digit Indian Mobile number
    */
   function validateMobileNumber(mobile) {
-    const clean = String(mobile || '').replace(/\D/g, '');
+    let clean = String(mobile || '').replace(/\D/g, '');
+    if (clean.length === 12 && clean.startsWith('91')) clean = clean.slice(2);
+    else if (clean.length === 11 && clean.startsWith('0')) clean = clean.slice(1);
     const isValid = /^[6-9]\d{9}$/.test(clean);
     return {
       valid: isValid,
@@ -533,7 +535,7 @@
       // Deliberately the same wording as a wrong password: saying which of
       // the two was wrong tells an attacker which numbers are registered,
       // and the old message simply listed working credentials.
-      return { success: false, message: 'Incorrect mobile number or password.' };
+      return { success: false, message: 'Incorrect mobile number or password. If you have not set a password, please sign in with Mobile OTP.' };
     }
 
     // The hash must match. There is deliberately no literal that opens any
@@ -541,7 +543,7 @@
     // student's account was readable by anyone who had seen the login page.
     if (!expectedHash || inputHash !== expectedHash) {
       recordLockoutFailure(mobileCheck.clean);
-      return { success: false, message: 'Incorrect mobile number or password.' };
+      return { success: false, message: 'Incorrect mobile number or password. If you have not set a password, please sign in with Mobile OTP.' };
     }
 
     sessionStorage.removeItem(lockoutKey);
@@ -572,6 +574,115 @@
    * stays unauthenticated and the admin screens show nothing real. The toast
    * says "demo" so nobody mistakes it for having signed in as that person.
    */
+  /**
+   * Real Google Authentication via Firebase SDK
+   * Connects to Google Cloud Identity and synchronizes account to Cloud Firestore
+   */
+  async function loginWithGoogle() {
+    try {
+      if (!window.firebase || !firebase.auth) {
+        throw new Error('Firebase Auth is not available. Please verify your internet connection.');
+      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      let result;
+      try {
+        result = await firebase.auth().signInWithPopup(provider);
+      } catch (popupErr) {
+        if (popupErr.code === 'auth/popup-blocked' || popupErr.code === 'auth/cancelled-popup-request') {
+          console.warn('[Google Auth] Popup blocked or cancelled, trying redirect...');
+          await firebase.auth().signInWithRedirect(provider);
+          return { success: true, redirecting: true };
+        }
+        throw popupErr;
+      }
+
+      const fbUser = result.user;
+      console.log('[Firebase Google Auth] Success! User:', fbUser.email, fbUser.uid);
+
+      const authenticatedUser = {
+        id: fbUser.uid,
+        name: fbUser.displayName || 'Google Member',
+        phone: fbUser.phoneNumber ? fbUser.phoneNumber.replace('+91', '') : '',
+        email: fbUser.email || '',
+        role: 'student',
+        roleLabel: 'Student / Job Seeker',
+        avatar: fbUser.photoURL || 'assets/resume-avatar-ravi.webp',
+        initials: (fbUser.displayName || 'GM').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase(),
+        isDemoSession: false,
+        provider: 'google',
+        token: await fbUser.getIdToken().catch(() => 'fb_token_' + Date.now()),
+        tokenExpiresAt: Date.now() + 7 * 86400000,
+        joinedDate: 'Verified Google Member'
+      };
+
+      setCurrentUser(authenticatedUser);
+
+      // Cloud Firestore sync
+      if (window.firebase && firebase.firestore) {
+        try {
+          await firebase.firestore().collection('users').doc(fbUser.uid).set({
+            uid: fbUser.uid,
+            name: authenticatedUser.name,
+            email: authenticatedUser.email,
+            phone: authenticatedUser.phone,
+            role: 'student',
+            photoURL: fbUser.photoURL || null,
+            provider: 'google',
+            lastLoginAt: new Date().toISOString()
+          }, { merge: true });
+
+          // Telemetry activity log
+          await firebase.firestore().collection('users').doc(fbUser.uid).collection('activities').add({
+            action: 'LOGIN',
+            method: 'google',
+            timestamp: new Date().toISOString()
+          }).catch(() => {});
+          console.log('[Firestore] Synced Google user and activity log');
+        } catch (fsErr) {
+          console.warn('[Firestore Google Sync]', fsErr);
+        }
+      }
+
+      if (window.GCS_APP && window.GCS_APP.notifications) {
+        window.GCS_APP.notifications.add(
+          '🎉 Google Login Successful',
+          `Welcome to Gramin Career Setu, ${authenticatedUser.name}! Your account is active.`,
+          'success'
+        );
+      }
+
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(`🎉 Welcome, ${authenticatedUser.name}! (Signed in with Google)`);
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get('next');
+      setTimeout(() => {
+        window.location.href = getSafeNextUrl(next, 'dashboard.html');
+      }, 400);
+
+      return { success: true, user: authenticatedUser };
+    } catch (err) {
+      console.error('[Google Auth Error]', err);
+      let msg = err.message || 'Could not sign in with Google.';
+      if (err.code === 'auth/operation-not-allowed') {
+        msg = 'Google Sign-In is disabled in Firebase Console! Please go to Firebase Console > Authentication > Sign-in method, click Google, and enable it.';
+      } else if (err.code === 'auth/unauthorized-domain') {
+        msg = 'This domain is not authorized in Firebase Console! Go to Firebase Console > Authentication > Settings > Authorized Domains, and add this domain.';
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        msg = 'Sign-in popup closed before completing.';
+      }
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(`⚠️ ${msg}`, 'error');
+      } else {
+        alert(msg);
+      }
+      return { success: false, message: msg };
+    }
+  }
+
   function loginDemo(roleKey) {
     const user = Object.assign({}, DEMO_USERS[roleKey] || DEMO_USERS.student, {
       isDemoSession: true,
@@ -857,8 +968,127 @@
   /**
    * Logout User
    */
+
+  const PENDING_LOGIN_KEY = 'gcs_pending_login';
+
+  /**
+   * Request Mobile Number OTP Login
+   */
+  async function sendLoginOtp(phone) {
+    const mobileCheck = validateMobileNumber(phone);
+    if (!mobileCheck.valid) return { success: false, message: mobileCheck.message };
+
+    const cleanPhone = mobileCheck.clean;
+    // Generate secure random 6-digit OTP (dynamic code)
+    const generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
+
+    // This code is shown on screen, so typing it proves nothing about who
+    // owns the number. The session it opens is therefore always a demo
+    // student session and never takes over an existing account (the demo
+    // admin and coordinator numbers included).
+    const pendingLogin = {
+      phone: cleanPhone,
+      otpCode: generatedOtp,
+      otpExpiresAt: Date.now() + 5 * 60 * 1000,
+      otpAttempts: 0
+    };
+
+    try {
+      localStorage.setItem(PENDING_LOGIN_KEY, JSON.stringify(pendingLogin));
+    } catch (_) {}
+
+    // Add alert into notification system
+    if (window.GCS_APP && window.GCS_APP.notifications) {
+      window.GCS_APP.notifications.add(
+        '📱 Mobile Verification Code',
+        `Your login verification code is ${generatedOtp}. Valid for 5 minutes.`,
+        'sms'
+      );
+    }
+
+    return {
+      success: true,
+      phone: cleanPhone,
+      otpCode: generatedOtp,
+      isDemo: true
+    };
+  }
+
+  /**
+   * Verify Phone OTP Login & Create Session
+   */
+  async function verifyLoginOtp(code) {
+    if (!/^\d{6}$/.test(code)) {
+      return { success: false, message: 'Please enter the complete 6-digit verification code.' };
+    }
+
+    let pending = null;
+    try {
+      const raw = localStorage.getItem(PENDING_LOGIN_KEY);
+      if (raw) pending = JSON.parse(raw);
+    } catch (_) {}
+
+    if (!pending) {
+      return verifyOTP(code);
+    }
+
+    if (Date.now() > pending.otpExpiresAt) {
+      localStorage.removeItem(PENDING_LOGIN_KEY);
+      return { success: false, message: 'Verification code has expired. Please request a new code.' };
+    }
+
+    pending.otpAttempts = (pending.otpAttempts || 0) + 1;
+    if (pending.otpAttempts > 5) {
+      localStorage.removeItem(PENDING_LOGIN_KEY);
+      return { success: false, message: 'Too many incorrect attempts. Please request a new OTP.' };
+    }
+
+    if (code !== pending.otpCode) {
+      try { localStorage.setItem(PENDING_LOGIN_KEY, JSON.stringify(pending)); } catch (_) {}
+      return { success: false, message: `Incorrect code. ${5 - pending.otpAttempts} attempt(s) remaining.` };
+    }
+
+    const cleanPhone = pending.phone;
+    const userName = 'Student ' + cleanPhone.slice(-4);
+
+    const userSession = {
+      id: 'demo_' + cleanPhone,
+      name: userName,
+      phone: cleanPhone,
+      email: '',
+      role: 'student',
+      roleLabel: 'Student / Job Seeker',
+      avatar: 'assets/resume-avatar-ravi.webp',
+      initials: 'ST',
+      isDemoSession: true,
+      token: 'gcs_demo_session_' + Date.now(),
+      tokenExpiresAt: Date.now() + 86400000,
+      joinedDate: 'Demo session (number not verified)'
+    };
+
+    localStorage.removeItem(PENDING_LOGIN_KEY);
+    setCurrentUser(userSession);
+
+    if (window.GCS_APP && window.GCS_APP.notifications) {
+      window.GCS_APP.notifications.add(
+        '🎉 Login Successful',
+        `Welcome, ${userSession.name}! This is a demo session — the mobile number was not verified by SMS.`,
+        'success'
+      );
+    }
+
+    return { success: true, user: userSession };
+  }
+
   function logout() {
     setCurrentUser(null);
+    // End the Firebase session too; otherwise the next student on a shared
+    // phone would save their quiz and resume into this student's account.
+    if (window.GCS_FIREBASE && window.GCS_FIREBASE.signOut) {
+      window.GCS_FIREBASE.signOut().catch(() => {});
+    } else if (window.firebase && firebase.apps && firebase.apps.length && firebase.auth) {
+      firebase.auth().signOut().catch(() => {});
+    }
     if (window.GCS_APP && window.GCS_APP.toast) {
       window.GCS_APP.toast.show('Logged out successfully.');
     }
@@ -900,9 +1130,9 @@
         const safeFirstName = escapeHtml((user.name || 'User').trim().split(' ')[0]);
         const safeRoleLabel = escapeHtml(user.roleLabel || (user.role === 'admin' ? 'District Admin' : user.role === 'volunteer' ? 'Village Coordinator' : 'Student / Job Seeker'));
         const safeAvatar = escapeHtml(pfx + (user.avatar || 'assets/resume-avatar-ravi.webp'));
-        const dashLink = pfx + 'dashboard.html';
-        const profileLink = pfx + 'profile.html';
-        const adminLink = isSubdir ? 'index.html' : 'admin/index.html';
+        const dashLink = pfx + 'dashboard';
+        const profileLink = pfx + 'profile';
+        const adminLink = isSubdir ? 'index' : 'admin/index';
 
         authBtn.innerHTML = `
           <div class="gcs-user-pill-dropdown" style="position: relative; display: inline-block;">
@@ -940,11 +1170,34 @@
       } else {
         // Guest mode
         authBtn.innerHTML = `
-          <a href="${pfx}login.html" class="gcs-btn-cta-1" style="padding: 6px 14px; font-size: var(--text-sm); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; margin-left: 6px;">
+          <a href="${pfx}login" class="gcs-btn-cta-1" style="padding: 6px 14px; font-size: var(--text-sm); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; margin-left: 6px;">
             <span class="material-symbols-outlined" style="font-size: var(--text-base);">login</span>
             <span data-lang-key="ui-sign-in">Sign In</span>
           </a>
         `;
+      }
+    });
+
+    // Synchronize mobile bottom nav profile/dashboard tab across screens
+    document.querySelectorAll('#mobileNavProfileTab, #mobileNavProfileItem, a[href*="dashboard"].gcs-mobile-nav-item, a[href*="profile"].gcs-mobile-nav-item').forEach(el => {
+      if (user) {
+        el.href = pfx + 'dashboard';
+        const label = el.querySelector('[data-lang-key]');
+        if (label) {
+          label.textContent = 'Dashboard';
+          label.setAttribute('data-lang-key', 'nav-dashboard');
+        }
+        const icon = el.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'dashboard';
+      } else {
+        el.href = pfx + 'login';
+        const label = el.querySelector('[data-lang-key]');
+        if (label) {
+          label.textContent = 'Sign In';
+          label.setAttribute('data-lang-key', 'ui-sign-in');
+        }
+        const icon = el.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'account_circle';
       }
     });
 
@@ -984,6 +1237,45 @@
     if (window.location.search.includes('code=')) {
       handleOidcCallback();
     }
+    // Check Firebase Google redirect result
+    if (window.firebase && firebase.auth) {
+      firebase.auth().getRedirectResult().then(async (result) => {
+        if (result && result.user) {
+          const fbUser = result.user;
+          const authenticatedUser = {
+            id: fbUser.uid,
+            name: fbUser.displayName || 'Google Member',
+            phone: fbUser.phoneNumber ? fbUser.phoneNumber.replace('+91', '') : '',
+            email: fbUser.email || '',
+            role: 'student',
+            roleLabel: 'Student / Job Seeker',
+            avatar: fbUser.photoURL || 'assets/resume-avatar-ravi.webp',
+            initials: (fbUser.displayName || 'GM').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase(),
+            isDemoSession: false,
+            provider: 'google',
+            token: await fbUser.getIdToken().catch(() => 'fb_token_' + Date.now()),
+            tokenExpiresAt: Date.now() + 7 * 86400000,
+            joinedDate: 'Verified Google Member'
+          };
+          setCurrentUser(authenticatedUser);
+          if (firebase.firestore) {
+            firebase.firestore().collection('users').doc(fbUser.uid).set({
+              uid: fbUser.uid,
+              name: authenticatedUser.name,
+              email: authenticatedUser.email,
+              phone: authenticatedUser.phone,
+              role: 'student',
+              photoURL: fbUser.photoURL || null,
+              provider: 'google',
+              lastLoginAt: new Date().toISOString()
+            }, { merge: true }).catch(() => {});
+          }
+          if (/\/login(\.html)?$/.test(window.location.pathname)) {
+            window.location.href = 'dashboard.html';
+          }
+        }
+      }).catch(err => console.warn('[Firebase Google Redirect Result]', err));
+    }
   });
 
   // Global Auth API
@@ -994,7 +1286,10 @@
     login,
     signup,
     verifyOTP,
+    sendLoginOtp,
+    verifyLoginOtp,
     loginDemo,
+    loginWithGoogle,
     loginWithOidc,
     handleOidcCallback,
     refreshToken,

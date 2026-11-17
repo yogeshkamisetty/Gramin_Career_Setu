@@ -78,11 +78,17 @@
         window.GCS_API.workshops.register(id, { name, phone })
           .catch(e => console.warn('[GCS_ACTIONS] workshop api:', e));
       }
+      if (window.GCS_FIREBASE && window.GCS_FIREBASE.logUserActivity) {
+        window.GCS_FIREBASE.logUserActivity('workshop_registered', { id, title });
+      }
     } else {
       list.splice(i, 1);
       if (canSync && window.GCS_API.workshops.cancel) {
         window.GCS_API.workshops.cancel(id, { phone })
           .catch(e => console.warn('[GCS_ACTIONS] workshop cancel api:', e));
+      }
+      if (window.GCS_FIREBASE && window.GCS_FIREBASE.logUserActivity) {
+        window.GCS_FIREBASE.logUserActivity('workshop_cancelled', { id, title });
       }
     }
     s.set(WORKSHOP_KEY, list);
@@ -118,8 +124,17 @@
     const i = list.indexOf(topic);
     const subscribing = i === -1;
 
-    if (subscribing) list.push(topic);
-    else list.splice(i, 1);
+    if (subscribing) {
+      list.push(topic);
+      if (window.GCS_FIREBASE && window.GCS_FIREBASE.logUserActivity) {
+        window.GCS_FIREBASE.logUserActivity('subscription_enabled', { topic });
+      }
+    } else {
+      list.splice(i, 1);
+      if (window.GCS_FIREBASE && window.GCS_FIREBASE.logUserActivity) {
+        window.GCS_FIREBASE.logUserActivity('subscription_disabled', { topic });
+      }
+    }
     s.set(SUB_KEY, list);
 
     if (btn) {

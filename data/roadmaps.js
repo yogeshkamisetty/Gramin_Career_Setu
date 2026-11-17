@@ -47,6 +47,237 @@ window.GCS_ROADMAPS = {
   goals: [
     // ───────────────────────────────────────────────────────────────────────
     {
+      id: 'engineering',
+      icon: 'computer',
+      track: 'technology',
+      titleEn: 'Software & Technology Engineer',
+      titleTe: 'సాఫ్ట్‌వేర్ & టెక్నాలజీ ఇంజనీర్',
+      summaryEn: 'Build modern software applications, web systems and mobile platforms through engineering or diploma education.',
+      summaryTe: 'ఇంజనీరింగ్ లేదా డిప్లొమా ద్వారా సాఫ్ట్‌వేర్ అప్లికేషన్లు, వెబ్‌సైట్లు మరియు మొబైల్ యాప్‌లను రూపొందించండి.',
+      realityEn: 'You do not need an expensive private college degree to build a strong software engineering career. Real programming ability, problem-solving skills, and personal projects matter far more to hiring teams than college rank. State fee reimbursement schemes and free learning portals support motivated students.',
+      realityTe: 'సాఫ్ట్‌వేర్ ఇంజనీర్ కావడానికి ఖరీదైన ప్రైవేట్ కాలేజీ చదువు అవసరం లేదు. కాలేజీ పేరు కంటే వాస్తవ కోడింగ్ నైపుణ్యాలు, సమస్య పరిష్కార ఆలోచన మరియు స్వంత ప్రాజెక్ట్‌లు చేయడమే అత్యంత ముఖ్యం. ప్రభుత్వ ఫీజు రీయింబర్స్‌మెంట్ మరియు ఉచిత ఆన్‌లైన్ పోర్టల్‌లు పూర్తి సహాయం అందిస్తాయి.',
+      steps: [
+        {
+          id: 'eng1', fromLevel: '10th',
+          titleEn: 'Complete Intermediate (MPC) or 3-Year Polytechnic Diploma (CSE)',
+          titleTe: 'ఇంటర్మీడియట్ (MPC) లేదా 3 ఏళ్ల పాలిటెక్నిక్ డిప్లొమా (CSE) పూర్తి చేయండి',
+          durationEn: '2 – 3 years', durationTe: '2 – 3 సంవత్సరాలు',
+          whatEn: 'To enter engineering, you can either study Intermediate with Mathematics, Physics and Chemistry (MPC) or join a Polytechnic Diploma in Computer Engineering through state POLYCET.',
+          whatTe: 'ఇంజనీరింగ్‌లో ప్రవేశించడానికి గణితం, భౌతికశాస్త్రం, రసాయనశాస్త్రం (MPC)తో ఇంటర్మీడియట్ చేయవచ్చు లేదా పాలిసెట్ ద్వారా కంప్యూటర్ ఇంజనీరింగ్ డిప్లొమాలో చేరవచ్చు.',
+          howEn: [
+            'Enrol in a government junior college in the MPC stream or a government polytechnic.',
+            'Start practicing basic computer typing and programming concepts on a smartphone or community computer.',
+            'Maintain strong fundamentals in algebra, geometry and analytical reasoning.'
+          ],
+          howTe: [
+            'ప్రభుత్వ జూనియర్ కాలేజీలో MPC గ్రూప్‌లో లేదా ప్రభుత్వ పాలిటెక్నిక్ కాలేజీలో చేరండి.',
+            'స్మార్ట్‌ఫోన్ లేదా లైబ్రరీ కంప్యూటర్‌లో ప్రాథమిక కంప్యూటర్ మరియు లాజిక్ నేర్చుకోవడం మొదలుపెట్టండి.',
+            'గణితం మరియు విశ్లేషణాత్మక ఆలోచనలపై పట్టు సాధించండి.'
+          ],
+          costEn: 'Government junior college and polytechnic fees are low; state welfare post-matric scholarships assist rural students.',
+          costTe: 'ప్రభుత్వ జూనియర్ కాలేజీ మరియు పాలిటెక్నిక్ ఫీజులు తక్కువ; సంక్షేమ స్కాలర్‌షిప్‌లు గ్రామీణ విద్యార్థులకు సహాయపడతాయి.',
+          officialName: 'State Board of Technical Education and Training (SBTET)',
+          officialUrl: 'https://sbtet.ap.gov.in',
+          verifyEn: 'Check polytechnic and intermediate admission dates on the official state board portal.',
+          verifyTe: 'అధికారిక రాష్ట్ర బోర్డు పోర్టల్‌లో పాలిటెక్నిక్ మరియు ఇంటర్ ప్రవేశ తేదీలను తనిఖీ చేయండి.'
+        },
+        {
+          id: 'eng2', fromLevel: 'inter',
+          titleEn: 'Clear State Engineering Entrance (EAPCET / ECET) for B.Tech',
+          titleTe: 'B.Tech కోసం రాష్ట్ర ఇంజనీరింగ్ ప్రవేశ పరీక్ష (EAPCET / ECET) రాయండి',
+          durationEn: '3 – 4 years', durationTe: '3 – 4 సంవత్సరాలు',
+          whatEn: 'Clear the state engineering entrance test (EAPCET for Intermediate MPC students, or ECET lateral entry into second year for Polytechnic diploma holders) to enrol in B.Tech Computer Science or IT.',
+          whatTe: 'B.Tech కంప్యూటర్ సైన్స్ లేదా IT లో చేరడానికి రాష్ట్ర ఇంజనీరింగ్ ప్రవేశ పరీక్ష (ఇంటర్ విద్యార్థులకు EAPCET, డిప్లొమా వారికి ECET ద్వారా 2వ సంవత్సరంలో నేరుగా ప్రవేశం) రాయండి.',
+          howEn: [
+            'Prepare using standard textbooks and free question banks from previous examination sessions.',
+            'Participate in state web counselling and prioritize accredited state universities and affiliated colleges.',
+            'Apply for full tuition fee reimbursement under the state higher education scholarship scheme.'
+          ],
+          howTe: [
+            'ప్రామాణిక పుస్తకాలు మరియు గత పరీక్షల ఉచిత ప్రశ్నపత్రాలతో సిద్ధం అవ్వండి.',
+            'రాష్ట్ర వెబ్ కౌన్సెలింగ్‌లో పాల్గొని గుర్తింపు పొందిన యూనివర్సిటీలు మరియు కాలేజీలను ఎంచుకోండి.',
+            'రాష్ట్ర ఉన్నత విద్యా పథకం కింద పూర్తి ట్యూషన్ ఫీజు రీయింబర్స్‌మెంట్ కోసం దరఖాస్తు చేసుకోండి.'
+          ],
+          costEn: 'Tuition fees in accredited colleges are covered for eligible students under state reimbursement.',
+          costTe: 'అర్హులైన విద్యార్థులకు రాష్ట్ర రీయింబర్స్‌మెంట్ పథకం ద్వారా పూర్తి ట్యూషన్ ఫీజు లభిస్తుంది.',
+          officialName: 'AP State Council of Higher Education (APSCHE)',
+          officialUrl: 'https://cets.apsche.ap.gov.in',
+          verifyEn: 'Confirm counselling notifications, college codes and eligibility on the APSCHE website.',
+          verifyTe: 'APSCHE వెబ్‌సైట్‌లో కౌన్సెలింగ్ నోటిఫికేషన్‌లు, కాలేజీ కోడ్‌లు మరియు వివరాలను తనిఖీ చేయండి.'
+        },
+        {
+          id: 'eng3', fromLevel: 'degree',
+          titleEn: 'Learn Core Programming Languages, Web Stack & Build Projects',
+          titleTe: 'ప్రోగ్రామింగ్ లాంగ్వేజెస్, వెబ్ టెక్నాలజీలు నేర్చుకోండి & ప్రాజెక్ట్‌లు చేయండి',
+          durationEn: '6 – 12 months', durationTe: '6 – 12 నెలలు',
+          whatEn: 'Master one core programming language (such as Python, Java, or JavaScript), data structures, databases (SQL), and publish source code for personal projects on GitHub.',
+          whatTe: 'ఒక ప్రోగ్రామింగ్ భాష (పైథాన్, జావా లేదా జావాస్క్రిప్ట్), డేటా స్ట్రక్చర్స్, డేటాబేస్‌లు నేర్చుకుని GitHub లో మీ స్వంత ప్రాజెక్ట్‌లను హోస్ట్ చేయండి.',
+          howEn: [
+            'Enrol in free online certified courses on the central government SWAYAM / NPTEL platform.',
+            'Join free software training programs conducted by the state skill development corporation (APSSDC).',
+            'Solve coding exercises daily on free interactive platforms like HackerRank and freeCodeCamp.',
+            'Build two to three functional web or mobile apps that address practical rural community needs.'
+          ],
+          howTe: [
+            'కేంద్ర ప్రభుత్వ SWAYAM / NPTEL ప్లాట్‌ఫారమ్‌లో ఉచిత సర్టిఫైడ్ కోర్సులలో చేరండి.',
+            'రాష్ట్ర నైపుణ్యాభివృద్ధి సంస్థ (APSSDC) నిర్వహించే ఉచిత సాఫ్ట్‌వేర్ శిక్షణలో పాల్గొనండి.',
+            'HackerRank మరియు freeCodeCamp వంటి ఉచిత ప్లాట్‌ఫారమ్‌లలో ప్రతిరోజూ కోడింగ్ సాధన చేయండి.',
+            'గ్రామీణ అవసరాలను తీర్చే రెండు లేదా మూడు ఆచరణాత్మక యాప్‌లను రూపొందించండి.'
+          ],
+          costEn: 'Free through SWAYAM, APSSDC initiatives and open-source learning libraries.',
+          costTe: 'SWAYAM, APSSDC ప్రభుత్వ కార్యక్రమాలు మరియు ఓపెన్ సోర్స్ ద్వారా పూర్తిగా ఉచితం.',
+          officialName: 'AP State Skill Development Corporation (APSSDC)',
+          officialUrl: 'https://apssdc.in',
+          verifyEn: 'Review the latest IT training calendar and batch registrations on the APSSDC portal.',
+          verifyTe: 'APSSDC పోర్టల్‌లో తాజా ఐటీ శిక్షణ క్యాలెండర్ మరియు బ్యాచ్ రిజిస్ట్రేషన్‌లను చూడండి.'
+        },
+        {
+          id: 'eng4', fromLevel: 'degree',
+          titleEn: 'Attend Graduate Placement Drives, TCS NQT & Technical Interviews',
+          titleTe: 'గ్రాడ్యుయేట్ ప్లేస్‌మెంట్ డ్రైవ్‌లు, TCS NQT & టెక్నికల్ ఇంటర్వ్యూలకు హాజరవ్వండి',
+          durationEn: '3 – 6 months', durationTe: '3 – 6 నెలలు',
+          whatEn: 'Appear for national graduate assessment tests (such as TCS NQT), campus recruitment interviews, and state job fairs to secure your first role as an Associate Software Engineer.',
+          whatTe: 'అసోసియేట్ సాఫ్ట్‌వేర్ ఇంజనీర్‌గా మొదటి ఉద్యోగం సాధించడానికి జాతీయ నియామక పరీక్షలు (TCS NQT), కాలేజీ క్యాంపస్ ఇంటర్వ్యూలు మరియు రాష్ట్ర జాబ్ మేళాలకు హాజరవ్వండి.',
+          howEn: [
+            'Register on major national recruitment portals and sit for open qualifier exams.',
+            'Create a concise one-page resume highlighting programming skills, GitHub repositories, and live links.',
+            'Participate in APSSDC district mega job melas held regularly across Andhra Pradesh.',
+            'Practice mock technical problem-solving sessions and communicate logic clearly.'
+          ],
+          howTe: [
+            'జాతీయ నియామక పరీక్షల పోర్టల్‌లలో నమోదు చేసుకుని పరీక్షలకు హాజరవ్వండి.',
+            'మీ ప్రోగ్రామింగ్ నైపుణ్యాలు మరియు ప్రాజెక్ట్ లింక్‌లతో ఒక పేజీ రెజ్యూమ్ తయారు చేసుకోండి.',
+            'ఆంధ్రప్రదేశ్‌లోని జిల్లా కేంద్రాల్లో నిర్వహించే APSSDC మెగా జాబ్ మేళాలలో పాల్గొనండి.',
+            'సాంకేతిక ప్రశ్నలకు సమాధానాలు ఇవ్వడం మరియు లాజిక్ వివరించడం ముందస్తుగా ప్రాక్టీస్ చేయండి.'
+          ],
+          costEn: 'National graduate test registrations often have free student tracks; state job melas are completely free.',
+          costTe: 'రాష్ట్ర జాబ్ మేళాలు మరియు క్యాంపస్ డ్రైవ్‌లు పూర్తిగా ఉచితం.',
+          officialName: 'National Career Service / State Job Mela Portal',
+          officialUrl: 'https://jobmela.apssdc.in',
+          verifyEn: 'Verify upcoming job mela schedules and participating hiring firms on the state portal.',
+          verifyTe: 'రాష్ట్ర పోర్టల్‌లో రాబోయే జాబ్ మేళా తేదీలు మరియు పాల్గొనే కంపెనీల జాబితాను తనిఖీ చేయండి.'
+        }
+      ],
+      alternatives: [
+        {
+          titleEn: 'Polytechnic Diploma & Lateral Entry to B.Tech',
+          titleTe: 'పాలిటెక్నిక్ డిప్లొమా & లేటరల్ ఎంట్రీ ద్వారా B.Tech',
+          fromLevel: '10th',
+          whyEn: 'A practical, application-focused route straight after 10th class that admits students directly into second year B.Tech via state ECET.',
+          whyTe: '10వ తరగతి తర్వాత నేరుగా ప్రారంభమై ECET ద్వారా B.Tech 2వ సంవత్సరంలోకి ప్రవేశం కల్పించే ఆచరణాత్మక మార్గం.',
+          officialName: 'State Board of Technical Education and Training (SBTET)',
+          officialUrl: 'https://sbtet.ap.gov.in'
+        },
+        {
+          titleEn: 'B.Sc Computer Science / BCA Degree',
+          titleTe: 'B.Sc కంప్యూటర్ సైన్స్ / BCA డిగ్రీ',
+          fromLevel: 'inter',
+          whyEn: 'A 3-year undergraduate degree path with lower tuition costs that qualifies graduates for major IT company graduate recruitment drives.',
+          whyTe: 'తక్కువ ఖర్చుతో కూడిన 3 సంవత్సరాల డిగ్రీ మార్గం, ఇది ప్రముఖ ఐటీ కంపెనీల గ్రాడ్యుయేట్ రిక్రూట్‌మెంట్‌లకు అర్హత కల్పిస్తుంది.',
+          officialName: 'APSCHE Online Admissions Portal',
+          officialUrl: 'https://oamdc.ap.gov.in'
+        }
+      ]
+    },
+    // ───────────────────────────────────────────────────────────────────────
+    {
+      id: 'core-engineering',
+      icon: 'engineering',
+      track: 'engineering',
+      titleEn: 'Civil, Mechanical & Electrical Engineer',
+      titleTe: 'సివిల్, మెకానికల్ & ఎలక్ట్రికల్ ఇంజనీర్',
+      summaryEn: 'Plan and oversee the construction of rural roads, irrigation canals, buildings, power networks, and machinery.',
+      summaryTe: 'గ్రామీణ రోడ్లు, సాగునీటి కాలువలు, భవనాలు, విద్యుత్ నెట్‌వర్క్‌లు మరియు యంత్రాల నిర్మాణాన్ని పర్యవేక్షించండి.',
+      realityEn: 'Core engineering fields offer major opportunities in public sector engineering departments (State Irrigation, Roads and Buildings, Panchayat Raj, Electricity Distribution Companies) as well as infrastructure contractors. State public service exams and central Junior Engineer exams provide dependable government careers.',
+      realityTe: 'కోర్ ఇంజనీరింగ్ రంగాలలో ప్రభుత్వ శాఖలలో (ఇరిగేషన్, రోడ్లు & భవనాలు, పంచాయతీ రాజ్, విద్యుత్ పంపిణీ సంస్థలు) మరియు ప్రైవేట్ నిర్మాణ సంస్థలలో విస్తృత అవకాశాలు ఉంటాయి. రాష్ట్ర పబ్లిక్ సర్వీస్ కమిషన్ మరియు జూనియర్ ఇంజనీర్ పరీక్షలు స్థిరమైన ప్రభుత్వ ఉద్యోగాలను అందిస్తాయి.',
+      steps: [
+        {
+          id: 'ceng1', fromLevel: '10th',
+          titleEn: 'Complete Intermediate (MPC) or 3-Year Polytechnic Diploma (Civil / Mech / EEE)',
+          titleTe: 'ఇంటర్మీడియట్ (MPC) లేదా 3 ఏళ్ల పాలిటెక్నిక్ డిప్లొమా (సివిల్ / మెకానికల్ / EEE) చేయండి',
+          durationEn: '2 – 3 years', durationTe: '2 – 3 సంవత్సరాలు',
+          whatEn: 'Join a government polytechnic through state POLYCET in Civil, Mechanical, or Electrical Engineering, or study Intermediate MPC in a junior college.',
+          whatTe: 'పాలిసెట్ ద్వారా సివిల్, మెకానికల్ లేదా ఎలక్ట్రికల్ విభాగంలో ప్రభుత్వ పాలిటెక్నిక్‌లో చేరండి లేదా జూనియర్ కాలేజీలో ఇంటర్మీడియట్ MPC పూర్తి చేయండి.',
+          howEn: [
+            'Appear for state POLYCET entrance examination after 10th class.',
+            'Opt for core engineering branches in government polytechnic institutions.',
+            'Learn engineering drawing, surveying principles and applied physics thoroughly.'
+          ],
+          howTe: [
+            '10వ తరగతి తర్వాత రాష్ట్ర పాలిసెట్ ప్రవేశ పరీక్ష రాయండి.',
+            'ప్రభుత్వ పాలిటెక్నిక్ కాలేజీలలో కోర్ ఇంజనీరింగ్ విభాగాలను ఎంచుకోండి.',
+            'ఇంజనీరింగ్ డ్రాయింగ్, సర్వేయింగ్ సూత్రాలు మరియు భౌతికశాస్త్రంలో పట్టు సాధించండి.'
+          ],
+          costEn: 'Government polytechnic tuition is low and covered under state welfare post-matric scholarship schemes.',
+          costTe: 'ప్రభుత్వ పాలిటెక్నిక్ ఫీజులు తక్కువ మరియు సంక్షేమ పథకాల ద్వారా రీయింబర్స్ అవుతాయి.',
+          officialName: 'State Board of Technical Education and Training (SBTET)',
+          officialUrl: 'https://polycetap.nic.in',
+          verifyEn: 'Verify entrance exam notifications and counselling dates on the state polytechnic portal.',
+          verifyTe: 'రాష్ట్ర పాలిటెక్నిక్ పోర్టల్‌లో ప్రవేశ పరీక్ష నోటిఫికేషన్ మరియు కౌన్సెలింగ్ తేదీలను తనిఖీ చేయండి.'
+        },
+        {
+          id: 'ceng2', fromLevel: 'inter',
+          titleEn: 'Complete B.Tech in Civil, Mechanical or Electrical Engineering',
+          titleTe: 'సివిల్, మెకానికల్ లేదా ఎలక్ట్రికల్ ఇంజనీరింగ్‌లో B.Tech పూర్తి చేయండి',
+          durationEn: '3 – 4 years', durationTe: '3 – 4 సంవత్సరాలు',
+          whatEn: 'Pursue a four-year B.Tech degree through state EAPCET, or enter directly into the second year through state ECET lateral entry after completing a polytechnic diploma.',
+          whatTe: 'EAPCET ద్వారా 4 సంవత్సరాల B.Tech చేయండి, లేదా పాలిటెక్నిక్ డిప్లొమా తర్వాత ECET ద్వారా నేరుగా రెండవ సంవత్సరంలో ప్రవేశించండి.',
+          howEn: [
+            'Qualify in the state engineering entrance test and join an accredited university or college.',
+            'Undertake practical survey camps, computer-aided design (CAD) certifications, and site internships.',
+            'Study structural engineering, mechanics, or power systems according to your specialization.'
+          ],
+          howTe: [
+            'రాష్ట్ర ప్రవేశ పరీక్షలో అర్హత సాధించి గుర్తింపు పొందిన కాలేజీలో చేరండి.',
+            'సర్వే క్యాంపులు, CAD సర్టిఫికేషన్లు మరియు ఫీల్డ్ ఇంటర్న్‌షిప్‌లను శ్రద్ధగా పూర్తి చేయండి.',
+            'మీ బ్రాంచ్‌కు తగిన సాంకేతిక సబ్జెక్టులపై దృష్టి సారించండి.'
+          ],
+          costEn: 'Eligible students receive full tuition fee reimbursement from the state government.',
+          costTe: 'అర్హులైన విద్యార్థులకు రాష్ట్ర ప్రభుత్వం నుంచి పూర్తి ట్యూషన్ ఫీజు రీయింబర్స్‌మెంట్ అందుతుంది.',
+          officialName: 'APSCHE Engineering Admissions',
+          officialUrl: 'https://cets.apsche.ap.gov.in',
+          verifyEn: 'Check approved college lists, accreditation, and counselling stages on the APSCHE site.',
+          verifyTe: 'APSCHE వెబ్‌సైట్‌లో కాలేజీ గుర్తింపు మరియు కౌన్సెలింగ్ వివరాలను చూడండి.'
+        },
+        {
+          id: 'ceng3', fromLevel: 'degree',
+          titleEn: 'Prepare for Public Service Commission & Junior Engineer Recruitment',
+          titleTe: 'పబ్లిక్ సర్వీస్ కమిషన్ & జూనియర్ ఇంజనీర్ ఉద్యోగ పరీక్షలకు సిద్ధం అవ్వండి',
+          durationEn: '6 – 12 months', durationTe: '6 – 12 నెలలు',
+          whatEn: 'Appear for Assistant Executive Engineer (AEE) recruitments through the state public service commission, Village Secretariat Engineering Assistant tests, or central Staff Selection Commission (SSC JE).',
+          whatTe: 'రాష్ట్ర పబ్లిక్ సర్వీస్ కమిషన్ ద్వారా అసిస్టెంట్ ఎగ్జిక్యూటివ్ ఇంజనీర్ (AEE), గ్రామ సచివాలయ ఇంజనీరింగ్ అసిస్టెంట్ లేదా కేంద్ర SSC JE పరీక్షలకు హాజరవ్వండి.',
+          howEn: [
+            'Download previous question papers and official syllabi from public service commission websites.',
+            'Review engineering core fundamentals along with general studies and mental ability.',
+            'Apply simultaneously for site engineer trainee roles at construction and infrastructure firms.'
+          ],
+          howTe: [
+            'పబ్లిక్ సర్వీస్ కమిషన్ వెబ్‌సైట్ల నుంచి పాత ప్రశ్నపత్రాలు మరియు సిలబస్‌ను డౌన్‌లోడ్ చేసుకోండి.',
+            'కోర్ ఇంజనీరింగ్ మరియు జనరల్ స్టడీస్‌ను క్రమం తప్పకుండా పునశ్చరణ చేయండి.',
+            'ప్రైవేట్ ఇన్ఫ్రాస్ట్రక్చర్ కంపెనీలలో సైట్ ఇంజనీర్ ట్రైనీ ఉద్యోగాలకు కూడా దరఖాస్తు చేయండి.'
+          ],
+          costEn: 'Exam application fees on government portals are minimal.',
+          costTe: 'ప్రభుత్వ పోర్టల్‌లలో దరఖాస్తు ఫీజు చాలా తక్కువగా ఉంటుంది.',
+          officialName: 'State Public Service Commission (APPSC)',
+          officialUrl: 'https://psc.ap.gov.in',
+          verifyEn: 'Examine current active recruitment notifications and post descriptions on the commission website.',
+          verifyTe: 'కమిషన్ వెబ్‌సైట్‌లో తాజా రిక్రూట్‌మెంట్ నోటిఫికేషన్‌లు మరియు పోస్టుల వివరాలను తనిఖీ చేయండి.'
+        }
+      ],
+      alternatives: [
+        {
+          titleEn: 'Polytechnic Diploma to Village Secretariat Engineering Assistant',
+          titleTe: 'పాలిటెక్నిక్ డిప్లొమా ద్వారా గ్రామ సచివాలయ ఇంజనీరింగ్ అసిస్టెంట్',
+          fromLevel: '10th',
+          whyEn: 'A 3-year diploma provides direct eligibility for state village secretariat engineering posts without requiring a four-year bachelor degree.',
+          whyTe: '4 ఏళ్ల డిగ్రీ అవసరం లేకుండా 3 ఏళ్ల డిప్లొమాతోనే గ్రామ సచివాలయ ప్రభుత్వ ఇంజనీరింగ్ ఉద్యోగానికి అర్హత పొందవచ్చు.',
+          officialName: 'Grama Sachivalayam Recruitment Portal',
+          officialUrl: 'https://gramasachivalayam.ap.gov.in'
+        }
+      ]
+    },
+    // ───────────────────────────────────────────────────────────────────────
+    {
       id: 'police',
       icon: 'local_police',
       track: 'government',

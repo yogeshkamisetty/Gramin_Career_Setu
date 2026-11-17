@@ -210,7 +210,36 @@
         const template = localStorage.getItem('gcs_resume_template') || 'modern';
         window.GCS_API.resumes.save(template, data).catch(e => console.debug('[Resume Engine] remote save:', e));
       }
+      scheduleCloudSave(data);
     } catch (e) {}
+  }
+
+  // Cloud Firestore copy for signed-in students. Debounced: the form saves
+  // locally on every keystroke, but one cloud write every few seconds is
+  // plenty and keeps a 2G connection free.
+  let cloudSaveTimer = null;
+  function scheduleCloudSave(data) {
+    if (!window.GCS_FIREBASE || !window.GCS_FIREBASE.saveResume) return;
+    clearTimeout(cloudSaveTimer);
+    cloudSaveTimer = setTimeout(() => {
+      const template = localStorage.getItem(TEMPLATE_KEY) || 'modern';
+      window.GCS_FIREBASE.saveResume(Object.assign({}, data, { template }))
+        .catch(e => console.debug('[Resume Engine] cloud save:', e));
+    }, 3000);
+  }
+
+  // On a new phone the local copy is empty; bring back the student's saved
+  // resume from the cloud, but never overwrite something typed on this device.
+  function restoreFromCloud(onRestored) {
+    if (localStorage.getItem(STORAGE_KEY)) return;
+    if (!window.GCS_FIREBASE || !window.GCS_FIREBASE.loadResume) return;
+    window.GCS_FIREBASE.loadResume().then(cloud => {
+      if (!cloud || localStorage.getItem(STORAGE_KEY)) return;
+      const { template, ...profile } = cloud;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+      if (template) localStorage.setItem(TEMPLATE_KEY, template);
+      onRestored(profile);
+    }).catch(() => {});
   }
 
   /**
@@ -256,8 +285,15 @@
   //  Builder Page (resume.html) Logic
   // ══════════════════════════════════════════════════════════════════════
 
+  // Works for both /resume.html and the clean URL /resume that Firebase
+  // Hosting and Vercel serve.
+  function currentPage() {
+    const last = window.location.pathname.split('/').pop() || 'index';
+    return last.replace(/\.html$/, '');
+  }
+
   function initBuilderPage() {
-    const isBuilderPage = window.location.pathname.includes('resume.html') && !window.location.pathname.includes('resume-preview.html');
+    const isBuilderPage = currentPage() === 'resume';
     if (!isBuilderPage) return;
 
     let profile = loadProfileData();
@@ -273,6 +309,12 @@
 
     // Listen to form inputs for live 2-way preview
     setupLiveInputListeners();
+
+    restoreFromCloud(p => {
+      bindDataToForm(p);
+      renderMiniPreview(p);
+      updateScoreMeters(p);
+    });
 
     // Render initial live preview & scores
     renderMiniPreview(profile);
@@ -718,7 +760,7 @@
   // ══════════════════════════════════════════════════════════════════════
 
   function initPreviewPage() {
-    const isPreviewPage = window.location.pathname.includes('resume-preview.html');
+    const isPreviewPage = currentPage() === 'resume-preview';
     if (!isPreviewPage) return;
 
     const profile = loadProfileData();

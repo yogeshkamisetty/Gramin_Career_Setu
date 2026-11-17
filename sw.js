@@ -2,7 +2,6 @@
  * Gramin Career Setu — Root Service Worker Wrapper
  * ────────────────────────────────────────────────
  * Imports the actual service worker logic from /assets/sw.js.
- * This file is located at the root to grant the service worker
- * control over the entire site scope (/).
+ * Version: 21 - Redirect-Resilient Navigation & Clean URLs
  */
-importScripts('assets/sw.js');
+importScripts('assets/sw.js?v=21');

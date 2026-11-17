@@ -110,11 +110,57 @@
       box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
       outline: none;
     }
+    .auth-mode-tab {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: #64748B;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .auth-mode-tab.active {
+      background: #FFFFFF;
+      color: #064E3B;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      font-weight: 800;
+    }
+    .auth-main-tab {
+      flex: 1;
+      padding: 11px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      color: #64748B;
+    }
+    .auth-main-tab.active {
+      background: #FFFFFF;
+      color: #064E3B;
+      font-weight: 800;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
   </style>
 
   <!-- Scripts (deferred: fetched early, executed in order after parse) -->
   <script src="assets/i18n-dict.js" defer></script>
   <script src="assets/i18n.js" defer></script>
+  
+  <!-- Google Firebase SDKs (v10 Compat Mode) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="assets/firebase-config.js"></script>
   <script src="assets/app.js" defer></script>
   <script src="assets/actions.js" defer></script>
   <script src="assets/auth.js" defer></script>
@@ -130,7 +176,7 @@
   <header class="gcs-header" role="banner">
     <div class="gcs-container">
       <div class="gcs-header-inner">
-        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+        <a href="./" class="gcs-brand" aria-label="Gramin Career Setu Home">
           <div class="gcs-brand-icon">
             <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
           </div>
@@ -145,7 +191,7 @@
             <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
             <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
           </div>
-          <a href="index.html" style="font-size: 0.85rem; font-weight: 700; color: #64748B; text-decoration: none; margin-left: 8px;">✕ Close</a>
+          <a href="./" style="font-size: 0.85rem; font-weight: 700; color: #64748B; text-decoration: none; margin-left: 8px;">✕ Close</a>
         </div>
       </div>
     </div>
@@ -162,31 +208,18 @@
       <p style="font-size: var(--text-base); color: var(--color-text-muted); margin: 0">Access personalized guidance, resume builder and local employment opportunities.</p>
     </div>
 
-    <!-- 4-Step Ribbon Indicator -->
-    <div class="auth-flow-stepper">
-      <div class="auth-step-node active" id="stepNode1" onclick="switchAuthView('signin')">
-        <span class="auth-step-num">1</span>
-        <span>Sign In / Sign Up</span>
-      </div>
-      <span style="color: #CBD5E1">&rarr;</span>
-      <div class="auth-step-node" id="stepNode2" onclick="switchAuthView('signup')">
-        <span class="auth-step-num">2</span>
-        <span>Create Account</span>
-      </div>
-      <span style="color: #CBD5E1">&rarr;</span>
-      <div class="auth-step-node" id="stepNode3" onclick="switchAuthView('success')">
-        <span class="auth-step-num">3</span>
-        <span>Verify &amp; Activate</span>
-      </div>
-      <span style="color: #CBD5E1">&rarr;</span>
-      <div class="auth-step-node" id="stepNode4" onclick="switchAuthView('otp')">
-        <span class="auth-step-num">4</span>
-        <span>Welcome</span>
-      </div>
+    <!-- Main Segmented Switcher: Sign In vs Create Account -->
+    <div style="display: flex; background: #E2E8F0; border-radius: 12px; padding: 4px; max-width: 480px; margin: 0 auto 20px auto;">
+      <button type="button" id="tabMainSignIn" onclick="switchAuthView('signin')" class="auth-main-tab active">
+        <span>Sign In / లాగిన్</span>
+      </button>
+      <button type="button" id="tabMainSignUp" onclick="switchAuthView('signup')" class="auth-main-tab">
+        <span>Create Account / నమోదు</span>
+      </button>
     </div>
 
     <!-- Quick Role-Based Switcher Bar -->
-    <div style="max-width: 520px; margin: 0 auto 24px auto; background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px">
+    <div style="max-width: 480px; margin: 0 auto 20px auto; background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px">
       <div style="font-size: var(--text-sm); font-weight: 800; color: #064E3B; display: flex; align-items: center; gap: 4px">
         <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #059669">bolt</span>
         <span>Demo session (no real account):</span>
@@ -212,13 +245,60 @@
         <img src="assets/auth-village-hero.svg" alt="Rural Village Illustration" / style="width: 100%; height: 100%; object-fit: cover">
       </div>
 
-      <form id="signInForm" onsubmit="handleSignInSubmit(event)">
+      
+      <!-- Dual-Mode Login Selector (Mobile OTP vs Password) -->
+      <div class="auth-toggle-pill-row" style="display: flex; background: #F1F5F9; border-radius: 10px; padding: 4px; margin-bottom: 16px;">
+        <button type="button" id="tabMobileMode" class="auth-mode-tab active" onclick="switchLoginMode('otp')">
+          <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">phone_android</span>
+          <span>Mobile OTP</span>
+        </button>
+        <button type="button" id="tabPasswordMode" class="auth-mode-tab" onclick="switchLoginMode('password')">
+          <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">key</span>
+          <span>Password</span>
+        </button>
+      </div>
+
+      <!-- FORM A: MOBILE NUMBER OTP LOGIN (Rural First) -->
+      <div id="recaptcha-container"></div>
+      <form id="mobileOtpLoginForm" onsubmit="handleSendLoginOtpSubmit(event)" style="display: block;">
+        <div style="margin-bottom: 14px">
+          <label for="loginOtpPhone" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Mobile Number / మొబైల్ నంబర్</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">call</span>
+            <input type="tel" id="loginOtpPhone" class="gcs-form-input" placeholder="Enter 10-digit mobile number" value="" required maxlength="15" oninput="syncAndSanitizePhone(this)" onchange="syncAndSanitizePhone(this)" style="width: 100%; padding-left: 36px; box-sizing: border-box;" />
+          </div>
+          <div id="loginOtpPhoneErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
+        </div>
+
+        <button type="submit" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 12px; font-size: var(--text-base); border: none; cursor: pointer; border-radius: 10px; margin-bottom: 12px">
+          <span class="material-symbols-outlined" style="font-size: 20px;">send</span>
+          <span>Get Verification OTP / ఓటీపీ పొందండి</span>
+        </button>
+
+        <p style="font-size: var(--text-xs); color: #64748B; margin: 0 0 16px 0; line-height: 1.4; text-align: center;">
+          Fast verification: We cannot send SMS yet, so your 6-digit code is generated and displayed on screen immediately.
+        </p>
+        
+        <div style="display: flex; align-items: center; gap: 8px; margin: 12px 0;">
+          <hr style="flex: 1; border: none; border-top: 1px solid #E2E8F0">
+          <span style="font-size: var(--text-xs); color: #94A3B8; text-transform: uppercase">or</span>
+          <hr style="flex: 1; border: none; border-top: 1px solid #E2E8F0">
+        </div>
+
+        <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginWithGoogle()" style="width: 100%; justify-content: center; font-size: var(--text-sm); padding: 10px; margin-bottom: 8px; border: 1.5px solid #CBD5E1; color: #1E293B; background: #FFFFFF; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+          <span>Sign in with Google</span>
+        </button>
+      </form>
+
+      <!-- FORM B: PASSWORD SIGN IN -->
+      <form id="signInForm" onsubmit="handleSignInSubmit(event)" style="display: none;">
         <!-- Mobile Number -->
         <div style="margin-bottom: 12px">
           <label for="loginPhone" data-lang-key="login-mobile" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Mobile Number</label>
           <div style="position: relative">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">call</span>
-            <input type="tel" id="loginPhone" class="gcs-form-input" placeholder="10-digit mobile number" value="9876543210" required / style="width: 100%; padding-left: 32px">
+            <input type="tel" id="loginPhone" class="gcs-form-input" placeholder="Enter 10-digit mobile number" value="" required maxlength="15" oninput="syncAndSanitizePhone(this)" onchange="syncAndSanitizePhone(this)" style="width: 100%; padding-left: 32px">
           </div>
           <div id="loginPhoneErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
         </div>
@@ -228,7 +308,7 @@
           <label for="loginPassword" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Password</label>
           <div style="position: relative">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">lock</span>
-            <input type="password" id="loginPassword" class="gcs-form-input" placeholder="Enter password" value="demo123" required / style="width: 100%; padding-left: 32px; padding-right: 32px">
+            <input type="password" id="loginPassword" class="gcs-form-input" placeholder="Enter your password" value="" required / style="width: 100%; padding-left: 32px; padding-right: 32px">
             <button type="button" aria-label="Toggle password visibility" onclick="togglePassVisibility('loginPassword', this)" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #94A3B8">
               <span class="material-symbols-outlined" style="font-size: var(--text-lg)">visibility</span>
             </button>
@@ -256,14 +336,11 @@
           <span>Single Sign-On (Keycloak / OIDC)</span>
         </button>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px">
-          <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginDemo('student')" style="justify-content: center; font-size: var(--text-sm); padding: 8px 8px">
-            <span>🌐 Google</span>
-          </button>
-          <button type="button" class="gcs-btn-cta-2" onclick="switchAuthView('otp')" style="justify-content: center; font-size: var(--text-sm); padding: 8px 8px">
-            <span>📱 Phone OTP</span>
-          </button>
-        </div>
+        <!-- Real Firebase Google Sign-In -->
+        <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginWithGoogle()" style="width: 100%; justify-content: center; font-size: var(--text-sm); padding: 10px; margin-bottom: 12px; border: 1.5px solid #CBD5E1; color: #1E293B; background: #FFFFFF; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: background 0.15s ease;">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+          <span>Sign in with Google / గూగుల్ ద్వారా లాగిన్</span>
+        </button>
 
         <!-- New to Gramin Career Setu -->
         <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 20px">
@@ -321,7 +398,7 @@
           <label for="regPhone" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Mobile Number *</label>
           <div style="position: relative">
             <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">call</span>
-            <input type="tel" id="regPhone" class="gcs-form-input" placeholder="10-digit mobile number" required / style="width: 100%; padding-left: 32px">
+            <input type="tel" id="regPhone" class="gcs-form-input" placeholder="10-digit mobile number" required maxlength="15" oninput="syncAndSanitizePhone(this)" style="width: 100%; padding-left: 32px">
           </div>
           <div id="regPhoneErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
         </div>
@@ -396,7 +473,7 @@
         </div>
 
         <p style="font-size: var(--text-xs); color: #94A3B8; text-align: center; margin: 0; line-height: 1.4">
-          By signing up, you agree to our <a href="about.html" style="color: var(--color-text-muted)">Terms &amp; Conditions</a> and <a href="about.html" style="color: var(--color-text-muted)">Privacy Policy</a>.
+          By signing up, you agree to our <a href="about" style="color: var(--color-text-muted)">Terms &amp; Conditions</a> and <a href="about" style="color: var(--color-text-muted)">Privacy Policy</a>.
         </p>
       </form>
     </section>
@@ -429,7 +506,7 @@
         <span>Verify Mobile Number</span>
       </button>
 
-      <a href="index.html" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 4px">
+      <a href="./" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 4px">
         <span>&rarr; Go to Home</span>
       </a>
     </section>
@@ -446,19 +523,43 @@
         <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-weight: 700">Final Step</span>
       </div>
 
-      <div style="text-align: center; margin-bottom: 16px">
-        <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Verify Your Mobile Number</h2>
+      <!-- Modern SMS Verification Badge -->
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: #ECFDF5; border: 2px solid #86EFAC; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+        <span class="material-symbols-outlined" style="font-size: 32px; color: #059669;">mark_chat_read</span>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 20px">
+        <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 6px 0">Verify Mobile Number</h2>
         <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0">
-          Enter the 6-digit code shown below to confirm <strong id="otpTargetPhone">+91 98765 43210</strong>
+          Enter the 6-digit verification code for <strong id="otpTargetPhone" style="color: #064E3B;">+91 Mobile</strong>
         </p>
       </div>
 
-      <!-- Smartphone OTP Illustration -->
-      <div style="height: 120px; margin-bottom: 12px">
-        <img src="assets/auth-otp-phone.svg" alt="OTP Phone" / style="width: 100%; height: 100%; object-fit: contain">
+      <!-- 6 Auto-Advancing Digit Input Boxes -->
+      
+      <!-- Live Real SMS Alert (Firebase) -->
+      <div id="realSmsBanner" style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: none; align-items: center; gap: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 28px; color: #16A34A;">mark_chat_read</span>
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 800; color: #166534;">📲 Real Cellular SMS Dispatched</div>
+          <div style="font-size: 0.75rem; color: #15803D;">Check your mobile inbox for the 6-digit verification code from Google Firebase.</div>
+        </div>
       </div>
 
-      <!-- 6 Auto-Advancing Digit Input Boxes -->
+      <!-- Live Mobile Notification Alert (Demo / Fallback only) -->
+      <div id="simulatedSmsBanner" style="background: #EFF6FF; border: 1.5px solid #93C5FD; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: none; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="material-symbols-outlined" style="font-size: 28px; color: #2563EB;">sms</span>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #1E40AF;">📱 Demo / Test Code Notification</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: #1E3A8A; letter-spacing: 3px;" id="smsCodeDisplay">------</div>
+          </div>
+        </div>
+        <button type="button" class="gcs-btn-cta-1" onclick="autoFillOtp()" style="padding: 6px 12px; font-size: 0.78rem; border-radius: 6px; border: none; cursor: pointer; white-space: nowrap;">
+          Auto-Fill
+        </button>
+      </div>
+
       <div class="otp-input-row">
         <input type="text" class="otp-digit-box" maxlength="1" id="otp1" placeholder="•" aria-label="OTP digit 1" inputmode="numeric" oninput="handleOtpInput(this, 'otp2')" onkeydown="handleOtpBackspace(this, event, '')" />
         <input type="text" class="otp-digit-box" maxlength="1" id="otp2" placeholder="•" aria-label="OTP digit 2" inputmode="numeric" oninput="handleOtpInput(this, 'otp3')" onkeydown="handleOtpBackspace(this, event, 'otp1')" />
@@ -478,8 +579,14 @@
       </button>
 
       <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 24px">
-        <span>Didn't receive OTP?</span>
-        <a href="javascript:void(0)" onclick="resendOtpCode()" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px">Resend OTP</a>
+        <span>Didn't receive SMS?</span>
+        <a href="javascript:void(0)" onclick="resendOtpCode()" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px">Resend SMS</a>
+        <div style="margin-top: 10px;">
+          <button type="button" onclick="showInstantCodeFallback()" style="background: #EFF6FF; border: 1.5px solid #93C5FD; color: #1D4ED8; font-weight: 700; border-radius: 8px; padding: 7px 14px; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">bolt</span>
+            <span>SMS delayed? Tap to show code on screen</span>
+          </button>
+        </div>
       </div>
 
       <!-- Why verify mobile number checklist -->
@@ -567,12 +674,13 @@
       const activeCard = document.getElementById(views[viewKey] || 'viewSignIn');
       if (activeCard) activeCard.classList.add('active');
 
-      // Update stepper nodes
-      const stepOrder = ['signin', 'signup', 'success', 'otp'];
-      const currentIdx = stepOrder.indexOf(viewKey);
-      document.querySelectorAll('.auth-step-node').forEach((node, i) => {
-        node.classList.toggle('active', i <= currentIdx);
-      });
+      // Synchronize segmented header buttons
+      const tabSignIn = document.getElementById('tabMainSignIn');
+      const tabSignUp = document.getElementById('tabMainSignUp');
+      if (tabSignIn && tabSignUp) {
+        tabSignIn.classList.toggle('active', viewKey === 'signin');
+        tabSignUp.classList.toggle('active', viewKey === 'signup');
+      }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -603,9 +711,363 @@
       }
     }
 
+    
+    let currentPendingPhone = '';
+    let currentLoginOtp = '';
+
+    function syncAndSanitizePhone(input) {
+      if (!input) return;
+      let val = input.value.trim().replace(/\D/g, '');
+      if (val.length === 12 && val.startsWith('91')) val = val.slice(2);
+      else if (val.length === 11 && val.startsWith('0')) val = val.slice(1);
+      if (val.length > 10) val = val.slice(-10);
+      input.value = val;
+
+      const otherId = input.id === 'loginOtpPhone' ? 'loginPhone' : (input.id === 'loginPhone' ? 'loginOtpPhone' : null);
+      if (otherId) {
+        const other = document.getElementById(otherId);
+        if (other && other.value !== val) other.value = val;
+      }
+    }
+
+    function switchLoginMode(mode) {
+      const isOtp = mode === 'otp';
+      const otpTab = document.getElementById('tabMobileMode');
+      const passTab = document.getElementById('tabPasswordMode');
+      const otpForm = document.getElementById('mobileOtpLoginForm');
+      const passForm = document.getElementById('signInForm');
+
+      // Seamlessly sync phone between tabs
+      const otpPhone = document.getElementById('loginOtpPhone');
+      const passPhone = document.getElementById('loginPhone');
+      if (isOtp && passPhone && passPhone.value && otpPhone) {
+        otpPhone.value = passPhone.value;
+      } else if (!isOtp && otpPhone && otpPhone.value && passPhone) {
+        passPhone.value = otpPhone.value;
+      }
+
+      if (otpTab) otpTab.classList.toggle('active', isOtp);
+      if (passTab) passTab.classList.toggle('active', !isOtp);
+      if (otpForm) otpForm.style.display = isOtp ? 'block' : 'none';
+      if (passForm) passForm.style.display = isOtp ? 'none' : 'block';
+    }
+
+    async function handleSendLoginOtpSubmit(event) {
+      event.preventDefault();
+      const phoneInput = document.getElementById("loginOtpPhone");
+      const errEl = document.getElementById("loginOtpPhoneErr");
+      const btn = event.submitter || document.querySelector("#mobileOtpLoginForm button[type=\"submit\"]");
+      let cleanPhone = (phoneInput ? phoneInput.value : "").trim().replace(/\D/g, "");
+      if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.slice(2);
+      else if (cleanPhone.length === 11 && cleanPhone.startsWith('0')) cleanPhone = cleanPhone.slice(1);
+      if (cleanPhone.length > 10) cleanPhone = cleanPhone.slice(-10);
+      if (phoneInput) phoneInput.value = cleanPhone;
+
+      if (errEl) {
+        errEl.textContent = "";
+        errEl.style.display = "none";
+      }
+
+      if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+        if (errEl) {
+          errEl.textContent = "Please enter a valid 10-digit Indian mobile number.";
+          errEl.style.display = "block";
+        }
+        return;
+      }
+
+      currentPendingPhone = cleanPhone;
+      const e164Phone = "+91" + cleanPhone;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 20px;">sync</span> <span>Sending SMS via Firebase...</span>';
+      }
+
+      try {
+        if (window.firebase && firebase.auth) {
+          if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
+              size: "invisible",
+              callback: function (response) {
+                console.log("[Firebase Phone Auth] reCAPTCHA verified.");
+              },
+              "expired-callback": function () {
+                console.warn("[Firebase Phone Auth] reCAPTCHA expired.");
+                if (window.recaptchaVerifier) {
+                  try { window.recaptchaVerifier.clear(); } catch (_) {}
+                  window.recaptchaVerifier = null;
+                }
+              }
+            });
+          }
+
+          console.log("[Firebase] Dispatching live SMS to:", e164Phone);
+          const confirmationResult = await firebase.auth().signInWithPhoneNumber(e164Phone, window.recaptchaVerifier);
+          window.confirmationResult = confirmationResult;
+          console.log("[Firebase] Real SMS successfully dispatched to:", e164Phone);
+
+          const targetEl = document.getElementById("otpTargetPhone");
+          if (targetEl) targetEl.textContent = "+91 " + cleanPhone;
+
+          const realBanner = document.getElementById("realSmsBanner");
+          if (realBanner) realBanner.style.display = "flex";
+          const simBanner = document.getElementById("simulatedSmsBanner");
+          if (simBanner) simBanner.style.display = "none";
+
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show("📲 Real cellular SMS sent to +91 " + cleanPhone + ". Check your phone.", "success");
+          }
+
+          switchAuthView("otp");
+          return;
+        } else {
+          throw new Error("Firebase SDK is not loaded. Please verify your internet connection.");
+        }
+      } catch (fbErr) {
+        console.warn("[Firebase Phone Auth Warning]", fbErr);
+
+        if (window.recaptchaVerifier) {
+          try {
+            window.recaptchaVerifier.clear();
+          } catch (_) {}
+          window.recaptchaVerifier = null;
+        }
+
+        let userMsg = fbErr.message || "Could not send SMS.";
+        let actionTip = "";
+        if (fbErr.code === "auth/operation-not-allowed") {
+          userMsg = "Phone Authentication is disabled in Firebase! Go to Firebase Console > Authentication > Sign-in method, click Phone, toggle Enable, and click Save.";
+          actionTip = "In Firebase Console: Authentication > Sign-in method > Phone > Enable.";
+        } else if (fbErr.code === "auth/unauthorized-domain") {
+          userMsg = "This domain is not authorized in Firebase Console! Go to Firebase Console > Authentication > Settings > Authorized Domains, and add this domain.";
+          actionTip = "Add this domain to Firebase Console > Authentication > Settings > Authorized Domains.";
+        } else if (fbErr.code === "auth/quota-exceeded") {
+          userMsg = "Daily SMS quota exceeded on Firebase Spark plan (10 SMS/day limit).";
+          actionTip = "Add a test phone number in Firebase Console to test without SMS limits.";
+        } else if (fbErr.code === "auth/invalid-phone-number") {
+          userMsg = "Invalid phone number format. Please enter a 10-digit Indian mobile number.";
+        } else if (fbErr.code === "auth/too-many-requests") {
+          userMsg = "Too many requests. Please wait a minute before requesting another OTP.";
+        }
+
+        if (errEl) {
+          errEl.innerHTML = `
+            <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 8px; padding: 12px; margin-top: 8px; text-align: left;">
+              <div style="font-weight: 800; color: #991B1B; font-size: 0.85rem; margin-bottom: 4px;">⚠️ Firebase Phone Auth Notice (${fbErr.code || "Notice"})</div>
+              <div style="color: #B91C1C; font-size: 0.78rem; line-height: 1.4; margin-bottom: 8px;">${userMsg}</div>
+              ${actionTip ? `<div style="font-size: 0.74rem; color: #7F1D1D; font-weight: 700; margin-bottom: 6px;">💡 Solution: ${actionTip}</div>` : ""}
+              <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #FCA5A5; font-size: 0.78rem;">
+                <button type="button" onclick="startDemoOtpFallback('${cleanPhone}')" style="background: #EFF6FF; border: 1px solid #93C5FD; color: #1D4ED8; font-weight: 700; border-radius: 6px; padding: 4px 10px; cursor: pointer;">
+                  👉 Click here to test with Demo OTP instead
+                </button>
+              </div>
+            </div>
+          `;
+          errEl.style.display = "block";
+        } else {
+          alert(userMsg);
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 20px;">send</span> <span>Get Verification OTP / ఓటీపీ పొందండి</span>';
+        }
+      }
+    }
+
+    async function showInstantCodeFallback() {
+      const phone = currentPendingPhone || '9966259115';
+      await startDemoOtpFallback(phone);
+      autoFillOtp();
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show('⚡ Code loaded on screen! Tap Verify to continue.', 'success');
+      }
+    }
+
+    async function startDemoOtpFallback(cleanPhone) {
+      // A stale Firebase confirmation would swallow the demo code and reject it.
+      window.confirmationResult = null;
+      if (window.GCS_AUTH && window.GCS_AUTH.sendLoginOtp) {
+        const fallbackRes = await window.GCS_AUTH.sendLoginOtp(cleanPhone);
+        if (fallbackRes.success) {
+          currentLoginOtp = fallbackRes.otpCode;
+          const targetEl = document.getElementById("otpTargetPhone");
+          if (targetEl) targetEl.textContent = "+91 " + cleanPhone;
+
+          const codeDisplay = document.getElementById("smsCodeDisplay");
+          if (codeDisplay) codeDisplay.textContent = fallbackRes.otpCode;
+
+          const simBanner = document.getElementById("simulatedSmsBanner");
+          if (simBanner) simBanner.style.display = "flex";
+          const realBanner = document.getElementById("realSmsBanner");
+          if (realBanner) realBanner.style.display = "none";
+
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show("📱 Demo code (no SMS sent): " + fallbackRes.otpCode + " — this opens a demo session only", "info");
+          }
+
+          switchAuthView("otp");
+        }
+      }
+    }
+
+    function autoFillOtp() {
+      if (!currentLoginOtp && window.GCS_AUTH) {
+        try {
+          const p = JSON.parse(localStorage.getItem('gcs_pending_login') || '{}');
+          if (p && p.otpCode) currentLoginOtp = p.otpCode;
+        } catch (_) {}
+      }
+      if (currentLoginOtp && currentLoginOtp.length === 6) {
+        for (let i = 1; i <= 6; i++) {
+          const box = document.getElementById('otp' + i);
+          if (box) box.value = currentLoginOtp[i - 1];
+        }
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('✅ Code auto-filled. Tap Verify to continue.');
+        }
+      }
+    }
+
+    async function submitOtpCode() {
+      let code = '';
+      for (let i = 1; i <= 6; i++) {
+        code += (document.getElementById('otp' + i).value || '').trim();
+      }
+
+      if (code.length !== 6) {
+        alert('Please enter all 6 digits of the verification code.');
+        return;
+      }
+
+      const verifyBtn = document.querySelector('#viewOtp button.gcs-btn-cta-1');
+      if (verifyBtn) {
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 20px;">sync</span> <span>Verifying with Firebase...</span>';
+      }
+
+      try {
+        let authenticatedUser = null;
+
+        // 1. If real Firebase SMS confirmationResult is active:
+        if (window.confirmationResult) {
+          console.log('[Firebase] Verifying code with Google Cloud Identity...');
+          const result = await window.confirmationResult.confirm(code);
+          const fbUser = result.user;
+          console.log('[Firebase] Successfully authenticated! UID:', fbUser.uid);
+
+          const phone = currentPendingPhone || (fbUser.phoneNumber ? fbUser.phoneNumber.replace('+91', '') : 'Member');
+          authenticatedUser = {
+            id: fbUser.uid,
+            name: 'Candidate (' + phone.slice(-4) + ')',
+            phone: phone,
+            role: 'student',
+            roleLabel: 'Student / Job Seeker',
+            avatar: 'assets/resume-avatar-ravi.webp',
+            initials: 'ST',
+            isDemoSession: false,
+            token: await fbUser.getIdToken().catch(() => 'fb_token_' + Date.now()),
+            tokenExpiresAt: Date.now() + 7 * 86400000,
+            joinedDate: 'Verified Member'
+          };
+
+          // Save user to Cloud Firestore
+          if (window.firebase && firebase.firestore) {
+            try {
+              await firebase.firestore().collection('users').doc(fbUser.uid).set({
+                uid: fbUser.uid,
+                phone: fbUser.phoneNumber || ('+91' + phone),
+                role: 'student',
+                village: 'Rural Andhra Pradesh',
+                lastLoginAt: new Date().toISOString()
+              }, { merge: true });
+              console.log('[Firestore] User record saved in users/' + fbUser.uid);
+            } catch (fsErr) {
+              console.warn('[Firestore Write]', fsErr);
+            }
+          }
+        } else {
+          // 2. Check pending login or signup session
+          let res = await window.GCS_AUTH.verifyLoginOtp(code);
+          if (!res.success && window.GCS_AUTH.verifyOTP) {
+            res = await window.GCS_AUTH.verifyOTP(code);
+          }
+          if (res.success) {
+            authenticatedUser = res.user;
+          } else {
+            throw new Error(res.message || 'Invalid verification code.');
+          }
+        }
+
+        // 3. Cloud Firestore synchronization & activity log
+        // Only a Firebase-verified user may write their own record; a demo
+        // (on-screen code) session has no Firebase identity and is rejected by
+        // firestore.rules anyway.
+        const fbCurrent = (window.firebase && firebase.auth) ? firebase.auth().currentUser : null;
+        if (window.firebase && firebase.firestore && authenticatedUser && fbCurrent && fbCurrent.uid === authenticatedUser.id) {
+          try {
+            await firebase.firestore().collection('users').doc(authenticatedUser.id).set({
+              uid: authenticatedUser.id,
+              name: authenticatedUser.name,
+              phone: authenticatedUser.phone,
+              role: 'student',
+              roleLabel: 'Student / Job Seeker',
+              lastLoginAt: new Date().toISOString()
+            }, { merge: true });
+            await firebase.firestore().collection('users').doc(authenticatedUser.id).collection('activities').add({
+              action: 'LOGIN',
+              method: window.confirmationResult ? 'firebase_phone_sms' : 'phone_otp',
+              timestamp: new Date().toISOString()
+            }).catch(() => {});
+            console.log('[Firestore] Synced user session to Cloud Firestore');
+          } catch (fsErr) {
+            console.warn('[Firestore Sync Error]', fsErr);
+          }
+        }
+
+        // 4. Create session & redirect
+        window.GCS_AUTH.setUser(authenticatedUser);
+
+        if (window.GCS_APP && window.GCS_APP.notifications) {
+          window.GCS_APP.notifications.add('🎉 Login Successful', `Welcome, ${authenticatedUser.name}! Your account is active.`, 'success');
+        }
+
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(`🎉 Mobile Verified! Welcome, ${authenticatedUser.name}`);
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
+        setTimeout(() => {
+          const defaultTarget = (authenticatedUser.role === 'volunteer' || authenticatedUser.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
+          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
+        }, 400);
+
+      } catch (err) {
+        console.error('[Verification Error]', err);
+        let msg = err.message || 'Invalid verification code.';
+        if (err.code === 'auth/invalid-verification-code') {
+          msg = 'Incorrect 6-digit verification code. Please check your SMS and try again.';
+        } else if (err.code === 'auth/code-expired') {
+          msg = 'Verification code has expired. Please request a new code.';
+        }
+        alert(msg);
+      } finally {
+        if (verifyBtn) {
+          verifyBtn.disabled = false;
+          verifyBtn.innerHTML = '<span>Verify &amp; Continue</span>';
+        }
+      }
+    }
+
     async function handleSignInSubmit(e) {
       e.preventDefault();
-      const phone = document.getElementById('loginPhone').value.trim();
+      let phone = document.getElementById('loginPhone').value.trim().replace(/\D/g, '');
+      if (phone.length === 12 && phone.startsWith('91')) phone = phone.slice(2);
+      else if (phone.length === 11 && phone.startsWith('0')) phone = phone.slice(1);
+      if (phone.length > 10) phone = phone.slice(-10);
+      document.getElementById('loginPhone').value = phone;
       const pass = document.getElementById('loginPassword').value.trim();
 
       const errEl = document.getElementById('loginPhoneErr');
@@ -624,7 +1086,7 @@
         }, 400);
       } else {
         if (errEl) {
-          errEl.textContent = res.message;
+          errEl.innerHTML = '<span>' + res.message + '</span><div style="margin-top:6px;"><button type="button" onclick="switchLoginMode(\'otp\')" style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;padding:4px 8px;border-radius:6px;font-weight:700;font-size:0.75rem;cursor:pointer;">👉 Switch to Mobile OTP Login</button></div>';
           errEl.style.display = 'block';
         } else {
           alert(res.message);
@@ -635,7 +1097,11 @@
     async function handleSignUpSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
-      const phone = document.getElementById('regPhone').value.trim();
+      let phone = document.getElementById('regPhone').value.trim().replace(/\D/g, '');
+      if (phone.length === 12 && phone.startsWith('91')) phone = phone.slice(2);
+      else if (phone.length === 11 && phone.startsWith('0')) phone = phone.slice(1);
+      if (phone.length > 10) phone = phone.slice(-10);
+      document.getElementById('regPhone').value = phone;
       const email = document.getElementById('regEmail').value.trim();
       const role = document.getElementById('regRole').value;
       const pass = document.getElementById('regPassword').value;
@@ -679,39 +1145,49 @@
       }
     }
 
-    async function submitOtpCode() {
-      let code = '';
-      for (let i = 1; i <= 6; i++) {
-        code += (document.getElementById('otp' + i).value || '');
-      }
+// Duplicate submitOtpCode removed — using Firebase integrated submitOtpCode
 
-      const res = await window.GCS_AUTH.verifyOTP(code);
-      if (res.success) {
+    async function resendOtpCode() {
+      const phone = currentPendingPhone;
+      if (!phone) {
         if (window.GCS_APP && window.GCS_APP.toast) {
-          window.GCS_APP.toast.show(`🎉 Mobile Verified! Welcome, ${res.user.name}`);
+          window.GCS_APP.toast.show('⚠️ Please enter your mobile number first.', 'warning');
         }
-        const params = new URLSearchParams(window.location.search);
-        const next = params.get('next');
-        setTimeout(() => {
-          const defaultTarget = (res.user.role === 'volunteer' || res.user.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
-          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
-        }, 400);
-      } else {
-        alert(res.message || 'Invalid OTP code.');
+        switchAuthView('signin');
+        return;
       }
-    }
 
-    function resendOtpCode() {
-      let pending = null;
-      try {
-        pending = JSON.parse(localStorage.getItem('gcs_pending_signup') || 'null');
-      } catch (e) {}
-      const code = pending ? pending.otpCode : null;
-      if (!code) { return; }  // nothing pending: there is no code to resend
-      if (window.GCS_APP && window.GCS_APP.toast) {
-        window.GCS_APP.toast.show(`🔑 Your new code is ${code} — we cannot send SMS yet.`);
-      } else {
-        alert(`We cannot send SMS yet. Your code is: ${code}`);
+      const e164Phone = '+91' + phone;
+      if (window.firebase && firebase.auth) {
+        try {
+          if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+          }
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show('⏳ Sending new SMS via Firebase...', 'info');
+          }
+          window.confirmationResult = await firebase.auth().signInWithPhoneNumber(e164Phone, window.recaptchaVerifier);
+          secondsLeft = 300;
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show(`📲 New verification SMS sent to ${e164Phone}. Please check your phone.`, 'success');
+          }
+          const realBanner = document.getElementById('realSmsBanner');
+          if (realBanner) realBanner.style.display = 'flex';
+          const simBanner = document.getElementById('simulatedSmsBanner');
+          if (simBanner) simBanner.style.display = 'none';
+          return;
+        } catch (err) {
+          console.warn('[Resend OTP Error]', err);
+          let msg = err.message || 'Could not resend SMS.';
+          if (err.code === 'auth/quota-exceeded') {
+            msg = 'Daily SMS quota reached on Firebase Spark plan.';
+          }
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show(`⚠️ ${msg}`, 'error');
+          } else {
+            alert(msg);
+          }
+        }
       }
     }
 
